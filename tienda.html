@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda · Savia de Alma</title>
+  <meta name="description" content="Champus, jabones, desodorantes y mas. Cosmetica solida natural, vegana y sin plastico. Compra 3 y el 4o gratis. Envio gratis desde 45 EUR.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <!-- Banner promo -->
+  <div class="banner-promo">
+    <strong>COMPRA 3 Y EL 4º ES GRATIS</strong> · Envio gratis desde 45 € · Hecho a mano en Espana 🌿
+  </div>
+
+  <!-- Cabecera -->
+  <header class="cabecera">
+    <div class="cabecera-inner">
+      <a class="logo" href="index.html">🌿 Savia de Alma</a>
+      <nav class="nav-tienda">
+        <a href="index.html">Inicio</a>
+        <a href="#catalogo">Productos</a>
+      </nav>
+      <button class="boton-carrito" onclick="abrirCarrito()">
+        🛒 Carrito <span class="carrito-contador oculto" data-carrito-contador>0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Intro -->
+  <section class="seccion" style="padding-bottom:18px">
+    <div class="contenedor" style="text-align:center">
+      <h1 class="seccion-titulo" style="font-size:2.2rem">Nuestra tienda</h1>
+      <p class="seccion-sub">Cosmetica solida natural, vegana y zero waste. Cada pieza, un ritual de belleza consciente.</p>
+      <div class="chips" id="chips-categorias"></div>
+    </div>
+  </section>
+
+  <!-- Catalogo generado -->
+  <div id="catalogo"></div>
+
+  <!-- Footer -->
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="logo">🌿 Savia de Alma</div>
+      <p>Cosmetica solida natural · Hecha a mano en Espana</p>
+      <p style="font-size:.9rem;opacity:.9">Veganos · Sin plastico · Zero waste · Cruelty free</p>
+      <div class="redes">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+        <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
+        <a href="https://www.amazon.es/stores/SaviadeAlma/page/6AD3705D-E19B-4150-A0FB-7BB7F057E0DE" target="_blank" rel="noopener" aria-label="Amazon">🛍️</a>
+      </div>
+      <small>Precios con IVA (21%) incluido · Promo 3+1 permanente · © Savia de Alma</small>
+    </div>
+  </footer>
+
+  <!-- Carrito -->
+  <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
+  <aside class="panel-carrito" id="panel-carrito" aria-label="Carrito">
+    <div class="panel-cab">
+      <h3>Tu carrito</h3>
+      <button class="cerrar" onclick="cerrarCarrito()" aria-label="Cerrar">×</button>
+    </div>
+    <div class="panel-items" id="carrito-items"></div>
+    <div class="panel-resumen" id="carrito-resumen"></div>
+  </aside>
+
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

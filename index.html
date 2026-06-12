@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savia de Alma · Cosmetica solida natural</title>
+  <meta name="description" content="Cosmetica solida natural, hecha a mano en Espana. Veganos, sin plastico, zero waste. Compra 3 y el 4o es gratis. Envio gratis desde 45 EUR.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <main class="landing">
+
+    <!-- 1. HERO -->
+    <header class="hero">
+      <span class="hoja">🌿</span>
+      <h1 class="marca">Savia de Alma</h1>
+      <p>Cosmetica solida natural. Hecha a mano en Espana.</p>
+      <a class="btn btn-primario" href="tienda.html">Ver toda la tienda</a>
+    </header>
+
+    <!-- 2. BANNER PROMO -->
+    <div class="banner-promo">
+      <strong>COMPRA 3 Y EL 4º ES GRATIS</strong> · Envio gratis desde 45 €
+    </div>
+
+    <!-- 3. LOS MAS VENDIDOS -->
+    <section class="landing-seccion">
+      <h2>Los mas vendidos</h2>
+      <div class="grid-productos" id="best-sellers"></div>
+    </section>
+
+    <!-- 4. POR QUE SAVIA DE ALMA -->
+    <section class="landing-seccion">
+      <h2>Por que Savia de Alma</h2>
+      <div class="grid-beneficios">
+        <div class="beneficio"><div class="icono">🌱</div><h4>Ingredientes 100% naturales</h4></div>
+        <div class="beneficio"><div class="icono">🤲</div><h4>Hecho a mano en Espana</h4></div>
+        <div class="beneficio"><div class="icono">♻️</div><h4>Sin plastico · zero waste</h4></div>
+        <div class="beneficio"><div class="icono">🐰</div><h4>Vegano y cruelty free</h4></div>
+      </div>
+    </section>
+
+    <!-- 5. CATEGORIAS -->
+    <section class="landing-seccion">
+      <h2>Categorias</h2>
+      <div class="landing-categorias" id="landing-categorias"></div>
+    </section>
+
+    <!-- 6. CTA FINAL -->
+    <section class="cta-final">
+      <h2>Vuelve a lo esencial</h2>
+      <p>Rituales de belleza consciente para tu piel y para el planeta.</p>
+      <a class="btn btn-primario btn-bloque" href="tienda.html">Ver toda la tienda</a>
+      <div class="redes" style="margin-top:22px">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+        <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Carrito flotante -->
+  <button class="boton-carrito" style="position:fixed;bottom:18px;right:18px;z-index:60;box-shadow:var(--sombra-fuerte)" onclick="abrirCarrito()">
+    🛒 <span class="carrito-contador oculto" data-carrito-contador>0</span>
+  </button>
+
+  <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
+  <aside class="panel-carrito" id="panel-carrito" aria-label="Carrito">
+    <div class="panel-cab">
+      <h3>Tu carrito</h3>
+      <button class="cerrar" onclick="cerrarCarrito()" aria-label="Cerrar">×</button>
+    </div>
+    <div class="panel-items" id="carrito-items"></div>
+    <div class="panel-resumen" id="carrito-resumen"></div>
+  </aside>
+
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
