@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savia de Alma · Cosmetica solida natural</title>
+  <meta name="description" content="Cosmetica solida natural, hecha a mano en Espana. Veganos, sin plastico, zero waste. Compra 3 y el 4o es gratis. Envio gratis desde 45 EUR.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+/* ===========================================================================
+   SAVIA DE ALMA — Sistema de diseno
+   Cosmetica solida natural, hecha a mano en Espana.
+   =========================================================================== */
+
+:root {
+  /* Identidad visual */
+  --verde-oscuro: #1D6B50;
+  --verde-medio: #2D9E75;
+  --verde-claro: #D6F0E8;
+  --dorado: #B8860B;
+  --negro: #1A1A1A;
+  --beige: #F7F2EC;
+  --blanco: #FFFFFF;
+
+  --texto: #1A1A1A;
+  --texto-suave: #5a5a52;
+  --borde: #e7ded2;
+
+  --sombra: 0 4px 18px rgba(29, 107, 80, 0.10);
+  --sombra-fuerte: 0 10px 30px rgba(29, 107, 80, 0.18);
+  --radio: 16px;
+  --radio-sm: 10px;
+
+  --fuente-titulo: "Playfair Display", Georgia, "Times New Roman", serif;
+  --fuente-cuerpo: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --ancho-max: 1100px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--fuente-cuerpo);
+  color: var(--texto);
+  background: var(--beige);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 .4em;
+  color: var(--negro);
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { max-width: 100%; display: block; }
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 13px 22px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, background .15s ease;
+  text-align: center;
+}
+.btn:active { transform: scale(.97); }
+
+.btn-primario {
+  background: var(--verde-oscuro);
+  color: var(--blanco);
+}
+.btn-primario:hover { background: #185940; box-shadow: var(--sombra); }
+
+.btn-secundario {
+  background: transparent;
+  color: var(--verde-oscuro);
+  border-color: var(--verde-oscuro);
+}
+.btn-secundario:hover { background: var(--verde-claro); }
+
+.btn-amazon {
+  background: var(--dorado);
+  color: var(--blanco);
+}
+.btn-amazon:hover { background: #9c7209; }
+
+.btn-bloque { width: 100%; }
+.btn-sm { padding: 9px 14px; font-size: .9rem; }
+
+/* ---------- Banner promo ---------- */
+.banner-promo {
+  background: var(--negro);
+  color: var(--blanco);
+  text-align: center;
+  padding: 11px 16px;
+  font-size: .92rem;
+  font-weight: 500;
+  letter-spacing: .2px;
+}
+.banner-promo strong { color: var(--verde-claro); }
+
+/* ---------- Header tienda ---------- */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(247, 242, 236, .92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--borde);
+}
+.cabecera-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+}
+.logo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--verde-oscuro);
+  display: flex;
+  align-items: center;
+  gap: .4em;
+}
+.nav-tienda { display: flex; gap: 18px; font-weight: 500; font-size: .95rem; }
+.nav-tienda a:hover { color: var(--verde-oscuro); }
+
+.boton-carrito {
+  position: relative;
+  background: var(--verde-oscuro);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--fuente-cuerpo);
+  display: inline-flex;
+  align-items: center;
+  gap: .45em;
+}
+.carrito-contador {
+  background: var(--dorado);
+  color: #fff;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+/* ---------- Tarjetas de producto ---------- */
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (min-width: 720px) {
+  .grid-productos { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+}
+@media (min-width: 960px) {
+  .grid-productos { grid-template-columns: repeat(4, 1fr); }
+}
+
+.card {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--borde);
+}
+.card-img {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  font-size: 3.4rem;
+  background: linear-gradient(140deg, var(--verde-claro), #eef8f3);
+  position: relative;
+}
+.card-cuerpo {
+  padding: 14px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.card h3 {
+  font-size: 1.02rem;
+  margin-bottom: 6px;
+}
+.card-desc {
+  font-size: .82rem;
+  color: var(--texto-suave);
+  margin: 0 0 12px;
+  flex: 1;
+}
+.card-precio {
+  font-weight: 700;
+  font-size: 1.18rem;
+  color: var(--verde-oscuro);
+  margin-bottom: 12px;
+}
+.card-precio small { font-weight: 500; font-size: .72rem; color: var(--texto-suave); }
+.card-acciones { display: flex; flex-direction: column; gap: 8px; }
+
+.etiqueta {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--negro);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+.etiqueta.dorada { background: var(--dorado); }
+
+/* ---------- Secciones ---------- */
+.seccion { padding: 48px 0; }
+.seccion-titulo {
+  text-align: center;
+  font-size: 1.9rem;
+  margin-bottom: 6px;
+}
+.seccion-sub {
+  text-align: center;
+  color: var(--texto-suave);
+  max-width: 560px;
+  margin: 0 auto 30px;
+}
+
+/* ---------- Beneficios (iconos) ---------- */
+.grid-beneficios {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (min-width: 720px) { .grid-beneficios { grid-template-columns: repeat(4, 1fr); } }
+.beneficio {
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 22px 16px;
+  text-align: center;
+}
+.beneficio .icono { font-size: 2.1rem; margin-bottom: 8px; }
+.beneficio h4 { font-size: 1rem; margin: 0; }
+
+/* ---------- Categorias rapidas ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.chip {
+  background: var(--blanco);
+  border: 1px solid var(--verde-oscuro);
+  color: var(--verde-oscuro);
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-weight: 600;
+  font-size: .92rem;
+  cursor: pointer;
+}
+.chip:hover, .chip.activo { background: var(--verde-oscuro); color: #fff; }
+
+/* ---------- Footer ---------- */
+.pie {
+  background: var(--verde-oscuro);
+  color: #eaf6f0;
+  padding: 40px 0 30px;
+  text-align: center;
+}
+.pie a { color: #fff; }
+.pie .logo { color: #fff; justify-content: center; margin-bottom: 10px; }
+.redes { display: flex; gap: 16px; justify-content: center; margin: 16px 0; }
+.redes a {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.14);
+  display: grid; place-items: center;
+  font-size: 1.2rem;
+}
+.redes a:hover { background: rgba(255,255,255,.28); }
+.pie small { color: #bfe0d4; display: block; margin-top: 14px; }
+
+/* ===========================================================================
+   LANDING PAGE (mobile-first, link en bio)
+   =========================================================================== */
+.landing { max-width: 520px; margin: 0 auto; background: var(--beige); min-height: 100vh; }
+
+.hero {
+  background: linear-gradient(160deg, var(--verde-oscuro), var(--verde-medio));
+  color: #fff;
+  text-align: center;
+  padding: 54px 24px 46px;
+}
+.hero .marca {
+  font-family: var(--fuente-titulo);
+  font-size: 2.3rem;
+  margin-bottom: 4px;
+  color: #fff;
+}
+.hero .hoja { font-size: 2.6rem; display: block; margin-bottom: 6px; }
+.hero p { font-size: 1.05rem; opacity: .95; max-width: 320px; margin: 0 auto 22px; }
+.hero .btn-primario { background: #fff; color: var(--verde-oscuro); }
+.hero .btn-primario:hover { background: var(--beige); }
+
+.landing .banner-promo { font-size: .95rem; padding: 14px 16px; }
+
+.landing-seccion { padding: 30px 18px; }
+.landing-seccion > h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 18px;
+}
+.landing .grid-productos { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.landing .card h3 { font-size: .92rem; }
+.landing .card-img { font-size: 2.8rem; }
+
+.landing-categorias { display: flex; flex-direction: column; gap: 10px; }
+.cat-boton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  padding: 15px 18px;
+  font-weight: 600;
+  color: var(--negro);
+}
+.cat-boton:hover { background: var(--verde-claro); }
+.cat-boton .flecha { color: var(--verde-oscuro); }
+
+.cta-final {
+  background: var(--negro);
+  color: #fff;
+  text-align: center;
+  padding: 40px 24px 46px;
+}
+.cta-final h2 { color: #fff; }
+.cta-final .btn-primario { background: var(--verde-medio); color: #fff; margin: 8px 0 4px; }
+
+/* ===========================================================================
+   Carrito (panel lateral)
+   =========================================================================== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,26,.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 90;
+}
+.overlay.abierto { opacity: 1; pointer-events: auto; }
+
+.panel-carrito {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(420px, 92vw);
+  background: var(--beige);
+  z-index: 100;
+  transform: translateX(100%);
+  transition: transform .25s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--sombra-fuerte);
+}
+.panel-carrito.abierto { transform: translateX(0); }
+.panel-cab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--borde);
+}
+.panel-cab h3 { margin: 0; font-size: 1.3rem; }
+.cerrar {
+  background: none; border: none; font-size: 1.6rem; cursor: pointer; line-height: 1; color: var(--negro);
+}
+.panel-items { flex: 1; overflow-y: auto; padding: 8px 20px; }
+.linea-item {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--borde);
+}
+.linea-item .mini-img {
+  width: 52px; height: 52px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  font-size: 1.5rem;
+  background: var(--verde-claro);
+}
+.linea-item .titulo { font-weight: 600; font-size: .9rem; }
+.linea-item .gratis {
+  color: var(--verde-oscuro);
+  font-weight: 700;
+  font-size: .8rem;
+}
+.linea-item .precio-tachado { text-decoration: line-through; color: var(--texto-suave); font-size: .82rem; }
+.cantidad { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+.cantidad button {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  border: 1px solid var(--borde);
+  background: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+.quitar { background: none; border: none; color: var(--texto-suave); cursor: pointer; font-size: .8rem; text-decoration: underline; }
+
+.panel-resumen { padding: 18px 20px; border-top: 1px solid var(--borde); background: var(--blanco); }
+.fila-resumen { display: flex; justify-content: space-between; font-size: .92rem; margin-bottom: 6px; }
+.fila-resumen.total { font-size: 1.15rem; font-weight: 700; margin-top: 8px; }
+.fila-resumen .ahorro { color: var(--verde-oscuro); font-weight: 600; }
+
+.aviso-promo {
+  background: var(--verde-claro);
+  border-radius: var(--radio-sm);
+  padding: 10px 12px;
+  font-size: .82rem;
+  margin: 10px 0;
+  text-align: center;
+  color: #14503b;
+}
+.barra-envio {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--borde);
+  overflow: hidden;
+  margin: 8px 0 4px;
+}
+.barra-envio > span {
+  display: block;
+  height: 100%;
+  background: var(--verde-medio);
+  width: 0;
+  transition: width .3s ease;
+}
+.carrito-vacio { text-align: center; color: var(--texto-suave); padding: 60px 20px; }
+
+.oculto { display: none !important; }
+
+</style>
+</head>
+<body>
+  <main class="landing">
+
+    <!-- 1. HERO -->
+    <header class="hero">
+      <span class="hoja">🌿</span>
+      <h1 class="marca">Savia de Alma</h1>
+      <p>Cosmetica solida natural. Hecha a mano en Espana.</p>
+      <a class="btn btn-primario" href="savia-tienda.html">Ver toda la tienda</a>
+    </header>
+
+    <!-- 2. BANNER PROMO -->
+    <div class="banner-promo">
+      <strong>COMPRA 3 Y EL 4º ES GRATIS</strong> · Envio gratis desde 45 €
+    </div>
+
+    <!-- 3. LOS MAS VENDIDOS -->
+    <section class="landing-seccion">
+      <h2>Los mas vendidos</h2>
+      <div class="grid-productos" id="best-sellers"></div>
+    </section>
+
+    <!-- 4. POR QUE SAVIA DE ALMA -->
+    <section class="landing-seccion">
+      <h2>Por que Savia de Alma</h2>
+      <div class="grid-beneficios">
+        <div class="beneficio"><div class="icono">🌱</div><h4>Ingredientes 100% naturales</h4></div>
+        <div class="beneficio"><div class="icono">🤲</div><h4>Hecho a mano en Espana</h4></div>
+        <div class="beneficio"><div class="icono">♻️</div><h4>Sin plastico · zero waste</h4></div>
+        <div class="beneficio"><div class="icono">🐰</div><h4>Vegano y cruelty free</h4></div>
+      </div>
+    </section>
+
+    <!-- 5. CATEGORIAS -->
+    <section class="landing-seccion">
+      <h2>Categorias</h2>
+      <div class="landing-categorias" id="landing-categorias"></div>
+    </section>
+
+    <!-- 6. CTA FINAL -->
+    <section class="cta-final">
+      <h2>Vuelve a lo esencial</h2>
+      <p>Rituales de belleza consciente para tu piel y para el planeta.</p>
+      <a class="btn btn-primario btn-bloque" href="savia-tienda.html">Ver toda la tienda</a>
+      <div class="redes" style="margin-top:22px">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+        <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Carrito flotante -->
+  <button class="boton-carrito" style="position:fixed;bottom:18px;right:18px;z-index:60;box-shadow:var(--sombra-fuerte)" onclick="abrirCarrito()">
+    🛒 <span class="carrito-contador oculto" data-carrito-contador>0</span>
+  </button>
+
+  <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
+  <aside class="panel-carrito" id="panel-carrito" aria-label="Carrito">
+    <div class="panel-cab">
+      <h3>Tu carrito</h3>
+      <button class="cerrar" onclick="cerrarCarrito()" aria-label="Cerrar">×</button>
+    </div>
+    <div class="panel-items" id="carrito-items"></div>
+    <div class="panel-resumen" id="carrito-resumen"></div>
+  </aside>
+<script>
+// Auto-generado desde shopify_productos_savia_de_alma.csv - NO editar a mano.
+window.SAVIA_DATA = {
+  "amazonStore": "https://www.amazon.es/stores/SaviadeAlma/page/6AD3705D-E19B-4150-A0FB-7BB7F057E0DE",
+  "collections": [
+    {
+      "slug": "champus",
+      "name": "Champus Solidos",
+      "count": 10,
+      "exclusiveWeb": false
+    },
+    {
+      "slug": "jabones",
+      "name": "Jabones Artesanales",
+      "count": 13,
+      "exclusiveWeb": false
+    },
+    {
+      "slug": "desodorantes",
+      "name": "Desodorantes Solidos",
+      "count": 4,
+      "exclusiveWeb": false
+    },
+    {
+      "slug": "faciales",
+      "name": "Limpiadores Faciales",
+      "count": 2,
+      "exclusiveWeb": false
+    },
+    {
+      "slug": "afeitado",
+      "name": "Afeitado",
+      "count": 1,
+      "exclusiveWeb": false
+    },
+    {
+      "slug": "depilacion",
+      "name": "Depilacion",
+      "count": 2,
+      "exclusiveWeb": true
+    },
+    {
+      "slug": "acondicionadores",
+      "name": "Acondicionadores",
+      "count": 2,
+      "exclusiveWeb": true
+    }
+  ],
+  "products": [
+    {
+      "handle": "champu-cafeina-canela",
+      "title": "Champu Solido Cafeina y Canela",
+      "short": "Anticaida, estimulante, sin sulfatos, vegano, hecho a mano en Espana",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "anticaida",
+        "cafeina",
+        "natural",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-CAFEINA",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": true
+    },
+    {
+      "handle": "champu-indigo-lavanda",
+      "title": "Champu Solido Indigo y Lavanda",
+      "short": "Calmante, anticaspa, cuero cabelludo sensible, sin sulfatos, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "anticaspa",
+        "indigo",
+        "lavanda",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-INDIGO",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-cacao",
+      "title": "Champu Solido Cacao",
+      "short": "Nutricion intensa, brillo, cabello seco, aroma chocolate, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "cacao",
+        "nutritivo",
+        "brillo",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-CACAO",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-betaina-sal",
+      "title": "Champu Solido Betaina y Sal Marina",
+      "short": "Suavidad extrema, limpieza suave, uso frecuente, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "betaina",
+        "sal marina",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-BETAINA",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-te-matcha",
+      "title": "Champu Solido Te Matcha",
+      "short": "Antioxidante, purificante, cuero cabelludo graso, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "matcha",
+        "antioxidante",
+        "purificante",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-MATCHA",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-cebolla-arcilla",
+      "title": "Champu Solido Cebolla Roja y Arcilla",
+      "short": "Anticaida, estimula el crecimiento, control de sebo, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "cebolla roja",
+        "arcilla",
+        "anticaida",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-CEBOLLA",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-avena-almendra",
+      "title": "Champu Solido Avena y Almendra",
+      "short": "Cuero cabelludo sensible, sin sulfatos, suavizante, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "avena",
+        "almendra",
+        "piel sensible",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-AVENA",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-romero-quina",
+      "title": "Champu Solido Romero y Quina",
+      "short": "Crecimiento capilar, anticaspa, anticaida, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "romero",
+        "quina",
+        "anticaida",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-ROMERO",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-cade-enebro",
+      "title": "Champu Solido Cade de Enebro",
+      "short": "Anticaspa, dermatitis, psoriasis capilar, vegano",
+      "features": [
+        "Sin sulfatos ni siliconas",
+        "Mas de 60 usos",
+        "Zero waste, sin plastico",
+        "Hecho a mano en Espana",
+        "Apto para veganos"
+      ],
+      "tags": [
+        "champu",
+        "cade",
+        "enebro",
+        "anticaspa",
+        "dermatitis",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-CADE",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "champu-barba-carbon",
+      "title": "Champu Solido para Barba - Carbon Activo",
+      "short": "Limpieza detox, neutraliza olores, sin sulfatos, vegano, exclusivo web",
+      "features": [
+        "Carbon activo - limpieza detox profunda",
+        "Aceite de coco - nutre y suaviza la barba",
+        "Mas de 60 usos, sin plastico, 90g",
+        "Sin sulfatos, sin parabenos, vegano, cruelty free",
+        "Exclusivo web - hecho a mano en Espana"
+      ],
+      "tags": [
+        "champu",
+        "barba",
+        "carbon activo",
+        "hombre",
+        "exclusivo web",
+        "vegano"
+      ],
+      "price": 10.99,
+      "sku": "SDA-CH-BARBA",
+      "type": "Champu",
+      "collection": "champus",
+      "collectionName": "Champus Solidos",
+      "emoji": "🫧",
+      "exclusiveWeb": true,
+      "bestSeller": true
+    },
+    {
+      "handle": "jabon-cbd",
+      "title": "Jabon Artesanal CBD",
+      "short": "Calmante, antiinflamatorio, pieles sensibles, premium, vegano",
+      "features": [
+        "CBD - calmante y antiinflamatorio natural",
+        "Aceite de oliva - hidratacion profunda",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "CBD",
+        "antiinflamatorio",
+        "piel sensible",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-CBD",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-naranja-canela",
+      "title": "Jabon Artesanal Naranja y Canela",
+      "short": "Energizante, antiseptico, aroma citrico, vegano",
+      "features": [
+        "Naranja - energizante y antiseptico natural",
+        "Aceite de oliva - hidratacion profunda",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "naranja",
+        "canela",
+        "antiseptico",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-NARANJA",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-borraja",
+      "title": "Jabon Artesanal de Borraja",
+      "short": "Regenerador, pieles maduras, eczemas, antiinflamatorio, vegano",
+      "features": [
+        "Borraja - regenerador y antiinflamatorio",
+        "Aceite de oliva - hidratacion profunda",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "borraja",
+        "regenerador",
+        "eczema",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-BORRAJA",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-karite",
+      "title": "Jabon Artesanal de Karite",
+      "short": "Hidratacion profunda, pieles sensibles, vegano",
+      "features": [
+        "Karite - hidratacion profunda y nutritiva",
+        "Aceite de oliva - suavidad y elasticidad",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "karite",
+        "hidratante",
+        "piel sensible",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-KARITE",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-arbol-te",
+      "title": "Jabon Artesanal Arbol de Te",
+      "short": "Antiseptico, purificante, antiacne, piel grasa, vegano",
+      "features": [
+        "Arbol de te - antiseptico y purificante natural",
+        "Aceite de coco - limpieza profunda",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "arbol de te",
+        "antiseptico",
+        "antiacne",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-ARBOLTE",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-rosa-mosqueta",
+      "title": "Jabon Artesanal Rosa Mosqueta",
+      "short": "Regenerador, antimanchas, antienvejecimiento, vegano",
+      "features": [
+        "Rosa mosqueta - regenerador y antimanchas",
+        "Aceite de oliva - hidratacion y elasticidad",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "rosa mosqueta",
+        "regenerador",
+        "antimanchas",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-ROSAMOSQ",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": true
+    },
+    {
+      "handle": "jabon-argan",
+      "title": "Jabon Artesanal de Argan",
+      "short": "Antienvejecimiento, elasticidad, equilibrante, vegano",
+      "features": [
+        "Argan - antienvejecimiento y elasticidad",
+        "Aceite de oliva - hidratacion profunda",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "argan",
+        "antienvejecimiento",
+        "elasticidad",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-ARGAN",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-monoi",
+      "title": "Jabon Artesanal de Monoi",
+      "short": "Hidratacion exquisita, aroma floral, reafirmante, vegano",
+      "features": [
+        "Monoi - hidratacion exquisita y aroma floral",
+        "Aceite de coco - suavidad y nutricion",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "monoi",
+        "hidratante",
+        "floral",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-MONOI",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-pepita-uva",
+      "title": "Jabon Artesanal Pepita de Uva",
+      "short": "Antioxidante, piel grasa, poros, vegano",
+      "features": [
+        "Pepita de uva - antioxidante y regenerador",
+        "Aceite de coco - hidratacion y proteccion",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "pepita uva",
+        "antioxidante",
+        "piel grasa",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-PEPITAUVA",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-carbon-activo",
+      "title": "Jabon Artesanal Carbon Activo",
+      "short": "Detox profundo, poros abiertos, piel grasa, purificante, vegano",
+      "features": [
+        "Carbon activo - detox profundo y purificante",
+        "Aceite de oliva - hidratacion y suavidad",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "carbon activo",
+        "detox",
+        "piel grasa",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-CARBON",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-azufre",
+      "title": "Jabon Artesanal de Azufre",
+      "short": "Antiacne, seborregulador, dermatitis, vegano",
+      "features": [
+        "Azufre - antiacne y seborregulador",
+        "Aceite de oliva - hidratacion y suavidad",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "azufre",
+        "antiacne",
+        "seborregulador",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-AZUFRE",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-lavanda",
+      "title": "Jabon Artesanal de Lavanda",
+      "short": "Relajante, antiseptico natural, antiacne suave, vegano",
+      "features": [
+        "Lavanda - relajante y antiseptico natural",
+        "Aceite de oliva - hidratacion y suavidad",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "lavanda",
+        "relajante",
+        "antiseptico",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-LAVANDA",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "jabon-aguacate",
+      "title": "Jabon Artesanal de Aguacate",
+      "short": "Humectacion intensa, piel seca, antiinflamatorio, vegano",
+      "features": [
+        "Aguacate - humectacion intensa y nutritiva",
+        "Aceite de oliva - hidratacion y elasticidad",
+        "Sin plastico, zero waste, 100g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Saponificacion en frio, artesanal"
+      ],
+      "tags": [
+        "jabon",
+        "aguacate",
+        "hidratante",
+        "piel seca",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-AGUACATE",
+      "type": "Jabones",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🧼",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "espuma-depilacion-uva",
+      "title": "Espuma Solida Depilacion Pepita de Uva",
+      "short": "Post-depilacion, calmante, antioxidante, vegano, exclusivo web",
+      "features": [
+        "Pepita de uva - antioxidante y regenerador",
+        "Aceite de coco - hidrata y protege",
+        "Manteca de karite - nutre y suaviza",
+        "Mas de 60 usos, sin plastico, 90g",
+        "Vegano, cruelty free, exclusivo web"
+      ],
+      "tags": [
+        "depilacion",
+        "pepita uva",
+        "post-depilacion",
+        "exclusivo web",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-DEP-UVA",
+      "type": "Depilacion",
+      "collection": "depilacion",
+      "collectionName": "Depilacion",
+      "emoji": "🌿",
+      "exclusiveWeb": true,
+      "bestSeller": false
+    },
+    {
+      "handle": "espuma-depilacion-aloe",
+      "title": "Espuma Solida Depilacion Aloe Vera",
+      "short": "Post-depilacion, aloe vera, piel sensible, vegano, exclusivo web",
+      "features": [
+        "Aloe vera - refresca y calma la piel",
+        "Aceite de coco - hidrata y protege",
+        "Manteca de karite - nutre y suaviza",
+        "Mas de 60 usos, sin plastico, 90g",
+        "Vegano, cruelty free, exclusivo web"
+      ],
+      "tags": [
+        "depilacion",
+        "aloe vera",
+        "piel sensible",
+        "exclusivo web",
+        "vegano"
+      ],
+      "price": 9.99,
+      "sku": "SDA-JAB-DEP-ALOE",
+      "type": "Depilacion",
+      "collection": "depilacion",
+      "collectionName": "Depilacion",
+      "emoji": "🌿",
+      "exclusiveWeb": true,
+      "bestSeller": false
+    },
+    {
+      "handle": "desodorante-te-verde",
+      "title": "Desodorante Solido Te Verde",
+      "short": "Antioxidante, antibacteriano, sin aluminio, vegano",
+      "features": [
+        "Te verde - antioxidante y antibacteriano",
+        "Sin aluminio, sin parabenos, sin alcohol",
+        "Mas de 60 usos, sin plastico, 50g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "No irrita, no mancha, apto piel sensible"
+      ],
+      "tags": [
+        "desodorante",
+        "te verde",
+        "sin aluminio",
+        "antioxidante",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-DESO-TEVERDE",
+      "type": "Desodorantes",
+      "collection": "desodorantes",
+      "collectionName": "Desodorantes Solidos",
+      "emoji": "🌿",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "desodorante-pomelo",
+      "title": "Desodorante Solido Pomelo",
+      "short": "Frescura citrica, antibacteriano, sin aluminio, vegano",
+      "features": [
+        "Pomelo - frescura citrica y antibacteriano",
+        "Sin aluminio, sin parabenos, sin alcohol",
+        "Mas de 60 usos, sin plastico, 50g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "No irrita, no mancha, apto piel sensible"
+      ],
+      "tags": [
+        "desodorante",
+        "pomelo",
+        "citrico",
+        "sin aluminio",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-DESO-POMELO",
+      "type": "Desodorantes",
+      "collection": "desodorantes",
+      "collectionName": "Desodorantes Solidos",
+      "emoji": "🌿",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "desodorante-algodon",
+      "title": "Desodorante Solido Algodon",
+      "short": "Piel sensible, post-depilacion, aroma discreto, sin aluminio, vegano",
+      "features": [
+        "Algodon - aroma fresco y discreto",
+        "Sin aluminio, sin parabenos, sin alcohol",
+        "Mas de 60 usos, sin plastico, 50g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Ideal post-depilacion, apto piel sensible"
+      ],
+      "tags": [
+        "desodorante",
+        "algodon",
+        "piel sensible",
+        "sin aluminio",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-DESO-ALGODON",
+      "type": "Desodorantes",
+      "collection": "desodorantes",
+      "collectionName": "Desodorantes Solidos",
+      "emoji": "🌿",
+      "exclusiveWeb": false,
+      "bestSeller": true
+    },
+    {
+      "handle": "desodorante-madera",
+      "title": "Desodorante Solido Madera",
+      "short": "Aroma amaderado, unisex, antiseptico, sin aluminio, vegano",
+      "features": [
+        "Madera - aroma amaderado y antiseptico",
+        "Sin aluminio, sin parabenos, sin alcohol",
+        "Mas de 60 usos, sin plastico, 50g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Unisex, no irrita, no mancha"
+      ],
+      "tags": [
+        "desodorante",
+        "madera",
+        "unisex",
+        "sin aluminio",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-DESO-MADERA",
+      "type": "Desodorantes",
+      "collection": "desodorantes",
+      "collectionName": "Desodorantes Solidos",
+      "emoji": "🌿",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "acondicionador-coco",
+      "title": "Acondicionador Solido Coco",
+      "short": "Nutricion profunda, suavidad, sin siliconas, vegano, exclusivo web",
+      "features": [
+        "Aceite de coco - nutricion profunda y brillo",
+        "Pantenol - fortalece y da brillo",
+        "Vitamina E - antioxidante natural",
+        "Mas de 60 usos, sin plastico, 55g",
+        "Sin siliconas, sin parabenos, exclusivo web"
+      ],
+      "tags": [
+        "acondicionador",
+        "coco",
+        "sin siliconas",
+        "brillo",
+        "exclusivo web",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-ACOND-COCO",
+      "type": "Acondicionadores",
+      "collection": "acondicionadores",
+      "collectionName": "Acondicionadores",
+      "emoji": "🥥",
+      "exclusiveWeb": true,
+      "bestSeller": false
+    },
+    {
+      "handle": "acondicionador-almendra",
+      "title": "Acondicionador Solido Aceite de Almendra",
+      "short": "Define rizos, antifrizz, sin siliconas, vegano, exclusivo web",
+      "features": [
+        "Aceite de almendra - define y nutre los rizos",
+        "Manteca de karite - protege y repara",
+        "Provitamina B5 - hidrata y fortalece",
+        "Mas de 60 usos, sin plastico, 55g",
+        "Sin siliconas, sin parabenos, exclusivo web"
+      ],
+      "tags": [
+        "acondicionador",
+        "almendra",
+        "rizos",
+        "antifrizz",
+        "exclusivo web",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-ACOND-ALMENDRA",
+      "type": "Acondicionadores",
+      "collection": "acondicionadores",
+      "collectionName": "Acondicionadores",
+      "emoji": "🥥",
+      "exclusiveWeb": true,
+      "bestSeller": false
+    },
+    {
+      "handle": "limpiador-facial-rosa-mosqueta",
+      "title": "Limpiador Facial Solido Rosa Mosqueta",
+      "short": "Regenerador, luminosidad, piel sensible, sin resecar, vegano",
+      "features": [
+        "Rosa mosqueta - regenerador y antimanchas",
+        "Limpieza profunda sin resecar",
+        "Sin plastico, zero waste, 60g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Apto piel sensible, uso diario"
+      ],
+      "tags": [
+        "limpiador facial",
+        "rosa mosqueta",
+        "regenerador",
+        "piel sensible",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-FACIAL-ROSAMOSQ",
+      "type": "Limpiadores Faciales",
+      "collection": "faciales",
+      "collectionName": "Limpiadores Faciales",
+      "emoji": "✨",
+      "exclusiveWeb": false,
+      "bestSeller": false
+    },
+    {
+      "handle": "limpiador-facial-aloe-pepino",
+      "title": "Limpiador Facial Solido Aloe Vera y Pepino",
+      "short": "Hidratante, refrescante, calmante, pieles mixtas, vegano",
+      "features": [
+        "Aloe vera - hidratante y calmante",
+        "Pepino - refrescante y equilibrante",
+        "Sin plastico, zero waste, 60g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Apto pieles mixtas, uso diario"
+      ],
+      "tags": [
+        "limpiador facial",
+        "aloe vera",
+        "pepino",
+        "hidratante",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-FACIAL-ALOE",
+      "type": "Limpiadores Faciales",
+      "collection": "faciales",
+      "collectionName": "Limpiadores Faciales",
+      "emoji": "✨",
+      "exclusiveWeb": false,
+      "bestSeller": true
+    },
+    {
+      "handle": "espuma-afeitar-avellana",
+      "title": "Espuma de Afeitar Solida Aceite de Avellana",
+      "short": "Zero waste, espuma cremosa, sin irritacion, aceite avellana, vegano",
+      "features": [
+        "Aceite de avellana - nutritivo y suavizante",
+        "Espuma cremosa de larga duracion",
+        "Mas de 60 usos, sin plastico, 90g",
+        "Vegano, cruelty free, hecho a mano en Espana",
+        "Sin SLS ni SCI, apto uso diario"
+      ],
+      "tags": [
+        "espuma afeitar",
+        "avellana",
+        "zero waste",
+        "vegano"
+      ],
+      "price": 11.99,
+      "sku": "SDA-AFEITAR-SOLID",
+      "type": "Afeitado",
+      "collection": "afeitado",
+      "collectionName": "Afeitado",
+      "emoji": "🪒",
+      "exclusiveWeb": false,
+      "bestSeller": true
+    }
+  ]
+};
+
+/* ===========================================================================
+   SAVIA DE ALMA — Carrito + promociones
+   Reglas (espejo de la configuracion de Shopify):
+     - 3+1 GRATIS: por cada 4 articulos, el de menor precio es gratis.
+       Escalable: 8 art. = 2 gratis, 12 = 3 gratis...
+     - Envio GRATIS desde 45 EUR (Espana Peninsula, base 2,95 EUR).
+     - Los precios YA incluyen IVA 21% (no se anaden impuestos).
+   =========================================================================== */
+
+const ENVIO_GRATIS_DESDE = 45;
+const ENVIO_PENINSULA = 2.95;
+const STORAGE_KEY = 'savia_carrito';
+
+const Carrito = {
+  items: {}, // handle -> qty
+
+  cargar() {
+    try { this.items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch { this.items = {}; }
+  },
+  guardar() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items));
+  },
+  producto(handle) {
+    return window.SAVIA_DATA.products.find(p => p.handle === handle);
+  },
+  añadir(handle, n = 1) {
+    this.items[handle] = (this.items[handle] || 0) + n;
+    if (this.items[handle] <= 0) delete this.items[handle];
+    this.guardar();
+    this.render();
+  },
+  fijar(handle, n) {
+    if (n <= 0) delete this.items[handle];
+    else this.items[handle] = n;
+    this.guardar();
+    this.render();
+  },
+  quitar(handle) {
+    delete this.items[handle];
+    this.guardar();
+    this.render();
+  },
+  totalUnidades() {
+    return Object.values(this.items).reduce((a, b) => a + b, 0);
+  },
+
+  /* Calcula subtotal, unidades gratis (3+1) y totales. */
+  calcular() {
+    // Lista plana de precios, una entrada por unidad.
+    const precios = [];
+    const lineas = [];
+    for (const [handle, qty] of Object.entries(this.items)) {
+      const p = this.producto(handle);
+      if (!p) continue;
+      lineas.push({ p, qty });
+      for (let i = 0; i < qty; i++) precios.push(p.price);
+    }
+    const unidades = precios.length;
+    const subtotal = precios.reduce((a, b) => a + b, 0);
+
+    // 3+1: nº de articulos gratis = floor(unidades / 4); gratis = los mas baratos.
+    const gratisCount = Math.floor(unidades / 4);
+    const ordenados = [...precios].sort((a, b) => a - b);
+    let ahorroPromo = 0;
+    for (let i = 0; i < gratisCount; i++) ahorroPromo += ordenados[i];
+
+    const subtotalConPromo = subtotal - ahorroPromo;
+
+    let envio = 0;
+    let envioGratis = false;
+    if (unidades === 0) {
+      envio = 0;
+    } else if (subtotalConPromo >= ENVIO_GRATIS_DESDE) {
+      envio = 0;
+      envioGratis = true;
+    } else {
+      envio = ENVIO_PENINSULA;
+    }
+
+    const total = subtotalConPromo + envio;
+    const faltaParaEnvio = Math.max(0, ENVIO_GRATIS_DESDE - subtotalConPromo);
+    const faltaParaProximoGratis = unidades === 0 ? 4 : (4 - (unidades % 4)) % 4;
+
+    return {
+      lineas, unidades, subtotal, gratisCount, ahorroPromo,
+      subtotalConPromo, envio, envioGratis, total,
+      faltaParaEnvio, faltaParaProximoGratis,
+    };
+  },
+
+  render() {
+    const c = this.calcular();
+    // Contador en el header
+    document.querySelectorAll('[data-carrito-contador]').forEach(el => {
+      el.textContent = c.unidades;
+      el.classList.toggle('oculto', c.unidades === 0);
+    });
+    if (typeof renderPanelCarrito === 'function') renderPanelCarrito(c);
+  },
+};
+
+function eur(n) {
+  return n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+
+/* ---------- Panel lateral del carrito ---------- */
+function renderPanelCarrito(c) {
+  const cont = document.getElementById('carrito-items');
+  const resumen = document.getElementById('carrito-resumen');
+  if (!cont || !resumen) return;
+
+  if (c.unidades === 0) {
+    cont.innerHTML = '<div class="carrito-vacio">Tu carrito esta vacio.<br>Descubre nuestra cosmetica solida natural.</div>';
+    resumen.innerHTML = '';
+    return;
+  }
+
+  cont.innerHTML = c.lineas.map(({ p, qty }) => `
+    <div class="linea-item">
+      <div class="mini-img">${p.emoji}</div>
+      <div>
+        <div class="titulo">${p.title}</div>
+        <div class="card-precio" style="font-size:.9rem;margin:2px 0 0">${eur(p.price)}</div>
+        <div class="cantidad">
+          <button aria-label="Quitar uno" onclick="Carrito.añadir('${p.handle}', -1)">−</button>
+          <span>${qty}</span>
+          <button aria-label="Anadir uno" onclick="Carrito.añadir('${p.handle}', 1)">+</button>
+          <button class="quitar" onclick="Carrito.quitar('${p.handle}')">eliminar</button>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  `).join('');
+
+  let avisos = '';
+  if (c.faltaParaProximoGratis > 0) {
+    avisos += `<div class="aviso-promo">Anade <strong>${c.faltaParaProximoGratis}</strong> producto(s) mas y el siguiente sera <strong>GRATIS</strong> (promo 3+1).</div>`;
+  } else {
+    avisos += `<div class="aviso-promo">¡Genial! Llevas <strong>${c.gratisCount}</strong> producto(s) GRATIS con la promo 3+1.</div>`;
+  }
+
+  const pct = Math.min(100, (c.subtotalConPromo / ENVIO_GRATIS_DESDE) * 100);
+  let envioAviso;
+  if (c.envioGratis) {
+    envioAviso = '<div class="aviso-promo">🎉 ¡Tienes <strong>ENVIO GRATIS</strong>!</div>';
+  } else {
+    envioAviso = `<div class="aviso-promo">Te faltan <strong>${eur(c.faltaParaEnvio)}</strong> para el envio gratis.</div>`;
+  }
+
+  resumen.innerHTML = `
+    ${avisos}
+    ${envioAviso}
+    <div class="barra-envio"><span style="width:${pct}%"></span></div>
+    <div class="fila-resumen"><span>Subtotal (${c.unidades} art.)</span><span>${eur(c.subtotal)}</span></div>
+    ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Promo 3+1 (−${c.gratisCount} gratis)</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
+    <div class="fila-resumen"><span>Envio</span><span>${c.envioGratis ? 'GRATIS' : eur(c.envio)}</span></div>
+    <div class="fila-resumen total"><span>Total</span><span>${eur(c.total)}</span></div>
+    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Precios con IVA (21%) incluido.</p>
+    <a class="btn btn-primario btn-bloque" href="#" onclick="alert('En la tienda Shopify real este boton abre el checkout. La promo 3+1 y el envio gratis se aplican automaticamente.');return false;">Finalizar compra</a>
+  `;
+}
+
+/* ---------- Apertura / cierre ---------- */
+function abrirCarrito() {
+  document.getElementById('panel-carrito')?.classList.add('abierto');
+  document.getElementById('overlay')?.classList.add('abierto');
+}
+function cerrarCarrito() {
+  document.getElementById('panel-carrito')?.classList.remove('abierto');
+  document.getElementById('overlay')?.classList.remove('abierto');
+}
+
+Carrito.cargar();
+document.addEventListener('DOMContentLoaded', () => Carrito.render());
+
+/* ===========================================================================
+   SAVIA DE ALMA — Renderizado de catalogo (tienda + landing)
+   =========================================================================== */
+
+const DATA = window.SAVIA_DATA;
+
+/* Tarjeta de producto. Web-exclusivos => solo "Anadir al carrito".
+   Resto (en Amazon) => "Anadir al carrito" + "Ver en Amazon". */
+function cardProducto(p, { compacta = false } = {}) {
+  const etiqueta = p.exclusiveWeb
+    ? '<span class="etiqueta dorada">Exclusivo web</span>'
+    : (p.bestSeller ? '<span class="etiqueta">Mas vendido</span>' : '');
+
+  const amazon = p.exclusiveWeb ? '' :
+    `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
+
+  const desc = compacta ? '' : `<p class="card-desc">${p.short}</p>`;
+
+  return `
+    <article class="card" data-handle="${p.handle}" data-collection="${p.collection}">
+      <div class="card-img">${etiqueta}<span>${p.emoji}</span></div>
+      <div class="card-cuerpo">
+        <h3>${p.title}</h3>
+        ${desc}
+        <div class="card-precio">${eur(p.price)} <small>IVA incl.</small></div>
+        <div class="card-acciones">
+          <button class="btn btn-primario btn-sm btn-bloque" onclick="Carrito.añadir('${p.handle}'); abrirCarrito();">Anadir al carrito</button>
+          ${amazon}
+        </div>
+      </div>
+    </article>`;
+}
+
+/* ---------- Tienda completa ---------- */
+function renderTienda() {
+  const cont = document.getElementById('catalogo');
+  if (!cont) return;
+
+  cont.innerHTML = DATA.collections.map(col => {
+    const items = DATA.products.filter(p => p.collection === col.slug);
+    const badge = col.exclusiveWeb ? ' <span class="etiqueta dorada" style="position:static;display:inline-block;vertical-align:middle">Exclusivo web</span>' : '';
+    return `
+      <section class="seccion" id="col-${col.slug}">
+        <div class="contenedor">
+          <h2 class="seccion-titulo">${col.name}${badge}</h2>
+          <p class="seccion-sub">${col.count} producto(s)</p>
+          <div class="grid-productos">
+            ${items.map(p => cardProducto(p)).join('')}
+          </div>
+        </div>
+      </section>`;
+  }).join('');
+
+  // Chips de filtro
+  const chips = document.getElementById('chips-categorias');
+  if (chips) {
+    chips.innerHTML =
+      `<button class="chip activo" data-filtro="all">Todo</button>` +
+      DATA.collections.map(c => `<button class="chip" data-filtro="${c.slug}">${c.name}</button>`).join('');
+    chips.addEventListener('click', e => {
+      const btn = e.target.closest('.chip');
+      if (!btn) return;
+      chips.querySelectorAll('.chip').forEach(c => c.classList.remove('activo'));
+      btn.classList.add('activo');
+      const f = btn.dataset.filtro;
+      document.querySelectorAll('[id^="col-"]').forEach(sec => {
+        sec.classList.toggle('oculto', f !== 'all' && sec.id !== 'col-' + f);
+      });
+    });
+  }
+}
+
+/* ---------- Landing: 6 mas vendidos ---------- */
+function renderLandingBestSellers() {
+  const cont = document.getElementById('best-sellers');
+  if (!cont) return;
+  const best = DATA.products.filter(p => p.bestSeller);
+  cont.innerHTML = best.map(p => cardProducto(p, { compacta: true })).join('');
+}
+
+/* ---------- Landing: botones de categoria ---------- */
+function renderLandingCategorias() {
+  const cont = document.getElementById('landing-categorias');
+  if (!cont) return;
+  cont.innerHTML = DATA.collections.map(c =>
+    `<a class="cat-boton" href="tienda.html#col-${c.slug}">
+       <span>${c.name}</span>
+       <span class="flecha">${c.count} →</span>
+     </a>`).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderTienda();
+  renderLandingBestSellers();
+  renderLandingCategorias();
+});
+
+</script>
+</body>
+</html>
