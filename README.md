@@ -9,15 +9,16 @@ configuracion de Shopify**.
 
 | Archivo | Descripcion |
 |---------|-------------|
-| `index.html` | **Landing page** mobile-first (link en bio de Instagram/TikTok): hero, banner promo, 6 mas vendidos, beneficios, categorias y CTA final. |
-| `tienda.html` | **Tienda completa**: catalogo de 34 productos agrupados por coleccion, filtros y carrito. |
-| `assets/css/styles.css` | Sistema de diseno con la identidad visual de la marca. |
-| `assets/js/products.js` | Datos de producto **autogenerados desde el CSV** (no editar a mano). |
-| `assets/js/cart.js` | Carrito con la logica de promociones (3+1 y envio gratis). |
-| `assets/js/app.js` | Renderizado del catalogo y la landing. |
+| `docs/index.html` | **Landing page** mobile-first (link en bio de Instagram/TikTok): hero, banner promo, 6 mas vendidos, beneficios, categorias y CTA final. |
+| `docs/tienda.html` | **Tienda completa**: catalogo de 34 productos agrupados por coleccion, filtros y carrito. |
+| `docs/assets/css/styles.css` | Sistema de diseno con la identidad visual de la marca. |
+| `docs/assets/js/products.js` | Datos de producto **autogenerados desde el CSV** (no editar a mano). |
+| `docs/assets/js/cart.js` | Carrito con la logica de promociones (3+1 y envio gratis). |
+| `docs/assets/js/app.js` | Renderizado del catalogo y la landing. |
+| `docs/.nojekyll` | Desactiva Jekyll en GitHub Pages (sirve los archivos tal cual). |
 | `data/` | CSV de productos de origen + catalogo de marca (PDF). |
 | `SHOPIFY_SETUP.md` | Guia paso a paso para configurar la tienda en Shopify Admin. |
-| `scripts/generate_products.py` | Regenera `products.js` a partir del CSV. |
+| `scripts/generate_products.py` | Regenera `docs/assets/js/products.js` a partir del CSV. |
 
 ## Identidad visual
 
@@ -40,10 +41,16 @@ configuracion de Shopify**.
 ## Probar en local
 
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8000 --directory docs
 # Abrir http://localhost:8000/         (landing)
 # Abrir http://localhost:8000/tienda.html  (tienda)
 ```
+
+## Publicacion (GitHub Pages)
+
+El sitio se sirve desde la carpeta `docs/` de la rama por defecto
+(Settings -> Pages -> "Deploy from a branch" -> rama / carpeta `/docs`).
+URL: <https://infovenmon-dotcom.github.io/METAMORFOSIS/>
 
 ## Regenerar los datos de producto
 

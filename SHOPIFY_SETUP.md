@@ -99,7 +99,7 @@ Para el envio gratis: añade una tarifa **"Envio gratis"** con condicion
 > En un tema Shopify (Liquid) esto se resuelve con un metafield booleano
 > `custom.exclusivo_web` por producto y un `{% if %}` en la plantilla
 > `product.liquid`. La logica equivalente ya esta implementada en la landing de
-> este repo (`assets/js/app.js`, funcion `cardProducto`).
+> este repo (`docs/assets/js/app.js`, funcion `cardProducto`).
 
 ---
 
@@ -125,7 +125,7 @@ Para el envio gratis: añade una tarifa **"Envio gratis"** con condicion
 ## 8. Landing page (link en bio)
 
 La landing mobile-first descrita en el prompt esta construida en este repo
-(`index.html`). En Shopify puedes:
+(`docs/index.html`). En Shopify puedes:
 
 - Publicarla como **pagina** (`/landing` o `/tienda`) con una plantilla
   personalizada, **o**

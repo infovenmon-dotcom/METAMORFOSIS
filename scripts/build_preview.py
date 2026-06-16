@@ -5,8 +5,8 @@ import re, os
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def read(p): return open(os.path.join(ROOT,p),encoding='utf-8').read()
 
-css=read('assets/css/styles.css')
-js='\n'.join(read(f) for f in ['assets/js/products.js','assets/js/cart.js','assets/js/app.js'])
+css=read('docs/assets/css/styles.css')
+js='\n'.join(read(f) for f in ['docs/assets/js/products.js','docs/assets/js/cart.js','docs/assets/js/app.js'])
 
 def build(src_html, out_name, link_map):
     h=read(src_html)
@@ -25,5 +25,5 @@ def build(src_html, out_name, link_map):
     print('built preview/'+out_name, len(h),'bytes')
 
 lm={'tienda.html':'savia-tienda.html','index.html':'savia-landing.html'}
-build('index.html','savia-landing.html',lm)
-build('tienda.html','savia-tienda.html',lm)
+build('docs/index.html','savia-landing.html',lm)
+build('docs/tienda.html','savia-tienda.html',lm)

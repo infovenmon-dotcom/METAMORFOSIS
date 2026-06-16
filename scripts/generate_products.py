@@ -87,7 +87,7 @@ out = {
 
 js = "// Auto-generado desde shopify_productos_savia_de_alma.csv - NO editar a mano.\n"
 js += "window.SAVIA_DATA = " + json.dumps(out, ensure_ascii=False, indent=2) + ";\n"
-with open(os.path.join(ROOT,'assets','js','products.js'),'w',encoding='utf-8') as f:
+with open(os.path.join(ROOT,'docs','assets','js','products.js'),'w',encoding='utf-8') as f:
     f.write(js)
 
 print('Productos:', len(products))
