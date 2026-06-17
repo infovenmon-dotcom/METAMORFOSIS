@@ -747,3 +747,38 @@ h1, h2, h3 { letter-spacing: -.01em; }
 }
 .barra-promo strong { color: var(--verde-oscuro); }
 .barra-promo-sep { opacity: .35; }
+
+/* ===========================================================================
+   LANDING · Nuestra historia (storytelling de marca)
+   =========================================================================== */
+.historia { text-align: center; }
+.historia .historia-hoja { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+.historia h2 { margin-bottom: 14px; }
+.historia .historia-intro {
+  font-family: var(--fuente-titulo);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--verde-oscuro);
+  margin: 0 auto 16px;
+}
+.historia p {
+  color: var(--texto-suave);
+  font-size: .95rem;
+  line-height: 1.7;
+  margin: 0 auto 12px;
+}
+.historia .historia-cierre {
+  font-family: var(--fuente-titulo);
+  font-style: italic;
+  color: var(--verde-oscuro);
+  font-size: 1.05rem;
+}
+.historia .historia-cita {
+  margin: 20px auto 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--borde);
+  font-family: var(--fuente-titulo);
+  font-style: italic;
+  font-size: 1.18rem;
+  color: var(--negro);
+}
