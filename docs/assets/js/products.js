@@ -702,9 +702,9 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-karite.svg",
+      "image": "assets/img/products/jabon-karite.jpg",
       "images": [
-        "assets/img/products/jabon-karite.svg"
+        "assets/img/products/jabon-karite.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -815,7 +815,8 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-argan.jpg",
       "images": [
-        "assets/img/products/jabon-argan.jpg"
+        "assets/img/products/jabon-argan.jpg",
+        "assets/img/products/jabon-argan-2.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -887,9 +888,9 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-pepita-uva.svg",
+      "image": "assets/img/products/jabon-pepita-uva.jpg",
       "images": [
-        "assets/img/products/jabon-pepita-uva.svg"
+        "assets/img/products/jabon-pepita-uva.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -998,9 +999,9 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-lavanda.svg",
+      "image": "assets/img/products/jabon-lavanda.jpg",
       "images": [
-        "assets/img/products/jabon-lavanda.svg"
+        "assets/img/products/jabon-lavanda.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
