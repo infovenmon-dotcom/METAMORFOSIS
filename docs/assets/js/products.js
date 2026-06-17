@@ -1371,9 +1371,9 @@ window.SAVIA_DATA = {
       "collection": "faciales",
       "collectionName": "Limpiadores Faciales",
       "emoji": "✨",
-      "image": "assets/img/products/limpiador-facial-rosa-mosqueta.svg",
+      "image": "assets/img/products/limpiador-facial-rosa-mosqueta.jpg",
       "images": [
-        "assets/img/products/limpiador-facial-rosa-mosqueta.svg"
+        "assets/img/products/limpiador-facial-rosa-mosqueta.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -1408,9 +1408,9 @@ window.SAVIA_DATA = {
       "collection": "faciales",
       "collectionName": "Limpiadores Faciales",
       "emoji": "✨",
-      "image": "assets/img/products/limpiador-facial-aloe-pepino.svg",
+      "image": "assets/img/products/limpiador-facial-aloe-pepino.jpg",
       "images": [
-        "assets/img/products/limpiador-facial-aloe-pepino.svg"
+        "assets/img/products/limpiador-facial-aloe-pepino.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
