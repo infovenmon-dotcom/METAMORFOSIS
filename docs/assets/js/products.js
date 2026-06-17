@@ -591,9 +591,9 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-cbd.svg",
+      "image": "assets/img/products/jabon-cbd.jpg",
       "images": [
-        "assets/img/products/jabon-cbd.svg"
+        "assets/img/products/jabon-cbd.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -1073,9 +1073,9 @@ window.SAVIA_DATA = {
       "collection": "depilacion",
       "collectionName": "Depilacion",
       "emoji": "🌿",
-      "image": "assets/img/products/espuma-depilacion-uva.svg",
+      "image": "assets/img/products/espuma-depilacion-uva.jpg",
       "images": [
-        "assets/img/products/espuma-depilacion-uva.svg"
+        "assets/img/products/espuma-depilacion-uva.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": true,
@@ -1110,9 +1110,9 @@ window.SAVIA_DATA = {
       "collection": "depilacion",
       "collectionName": "Depilacion",
       "emoji": "🌿",
-      "image": "assets/img/products/espuma-depilacion-aloe.svg",
+      "image": "assets/img/products/espuma-depilacion-aloe.jpg",
       "images": [
-        "assets/img/products/espuma-depilacion-aloe.svg"
+        "assets/img/products/espuma-depilacion-aloe.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": true,
