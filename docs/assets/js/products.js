@@ -758,7 +758,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles mixtas o con tendencia grasa y acneica.",
       "modoUso": "Usa el jabon por la manana para activar cuerpo y mente. Disfruta de su espuma ligera y su efecto refrescante sobre la piel.",
       "lema": "La limpieza tambien puede ser una forma de despertar.",
-      "specs": {}
+      "specs": {
+        "cpnp": "1387161",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Melaleuca Alternifolia Leaf Oil, Limonene, CI 77288, CI 42090.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-rosa-mosqueta",
@@ -795,7 +800,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles maduras, con manchas o que buscan regeneracion y firmeza.",
       "modoUso": "Aplica el jabon directamente sobre la piel humeda. Deja que su espuma cremosa limpie con suavidad, renovando la piel sin resecarla.",
       "lema": "Toda belleza es memoria. Y a veces, solo hace falta recordarla.",
-      "specs": {}
+      "specs": {
+        "cpnp": "1386290",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Geraniol, Citronellol, Rosa Canina Flower, Rosa Canina Fruit Oil, Linalool, Hexyl Cinnamal, CI 45100, CI 17200.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-argan",
@@ -836,7 +846,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal tras la exposicion solar, en estaciones frias y para pieles con signos de edad.",
       "modoUso": "Usa el jabon en duchas templadas. Masajea la piel lentamente y siente como recupera su elasticidad y vitalidad natural.",
       "lema": "El brillo mas puro no viene del oro, sino de la piel que vuelve a respirar.",
-      "specs": {}
+      "specs": {
+        "cpnp": "1387162",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, CI 77891, Argania Spinosa Kernel Oil, Evernia Prunastri, Hydroxycitronellal, Geraniol, CI 19140, CI 14720.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-monoi",
@@ -873,7 +888,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para hidratar y perfumar la piel con un aroma floral exotico.",
       "modoUso": "Aplica el jabon sobre la piel humeda y masajea lentamente. Siente la textura fundente y el aroma que te transporta a playas tranquilas.",
       "lema": "Cuidar tu piel tambien puede ser una forma de viajar.",
-      "specs": {}
+      "specs": {
+        "cpnp": "3077312",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Amyl Cinnamal, Morinda Citrifolia Fruit Juice, CI 77891, Citronellol, Geraniol, Limonene, CI 14720, CI 19140, CI 42045, CI 17200, CI 45100, CI 42090.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-pepita-uva",
@@ -914,7 +934,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para revitalizar pieles apagadas, grasas o expuestas al sol.",
       "modoUso": "Aplica el jabon por la manana y deja que su espuma despierte cuerpo y mente. Tu piel queda limpia, luminosa y llena de vida.",
       "lema": "La piel tambien puede renacer, como la vid que vuelve a florecer cada ano.",
-      "specs": {}
+      "specs": {
+        "cpnp": "2194655",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Limonene, Linalool, Vitis Vinifera Vine Extract (Red Wine), Amyl Cinnamal, Vitis Vinifera Seed Oil, Vitis Vinifera Seed, Citronellol, Geraniol, Citral, Benzyl Salicylate, Hexyl Cinnamal.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-carbon-activo",
@@ -955,7 +980,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles mixtas o acneicas que buscan equilibrio y frescor duradero.",
       "modoUso": "Humedece el jabon y deja que su espuma haga su magia sobre rostro y cuerpo. Perfecto para rutinas de noche o despues de un dia intenso.",
       "lema": "Purificar no es borrar, es volver a tu esencia.",
-      "specs": {}
+      "specs": {
+        "cpnp": "2745583",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Charcoal Powder, Linalool, Eugenol.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-azufre",
@@ -996,7 +1026,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles con tendencia acneica, seborreica o sensible.",
       "modoUso": "Aplica suavemente con agua tibia, deja actuar unos segundos y aclara. Su efecto es visible desde los primeros usos.",
       "lema": "Cuando la tierra sana, tambien lo hace tu piel.",
-      "specs": {}
+      "specs": {
+        "cpnp": "2195611",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Limonene, Parfum, Sulfur, Citral, Linalool, CI 19140, CI 42045, CI 50420, CI 17200.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-lavanda",
@@ -1037,7 +1072,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para la ducha nocturna, pieles sensibles y momentos de relax.",
       "modoUso": "Usa este jabon antes de dormir. Frota entre tus manos, deja que el aroma inunde el aire y siente como el estres se disuelve.",
       "lema": "Cada ducha puede ser una noche estrellada.",
-      "specs": {}
+      "specs": {
+        "cpnp": "1387159",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Lavandula Angustifolia Oil, Linalool, Limonene, CI 77007, CI 17200, CI 45100.",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+      }
     },
     {
       "handle": "jabon-aguacate",
@@ -1193,7 +1233,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles sensibles y quienes buscan una fragancia ligera, sin aluminio ni alcohol.",
       "modoUso": "Aplica directamente sobre la piel limpia y seca de las axilas, con 2-3 pasadas suaves. Apto para uso diario.",
       "lema": "La verdadera frescura nace cuando la piel puede respirar.",
-      "specs": {}
+      "specs": {
+        "cpnp": "4164680",
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Benzyl Benzoate, Benzyl Salicylate, Cinnamyl Alcohol, Citral, Citronellol, Coumarin, Eugenol, Alpha-Isomethyl Ionone, Geraniol, Hexyl Cinnamal, Isoeugenol, Limonene, Linalool.",
+        "peso": "100 g",
+        "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
+      }
     },
     {
       "handle": "desodorante-pomelo",
@@ -1230,7 +1275,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para empezar el dia con energia; proteccion natural sin aluminio.",
       "modoUso": "Aplica sobre la piel limpia y seca con 2-3 pasadas suaves. Deja absorber unos segundos.",
       "lema": "Una fragancia que despierta la alegria de vivir.",
-      "specs": {}
+      "specs": {
+        "cpnp": "4164676",
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, CI 45100, Benzyl Salicylate, Limonene.",
+        "peso": "100 g",
+        "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
+      }
     },
     {
       "handle": "desodorante-algodon",
@@ -1267,7 +1317,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles sensibles, post-depilacion y quienes buscan discrecion.",
       "modoUso": "Aplica sobre la piel limpia y seca con 2-3 pasadas suaves. Apto para piel sensible y uso diario.",
       "lema": "Aromas que no buscan destacar, sino acompanarte con la suavidad del alma.",
-      "specs": {}
+      "specs": {
+        "cpnp": "3867185",
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Benzyl Benzoate, Benzyl Salicylate, Cinnamyl Alcohol, Citral, Citronellol, Coumarin, Eugenol, Alpha-Isomethyl Ionone, Geraniol, Hexyl Cinnamal, Isoeugenol, Limonene, Linalool.",
+        "peso": "100 g",
+        "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
+      }
     },
     {
       "handle": "desodorante-madera",
@@ -1304,7 +1359,12 @@ window.SAVIA_DATA = {
       "indicado": "Aroma amaderado unisex; ideal para una proteccion natural con caracter.",
       "modoUso": "Aplica sobre la piel limpia y seca con 2-3 pasadas suaves. Su textura cremosa se funde facilmente.",
       "lema": "En cada nota de madera habita la calma del bosque y la fuerza del origen.",
-      "specs": {}
+      "specs": {
+        "cpnp": "3867191",
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Curcuma Longa Root Powder, Benzyl Salicylate, Citral, Citronellol, Coumarin, Eugenol, Geraniol, Limonene, Linalool.",
+        "peso": "100 g",
+        "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
+      }
     },
     {
       "handle": "acondicionador-coco",

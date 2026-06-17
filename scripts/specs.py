@@ -65,3 +65,24 @@ for _h, _v in SPECS.items():
     if _h.startswith("champu-"):
         _v.setdefault("peso", GENERICO_CHAMPU["peso"])
         _v.setdefault("fabricacion", GENERICO_CHAMPU["fabricacion"])
+
+# --- Jabones y desodorantes (fichas leidas de las etiquetas INCI del Drive) ---
+GEN_JABON = "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos."
+GEN_DESO = "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
+
+JABON_DESO_SPECS = {
+    "jabon-lavanda": ("1387159", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Lavandula Angustifolia Oil, Linalool, Limonene, CI 77007, CI 17200, CI 45100.", GEN_JABON),
+    "jabon-pepita-uva": ("2194655", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Limonene, Linalool, Vitis Vinifera Vine Extract (Red Wine), Amyl Cinnamal, Vitis Vinifera Seed Oil, Vitis Vinifera Seed, Citronellol, Geraniol, Citral, Benzyl Salicylate, Hexyl Cinnamal.", GEN_JABON),
+    "jabon-carbon-activo": ("2745583", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Charcoal Powder, Linalool, Eugenol.", GEN_JABON),
+    "jabon-rosa-mosqueta": ("1386290", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Geraniol, Citronellol, Rosa Canina Flower, Rosa Canina Fruit Oil, Linalool, Hexyl Cinnamal, CI 45100, CI 17200.", GEN_JABON),
+    "jabon-azufre": ("2195611", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Limonene, Parfum, Sulfur, Citral, Linalool, CI 19140, CI 42045, CI 50420, CI 17200.", GEN_JABON),
+    "jabon-monoi": ("3077312", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Amyl Cinnamal, Morinda Citrifolia Fruit Juice, CI 77891, Citronellol, Geraniol, Limonene, CI 14720, CI 19140, CI 42045, CI 17200, CI 45100, CI 42090.", GEN_JABON),
+    "jabon-argan": ("1387162", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, CI 77891, Argania Spinosa Kernel Oil, Evernia Prunastri, Hydroxycitronellal, Geraniol, CI 19140, CI 14720.", GEN_JABON),
+    "jabon-arbol-te": ("1387161", "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Melaleuca Alternifolia Leaf Oil, Limonene, CI 77288, CI 42090.", GEN_JABON),
+    "desodorante-te-verde": ("4164680", "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Benzyl Benzoate, Benzyl Salicylate, Cinnamyl Alcohol, Citral, Citronellol, Coumarin, Eugenol, Alpha-Isomethyl Ionone, Geraniol, Hexyl Cinnamal, Isoeugenol, Limonene, Linalool.", GEN_DESO),
+    "desodorante-algodon": ("3867185", "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Benzyl Benzoate, Benzyl Salicylate, Cinnamyl Alcohol, Citral, Citronellol, Coumarin, Eugenol, Alpha-Isomethyl Ionone, Geraniol, Hexyl Cinnamal, Isoeugenol, Limonene, Linalool.", GEN_DESO),
+    "desodorante-pomelo": ("4164676", "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, CI 45100, Benzyl Salicylate, Limonene.", GEN_DESO),
+    "desodorante-madera": ("3867191", "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Curcuma Longa Root Powder, Benzyl Salicylate, Citral, Citronellol, Coumarin, Eugenol, Geraniol, Limonene, Linalool.", GEN_DESO),
+}
+for _h, (_cpnp, _inci, _fab) in JABON_DESO_SPECS.items():
+    SPECS[_h] = {"cpnp": _cpnp, "inci": _inci, "peso": "100 g", "fabricacion": _fab}
