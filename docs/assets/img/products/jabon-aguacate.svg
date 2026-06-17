@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Jabon Artesanal de Aguacate">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F2EC"/><stop offset="1" stop-color="#D6F0E8"/>
+    </linearGradient>
+    <radialGradient id="g" cx="0.4" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#6fa86f"/><stop offset="1" stop-color="#568356"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="24" letter-spacing="2" fill="#1D6B50">SAVIA DE ALMA</text>
+  <text x="300" y="118" text-anchor="middle" font-size="34">🧼</text>
+  <rect x="170" y="318" width="260" height="26" rx="12" fill="#568356" opacity="0.18"/><rect x="168" y="158" width="264" height="178" rx="30" fill="url(#g)"/><ellipse cx="232" cy="200" rx="44" ry="24" fill="#ffffff" opacity="0.18"/>
+  <text text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="26" fill="#1A1A1A" y="414"><tspan x="300" dy="0">Jabon Artesanal de</tspan><tspan x="300" dy="30">Aguacate</tspan></text>
+  <text x="300" y="540" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" fill="#5a5a52">Cosmetica solida natural</text>
+</svg>

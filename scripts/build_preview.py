@@ -1,12 +1,28 @@
 """Genera versiones autocontenidas (un solo archivo) de la landing y la tienda
 en preview/, con CSS, JS y datos embebidos. Utiles para compartir o abrir sin
 servidor. Ejecutar: python3 scripts/build_preview.py"""
-import re, os
+import re, os, base64
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def read(p): return open(os.path.join(ROOT,p),encoding='utf-8').read()
 
+def inline_images(js):
+    """Convierte las rutas de imagen (SVG/foto) en data URIs para que el
+    archivo unico funcione sin la carpeta assets/img al lado."""
+    mime={'svg':'image/svg+xml','jpg':'image/jpeg','jpeg':'image/jpeg',
+          'png':'image/png','webp':'image/webp'}
+    def repl(m):
+        rel=m.group(0)
+        path=os.path.join(ROOT,'docs',rel)
+        if not os.path.exists(path):
+            return rel
+        ext=rel.rsplit('.',1)[1].lower()
+        b64=base64.b64encode(open(path,'rb').read()).decode()
+        return 'data:%s;base64,%s'%(mime.get(ext,'application/octet-stream'),b64)
+    return re.sub(r'assets/img/products/[A-Za-z0-9\-_]+\.(?:svg|jpe?g|png|webp)', repl, js)
+
 css=read('docs/assets/css/styles.css')
 js='\n'.join(read(f) for f in ['docs/assets/js/products.js','docs/assets/js/cart.js','docs/assets/js/app.js'])
+js=inline_images(js)
 
 def build(src_html, out_name, link_map):
     h=read(src_html)

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Champu Solido Romero y Quina">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F2EC"/><stop offset="1" stop-color="#D6F0E8"/>
+    </linearGradient>
+    <radialGradient id="g" cx="0.4" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#5f7d4f"/><stop offset="1" stop-color="#4a613d"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="24" letter-spacing="2" fill="#1D6B50">SAVIA DE ALMA</text>
+  <text x="300" y="118" text-anchor="middle" font-size="34">🫧</text>
+  <ellipse cx="300" cy="262" rx="150" ry="40" fill="#4a613d" opacity="0.18"/><circle cx="300" cy="250" r="120" fill="url(#g)"/><ellipse cx="262" cy="212" rx="42" ry="26" fill="#ffffff" opacity="0.18"/>
+  <text text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="26" fill="#1A1A1A" y="414"><tspan x="300" dy="0">Champu Solido Romero</tspan><tspan x="300" dy="30">y Quina</tspan></text>
+  <text x="300" y="540" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" fill="#5a5a52">Cosmetica solida natural</text>
+</svg>

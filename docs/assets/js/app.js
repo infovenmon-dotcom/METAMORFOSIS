@@ -1,5 +1,5 @@
 /* ===========================================================================
-   SAVIA DE ALMA — Renderizado de catalogo (tienda + landing)
+   SAVIA DE ALMA — Renderizado de catalogo (tienda + landing) + ficha producto
    =========================================================================== */
 
 const DATA = window.SAVIA_DATA;
@@ -14,21 +14,74 @@ function cardProducto(p, { compacta = false } = {}) {
   const amazon = p.exclusiveWeb ? '' :
     `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
 
-  const desc = compacta ? '' : `<p class="card-desc">${p.short}</p>`;
+  const desc = compacta ? '' : `<p class="card-desc">${p.indicado || p.short}</p>`;
 
   return `
     <article class="card" data-handle="${p.handle}" data-collection="${p.collection}">
-      <div class="card-img">${etiqueta}<span>${p.emoji}</span></div>
+      <button class="card-img" onclick="abrirFicha('${p.handle}')" aria-label="Ver detalles de ${p.title}">
+        ${etiqueta}
+        <img src="${p.image}" alt="${p.title}" loading="lazy">
+      </button>
       <div class="card-cuerpo">
         <h3>${p.title}</h3>
         ${desc}
         <div class="card-precio">${eur(p.price)} <small>IVA incl.</small></div>
         <div class="card-acciones">
           <button class="btn btn-primario btn-sm btn-bloque" onclick="Carrito.añadir('${p.handle}'); abrirCarrito();">Anadir al carrito</button>
+          <button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>
           ${amazon}
         </div>
       </div>
     </article>`;
+}
+
+/* ---------- Ficha de producto (modal con beneficios + modo de uso) ---------- */
+function abrirFicha(handle) {
+  const p = DATA.products.find(x => x.handle === handle);
+  if (!p) return;
+  const cont = document.getElementById('ficha-contenido');
+  if (!cont) return;
+
+  const etiqueta = p.exclusiveWeb
+    ? '<span class="etiqueta dorada" style="position:static;display:inline-block">Exclusivo web</span>'
+    : (p.bestSeller ? '<span class="etiqueta" style="position:static;display:inline-block">Mas vendido</span>' : '');
+
+  const amazon = p.exclusiveWeb ? '' :
+    `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
+
+  const features = (p.features || []).map(f => `<li>${f}</li>`).join('');
+
+  cont.innerHTML = `
+    <div class="ficha-img"><img src="${p.image}" alt="${p.title}"></div>
+    <div class="ficha-info">
+      <div class="ficha-cabecera">
+        <span class="ficha-coleccion">${p.collectionName}</span>
+        ${etiqueta}
+      </div>
+      <h2>${p.title}</h2>
+      <div class="card-precio" style="font-size:1.4rem">${eur(p.price)} <small>IVA incl.</small></div>
+      <p class="ficha-desc">${p.descripcion || p.short}</p>
+
+      ${p.indicado ? `<div class="ficha-bloque"><h4>✨ Para que es bueno</h4><p>${p.indicado}</p></div>` : ''}
+      ${p.modoUso ? `<div class="ficha-bloque"><h4>💧 Modo de uso</h4><p>${p.modoUso}</p></div>` : ''}
+      ${features ? `<div class="ficha-bloque"><h4>🌿 Caracteristicas</h4><ul class="ficha-features">${features}</ul></div>` : ''}
+
+      <div class="ficha-acciones">
+        <button class="btn btn-primario btn-bloque" onclick="Carrito.añadir('${p.handle}'); cerrarFicha(); abrirCarrito();">Anadir al carrito</button>
+        ${amazon}
+      </div>
+      ${p.lema ? `<p class="ficha-lema">${p.lema}</p>` : ''}
+    </div>`;
+
+  document.getElementById('ficha-overlay')?.classList.add('abierto');
+  document.getElementById('panel-ficha')?.classList.add('abierto');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarFicha() {
+  document.getElementById('ficha-overlay')?.classList.remove('abierto');
+  document.getElementById('panel-ficha')?.classList.remove('abierto');
+  document.body.style.overflow = '';
 }
 
 /* ---------- Tienda completa ---------- */
@@ -88,6 +141,8 @@ function renderLandingCategorias() {
        <span class="flecha">${c.count} →</span>
      </a>`).join('');
 }
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarFicha(); });
 
 document.addEventListener('DOMContentLoaded', () => {
   renderTienda();

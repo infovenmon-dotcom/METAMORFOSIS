@@ -1,4 +1,5 @@
 import csv, re, json, os
+from content import CONTENT
 
 # Rutas relativas a la raiz del repositorio
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,6 +54,13 @@ with open(SRC, encoding='utf-8-sig') as f:
         tags = [t.strip() for t in row['Tags'].split(',')]
         short, feats = parse_body(row['Body (HTML)'])
         exclusive = any('exclusivo web' in t.lower() for t in tags) or 'exclusivo web' in row['Body (HTML)'].lower()
+        c = CONTENT.get(handle, {})
+        # Usa una foto real si existe ({handle}.jpg/.jpeg/.png/.webp); si no, la ilustracion SVG.
+        img = 'assets/img/products/%s.svg' % handle
+        for ext in ('jpg', 'jpeg', 'png', 'webp'):
+            if os.path.exists(os.path.join(ROOT, 'docs', 'assets', 'img', 'products', '%s.%s' % (handle, ext))):
+                img = 'assets/img/products/%s.%s' % (handle, ext)
+                break
         products.append({
             'handle': handle,
             'title': row['Title'].strip(),
@@ -65,9 +73,20 @@ with open(SRC, encoding='utf-8-sig') as f:
             'collection': coll_slug,
             'collectionName': coll_name,
             'emoji': EMOJI.get(coll_slug, '\U0001F33F'),
+            'image': img,
             'exclusiveWeb': exclusive,
             'bestSeller': handle in best_handles,
+            # Contenido enriquecido (beneficios + modo de uso)
+            'descripcion': c.get('descripcion', short),
+            'indicado': c.get('indicado', ''),
+            'modoUso': c.get('modoUso', ''),
+            'lema': c.get('lema', ''),
         })
+
+# Aviso si falta contenido para algun producto
+faltan = [p['handle'] for p in products if p['handle'] not in CONTENT]
+if faltan:
+    print('AVISO: sin contenido enriquecido para:', faltan)
 
 # Order collections as in the prompt
 coll_order = ['champus','jabones','desodorantes','faciales','afeitado','depilacion','acondicionadores']

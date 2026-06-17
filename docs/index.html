@@ -77,6 +77,13 @@
     <div class="panel-resumen" id="carrito-resumen"></div>
   </aside>
 
+  <!-- Ficha de producto -->
+  <div class="ficha-overlay" id="ficha-overlay" onclick="cerrarFicha()"></div>
+  <div class="panel-ficha" id="panel-ficha" role="dialog" aria-label="Detalle del producto">
+    <button class="ficha-cerrar" onclick="cerrarFicha()" aria-label="Cerrar">×</button>
+    <div id="ficha-contenido"></div>
+  </div>
+
   <script src="assets/js/products.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/app.js"></script>
