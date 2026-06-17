@@ -1,14 +1,15 @@
 /* ===========================================================================
    SAVIA DE ALMA — Carrito + promociones
    Reglas (espejo de la configuracion de Shopify):
-     - 3+1 GRATIS: por cada 4 articulos, el de menor precio es gratis.
-       Escalable: 8 art. = 2 gratis, 12 = 3 gratis...
-     - Envio GRATIS desde 45 EUR (Espana Peninsula, base 2,95 EUR).
+     - POR CADA 3 PRODUCTOS, 1 GRATIS: el de menor precio de cada grupo de 3.
+       Escalable: 3 art. = 1 gratis, 6 = 2 gratis, 9 = 3 gratis...
+     - Envio GRATIS desde 45 EUR (Espana Peninsula, base 4,95 EUR).
      - Los precios YA incluyen IVA 21% (no se anaden impuestos).
    =========================================================================== */
 
 const ENVIO_GRATIS_DESDE = 45;
-const ENVIO_PENINSULA = 2.95;
+const ENVIO_PENINSULA = 4.95;
+const GRUPO_GRATIS = 3; // por cada 3 productos, 1 gratis
 const STORAGE_KEY = 'savia_carrito';
 
 const Carrito = {
@@ -45,7 +46,7 @@ const Carrito = {
     return Object.values(this.items).reduce((a, b) => a + b, 0);
   },
 
-  /* Calcula subtotal, unidades gratis (3+1) y totales. */
+  /* Calcula subtotal, unidades gratis (1 por cada 3) y totales. */
   calcular() {
     // Lista plana de precios, una entrada por unidad.
     const precios = [];
@@ -59,8 +60,8 @@ const Carrito = {
     const unidades = precios.length;
     const subtotal = precios.reduce((a, b) => a + b, 0);
 
-    // 3+1: nº de articulos gratis = floor(unidades / 4); gratis = los mas baratos.
-    const gratisCount = Math.floor(unidades / 4);
+    // Por cada 3 productos, 1 gratis (el mas barato del grupo).
+    const gratisCount = Math.floor(unidades / GRUPO_GRATIS);
     const ordenados = [...precios].sort((a, b) => a - b);
     let ahorroPromo = 0;
     for (let i = 0; i < gratisCount; i++) ahorroPromo += ordenados[i];
@@ -80,12 +81,14 @@ const Carrito = {
 
     const total = subtotalConPromo + envio;
     const faltaParaEnvio = Math.max(0, ENVIO_GRATIS_DESDE - subtotalConPromo);
-    const faltaParaProximoGratis = unidades === 0 ? 4 : (4 - (unidades % 4)) % 4;
+    const faltaParaProximoGratis = unidades === 0 ? GRUPO_GRATIS : (GRUPO_GRATIS - (unidades % GRUPO_GRATIS)) % GRUPO_GRATIS;
+    // progreso dentro del grupo de 3 en curso (0..3) para la barra/cuenta atras
+    const progresoGrupo = faltaParaProximoGratis === 0 ? GRUPO_GRATIS : GRUPO_GRATIS - faltaParaProximoGratis;
 
     return {
       lineas, unidades, subtotal, gratisCount, ahorroPromo,
       subtotalConPromo, envio, envioGratis, total,
-      faltaParaEnvio, faltaParaProximoGratis,
+      faltaParaEnvio, faltaParaProximoGratis, progresoGrupo, grupoGratis: GRUPO_GRATIS,
     };
   },
 
@@ -96,9 +99,35 @@ const Carrito = {
       el.textContent = c.unidades;
       el.classList.toggle('oculto', c.unidades === 0);
     });
+    // Avisos tipo Temu al cruzar un umbral (solo tras una interaccion, no al cargar)
+    if (this._prev) {
+      if (c.gratisCount > this._prev.gratisCount) {
+        mostrarAvisoFlotante('🎁 ¡Producto GRATIS desbloqueado! El más barato de tu pedido te sale gratis.');
+        abrirCarrito();
+      }
+      if (c.envioGratis && !this._prev.envioGratis) {
+        mostrarAvisoFlotante('🚚 ¡Acabas de conseguir el ENVÍO GRATIS!');
+      }
+    }
+    this._prev = { gratisCount: c.gratisCount, envioGratis: c.envioGratis };
     if (typeof renderPanelCarrito === 'function') renderPanelCarrito(c);
   },
 };
+
+/* Aviso flotante (toast) estilo Temu: salta cuando se desbloquea algo. */
+function mostrarAvisoFlotante(msg) {
+  let cont = document.getElementById('avisos-flotantes');
+  if (!cont) {
+    cont = document.createElement('div');
+    cont.id = 'avisos-flotantes';
+    document.body.appendChild(cont);
+  }
+  const t = document.createElement('div');
+  t.className = 'toast-promo';
+  t.innerHTML = msg;
+  cont.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
 
 function eur(n) {
   return n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
@@ -133,31 +162,39 @@ function renderPanelCarrito(c) {
     </div>
   `).join('');
 
-  let avisos = '';
-  if (c.faltaParaProximoGratis > 0) {
-    avisos += `<div class="aviso-promo">Anade <strong>${c.faltaParaProximoGratis}</strong> producto(s) mas y el siguiente sera <strong>GRATIS</strong> (promo 3+1).</div>`;
+  // --- Incentivo "producto gratis" con cuenta atras y barra de progreso ---
+  const falta = c.faltaParaProximoGratis;
+  const pgRegalo = Math.round((c.progresoGrupo / c.grupoGratis) * 100);
+  let regalo;
+  if (falta === 0) {
+    regalo = `<div class="aviso-regalo conseguido">🎉 ¡Llevas <strong>${c.gratisCount} producto${c.gratisCount > 1 ? 's' : ''} GRATIS</strong>! Añade <strong>${c.grupoGratis}</strong> más y suma otro regalo.
+      <div class="barra-regalo"><span style="width:100%"></span></div></div>`;
+  } else if (falta === 1) {
+    regalo = `<div class="aviso-regalo cerca">🎁 ¡Solo <strong>1 producto más</strong> y el siguiente es <strong>GRATIS</strong>!
+      <div class="barra-regalo"><span style="width:${pgRegalo}%"></span></div></div>`;
   } else {
-    avisos += `<div class="aviso-promo">¡Genial! Llevas <strong>${c.gratisCount}</strong> producto(s) GRATIS con la promo 3+1.</div>`;
+    regalo = `<div class="aviso-regalo">🎁 Añade <strong>${falta} productos</strong> y el más barato será <strong>GRATIS</strong> (por cada 3, 1 gratis).
+      <div class="barra-regalo"><span style="width:${pgRegalo}%"></span></div></div>`;
   }
 
   const pct = Math.min(100, (c.subtotalConPromo / ENVIO_GRATIS_DESDE) * 100);
   let envioAviso;
   if (c.envioGratis) {
-    envioAviso = '<div class="aviso-promo">🎉 ¡Tienes <strong>ENVIO GRATIS</strong>!</div>';
+    envioAviso = '<div class="aviso-regalo conseguido">🚚 ¡Tienes <strong>ENVÍO GRATIS</strong>!</div>';
   } else {
-    envioAviso = `<div class="aviso-promo">Te faltan <strong>${eur(c.faltaParaEnvio)}</strong> para el envio gratis.</div>`;
+    envioAviso = `<div class="aviso-envio">🚚 Te faltan <strong>${eur(c.faltaParaEnvio)}</strong> para el <strong>envío gratis</strong>.</div>`;
   }
 
   resumen.innerHTML = `
-    ${avisos}
+    ${regalo}
     ${envioAviso}
     <div class="barra-envio"><span style="width:${pct}%"></span></div>
     <div class="fila-resumen"><span>Subtotal (${c.unidades} art.)</span><span>${eur(c.subtotal)}</span></div>
-    ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Promo 3+1 (−${c.gratisCount} gratis)</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
-    <div class="fila-resumen"><span>Envio</span><span>${c.envioGratis ? 'GRATIS' : eur(c.envio)}</span></div>
+    ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo (−${c.gratisCount} gratis)</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
+    <div class="fila-resumen"><span>Envío</span><span>${c.envioGratis ? 'GRATIS' : eur(c.envio)}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${eur(c.total)}</span></div>
-    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Precios con IVA (21%) incluido.</p>
-    <a class="btn btn-primario btn-bloque" href="#" onclick="alert('En la tienda Shopify real este boton abre el checkout. La promo 3+1 y el envio gratis se aplican automaticamente.');return false;">Finalizar compra</a>
+    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Precios con IVA (21%) incluido · Envío peninsular ${eur(ENVIO_PENINSULA)}.</p>
+    <a class="btn btn-primario btn-bloque" href="#" onclick="alert('En la tienda Shopify real este boton abre el checkout. La promo (por cada 3 productos, 1 gratis) y el envio gratis se aplican automaticamente.');return false;">Finalizar compra</a>
   `;
 }
 

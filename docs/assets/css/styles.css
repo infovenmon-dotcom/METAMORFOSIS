@@ -637,3 +637,55 @@ h1, h2, h3 { letter-spacing: -.01em; }
   color: #2a4a3e;
   line-height: 1.5;
 }
+
+/* ===========================================================================
+   INCENTIVOS DE COMPRA (estilo Temu): regalo, envio y avisos flotantes
+   =========================================================================== */
+.aviso-regalo, .aviso-envio {
+  border-radius: 12px;
+  padding: 11px 13px;
+  font-size: .85rem;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  color: #214a3b;
+  background: var(--verde-claro);
+  border: 1px solid #c4e7da;
+}
+.aviso-envio { background: #fbf6ea; border-color: #efe1c2; color: #5b4a25; }
+.aviso-regalo.cerca { background: #fff6e2; border-color: var(--dorado-claro); color: #6b5113; }
+.aviso-regalo.conseguido {
+  background: linear-gradient(90deg, #fff3d6, #fde7b6);
+  border-color: var(--dorado);
+  color: #6b5113;
+  font-weight: 600;
+}
+.barra-regalo {
+  height: 7px;
+  background: rgba(0,0,0,.08);
+  border-radius: 999px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.barra-regalo span {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--verde-medio), var(--dorado));
+  transition: width .45s cubic-bezier(.2,.7,.2,1);
+}
+
+/* Avisos flotantes (toast) que "saltan" al desbloquear regalo/envio */
+#avisos-flotantes {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+  z-index: 200; display: flex; flex-direction: column; gap: 8px;
+  width: max-content; max-width: 92vw; pointer-events: none;
+}
+.toast-promo {
+  background: var(--verde-oscuro);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 999px;
+  box-shadow: var(--sombra-fuerte);
+  font-weight: 600; font-size: .9rem; text-align: center;
+  animation: toastIn .35s ease, toastOut .45s ease 3.4s forwards;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateY(-14px) scale(.94); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to { opacity: 0; transform: translateY(-14px) scale(.96); } }
