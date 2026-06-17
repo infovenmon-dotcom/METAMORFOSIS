@@ -51,6 +51,20 @@ function abrirFicha(handle) {
 
   const features = (p.features || []).map(f => `<li>${f}</li>`).join('');
 
+  const s = p.specs || {};
+  const specsRows = [
+    s.peso ? `<div class="ficha-spec"><span>Formato</span><span>${s.peso}</span></div>` : '',
+    s.natural ? `<div class="ficha-spec"><span>Naturalidad</span><span>${s.natural}</span></div>` : '',
+    s.cpnp ? `<div class="ficha-spec"><span>Registro CPNP</span><span>${s.cpnp}</span></div>` : '',
+    s.fabricacion ? `<div class="ficha-spec"><span>Fabricacion</span><span>${s.fabricacion}</span></div>` : '',
+  ].join('');
+  const specsBlock = (specsRows || s.inci) ? `
+      <div class="ficha-bloque">
+        <h4>📋 Especificaciones</h4>
+        ${specsRows}
+        ${s.inci ? `<div class="ficha-inci"><strong>Ingredientes (INCI):</strong> ${s.inci}</div>` : ''}
+      </div>` : '';
+
   cont.innerHTML = `
     <div class="ficha-img"><img src="${p.image}" alt="${p.title}"></div>
     <div class="ficha-info">
@@ -65,6 +79,7 @@ function abrirFicha(handle) {
       ${p.indicado ? `<div class="ficha-bloque"><h4>✨ Para que es bueno</h4><p>${p.indicado}</p></div>` : ''}
       ${p.modoUso ? `<div class="ficha-bloque"><h4>💧 Modo de uso</h4><p>${p.modoUso}</p></div>` : ''}
       ${features ? `<div class="ficha-bloque"><h4>🌿 Caracteristicas</h4><ul class="ficha-features">${features}</ul></div>` : ''}
+      ${specsBlock}
 
       <div class="ficha-acciones">
         <button class="btn btn-primario btn-bloque" onclick="Carrito.añadir('${p.handle}'); cerrarFicha(); abrirCarrito();">Anadir al carrito</button>

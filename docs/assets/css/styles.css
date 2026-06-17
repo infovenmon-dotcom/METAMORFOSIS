@@ -139,6 +139,10 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: .4em;
 }
+.logo-img { height: 50px; width: auto; display: block; }
+.hero-logo { width: 200px; max-width: 60%; height: auto; margin: 0 auto 18px; display: block; }
+.pie-logo { height: 86px; width: auto; margin: 0 auto 10px; display: block; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 .nav-tienda { display: flex; gap: 18px; font-weight: 500; font-size: .95rem; }
 .nav-tienda a:hover { color: var(--verde-oscuro); }
 
@@ -563,6 +567,10 @@ img { max-width: 100%; display: block; }
 .ficha-bloque p { margin: 0; font-size: .88rem; color: var(--texto-suave); }
 .ficha-features { margin: 6px 0 0; padding-left: 18px; font-size: .85rem; color: var(--texto-suave); }
 .ficha-features li { margin-bottom: 3px; }
+.ficha-spec { display: flex; justify-content: space-between; gap: 14px; font-size: .83rem; padding: 3px 0; border-bottom: 1px dashed var(--borde); }
+.ficha-spec span:first-child { color: var(--texto-suave); white-space: nowrap; }
+.ficha-spec span:last-child { text-align: right; font-weight: 500; }
+.ficha-inci { font-size: .78rem; color: var(--texto-suave); margin-top: 8px; line-height: 1.5; }
 
 .ficha-acciones { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
 .ficha-lema {

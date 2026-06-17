@@ -18,7 +18,7 @@ def inline_images(js):
         ext=rel.rsplit('.',1)[1].lower()
         b64=base64.b64encode(open(path,'rb').read()).decode()
         return 'data:%s;base64,%s'%(mime.get(ext,'application/octet-stream'),b64)
-    return re.sub(r'assets/img/products/[A-Za-z0-9\-_]+\.(?:svg|jpe?g|png|webp)', repl, js)
+    return re.sub(r'assets/img/(?:products/)?[A-Za-z0-9\-_]+\.(?:svg|jpe?g|png|webp)', repl, js)
 
 css=read('docs/assets/css/styles.css')
 js='\n'.join(read(f) for f in ['docs/assets/js/products.js','docs/assets/js/cart.js','docs/assets/js/app.js'])
@@ -34,6 +34,8 @@ def build(src_html, out_name, link_map):
              r'<script src="assets/js/cart\.js"></script>\s*'
              r'<script src="assets/js/app\.js"></script>',
              '\n<script>\n'+js+'\n</script>', h)
+    # inline images referenced directly in the HTML (e.g. logos)
+    h=inline_images(h)
     # rewrite internal links to the self-contained filenames
     for a,b in link_map.items():
         h=h.replace('href="%s"'%a,'href="%s"'%b)

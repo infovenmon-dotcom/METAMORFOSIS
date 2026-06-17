@@ -1,5 +1,6 @@
 import csv, re, json, os
 from content import CONTENT
+from specs import SPECS
 
 # Rutas relativas a la raiz del repositorio
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -81,6 +82,8 @@ with open(SRC, encoding='utf-8-sig') as f:
             'indicado': c.get('indicado', ''),
             'modoUso': c.get('modoUso', ''),
             'lema': c.get('lema', ''),
+            # Especificaciones reales (INCI, CPNP, peso...) cuando existen
+            'specs': SPECS.get(handle, {}),
         })
 
 # Aviso si falta contenido para algun producto
