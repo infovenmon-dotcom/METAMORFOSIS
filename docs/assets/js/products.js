@@ -704,7 +704,11 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-karite.jpg",
       "images": [
-        "assets/img/products/jabon-karite.jpg"
+        "assets/img/products/jabon-karite.jpg",
+        "assets/img/products/jabon-karite-2.jpg",
+        "assets/img/products/jabon-karite-3.jpg",
+        "assets/img/products/jabon-karite-4.jpg",
+        "assets/img/products/jabon-karite-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -816,7 +820,10 @@ window.SAVIA_DATA = {
       "image": "assets/img/products/jabon-argan.jpg",
       "images": [
         "assets/img/products/jabon-argan.jpg",
-        "assets/img/products/jabon-argan-2.jpg"
+        "assets/img/products/jabon-argan-2.jpg",
+        "assets/img/products/jabon-argan-3.jpg",
+        "assets/img/products/jabon-argan-4.jpg",
+        "assets/img/products/jabon-argan-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -890,7 +897,11 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-pepita-uva.jpg",
       "images": [
-        "assets/img/products/jabon-pepita-uva.jpg"
+        "assets/img/products/jabon-pepita-uva.jpg",
+        "assets/img/products/jabon-pepita-uva-2.jpg",
+        "assets/img/products/jabon-pepita-uva-3.jpg",
+        "assets/img/products/jabon-pepita-uva-4.jpg",
+        "assets/img/products/jabon-pepita-uva-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -964,7 +975,8 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-azufre.jpg",
       "images": [
-        "assets/img/products/jabon-azufre.jpg"
+        "assets/img/products/jabon-azufre.jpg",
+        "assets/img/products/jabon-azufre-2.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -1001,7 +1013,11 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-lavanda.jpg",
       "images": [
-        "assets/img/products/jabon-lavanda.jpg"
+        "assets/img/products/jabon-lavanda.jpg",
+        "assets/img/products/jabon-lavanda-2.jpg",
+        "assets/img/products/jabon-lavanda-3.jpg",
+        "assets/img/products/jabon-lavanda-4.jpg",
+        "assets/img/products/jabon-lavanda-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -1304,9 +1320,13 @@ window.SAVIA_DATA = {
       "collection": "acondicionadores",
       "collectionName": "Acondicionadores",
       "emoji": "🥥",
-      "image": "assets/img/products/acondicionador-coco.svg",
+      "image": "assets/img/products/acondicionador-coco.jpg",
       "images": [
-        "assets/img/products/acondicionador-coco.svg"
+        "assets/img/products/acondicionador-coco.jpg",
+        "assets/img/products/acondicionador-coco-2.jpg",
+        "assets/img/products/acondicionador-coco-3.jpg",
+        "assets/img/products/acondicionador-coco-4.jpg",
+        "assets/img/products/acondicionador-coco-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": true,
