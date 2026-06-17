@@ -1,6 +1,7 @@
 import csv, re, json, os
 from content import CONTENT
 from specs import SPECS
+from bullets import BULLETS
 
 # Rutas relativas a la raiz del repositorio
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +36,30 @@ best_handles = {
     'limpiador-facial-aloe-pepino','espuma-afeitar-avellana','champu-barba-carbon'
 }
 
+def find_images(handle):
+    """Lista de imagenes del producto: principal ({handle}) + extras
+    ({handle}-2, {handle}-3, ...). Si no hay foto real, usa la ilustracion SVG."""
+    base = os.path.join(ROOT, 'docs', 'assets', 'img', 'products')
+    def f(stem):
+        for ext in ('jpg', 'jpeg', 'png', 'webp'):
+            if os.path.exists(os.path.join(base, '%s.%s' % (stem, ext))):
+                return 'assets/img/products/%s.%s' % (stem, ext)
+        return None
+    imgs = []
+    main = f(handle)
+    if main:
+        imgs.append(main)
+    n = 2
+    while True:
+        extra = f('%s-%d' % (handle, n))
+        if not extra:
+            break
+        imgs.append(extra)
+        n += 1
+    if not imgs:
+        imgs = ['assets/img/products/%s.svg' % handle]
+    return imgs
+
 def parse_body(html):
     # short description = first <p>...</p>
     m = re.search(r'<p>(.*?)</p>', html, re.S)
@@ -56,12 +81,9 @@ with open(SRC, encoding='utf-8-sig') as f:
         short, feats = parse_body(row['Body (HTML)'])
         exclusive = any('exclusivo web' in t.lower() for t in tags) or 'exclusivo web' in row['Body (HTML)'].lower()
         c = CONTENT.get(handle, {})
-        # Usa una foto real si existe ({handle}.jpg/.jpeg/.png/.webp); si no, la ilustracion SVG.
-        img = 'assets/img/products/%s.svg' % handle
-        for ext in ('jpg', 'jpeg', 'png', 'webp'):
-            if os.path.exists(os.path.join(ROOT, 'docs', 'assets', 'img', 'products', '%s.%s' % (handle, ext))):
-                img = 'assets/img/products/%s.%s' % (handle, ext)
-                break
+        # Galeria: foto principal + extras ({handle}-2, -3...). Si no hay, SVG.
+        imgs = find_images(handle)
+        img = imgs[0]
         products.append({
             'handle': handle,
             'title': row['Title'].strip(),
@@ -75,6 +97,8 @@ with open(SRC, encoding='utf-8-sig') as f:
             'collectionName': coll_name,
             'emoji': EMOJI.get(coll_slug, '\U0001F33F'),
             'image': img,
+            'images': imgs,
+            'bullets': BULLETS.get(handle, []),
             'exclusiveWeb': exclusive,
             'bestSeller': handle in best_handles,
             # Contenido enriquecido (beneficios + modo de uso)

@@ -51,6 +51,23 @@ function abrirFicha(handle) {
 
   const features = (p.features || []).map(f => `<li>${f}</li>`).join('');
 
+  // Galeria de imagenes (principal + miniaturas)
+  const imgs = (p.images && p.images.length) ? p.images : [p.image];
+  const thumbs = imgs.length > 1
+    ? `<div class="ficha-thumbs">${imgs.map((src, i) =>
+        `<button class="ficha-thumb${i === 0 ? ' activo' : ''}" onclick="selFichaImg(this,'${src}')" aria-label="Imagen ${i + 1}"><img src="${src}" alt="" loading="lazy"></button>`).join('')}</div>`
+    : '';
+  const galeria = `<div class="ficha-galeria">
+      <div class="ficha-img"><img id="ficha-main-img" src="${imgs[0]}" alt="${p.title}"></div>
+      ${thumbs}
+    </div>`;
+
+  // Bullets tipo Amazon (puntos clave)
+  const bullets = (p.bullets || []).map(b => `<li>${b}</li>`).join('');
+  const bulletsBlock = bullets
+    ? `<ul class="ficha-bullets">${bullets}</ul>`
+    : '';
+
   const s = p.specs || {};
   const specsRows = [
     s.peso ? `<div class="ficha-spec"><span>Formato</span><span>${s.peso}</span></div>` : '',
@@ -67,7 +84,7 @@ function abrirFicha(handle) {
       </div>` : '';
 
   cont.innerHTML = `
-    <div class="ficha-img"><img src="${p.image}" alt="${p.title}"></div>
+    ${galeria}
     <div class="ficha-info">
       <div class="ficha-cabecera">
         <span class="ficha-coleccion">${p.collectionName}</span>
@@ -76,6 +93,7 @@ function abrirFicha(handle) {
       <h2>${p.title}</h2>
       <div class="card-precio" style="font-size:1.4rem">${eur(p.price)} <small>IVA incl.</small></div>
       <p class="ficha-desc">${p.descripcion || p.short}</p>
+      ${bulletsBlock}
 
       ${p.indicado ? `<div class="ficha-bloque"><h4>✨ Para que es bueno</h4><p>${p.indicado}</p></div>` : ''}
       ${p.modoUso ? `<div class="ficha-bloque"><h4>💧 Modo de uso</h4><p>${p.modoUso}</p></div>` : ''}
@@ -92,6 +110,15 @@ function abrirFicha(handle) {
   document.getElementById('ficha-overlay')?.classList.add('abierto');
   document.getElementById('panel-ficha')?.classList.add('abierto');
   document.body.style.overflow = 'hidden';
+}
+
+/* Cambia la imagen principal de la ficha al pulsar una miniatura. */
+function selFichaImg(btn, src) {
+  const main = document.getElementById('ficha-main-img');
+  if (main) main.src = src;
+  const cont = btn.parentNode;
+  cont.querySelectorAll('.ficha-thumb').forEach(t => t.classList.remove('activo'));
+  btn.classList.add('activo');
 }
 
 function cerrarFicha() {

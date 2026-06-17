@@ -71,6 +71,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-cafeina-canela.jpg",
+      "images": [
+        "assets/img/products/champu-cafeina-canela.jpg"
+      ],
+      "bullets": [
+        "EFECTO ANTICAIDA: la cafeina estimula el crecimiento y frena la fase de caida.",
+        "CANELA PURIFICANTE: limpia los folrculos y ayuda a un cuero cabelludo sano.",
+        "PELO MAS FUERTE Y DENSO: indicado para cabello debil o fino.",
+        "92,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": true,
       "descripcion": "La cafeina activa la microcirculacion capilar, estimula el crecimiento y refuerza la raiz previniendo la caida. La canela tonifica y revitaliza el cuero cabelludo.",
@@ -110,6 +120,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-indigo-lavanda.jpg",
+      "images": [
+        "assets/img/products/champu-indigo-lavanda.jpg"
+      ],
+      "bullets": [
+        "MATIZA CANAS Y PELO BLANCO: el indigo natural neutraliza los tonos amarillos.",
+        "ACEITE ESENCIAL DE LAVANDA: calma, fortalece el folrculo y aporta aroma natural.",
+        "BRILLO Y CUIDADO DEL COLOR: apto para uso diario sin resecar el cabello.",
+        "96,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El polvo de indigo neutraliza tonos amarillentos y reaviva el color, dejando un tono plateado o dorado mas puro. La lavanda calma el cuero cabelludo con una fragancia relajante.",
@@ -149,6 +169,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-cacao.jpg",
+      "images": [
+        "assets/img/products/champu-cacao.jpg"
+      ],
+      "bullets": [
+        "REPARACION PROFUNDA: para cabello seco, danado o tenido que necesita hidratacion extra.",
+        "MANTECA DE CACAO Y KARITE: aportan suavidad, brillo y flexibilidad como acondicionador.",
+        "AROMA A COOKIES: original y goloso, deja el pelo sedoso.",
+        "96,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El cacao aporta minerales y antioxidantes que revitalizan el cabello danado, mientras el karite hidrata y repara la fibra capilar de raiz a puntas.",
@@ -187,6 +217,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-betaina-sal.jpg",
+      "images": [
+        "assets/img/products/champu-betaina-sal.jpg"
+      ],
+      "bullets": [
+        "PARA CABELLO GRASO: betaina y sal marina regulan el exceso de grasa del cuero cabelludo.",
+        "SENSACION DE LIMPIO MAS DIAS: equilibra y permite espaciar los lavados.",
+        "AROMA POMELO: fresco y duradero, apto para uso diario.",
+        "96% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "Combina la pureza de la sal marina con la suavidad de la betaina vegetal para limpiar en profundidad sin resecar, eliminando impurezas y exceso de grasa.",
@@ -226,6 +266,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-te-matcha.jpg",
+      "images": [
+        "assets/img/products/champu-te-matcha.jpg"
+      ],
+      "bullets": [
+        "USO FRECUENTE PARA TODA LA FAMILIA: formula suave para cabello normal, ni seco ni graso.",
+        "ANTIOXIDANTE NATURAL: el te verde ayuda a proteger del envejecimiento y la agresion externa.",
+        "HIDRATA CON ACEITE DE COCO: limpia y cuida el cabello sin resecarlo.",
+        "94,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El te matcha, rico en polifenoles y clorofila, protege el cuero cabelludo de los radicales libres y regula el exceso de grasa, aportando pureza y frescor.",
@@ -265,6 +315,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-cebolla-arcilla.jpg",
+      "images": [
+        "assets/img/products/champu-cebolla-arcilla.jpg"
+      ],
+      "bullets": [
+        "EFECTO CRECIMIENTO: extracto de cebolla rico en azufre y quercetina que estimula el foliculo.",
+        "ANTICAIDA Y FORTALECEDOR: mejora la circulacion del cuero cabelludo y da fuerza al cabello.",
+        "ARCILLA ROJA PURIFICANTE: limpieza profunda del cuero cabelludo sin resecar.",
+        "98% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El extracto de cebolla roja activa la microcirculacion capilar y fortalece los foliculos, estimulando el crecimiento natural del cabello. La arcilla roja elimina impurezas y exceso de grasa sin resecar.",
@@ -304,6 +364,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-avena-almendra.jpg",
+      "images": [
+        "assets/img/products/champu-avena-almendra.jpg"
+      ],
+      "bullets": [
+        "PARA PELO RIZADO: define el rizo y le aporta movimiento y flexibilidad.",
+        "EXTRACTO DE AVENA: emoliente y suavizante natural, calma e hidrata.",
+        "ACEITE DE ALMENDRA: nutre, refuerza la fibra capilar y da brillo.",
+        "INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El extracto de avena nutre en profundidad y refuerza la estructura del rizo, aportando elasticidad y evitando el encrespamiento. El aceite de almendras dulces hidrata y protege sin apelmazar.",
@@ -343,6 +413,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-romero-quina.jpg",
+      "images": [
+        "assets/img/products/champu-romero-quina.jpg"
+      ],
+      "bullets": [
+        "VOLUMEN Y CUERPO: ideal para cabello fino, lacio y sin volumen.",
+        "ROMERO + QUINA (RONQUINA): tonico natural anticaida que densifica la fibra capilar.",
+        "REGULA LA GRASA: arcilla astringente que activa la circulacion del folculo.",
+        "98% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El romero estimula la circulacion capilar, fortalece los foliculos y previene la caida. La quina regenera la fibra capilar promoviendo un crecimiento sano y vigoroso.",
@@ -383,6 +463,16 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-cade-enebro.jpg",
+      "images": [
+        "assets/img/products/champu-cade-enebro.jpg"
+      ],
+      "bullets": [
+        "ALIVIA CASPA, PSORIASIS Y ECCEMAS: aceite de cade de enebro (brea) sobre cuero cabelludo sensible.",
+        "CALMA EL PICOR: propiedades antisepticas, antieccematicas y fungicidas.",
+        "DESCAMANTE NATURAL: ayuda a eliminar la caspa y a que no vuelva a formarse.",
+        "92,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
+        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite de cade de enebro calma el picor y regula el exceso de sebo. Sus propiedades antisepticas y antifungicas ayudan a combatir la caspa y la irritacion.",
@@ -423,6 +513,10 @@ window.SAVIA_DATA = {
       "collectionName": "Champus Solidos",
       "emoji": "🫧",
       "image": "assets/img/products/champu-barba-carbon.svg",
+      "images": [
+        "assets/img/products/champu-barba-carbon.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": true,
       "bestSeller": true,
       "descripcion": "El carbon activo realiza una limpieza detox profunda que neutraliza olores e impurezas, mientras el aceite de coco nutre y suaviza la barba.",
@@ -456,6 +550,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-cbd.svg",
+      "images": [
+        "assets/img/products/jabon-cbd.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El CBD es un calmante y antiinflamatorio natural que ayuda a reducir rojeces e irritaciones. Combinado con aceite de oliva, ofrece una hidratacion profunda y reconfortante.",
@@ -489,6 +587,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-naranja-canela.svg",
+      "images": [
+        "assets/img/products/jabon-naranja-canela.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "La naranja, energizante y antiseptica, se une a la canela para revitalizar la piel con un calido aroma citrico y especiado. El aceite de oliva aporta hidratacion profunda.",
@@ -522,6 +624,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-borraja.svg",
+      "images": [
+        "assets/img/products/jabon-borraja.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "La borraja, rica en acidos grasos esenciales, es un regenerador y antiinflamatorio natural que repara la piel. El aceite de oliva nutre e hidrata en profundidad.",
@@ -555,6 +661,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-karite.svg",
+      "images": [
+        "assets/img/products/jabon-karite.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "La manteca de karite es un tesoro ancestral para el cuidado de la piel. Rica en acidos grasos esenciales y vitaminas A, D, E y F, repara, nutre y fortalece la barrera cutanea, aportando elasticidad y confort inmediato.",
@@ -588,6 +698,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-arbol-te.jpg",
+      "images": [
+        "assets/img/products/jabon-arbol-te.jpg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite de arbol de te es conocido por sus propiedades antibacterianas y purificantes. Limpia en profundidad y equilibra el exceso de sebo.",
@@ -621,6 +735,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-rosa-mosqueta.svg",
+      "images": [
+        "assets/img/products/jabon-rosa-mosqueta.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": true,
       "descripcion": "La rosa mosqueta es un poderoso regenerador cutaneo, rica en acidos grasos esenciales y vitamina A. Estimula la renovacion celular y mejora la elasticidad de la piel, ayudando a reducir cicatrices, manchas y signos de la edad.",
@@ -654,6 +772,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-argan.jpg",
+      "images": [
+        "assets/img/products/jabon-argan.jpg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite de argan, rico en vitamina E y antioxidantes, nutre en profundidad y devuelve el brillo a la piel apagada. Combate la sequedad, la tirantez y los signos del envejecimiento.",
@@ -687,6 +809,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-monoi.svg",
+      "images": [
+        "assets/img/products/jabon-monoi.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite de Monoi, originario de Tahiti, combina aceite de coco y flor de tiare. Aporta suavidad, brillo y un aroma envolvente de verano eterno.",
@@ -720,6 +846,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-pepita-uva.svg",
+      "images": [
+        "assets/img/products/jabon-pepita-uva.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite y extracto de pepita de uva aportan resveratrol, un potente antioxidante natural que combate los radicales libres y rejuvenece la piel.",
@@ -753,6 +883,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-carbon-activo.jpg",
+      "images": [
+        "assets/img/products/jabon-carbon-activo.jpg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El carbon activo actua como un iman natural que absorbe toxinas, impurezas y exceso de grasa.",
@@ -786,6 +920,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-azufre.jpg",
+      "images": [
+        "assets/img/products/jabon-azufre.jpg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El azufre, mineral de la tierra, tiene propiedades antibacterianas, calmantes y purificantes. Ayuda a equilibrar el exceso de grasa y a aliviar irritaciones o impurezas.",
@@ -819,6 +957,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-lavanda.svg",
+      "images": [
+        "assets/img/products/jabon-lavanda.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "La lavanda calma la mente, relaja la piel y favorece un descanso reparador.",
@@ -852,6 +994,10 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
       "image": "assets/img/products/jabon-aguacate.svg",
+      "images": [
+        "assets/img/products/jabon-aguacate.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite de aguacate hidrata y regenera profundamente, aportando suavidad y elasticidad a la piel.",
@@ -885,6 +1031,10 @@ window.SAVIA_DATA = {
       "collectionName": "Depilacion",
       "emoji": "🌿",
       "image": "assets/img/products/espuma-depilacion-uva.svg",
+      "images": [
+        "assets/img/products/espuma-depilacion-uva.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": true,
       "bestSeller": false,
       "descripcion": "La pepita de uva, antioxidante y regeneradora, se une al aceite de coco y la manteca de karite para calmar e hidratar la piel tras la depilacion.",
@@ -918,6 +1068,10 @@ window.SAVIA_DATA = {
       "collectionName": "Depilacion",
       "emoji": "🌿",
       "image": "assets/img/products/espuma-depilacion-aloe.svg",
+      "images": [
+        "assets/img/products/espuma-depilacion-aloe.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": true,
       "bestSeller": false,
       "descripcion": "El aloe vera refresca y calma la piel, mientras el aceite de coco y la manteca de karite hidratan y protegen. Pensada para el cuidado tras la depilacion.",
@@ -951,6 +1105,10 @@ window.SAVIA_DATA = {
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
       "image": "assets/img/products/desodorante-te-verde.svg",
+      "images": [
+        "assets/img/products/desodorante-te-verde.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "Inspirado en la pureza del te verde, neutraliza el mal olor de forma natural sin bloquear los poros, permitiendo que la piel respire. Su formula cremosa hidrata y cuida.",
@@ -984,6 +1142,10 @@ window.SAVIA_DATA = {
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
       "image": "assets/img/products/desodorante-pomelo.svg",
+      "images": [
+        "assets/img/products/desodorante-pomelo.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El desodorante solido de pomelo aporta un frescor citrico, luminoso y estimulante. Su textura cremosa ofrece proteccion duradera sin obstruir los poros.",
@@ -1017,6 +1179,10 @@ window.SAVIA_DATA = {
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
       "image": "assets/img/products/desodorante-algodon.svg",
+      "images": [
+        "assets/img/products/desodorante-algodon.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": true,
       "descripcion": "El desodorante solido de algodon envuelve con una frescura delicada y un aroma empolvado y suave. Hidrata y protege sin irritar.",
@@ -1050,6 +1216,10 @@ window.SAVIA_DATA = {
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
       "image": "assets/img/products/desodorante-madera.svg",
+      "images": [
+        "assets/img/products/desodorante-madera.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El desodorante solido de madera concentra una esencia calida y amaderada. Con propiedades antioxidantes y purificantes, ofrece proteccion efectiva cuidando la piel.",
@@ -1084,6 +1254,10 @@ window.SAVIA_DATA = {
       "collectionName": "Acondicionadores",
       "emoji": "🥥",
       "image": "assets/img/products/acondicionador-coco.svg",
+      "images": [
+        "assets/img/products/acondicionador-coco.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": true,
       "bestSeller": false,
       "descripcion": "El aceite de coco nutre en profundidad y aporta brillo, el pantenol fortalece y la vitamina E protege como antioxidante natural. Desenreda y suaviza sin siliconas.",
@@ -1118,6 +1292,10 @@ window.SAVIA_DATA = {
       "collectionName": "Acondicionadores",
       "emoji": "🥥",
       "image": "assets/img/products/acondicionador-almendra.svg",
+      "images": [
+        "assets/img/products/acondicionador-almendra.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": true,
       "bestSeller": false,
       "descripcion": "El aceite de almendra define y nutre los rizos, la manteca de karite protege y repara, y la provitamina B5 hidrata y fortalece. Controla el frizz sin apelmazar.",
@@ -1151,6 +1329,10 @@ window.SAVIA_DATA = {
       "collectionName": "Limpiadores Faciales",
       "emoji": "✨",
       "image": "assets/img/products/limpiador-facial-rosa-mosqueta.svg",
+      "images": [
+        "assets/img/products/limpiador-facial-rosa-mosqueta.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "La rosa mosqueta regenera y unifica el tono, aportando luminosidad. Limpia en profundidad sin resecar, respetando la piel.",
@@ -1184,6 +1366,10 @@ window.SAVIA_DATA = {
       "collectionName": "Limpiadores Faciales",
       "emoji": "✨",
       "image": "assets/img/products/limpiador-facial-aloe-pepino.svg",
+      "images": [
+        "assets/img/products/limpiador-facial-aloe-pepino.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": true,
       "descripcion": "El aloe vera hidrata y calma, mientras el pepino refresca y equilibra. Una limpieza facial suave que deja la piel fresca y confortable.",
@@ -1216,6 +1402,10 @@ window.SAVIA_DATA = {
       "collectionName": "Afeitado",
       "emoji": "🪒",
       "image": "assets/img/products/espuma-afeitar-avellana.svg",
+      "images": [
+        "assets/img/products/espuma-afeitar-avellana.svg"
+      ],
+      "bullets": [],
       "exclusiveWeb": false,
       "bestSeller": true,
       "descripcion": "El aceite de avellana nutre y suaviza la piel mientras genera una espuma cremosa de larga duracion que facilita un apurado sin irritacion. Sin SLS ni SCI.",

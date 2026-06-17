@@ -689,3 +689,46 @@ h1, h2, h3 { letter-spacing: -.01em; }
 }
 @keyframes toastIn { from { opacity: 0; transform: translateY(-14px) scale(.94); } to { opacity: 1; transform: none; } }
 @keyframes toastOut { to { opacity: 0; transform: translateY(-14px) scale(.96); } }
+
+/* ===========================================================================
+   FICHA: galeria de imagenes (miniaturas) + bullets tipo Amazon
+   =========================================================================== */
+.ficha-thumbs {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: 10px;
+}
+.ficha-thumb {
+  width: 60px; height: 60px;
+  padding: 0; border: 2px solid var(--borde);
+  border-radius: 10px; overflow: hidden; cursor: pointer;
+  background: var(--ivory); transition: border-color .15s ease, transform .15s ease;
+}
+.ficha-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.ficha-thumb:hover { transform: translateY(-2px); }
+.ficha-thumb.activo { border-color: var(--verde-oscuro); }
+
+.ficha-bullets {
+  list-style: none;
+  margin: 4px 0 18px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ficha-bullets li {
+  position: relative;
+  padding-left: 26px;
+  font-size: .9rem;
+  line-height: 1.45;
+  color: var(--texto);
+}
+.ficha-bullets li::before {
+  content: "✓";
+  position: absolute; left: 0; top: 0;
+  width: 18px; height: 18px;
+  display: grid; place-items: center;
+  background: var(--verde-claro);
+  color: var(--verde-oscuro);
+  border-radius: 50%;
+  font-size: .72rem; font-weight: 700;
+  margin-top: 1px;
+}
