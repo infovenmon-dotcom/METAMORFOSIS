@@ -102,7 +102,7 @@ const Carrito = {
     // Avisos tipo Temu al cruzar un umbral (solo tras una interaccion, no al cargar)
     if (this._prev) {
       if (c.gratisCount > this._prev.gratisCount) {
-        mostrarAvisoFlotante('🎁 ¡Promo 3x2 desbloqueada! Tu 3er producto es de regalo.');
+        mostrarAvisoFlotante('🎁 ¡Tienes 1 producto de REGALO! (por cada 3, el de menor valor gratis)');
         abrirCarrito();
       }
       if (c.envioGratis && !this._prev.envioGratis) {
@@ -187,13 +187,13 @@ function renderPanelCarrito(c) {
   const pgRegalo = Math.round((c.progresoGrupo / c.grupoGratis) * 100);
   let regalo;
   if (falta === 0) {
-    regalo = `<div class="aviso-regalo conseguido">🎉 ¡Promo <strong>3x2</strong> aplicada! Te llevas <strong>${c.gratisCount} producto${c.gratisCount > 1 ? 's' : ''} de regalo</strong>. Añade <strong>${c.grupoGratis}</strong> más y consigue otro.
+    regalo = `<div class="aviso-regalo conseguido">🎉 ¡Llevas <strong>${c.gratisCount} producto${c.gratisCount > 1 ? 's' : ''} de regalo</strong>! Añade <strong>${c.grupoGratis}</strong> más y consigue otro.
       <div class="barra-regalo"><span style="width:100%"></span></div></div>`;
   } else if (falta === 1) {
-    regalo = `<div class="aviso-regalo cerca">🎁 ¡Solo <strong>1 producto más</strong> y tu <strong>3º es de regalo</strong>! (promo 3x2)
+    regalo = `<div class="aviso-regalo cerca">🎁 ¡Solo <strong>1 producto más</strong> y tienes <strong>1 de regalo</strong>!
       <div class="barra-regalo"><span style="width:${pgRegalo}%"></span></div></div>`;
   } else {
-    regalo = `<div class="aviso-regalo">🎁 <strong>Promo 3x2:</strong> añade <strong>${falta} productos</strong> y llévate uno <strong>de regalo</strong>.
+    regalo = `<div class="aviso-regalo">🎁 Añade <strong>${falta} productos</strong> y consigue <strong>1 de regalo</strong> (por cada 3, 1 gratis).
       <div class="barra-regalo"><span style="width:${pgRegalo}%"></span></div></div>`;
   }
 
@@ -210,11 +210,11 @@ function renderPanelCarrito(c) {
     ${envioAviso}
     <div class="barra-envio"><span style="width:${pct}%"></span></div>
     <div class="fila-resumen"><span>Subtotal (${c.unidades} art.)</span><span>${eur(c.subtotal)}</span></div>
-    ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Promo 3x2 (${c.gratisCount} de regalo)</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
+    ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
     <div class="fila-resumen"><span>Envío</span><span>${c.envioGratis ? 'GRATIS' : eur(c.envio)}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${eur(c.total)}</span></div>
-    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Precios con IVA (21%) incluido · Envío peninsular ${eur(ENVIO_PENINSULA)}.</p>
-    <a class="btn btn-primario btn-bloque" href="#" onclick="alert('En la tienda Shopify real este boton abre el checkout. La promo 3x2 (llevas 3, pagas 2) y el envio gratis se aplican automaticamente.');return false;">Finalizar compra</a>
+    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 3 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío peninsular ${eur(ENVIO_PENINSULA)}.</p>
+    <a class="btn btn-primario btn-bloque" href="#" onclick="alert('En la tienda Shopify real este boton abre el checkout. La promo (por cada 3 productos, 1 gratis) y el envio gratis se aplican automaticamente.');return false;">Finalizar compra</a>
     <button class="btn btn-secundario btn-bloque" style="margin-top:8px" onclick="cerrarCarrito()">← Seguir comprando</button>
   `;
 }
