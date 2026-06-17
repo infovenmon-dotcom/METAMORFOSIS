@@ -13,9 +13,15 @@ COLLECTIONS = {
     'Jabones': ('Jabones Artesanales', 'jabones'),
     'Desodorantes': ('Desodorantes Solidos', 'desodorantes'),
     'Limpiadores Faciales': ('Limpiadores Faciales', 'faciales'),
-    'Afeitado': ('Afeitado', 'afeitado'),
+    'Afeitado': ('Afeitado y Barba', 'afeitado'),
     'Depilacion': ('Depilacion', 'depilacion'),
     'Acondicionadores': ('Acondicionadores', 'acondicionadores'),
+    'Accesorios': ('Accesorios', 'accesorios'),
+}
+
+# Reubicacion de productos en otra coleccion (handle -> (nombre, slug))
+COLLECTION_OVERRIDE = {
+    'champu-barba-carbon': ('Afeitado y Barba', 'afeitado'),
 }
 
 AMAZON_STORE = 'https://www.amazon.es/stores/SaviadeAlma/page/6AD3705D-E19B-4150-A0FB-7BB7F057E0DE'
@@ -29,6 +35,7 @@ EMOJI = {
     'afeitado': '\U0001FA92',     # razor
     'depilacion': '\U0001F33F',
     'acondicionadores': '\U0001F965', # coconut
+    'accesorios': '\U0001F9FA',   # basket
 }
 
 best_handles = {
@@ -77,6 +84,8 @@ with open(SRC, encoding='utf-8-sig') as f:
         handle = row['Handle'].strip()
         ptype = row['Type'].strip()
         coll_name, coll_slug = COLLECTIONS.get(ptype, (ptype, ptype.lower()))
+        if handle in COLLECTION_OVERRIDE:
+            coll_name, coll_slug = COLLECTION_OVERRIDE[handle]
         tags = [t.strip() for t in row['Tags'].split(',')]
         short, feats = parse_body(row['Body (HTML)'])
         exclusive = any('exclusivo web' in t.lower() for t in tags) or 'exclusivo web' in row['Body (HTML)'].lower()
@@ -110,13 +119,51 @@ with open(SRC, encoding='utf-8-sig') as f:
             'specs': SPECS.get(handle, {}),
         })
 
+# --- Accesorios (exclusivos web, no estan en el CSV de Shopify) ---
+EXTRA_PRODUCTS = [
+    {
+        'handle': 'jabonera-bambu', 'title': 'Jabonera de Bambú', 'price': 3.99,
+        'short': 'Base de bambú natural que mantiene tu pastilla seca entre usos y la hace durar mucho más.',
+        'features': ['Bambú 100% natural y sostenible', 'Drena el agua: tu pastilla dura más', 'Ligera y antideslizante', 'Para champús y jabones sólidos'],
+        'bullets': [
+            'BAMBÚ NATURAL Y SOSTENIBLE: material renovable, biodegradable y resistente.',
+            'TU PASTILLA DURA MÁS: drena el agua y evita que se reblandezca entre usos.',
+            'LIGERA Y BONITA: perfecta para casa o para llevar de viaje.',
+            'COMPLEMENTO IDEAL: para tus champús y jabones sólidos Savia de Alma.',
+        ],
+    },
+    {
+        'handle': 'esponja-exfoliante', 'title': 'Esponja Exfoliante Natural', 'price': 2.99,
+        'short': 'Esponja vegetal para exfoliar suavemente la piel y activar la circulación en la ducha.',
+        'features': ['Fibra vegetal biodegradable', 'Exfoliación suave y natural', 'Activa la circulación', 'Ideal con tus jabones sólidos'],
+        'bullets': [
+            'EXFOLIACIÓN SUAVE: retira células muertas y deja la piel suave y luminosa.',
+            '100% VEGETAL Y BIODEGRADABLE: sin plásticos, zero waste.',
+            'ACTIVA LA CIRCULACIÓN: un masaje natural en cada ducha.',
+            'MÁS ESPUMA: aprovecha al máximo tus jabones sólidos.',
+        ],
+    },
+]
+for ex in EXTRA_PRODUCTS:
+    imgs = find_images(ex['handle'])
+    products.append({
+        'handle': ex['handle'], 'title': ex['title'], 'short': ex['short'],
+        'features': ex['features'], 'tags': ['accesorio', 'exclusivo web'],
+        'price': ex['price'], 'sku': '', 'type': 'Accesorios',
+        'collection': 'accesorios', 'collectionName': 'Accesorios',
+        'emoji': EMOJI['accesorios'], 'image': imgs[0], 'images': imgs,
+        'bullets': ex['bullets'], 'exclusiveWeb': True, 'bestSeller': False,
+        'descripcion': ex['short'], 'indicado': '', 'modoUso': '', 'lema': '',
+        'specs': {},
+    })
+
 # Aviso si falta contenido para algun producto
-faltan = [p['handle'] for p in products if p['handle'] not in CONTENT]
+faltan = [p['handle'] for p in products if p['handle'] not in CONTENT and p['type'] != 'Accesorios']
 if faltan:
     print('AVISO: sin contenido enriquecido para:', faltan)
 
 # Order collections as in the prompt
-coll_order = ['champus','jabones','desodorantes','faciales','afeitado','depilacion','acondicionadores']
+coll_order = ['champus','jabones','desodorantes','faciales','afeitado','depilacion','acondicionadores','accesorios']
 collections = []
 for slug in coll_order:
     items = [p for p in products if p['collection']==slug]

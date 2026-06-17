@@ -5,7 +5,7 @@ window.SAVIA_DATA = {
     {
       "slug": "champus",
       "name": "Champus Solidos",
-      "count": 10,
+      "count": 9,
       "exclusiveWeb": false
     },
     {
@@ -28,8 +28,8 @@ window.SAVIA_DATA = {
     },
     {
       "slug": "afeitado",
-      "name": "Afeitado",
-      "count": 1,
+      "name": "Afeitado y Barba",
+      "count": 2,
       "exclusiveWeb": false
     },
     {
@@ -41,6 +41,12 @@ window.SAVIA_DATA = {
     {
       "slug": "acondicionadores",
       "name": "Acondicionadores",
+      "count": 2,
+      "exclusiveWeb": true
+    },
+    {
+      "slug": "accesorios",
+      "name": "Accesorios",
       "count": 2,
       "exclusiveWeb": true
     }
@@ -545,9 +551,9 @@ window.SAVIA_DATA = {
       "price": 10.99,
       "sku": "SDA-CH-BARBA",
       "type": "Champu",
-      "collection": "champus",
-      "collectionName": "Champus Solidos",
-      "emoji": "🫧",
+      "collection": "afeitado",
+      "collectionName": "Afeitado y Barba",
+      "emoji": "🪒",
       "image": "assets/img/products/champu-barba-carbon.svg",
       "images": [
         "assets/img/products/champu-barba-carbon.svg"
@@ -1435,7 +1441,7 @@ window.SAVIA_DATA = {
       "sku": "SDA-AFEITAR-SOLID",
       "type": "Afeitado",
       "collection": "afeitado",
-      "collectionName": "Afeitado",
+      "collectionName": "Afeitado y Barba",
       "emoji": "🪒",
       "image": "assets/img/products/espuma-afeitar-avellana.svg",
       "images": [
@@ -1448,6 +1454,82 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para un afeitado apurado y comodo, tambien en pieles sensibles. Uso diario.",
       "modoUso": "Frota la pastilla sobre la zona humeda hasta generar espuma (o emulsionala con brocha). Afeitate y aclara. Conserva en seco entre usos.",
       "lema": "Un afeitado cremoso, sin plastico y sin irritacion.",
+      "specs": {}
+    },
+    {
+      "handle": "jabonera-bambu",
+      "title": "Jabonera de Bambú",
+      "short": "Base de bambú natural que mantiene tu pastilla seca entre usos y la hace durar mucho más.",
+      "features": [
+        "Bambú 100% natural y sostenible",
+        "Drena el agua: tu pastilla dura más",
+        "Ligera y antideslizante",
+        "Para champús y jabones sólidos"
+      ],
+      "tags": [
+        "accesorio",
+        "exclusivo web"
+      ],
+      "price": 3.99,
+      "sku": "",
+      "type": "Accesorios",
+      "collection": "accesorios",
+      "collectionName": "Accesorios",
+      "emoji": "🧺",
+      "image": "assets/img/products/jabonera-bambu.svg",
+      "images": [
+        "assets/img/products/jabonera-bambu.svg"
+      ],
+      "bullets": [
+        "BAMBÚ NATURAL Y SOSTENIBLE: material renovable, biodegradable y resistente.",
+        "TU PASTILLA DURA MÁS: drena el agua y evita que se reblandezca entre usos.",
+        "LIGERA Y BONITA: perfecta para casa o para llevar de viaje.",
+        "COMPLEMENTO IDEAL: para tus champús y jabones sólidos Savia de Alma."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "descripcion": "Base de bambú natural que mantiene tu pastilla seca entre usos y la hace durar mucho más.",
+      "indicado": "",
+      "modoUso": "",
+      "lema": "",
+      "specs": {}
+    },
+    {
+      "handle": "esponja-exfoliante",
+      "title": "Esponja Exfoliante Natural",
+      "short": "Esponja vegetal para exfoliar suavemente la piel y activar la circulación en la ducha.",
+      "features": [
+        "Fibra vegetal biodegradable",
+        "Exfoliación suave y natural",
+        "Activa la circulación",
+        "Ideal con tus jabones sólidos"
+      ],
+      "tags": [
+        "accesorio",
+        "exclusivo web"
+      ],
+      "price": 2.99,
+      "sku": "",
+      "type": "Accesorios",
+      "collection": "accesorios",
+      "collectionName": "Accesorios",
+      "emoji": "🧺",
+      "image": "assets/img/products/esponja-exfoliante.svg",
+      "images": [
+        "assets/img/products/esponja-exfoliante.svg"
+      ],
+      "bullets": [
+        "EXFOLIACIÓN SUAVE: retira células muertas y deja la piel suave y luminosa.",
+        "100% VEGETAL Y BIODEGRADABLE: sin plásticos, zero waste.",
+        "ACTIVA LA CIRCULACIÓN: un masaje natural en cada ducha.",
+        "MÁS ESPUMA: aprovecha al máximo tus jabones sólidos."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "descripcion": "Esponja vegetal para exfoliar suavemente la piel y activar la circulación en la ducha.",
+      "indicado": "",
+      "modoUso": "",
+      "lema": "",
       "specs": {}
     }
   ]

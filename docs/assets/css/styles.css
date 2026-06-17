@@ -782,3 +782,44 @@ h1, h2, h3 { letter-spacing: -.01em; }
   font-size: 1.18rem;
   color: var(--negro);
 }
+
+/* ===========================================================================
+   LANDING: hero mejorado + regalo de bienvenida
+   =========================================================================== */
+.hero .hero-tagline {
+  font-family: var(--fuente-titulo);
+  font-size: 1.95rem; line-height: 1.12;
+  margin: 6px auto 10px; color: #fff; max-width: none;
+}
+.hero .hero-sub { font-size: .98rem; opacity: .95; max-width: 360px; margin: 0 auto 20px; }
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 8px 14px; justify-content: center;
+  margin-top: 22px; font-size: .8rem; opacity: .96;
+}
+.hero-badges span { white-space: nowrap; }
+
+.regalo-bienvenida {
+  display: flex; align-items: center; gap: 14px;
+  margin: 18px; padding: 15px 18px;
+  background: linear-gradient(100deg, #fff7e6, #fdedc2);
+  border: 1px solid var(--dorado-claro);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+.regalo-bienvenida .regalo-ico { font-size: 2.1rem; line-height: 1; }
+.regalo-bienvenida .regalo-texto { flex: 1; }
+.regalo-bienvenida h3 { font-size: 1.05rem; margin: 0 0 3px; color: #6b5113; }
+.regalo-bienvenida p { font-size: .82rem; margin: 0; color: #6b5113; line-height: 1.42; }
+.regalo-bienvenida .btn { flex-shrink: 0; }
+
+/* Aviso de regalo de bienvenida en el carrito */
+.aviso-bienvenida {
+  background: linear-gradient(100deg, #fff7e6, #fdedc2);
+  border: 1px solid var(--dorado-claro);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: .8rem;
+  color: #6b5113;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}

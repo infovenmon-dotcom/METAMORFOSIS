@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Esponja Exfoliante Natural">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F2EC"/><stop offset="1" stop-color="#D6F0E8"/>
+    </linearGradient>
+    <radialGradient id="esp" cx="0.4" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#E8C98F"/><stop offset="1" stop-color="#C9A45F"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="24" letter-spacing="2" fill="#1D6B50">SAVIA DE ALMA</text>
+  <text x="300" y="120" text-anchor="middle" font-size="34">🧽</text>
+  <ellipse cx="300" cy="250" rx="120" ry="95" fill="url(#esp)"/>
+  <circle cx="260" cy="225" r="12" fill="#ffffff" opacity="0.35"/>
+  <circle cx="320" cy="250" r="16" fill="#ffffff" opacity="0.3"/>
+  <circle cx="290" cy="285" r="10" fill="#ffffff" opacity="0.35"/>
+  <circle cx="345" cy="215" r="9" fill="#ffffff" opacity="0.3"/>
+  <text text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="26" fill="#1A1A1A" y="410"><tspan x="300" dy="0">Esponja</tspan><tspan x="300" dy="30">Exfoliante</tspan></text>
+  <text x="300" y="540" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" fill="#5a5a52">Fibra vegetal natural</text>
+</svg>

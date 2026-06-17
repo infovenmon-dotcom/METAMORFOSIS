@@ -208,6 +208,7 @@ function renderPanelCarrito(c) {
   resumen.innerHTML = `
     ${regalo}
     ${envioAviso}
+    <div class="aviso-bienvenida">🎁 ¿Tu primer pedido? Te regalamos <strong>jabonera de bambú + esponja exfoliante</strong>.</div>
     <div class="barra-envio"><span style="width:${pct}%"></span></div>
     <div class="fila-resumen"><span>Subtotal (${c.unidades} art.)</span><span>${eur(c.subtotal)}</span></div>
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}

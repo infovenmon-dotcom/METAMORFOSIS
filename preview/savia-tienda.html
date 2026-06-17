@@ -794,6 +794,47 @@ h1, h2, h3 { letter-spacing: -.01em; }
   color: var(--negro);
 }
 
+/* ===========================================================================
+   LANDING: hero mejorado + regalo de bienvenida
+   =========================================================================== */
+.hero .hero-tagline {
+  font-family: var(--fuente-titulo);
+  font-size: 1.95rem; line-height: 1.12;
+  margin: 6px auto 10px; color: #fff; max-width: none;
+}
+.hero .hero-sub { font-size: .98rem; opacity: .95; max-width: 360px; margin: 0 auto 20px; }
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 8px 14px; justify-content: center;
+  margin-top: 22px; font-size: .8rem; opacity: .96;
+}
+.hero-badges span { white-space: nowrap; }
+
+.regalo-bienvenida {
+  display: flex; align-items: center; gap: 14px;
+  margin: 18px; padding: 15px 18px;
+  background: linear-gradient(100deg, #fff7e6, #fdedc2);
+  border: 1px solid var(--dorado-claro);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+.regalo-bienvenida .regalo-ico { font-size: 2.1rem; line-height: 1; }
+.regalo-bienvenida .regalo-texto { flex: 1; }
+.regalo-bienvenida h3 { font-size: 1.05rem; margin: 0 0 3px; color: #6b5113; }
+.regalo-bienvenida p { font-size: .82rem; margin: 0; color: #6b5113; line-height: 1.42; }
+.regalo-bienvenida .btn { flex-shrink: 0; }
+
+/* Aviso de regalo de bienvenida en el carrito */
+.aviso-bienvenida {
+  background: linear-gradient(100deg, #fff7e6, #fdedc2);
+  border: 1px solid var(--dorado-claro);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: .8rem;
+  color: #6b5113;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
 </style>
 </head>
 <body>
@@ -874,7 +915,7 @@ window.SAVIA_DATA = {
     {
       "slug": "champus",
       "name": "Champus Solidos",
-      "count": 10,
+      "count": 9,
       "exclusiveWeb": false
     },
     {
@@ -897,8 +938,8 @@ window.SAVIA_DATA = {
     },
     {
       "slug": "afeitado",
-      "name": "Afeitado",
-      "count": 1,
+      "name": "Afeitado y Barba",
+      "count": 2,
       "exclusiveWeb": false
     },
     {
@@ -910,6 +951,12 @@ window.SAVIA_DATA = {
     {
       "slug": "acondicionadores",
       "name": "Acondicionadores",
+      "count": 2,
+      "exclusiveWeb": true
+    },
+    {
+      "slug": "accesorios",
+      "name": "Accesorios",
       "count": 2,
       "exclusiveWeb": true
     }
@@ -1414,9 +1461,9 @@ window.SAVIA_DATA = {
       "price": 10.99,
       "sku": "SDA-CH-BARBA",
       "type": "Champu",
-      "collection": "champus",
-      "collectionName": "Champus Solidos",
-      "emoji": "🫧",
+      "collection": "afeitado",
+      "collectionName": "Afeitado y Barba",
+      "emoji": "🪒",
       "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkNoYW1wdSBTb2xpZG8gcGFyYSBCYXJiYSAtIENhcmJvbiBBY3Rpdm8iPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0YyRUMiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNENkYwRTgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSIwLjQiIGN5PSIwLjM1IiByPSIwLjgiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMzYTNhM2EiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyZDJkMmQiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCAnUGxheWZhaXIgRGlzcGxheScsIHNlcmlmIiBmb250LXNpemU9IjI0IiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iIzFENkI1MCI+U0FWSUEgREUgQUxNQTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjExOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzNCI+8J+rpzwvdGV4dD4KICA8ZWxsaXBzZSBjeD0iMzAwIiBjeT0iMjYyIiByeD0iMTUwIiByeT0iNDAiIGZpbGw9IiMyZDJkMmQiIG9wYWNpdHk9IjAuMTgiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIyNTAiIHI9IjEyMCIgZmlsbD0idXJsKCNnKSIvPjxlbGxpcHNlIGN4PSIyNjIiIGN5PSIyMTIiIHJ4PSI0MiIgcnk9IjI2IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjE4Ii8+CiAgPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsICdQbGF5ZmFpciBEaXNwbGF5Jywgc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZpbGw9IiMxQTFBMUEiIHk9IjM5OCI+PHRzcGFuIHg9IjMwMCIgZHk9IjAiPkNoYW1wdSBTb2xpZG8gcGFyYTwvdHNwYW4+PHRzcGFuIHg9IjMwMCIgZHk9IjMwIj5CYXJiYSAtIENhcmJvbjwvdHNwYW4+PHRzcGFuIHg9IjMwMCIgZHk9IjMwIj5BY3Rpdm88L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjU0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IidETSBTYW5zJywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzVhNWE1MiI+Q29zbWV0aWNhIHNvbGlkYSBuYXR1cmFsPC90ZXh0Pgo8L3N2Zz4K",
       "images": [
         "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkNoYW1wdSBTb2xpZG8gcGFyYSBCYXJiYSAtIENhcmJvbiBBY3Rpdm8iPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0YyRUMiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNENkYwRTgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSIwLjQiIGN5PSIwLjM1IiByPSIwLjgiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMzYTNhM2EiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyZDJkMmQiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCAnUGxheWZhaXIgRGlzcGxheScsIHNlcmlmIiBmb250LXNpemU9IjI0IiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iIzFENkI1MCI+U0FWSUEgREUgQUxNQTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjExOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzNCI+8J+rpzwvdGV4dD4KICA8ZWxsaXBzZSBjeD0iMzAwIiBjeT0iMjYyIiByeD0iMTUwIiByeT0iNDAiIGZpbGw9IiMyZDJkMmQiIG9wYWNpdHk9IjAuMTgiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIyNTAiIHI9IjEyMCIgZmlsbD0idXJsKCNnKSIvPjxlbGxpcHNlIGN4PSIyNjIiIGN5PSIyMTIiIHJ4PSI0MiIgcnk9IjI2IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjE4Ii8+CiAgPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsICdQbGF5ZmFpciBEaXNwbGF5Jywgc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZpbGw9IiMxQTFBMUEiIHk9IjM5OCI+PHRzcGFuIHg9IjMwMCIgZHk9IjAiPkNoYW1wdSBTb2xpZG8gcGFyYTwvdHNwYW4+PHRzcGFuIHg9IjMwMCIgZHk9IjMwIj5CYXJiYSAtIENhcmJvbjwvdHNwYW4+PHRzcGFuIHg9IjMwMCIgZHk9IjMwIj5BY3Rpdm88L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjU0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IidETSBTYW5zJywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzVhNWE1MiI+Q29zbWV0aWNhIHNvbGlkYSBuYXR1cmFsPC90ZXh0Pgo8L3N2Zz4K"
@@ -2304,7 +2351,7 @@ window.SAVIA_DATA = {
       "sku": "SDA-AFEITAR-SOLID",
       "type": "Afeitado",
       "collection": "afeitado",
-      "collectionName": "Afeitado",
+      "collectionName": "Afeitado y Barba",
       "emoji": "🪒",
       "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkVzcHVtYSBkZSBBZmVpdGFyIFNvbGlkYSBBY2VpdGUgZGUgQXZlbGxhbmEiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0YyRUMiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNENkYwRTgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSIwLjQiIGN5PSIwLjM1IiByPSIwLjgiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNiOThhNWUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM5MDZiNDkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCAnUGxheWZhaXIgRGlzcGxheScsIHNlcmlmIiBmb250LXNpemU9IjI0IiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iIzFENkI1MCI+U0FWSUEgREUgQUxNQTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjExOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzNCI+8J+qkjwvdGV4dD4KICA8ZWxsaXBzZSBjeD0iMzAwIiBjeT0iMjYyIiByeD0iMTUwIiByeT0iNDAiIGZpbGw9IiM5MDZiNDkiIG9wYWNpdHk9IjAuMTgiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIyNTAiIHI9IjEyMCIgZmlsbD0idXJsKCNnKSIvPjxlbGxpcHNlIGN4PSIyNjIiIGN5PSIyMTIiIHJ4PSI0MiIgcnk9IjI2IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjE4Ii8+CiAgPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsICdQbGF5ZmFpciBEaXNwbGF5Jywgc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZpbGw9IiMxQTFBMUEiIHk9IjM5OCI+PHRzcGFuIHg9IjMwMCIgZHk9IjAiPkVzcHVtYSBkZSBBZmVpdGFyPC90c3Bhbj48dHNwYW4geD0iMzAwIiBkeT0iMzAiPlNvbGlkYSBBY2VpdGUgZGU8L3RzcGFuPjx0c3BhbiB4PSIzMDAiIGR5PSIzMCI+QXZlbGxhbmE8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjU0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IidETSBTYW5zJywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzVhNWE1MiI+Q29zbWV0aWNhIHNvbGlkYSBuYXR1cmFsPC90ZXh0Pgo8L3N2Zz4K",
       "images": [
@@ -2317,6 +2364,82 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para un afeitado apurado y comodo, tambien en pieles sensibles. Uso diario.",
       "modoUso": "Frota la pastilla sobre la zona humeda hasta generar espuma (o emulsionala con brocha). Afeitate y aclara. Conserva en seco entre usos.",
       "lema": "Un afeitado cremoso, sin plastico y sin irritacion.",
+      "specs": {}
+    },
+    {
+      "handle": "jabonera-bambu",
+      "title": "Jabonera de Bambú",
+      "short": "Base de bambú natural que mantiene tu pastilla seca entre usos y la hace durar mucho más.",
+      "features": [
+        "Bambú 100% natural y sostenible",
+        "Drena el agua: tu pastilla dura más",
+        "Ligera y antideslizante",
+        "Para champús y jabones sólidos"
+      ],
+      "tags": [
+        "accesorio",
+        "exclusivo web"
+      ],
+      "price": 3.99,
+      "sku": "",
+      "type": "Accesorios",
+      "collection": "accesorios",
+      "collectionName": "Accesorios",
+      "emoji": "🧺",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkphYm9uZXJhIGRlIEJhbWJ1Ij4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRjdGMkVDIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRUZFNkQ1Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiYW1idSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNEOEI4NzgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNCODk0NTE5MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9InVybCgjYmcpIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsICdQbGF5ZmFpciBEaXNwbGF5Jywgc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjMUQ2QjUwIj5TQVZJQSBERSBBTE1BPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMTIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjM0Ij7wn6e8PC90ZXh0PgogIDxyZWN0IHg9IjE1MCIgeT0iMzAwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjcwIiByeD0iMTYiIGZpbGw9IiNDMkEzNkIiLz4KICA8cmVjdCB4PSIxNTAiIHk9IjMwMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI3MCIgcng9IjE2IiBmaWxsPSJ1cmwoI2JhbWJ1KSIvPgogIDxsaW5lIHgxPSIyMTAiIHkxPSIzMDUiIHgyPSIyMTAiIHkyPSIzNjUiIHN0cm9rZT0iIzljN2M0NiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjUiLz4KICA8bGluZSB4MT0iMjcwIiB5MT0iMzA1IiB4Mj0iMjcwIiB5Mj0iMzY1IiBzdHJva2U9IiM5YzdjNDYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC41Ii8+CiAgPGxpbmUgeDE9IjMzMCIgeTE9IjMwNSIgeDI9IjMzMCIgeTI9IjM2NSIgc3Ryb2tlPSIjOWM3YzQ2IiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNSIvPgogIDxsaW5lIHgxPSIzOTAiIHkxPSIzMDUiIHgyPSIzOTAiIHkyPSIzNjUiIHN0cm9rZT0iIzljN2M0NiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjUiLz4KICA8ZWxsaXBzZSBjeD0iMzAwIiBjeT0iMjg4IiByeD0iMTIwIiByeT0iMzQiIGZpbGw9IiM5ZmJmNmYiIG9wYWNpdHk9IjAuNTUiLz4KICA8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1BsYXlmYWlyIERpc3BsYXknLCBzZXJpZiIgZm9udC1zaXplPSIyNiIgZmlsbD0iIzFBMUExQSIgeT0iNDMwIj48dHNwYW4geD0iMzAwIiBkeT0iMCI+SmFib25lcmEgZGU8L3RzcGFuPjx0c3BhbiB4PSIzMDAiIGR5PSIzMCI+QmFtYnU8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjU0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IidETSBTYW5zJywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzVhNWE1MiI+QWNjZXNvcmlvIHNvc3RlbmlibGU8L3RleHQ+Cjwvc3ZnPgo=",
+      "images": [
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkphYm9uZXJhIGRlIEJhbWJ1Ij4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRjdGMkVDIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRUZFNkQ1Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiYW1idSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNEOEI4NzgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNCODk0NTE5MCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9InVybCgjYmcpIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsICdQbGF5ZmFpciBEaXNwbGF5Jywgc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjMUQ2QjUwIj5TQVZJQSBERSBBTE1BPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMTIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjM0Ij7wn6e8PC90ZXh0PgogIDxyZWN0IHg9IjE1MCIgeT0iMzAwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjcwIiByeD0iMTYiIGZpbGw9IiNDMkEzNkIiLz4KICA8cmVjdCB4PSIxNTAiIHk9IjMwMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI3MCIgcng9IjE2IiBmaWxsPSJ1cmwoI2JhbWJ1KSIvPgogIDxsaW5lIHgxPSIyMTAiIHkxPSIzMDUiIHgyPSIyMTAiIHkyPSIzNjUiIHN0cm9rZT0iIzljN2M0NiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjUiLz4KICA8bGluZSB4MT0iMjcwIiB5MT0iMzA1IiB4Mj0iMjcwIiB5Mj0iMzY1IiBzdHJva2U9IiM5YzdjNDYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC41Ii8+CiAgPGxpbmUgeDE9IjMzMCIgeTE9IjMwNSIgeDI9IjMzMCIgeTI9IjM2NSIgc3Ryb2tlPSIjOWM3YzQ2IiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNSIvPgogIDxsaW5lIHgxPSIzOTAiIHkxPSIzMDUiIHgyPSIzOTAiIHkyPSIzNjUiIHN0cm9rZT0iIzljN2M0NiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjUiLz4KICA8ZWxsaXBzZSBjeD0iMzAwIiBjeT0iMjg4IiByeD0iMTIwIiByeT0iMzQiIGZpbGw9IiM5ZmJmNmYiIG9wYWNpdHk9IjAuNTUiLz4KICA8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1BsYXlmYWlyIERpc3BsYXknLCBzZXJpZiIgZm9udC1zaXplPSIyNiIgZmlsbD0iIzFBMUExQSIgeT0iNDMwIj48dHNwYW4geD0iMzAwIiBkeT0iMCI+SmFib25lcmEgZGU8L3RzcGFuPjx0c3BhbiB4PSIzMDAiIGR5PSIzMCI+QmFtYnU8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjU0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IidETSBTYW5zJywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzVhNWE1MiI+QWNjZXNvcmlvIHNvc3RlbmlibGU8L3RleHQ+Cjwvc3ZnPgo="
+      ],
+      "bullets": [
+        "BAMBÚ NATURAL Y SOSTENIBLE: material renovable, biodegradable y resistente.",
+        "TU PASTILLA DURA MÁS: drena el agua y evita que se reblandezca entre usos.",
+        "LIGERA Y BONITA: perfecta para casa o para llevar de viaje.",
+        "COMPLEMENTO IDEAL: para tus champús y jabones sólidos Savia de Alma."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "descripcion": "Base de bambú natural que mantiene tu pastilla seca entre usos y la hace durar mucho más.",
+      "indicado": "",
+      "modoUso": "",
+      "lema": "",
+      "specs": {}
+    },
+    {
+      "handle": "esponja-exfoliante",
+      "title": "Esponja Exfoliante Natural",
+      "short": "Esponja vegetal para exfoliar suavemente la piel y activar la circulación en la ducha.",
+      "features": [
+        "Fibra vegetal biodegradable",
+        "Exfoliación suave y natural",
+        "Activa la circulación",
+        "Ideal con tus jabones sólidos"
+      ],
+      "tags": [
+        "accesorio",
+        "exclusivo web"
+      ],
+      "price": 2.99,
+      "sku": "",
+      "type": "Accesorios",
+      "collection": "accesorios",
+      "collectionName": "Accesorios",
+      "emoji": "🧺",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkVzcG9uamEgRXhmb2xpYW50ZSBOYXR1cmFsIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRjdGMkVDIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRDZGMEU4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJlc3AiIGN4PSIwLjQiIGN5PSIwLjM1IiByPSIwLjgiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNFOEM5OEYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNDOUE0NUYiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCAnUGxheWZhaXIgRGlzcGxheScsIHNlcmlmIiBmb250LXNpemU9IjI0IiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iIzFENkI1MCI+U0FWSUEgREUgQUxNQTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjEyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzNCI+8J+nvTwvdGV4dD4KICA8ZWxsaXBzZSBjeD0iMzAwIiBjeT0iMjUwIiByeD0iMTIwIiByeT0iOTUiIGZpbGw9InVybCgjZXNwKSIvPgogIDxjaXJjbGUgY3g9IjI2MCIgY3k9IjIyNSIgcj0iMTIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuMzUiLz4KICA8Y2lyY2xlIGN4PSIzMjAiIGN5PSIyNTAiIHI9IjE2IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjMiLz4KICA8Y2lyY2xlIGN4PSIyOTAiIGN5PSIyODUiIHI9IjEwIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjM1Ii8+CiAgPGNpcmNsZSBjeD0iMzQ1IiBjeT0iMjE1IiByPSI5IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjMiLz4KICA8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1BsYXlmYWlyIERpc3BsYXknLCBzZXJpZiIgZm9udC1zaXplPSIyNiIgZmlsbD0iIzFBMUExQSIgeT0iNDEwIj48dHNwYW4geD0iMzAwIiBkeT0iMCI+RXNwb25qYTwvdHNwYW4+PHRzcGFuIHg9IjMwMCIgZHk9IjMwIj5FeGZvbGlhbnRlPC90c3Bhbj48L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSI1NDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSInRE0gU2FucycsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM1YTVhNTIiPkZpYnJhIHZlZ2V0YWwgbmF0dXJhbDwvdGV4dD4KPC9zdmc+Cg==",
+      "images": [
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkVzcG9uamEgRXhmb2xpYW50ZSBOYXR1cmFsIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRjdGMkVDIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRDZGMEU4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJlc3AiIGN4PSIwLjQiIGN5PSIwLjM1IiByPSIwLjgiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNFOEM5OEYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNDOUE0NUYiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCAnUGxheWZhaXIgRGlzcGxheScsIHNlcmlmIiBmb250LXNpemU9IjI0IiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iIzFENkI1MCI+U0FWSUEgREUgQUxNQTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjEyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIzNCI+8J+nvTwvdGV4dD4KICA8ZWxsaXBzZSBjeD0iMzAwIiBjeT0iMjUwIiByeD0iMTIwIiByeT0iOTUiIGZpbGw9InVybCgjZXNwKSIvPgogIDxjaXJjbGUgY3g9IjI2MCIgY3k9IjIyNSIgcj0iMTIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuMzUiLz4KICA8Y2lyY2xlIGN4PSIzMjAiIGN5PSIyNTAiIHI9IjE2IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjMiLz4KICA8Y2lyY2xlIGN4PSIyOTAiIGN5PSIyODUiIHI9IjEwIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjM1Ii8+CiAgPGNpcmNsZSBjeD0iMzQ1IiBjeT0iMjE1IiByPSI5IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjMiLz4KICA8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1BsYXlmYWlyIERpc3BsYXknLCBzZXJpZiIgZm9udC1zaXplPSIyNiIgZmlsbD0iIzFBMUExQSIgeT0iNDEwIj48dHNwYW4geD0iMzAwIiBkeT0iMCI+RXNwb25qYTwvdHNwYW4+PHRzcGFuIHg9IjMwMCIgZHk9IjMwIj5FeGZvbGlhbnRlPC90c3Bhbj48L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSI1NDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSInRE0gU2FucycsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM1YTVhNTIiPkZpYnJhIHZlZ2V0YWwgbmF0dXJhbDwvdGV4dD4KPC9zdmc+Cg=="
+      ],
+      "bullets": [
+        "EXFOLIACIÓN SUAVE: retira células muertas y deja la piel suave y luminosa.",
+        "100% VEGETAL Y BIODEGRADABLE: sin plásticos, zero waste.",
+        "ACTIVA LA CIRCULACIÓN: un masaje natural en cada ducha.",
+        "MÁS ESPUMA: aprovecha al máximo tus jabones sólidos."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "descripcion": "Esponja vegetal para exfoliar suavemente la piel y activar la circulación en la ducha.",
+      "indicado": "",
+      "modoUso": "",
+      "lema": "",
       "specs": {}
     }
   ]
@@ -2532,6 +2655,7 @@ function renderPanelCarrito(c) {
   resumen.innerHTML = `
     ${regalo}
     ${envioAviso}
+    <div class="aviso-bienvenida">🎁 ¿Tu primer pedido? Te regalamos <strong>jabonera de bambú + esponja exfoliante</strong>.</div>
     <div class="barra-envio"><span style="width:${pct}%"></span></div>
     <div class="fila-resumen"><span>Subtotal (${c.unidades} art.)</span><span>${eur(c.subtotal)}</span></div>
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}

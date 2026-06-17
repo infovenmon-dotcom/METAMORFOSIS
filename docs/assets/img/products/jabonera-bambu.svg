@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Jabonera de Bambu">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F2EC"/><stop offset="1" stop-color="#EFE6D5"/>
+    </linearGradient>
+    <linearGradient id="bambu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D8B878"/><stop offset="1" stop-color="#B8945190"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="24" letter-spacing="2" fill="#1D6B50">SAVIA DE ALMA</text>
+  <text x="300" y="120" text-anchor="middle" font-size="34">🧼</text>
+  <rect x="150" y="300" width="300" height="70" rx="16" fill="#C2A36B"/>
+  <rect x="150" y="300" width="300" height="70" rx="16" fill="url(#bambu)"/>
+  <line x1="210" y1="305" x2="210" y2="365" stroke="#9c7c46" stroke-width="3" opacity="0.5"/>
+  <line x1="270" y1="305" x2="270" y2="365" stroke="#9c7c46" stroke-width="3" opacity="0.5"/>
+  <line x1="330" y1="305" x2="330" y2="365" stroke="#9c7c46" stroke-width="3" opacity="0.5"/>
+  <line x1="390" y1="305" x2="390" y2="365" stroke="#9c7c46" stroke-width="3" opacity="0.5"/>
+  <ellipse cx="300" cy="288" rx="120" ry="34" fill="#9fbf6f" opacity="0.55"/>
+  <text text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="26" fill="#1A1A1A" y="430"><tspan x="300" dy="0">Jabonera de</tspan><tspan x="300" dy="30">Bambu</tspan></text>
+  <text x="300" y="540" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" fill="#5a5a52">Accesorio sostenible</text>
+</svg>
