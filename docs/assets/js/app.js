@@ -63,6 +63,7 @@ function abrirFicha(handle) {
         <h4>📋 Especificaciones</h4>
         ${specsRows}
         ${s.inci ? `<div class="ficha-inci"><strong>Ingredientes (INCI):</strong> ${s.inci}</div>` : ''}
+        ${s.inci ? `<div class="ficha-transparencia">🌿 <strong>Transparencia total:</strong> declaramos el 100% de los ingredientes, incluidos los alergenos del perfume aunque la ley no obligue a listarlos en concentraciones tan bajas. Nada que esconder.</div>` : ''}
       </div>` : '';
 
   cont.innerHTML = `

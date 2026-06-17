@@ -9,6 +9,8 @@
   --verde-medio: #2D9E75;
   --verde-claro: #D6F0E8;
   --dorado: #B8860B;
+  --dorado-claro: #E3C07A;
+  --ivory: #FBF8F3;
   --negro: #1A1A1A;
   --beige: #F7F2EC;
   --blanco: #FFFFFF;
@@ -100,17 +102,21 @@ img { max-width: 100%; display: block; }
 .btn-bloque { width: 100%; }
 .btn-sm { padding: 9px 14px; font-size: .9rem; }
 
-/* ---------- Banner promo ---------- */
+/* ---------- Barra superior fija (banner + cabecera) ---------- */
+.barra-fija { position: sticky; top: 0; z-index: 60; }
+.barra-fija .cabecera { position: static; }
+
+/* ---------- Banner promo (siempre visible) ---------- */
 .banner-promo {
-  background: var(--negro);
-  color: var(--blanco);
+  background: linear-gradient(90deg, #143228, #1D6B50 50%, #143228);
+  color: #f4efe6;
   text-align: center;
-  padding: 11px 16px;
-  font-size: .92rem;
+  padding: 9px 16px;
+  font-size: .85rem;
   font-weight: 500;
-  letter-spacing: .2px;
+  letter-spacing: .4px;
 }
-.banner-promo strong { color: var(--verde-claro); }
+.banner-promo strong { color: var(--dorado-claro); font-weight: 700; letter-spacing: .6px; }
 
 /* ---------- Header tienda ---------- */
 .cabecera {
@@ -204,7 +210,7 @@ img { max-width: 100%; display: block; }
   padding: 0;
   border: none;
   cursor: pointer;
-  background: linear-gradient(140deg, var(--verde-claro), #eef8f3);
+  background: linear-gradient(145deg, #f3efe7, var(--ivory));
   overflow: hidden;
 }
 .card-img img {
@@ -583,3 +589,51 @@ img { max-width: 100%; display: block; }
 }
 
 .oculto { display: none !important; }
+
+/* ===========================================================================
+   PULIDO "NATURAL & LUJO"  —  refinamiento visual
+   =========================================================================== */
+/* Titulos mas elegantes, con filete dorado bajo los titulos de seccion */
+h1, h2, h3 { letter-spacing: -.01em; }
+.seccion-titulo { color: var(--verde-oscuro); }
+.seccion-titulo::after {
+  content: "";
+  display: block;
+  width: 52px; height: 2px;
+  margin: 14px auto 0;
+  background: var(--dorado);
+  opacity: .65;
+}
+/* Tarjetas: sombra mas suave, borde calido y elevacion al pasar el raton */
+.card {
+  box-shadow: 0 2px 10px rgba(20, 50, 40, .05);
+  border: 1px solid #ece4d7;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(20, 50, 40, .12); }
+.card-img img { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.card-img:hover img { transform: scale(1.05); }
+/* Precio con tipografia de titulo (toque editorial) */
+.card-precio { font-family: var(--fuente-titulo); letter-spacing: .01em; }
+/* Botones: trazo mas fino y transicion calida */
+.btn { font-weight: 600; letter-spacing: .01em; }
+.btn-primario:hover { background: #15543d; box-shadow: var(--sombra); }
+/* Chips de categoria mas sutiles */
+.chip { border-color: #d7cdbb; color: var(--verde-oscuro); background: #fffdf9; }
+/* Beneficios con fondo marfil */
+.beneficio { background: var(--ivory); border-color: #ece4d7; }
+/* Etiqueta "destacado" en verde profundo en vez de negro puro */
+.etiqueta { background: var(--verde-oscuro); }
+
+/* Ficha: especificaciones e ingredientes mas cuidados */
+.ficha-bloque h4 { color: var(--verde-oscuro); letter-spacing: .01em; }
+.ficha-transparencia {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--verde-claro);
+  border-left: 3px solid var(--verde-medio);
+  border-radius: 8px;
+  font-size: .78rem;
+  color: #2a4a3e;
+  line-height: 1.5;
+}
