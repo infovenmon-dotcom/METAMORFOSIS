@@ -116,3 +116,43 @@ MAS_SPECS = {
     },
 }
 SPECS.update(MAS_SPECS)
+
+# --- Resto de fichas (del documento "PLANTILLA ETIQUETAS SAVIA DE ALMA") ---
+GEN_ACOND = "Acondicionador solido, hecho a mano en Espana · Vegano · Sin plastico."
+GEN_AFEIT = "Espuma de afeitado solida, hecha a mano en Espana · Vegana · Sin plastico."
+
+PLANTILLA_SPECS = {
+    "acondicionador-coco": {
+        "cpnp": "3598209", "peso": "55 g", "fabricacion": GEN_ACOND,
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Parfum, Guar Hydroxypropyltrimonium Chloride, Coumarin.",
+    },
+    "acondicionador-almendra": {
+        "cpnp": "3656533", "peso": "55 g", "fabricacion": GEN_ACOND,
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Prunus Amygdalus Dulcis Oil, Parfum, Guar Hydroxypropyltrimonium Chloride, Limonene, Linalool, CI 16255.",
+    },
+    "espuma-afeitar-avellana": {
+        "cpnp": "4270127", "peso": "90 g", "fabricacion": GEN_AFEIT,
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Corylus Avellana Seed Oil, Parfum.",
+    },
+    "jabon-cbd": {
+        "cpnp": "5810163", "peso": "100 g", "fabricacion": GEN_JABON,
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Camellia Sinensis Leaf Powder, Arnica Montana Flower Extract, Cannabidiol, Hexyl Cinnamal, Linalyl Acetate, Acetyl Cedrene, Pinene, CI 19140, CI 42045, CI 50420, Potassium Sorbate.",
+    },
+    "jabon-naranja-canela": {
+        "cpnp": "5810157", "peso": "100 g", "fabricacion": GEN_JABON,
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Citrus Aurantium Peel Oil, Cinnamomum Zeylanicum Bark Oil, Cinnamomum Zeylanicum Bark Powder, Eugenia Caryophyllus Oil, Limonene, Eugenol, Linalool, Linalyl Acetate, Amyl Cinnamal, Terpineol, Beta-Caryophyllene, Pinene, CI 15985.",
+    },
+    "jabon-borraja": {
+        "cpnp": "5810155", "peso": "100 g", "fabricacion": GEN_JABON,
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Borago Officinalis Seed Oil, Pogostemon Cablin Oil, Hexamethylindanopyran, Tetramethyl Acetyloctahydronaphthalenes, Benzyl Benzoate, CI 19140, CI 14720, CI 42045.",
+    },
+    "jabon-karite": {
+        "cpnp": "1387042", "peso": "100 g", "fabricacion": GEN_JABON,
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Butyrospermum Parkii Butter, Linalool, Citronellol, Alpha-Isomethyl Ionone, Hexyl Cinnamal, Geraniol, Coumarin, Benzyl Salicylate, Benzyl Benzoate, Eugenol, CI 14720, CI 17200, CI 50420.",
+    },
+    "jabon-aguacate": {
+        "cpnp": "3077317", "peso": "100 g", "fabricacion": GEN_JABON,
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Persea Gratissima Oil, Hexyl Cinnamal, Linalool, Limonene, Amyl Cinnamal, Benzyl Salicylate, Citronellol, CI 77891, CI 19140, CI 14720, CI 17200.",
+    },
+}
+SPECS.update(PLANTILLA_SPECS)

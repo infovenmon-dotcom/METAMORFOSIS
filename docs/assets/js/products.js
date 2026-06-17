@@ -617,7 +617,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles sensibles, reactivas o con tendencia a la irritacion.",
       "modoUso": "Humedece el jabon y aplica su espuma con movimientos suaves sobre rostro o cuerpo. Aclara con agua tibia. Apto para uso diario.",
       "lema": "Calma que nace de la planta, cuidado que se siente en la piel.",
-      "specs": {}
+      "specs": {
+        "cpnp": "5810163",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Camellia Sinensis Leaf Powder, Arnica Montana Flower Extract, Cannabidiol, Hexyl Cinnamal, Linalyl Acetate, Acetyl Cedrene, Pinene, CI 19140, CI 42045, CI 50420, Potassium Sorbate."
+      }
     },
     {
       "handle": "jabon-naranja-canela",
@@ -654,7 +659,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para una limpieza energizante diaria y pieles normales.",
       "modoUso": "Frota el jabon sobre la piel humeda hasta crear espuma. Masajea, disfruta de su aroma y aclara con agua tibia.",
       "lema": "Un despertar citrico que enciende los sentidos.",
-      "specs": {}
+      "specs": {
+        "cpnp": "5810157",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Citrus Aurantium Peel Oil, Cinnamomum Zeylanicum Bark Oil, Cinnamomum Zeylanicum Bark Powder, Eugenia Caryophyllus Oil, Limonene, Eugenol, Linalool, Linalyl Acetate, Amyl Cinnamal, Terpineol, Beta-Caryophyllene, Pinene, CI 15985."
+      }
     },
     {
       "handle": "jabon-borraja",
@@ -691,7 +701,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles maduras, secas o con eczemas y descamacion.",
       "modoUso": "Aplica el jabon sobre la piel humeda con movimientos circulares. Deja que su espuma nutra y aclara con agua tibia.",
       "lema": "La piel se regenera cuando la naturaleza la acompana.",
-      "specs": {}
+      "specs": {
+        "cpnp": "5810155",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Borago Officinalis Seed Oil, Pogostemon Cablin Oil, Hexamethylindanopyran, Tetramethyl Acetyloctahydronaphthalenes, Benzyl Benzoate, CI 19140, CI 14720, CI 42045."
+      }
     },
     {
       "handle": "jabon-karite",
@@ -738,7 +753,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles secas, sensibles o que buscan un mimo profundo.",
       "modoUso": "Humedece el jabon y frotalo entre tus manos hasta generar una espuma rica y blanca. Aplica con movimientos circulares sobre el cuerpo y aclara con agua tibia.",
       "lema": "Hay dias que piden abrigo. El karite te lo da, en forma de caricia y calma.",
-      "specs": {}
+      "specs": {
+        "cpnp": "1387042",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Butyrospermum Parkii Butter, Linalool, Citronellol, Alpha-Isomethyl Ionone, Hexyl Cinnamal, Geraniol, Coumarin, Benzyl Salicylate, Benzyl Benzoate, Eugenol, CI 14720, CI 17200, CI 50420."
+      }
     },
     {
       "handle": "jabon-arbol-te",
@@ -1165,7 +1185,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para piel seca o madura que necesita nutricion intensa.",
       "modoUso": "Utilizalo en momentos en los que necesites calma y nutricion. Aplicalo con mimo y deja que la piel absorba su suavidad natural.",
       "lema": "La naturaleza sabe lo que tu piel necesita.",
-      "specs": {}
+      "specs": {
+        "cpnp": "3077317",
+        "peso": "100 g",
+        "fabricacion": "Jabon artesano saponificado, hecho a mano en Espana. Vegano · Sin plastico · Cero residuos.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Persea Gratissima Oil, Hexyl Cinnamal, Linalool, Limonene, Amyl Cinnamal, Benzyl Salicylate, Citronellol, CI 77891, CI 19140, CI 14720, CI 17200."
+      }
     },
     {
       "handle": "espuma-depilacion-uva",
@@ -1487,7 +1512,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para cabello seco o encrespado que busca suavidad y brillo.",
       "modoUso": "Tras el champu, frota la pastilla sobre los medios y puntas del cabello humedo. Deja actuar 1-2 minutos y aclara.",
       "lema": "Suavidad de coco, brillo sin artificios.",
-      "specs": {}
+      "specs": {
+        "cpnp": "3598209",
+        "peso": "55 g",
+        "fabricacion": "Acondicionador solido, hecho a mano en Espana · Vegano · Sin plastico.",
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Parfum, Guar Hydroxypropyltrimonium Chloride, Coumarin."
+      }
     },
     {
       "handle": "acondicionador-almendra",
@@ -1529,7 +1559,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para cabello rizado u ondulado que busca definicion y control del encrespamiento.",
       "modoUso": "Tras el champu, aplica la pastilla sobre medios y puntas del cabello humedo. Deja actuar 1-2 minutos y aclara.",
       "lema": "Rizos definidos, movimiento natural.",
-      "specs": {}
+      "specs": {
+        "cpnp": "3656533",
+        "peso": "55 g",
+        "fabricacion": "Acondicionador solido, hecho a mano en Espana · Vegano · Sin plastico.",
+        "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Prunus Amygdalus Dulcis Oil, Parfum, Guar Hydroxypropyltrimonium Chloride, Limonene, Linalool, CI 16255."
+      }
     },
     {
       "handle": "limpiador-facial-rosa-mosqueta",
@@ -1661,7 +1696,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para un afeitado apurado y comodo, tambien en pieles sensibles. Uso diario.",
       "modoUso": "Frota la pastilla sobre la zona humeda hasta generar espuma (o emulsionala con brocha). Afeitate y aclara. Conserva en seco entre usos.",
       "lema": "Un afeitado cremoso, sin plastico y sin irritacion.",
-      "specs": {}
+      "specs": {
+        "cpnp": "4270127",
+        "peso": "90 g",
+        "fabricacion": "Espuma de afeitado solida, hecha a mano en Espana · Vegana · Sin plastico.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Corylus Avellana Seed Oil, Parfum."
+      }
     },
     {
       "handle": "jabonera-bambu",
