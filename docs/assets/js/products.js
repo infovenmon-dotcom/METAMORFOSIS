@@ -1067,7 +1067,7 @@ window.SAVIA_DATA = {
         "exclusivo web",
         "vegano"
       ],
-      "price": 9.99,
+      "price": 10.99,
       "sku": "SDA-JAB-DEP-UVA",
       "type": "Depilacion",
       "collection": "depilacion",
@@ -1104,7 +1104,7 @@ window.SAVIA_DATA = {
         "exclusivo web",
         "vegano"
       ],
-      "price": 9.99,
+      "price": 10.99,
       "sku": "SDA-JAB-DEP-ALOE",
       "type": "Depilacion",
       "collection": "depilacion",

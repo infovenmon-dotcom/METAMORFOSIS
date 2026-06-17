@@ -24,6 +24,12 @@ COLLECTION_OVERRIDE = {
     'champu-barba-carbon': ('Afeitado y Barba', 'afeitado'),
 }
 
+# Ajustes de precio por handle (sobre el CSV)
+PRICE_OVERRIDE = {
+    'espuma-depilacion-uva': 10.99,
+    'espuma-depilacion-aloe': 10.99,
+}
+
 AMAZON_STORE = 'https://www.amazon.es/stores/SaviadeAlma/page/6AD3705D-E19B-4150-A0FB-7BB7F057E0DE'
 
 # Emoji per collection for visual cards (no real images available)
@@ -99,7 +105,7 @@ with open(SRC, encoding='utf-8-sig') as f:
             'short': short,
             'features': feats,
             'tags': tags,
-            'price': float(row['Variant Price']),
+            'price': PRICE_OVERRIDE.get(handle, float(row['Variant Price'])),
             'sku': row['Variant SKU'].strip(),
             'type': ptype,
             'collection': coll_slug,
