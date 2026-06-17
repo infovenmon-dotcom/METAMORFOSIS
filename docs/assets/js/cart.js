@@ -110,9 +110,29 @@ const Carrito = {
       }
     }
     this._prev = { gratisCount: c.gratisCount, envioGratis: c.envioGratis };
+    actualizarBarraPromo(c);
     if (typeof renderPanelCarrito === 'function') renderPanelCarrito(c);
   },
 };
+
+/* Barra de estado de promociones en la propia pagina de compra (mientras
+   navegas), con el progreso hacia el regalo 3x2 y hacia el envio gratis. */
+function actualizarBarraPromo(c) {
+  const bar = document.getElementById('barra-promo');
+  if (!bar) return;
+  if (c.unidades === 0) { bar.classList.add('oculto'); bar.innerHTML = ''; return; }
+  bar.classList.remove('oculto');
+  const falta = c.faltaParaProximoGratis;
+  const regalo = falta === 0
+    ? `🎁 ¡Llevas <strong>${c.gratisCount} de regalo</strong>!`
+    : (falta === 1
+        ? `🎁 <strong>1 producto más</strong> y el 3º es de regalo`
+        : `🎁 Añade <strong>${falta}</strong> y llévate 1 de regalo`);
+  const envio = c.envioGratis
+    ? `🚚 <strong>¡Envío GRATIS!</strong>`
+    : `🚚 Te faltan <strong>${eur(c.faltaParaEnvio)}</strong> para el envío gratis`;
+  bar.innerHTML = `<span>${regalo}</span><span class="barra-promo-sep">·</span><span>${envio}</span>`;
+}
 
 /* Aviso flotante (toast) estilo Temu: salta cuando se desbloquea algo. */
 function mostrarAvisoFlotante(msg) {
@@ -195,6 +215,7 @@ function renderPanelCarrito(c) {
     <div class="fila-resumen total"><span>Total</span><span>${eur(c.total)}</span></div>
     <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Precios con IVA (21%) incluido · Envío peninsular ${eur(ENVIO_PENINSULA)}.</p>
     <a class="btn btn-primario btn-bloque" href="#" onclick="alert('En la tienda Shopify real este boton abre el checkout. La promo 3x2 (llevas 3, pagas 2) y el envio gratis se aplican automaticamente.');return false;">Finalizar compra</a>
+    <button class="btn btn-secundario btn-bloque" style="margin-top:8px" onclick="cerrarCarrito()">← Seguir comprando</button>
   `;
 }
 

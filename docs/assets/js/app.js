@@ -27,12 +27,21 @@ function cardProducto(p, { compacta = false } = {}) {
         ${desc}
         <div class="card-precio">${eur(p.price)} <small>IVA incl.</small></div>
         <div class="card-acciones">
-          <button class="btn btn-primario btn-sm btn-bloque" onclick="Carrito.añadir('${p.handle}'); abrirCarrito();">Anadir al carrito</button>
+          <button class="btn btn-primario btn-sm btn-bloque" onclick="addToCart('${p.handle}')">Anadir al carrito</button>
           <button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>
           ${amazon}
         </div>
       </div>
     </article>`;
+}
+
+/* Anade al carrito SIN salir de la pagina (estilo comercial): avisa con un
+   toast y deja seguir comprando. La cesta se abre con el boton del carrito. */
+function addToCart(handle) {
+  Carrito.añadir(handle, 1);
+  if (typeof mostrarAvisoFlotante === 'function') {
+    mostrarAvisoFlotante('🛒 Añadido a la cesta · sigue comprando');
+  }
 }
 
 /* ---------- Ficha de producto (modal con beneficios + modo de uso) ---------- */
@@ -101,7 +110,7 @@ function abrirFicha(handle) {
       ${specsBlock}
 
       <div class="ficha-acciones">
-        <button class="btn btn-primario btn-bloque" onclick="Carrito.añadir('${p.handle}'); cerrarFicha(); abrirCarrito();">Anadir al carrito</button>
+        <button class="btn btn-primario btn-bloque" onclick="addToCart('${p.handle}'); cerrarFicha();">Anadir al carrito</button>
         ${amazon}
       </div>
       ${p.lema ? `<p class="ficha-lema">${p.lema}</p>` : ''}
