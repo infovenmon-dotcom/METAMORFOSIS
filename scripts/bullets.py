@@ -71,3 +71,84 @@ BULLETS = {
         "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana.",
     ],
 }
+
+# --- Bullets de jabones, faciales, depilacion y barba (de los documentos del Drive) ---
+BULLETS.update({
+    "jabon-pepita-uva": [
+        "ANTIOXIDANTE natural que combate los radicales libres y el envejecimiento.",
+        "REVITALIZA y devuelve la luz a pieles opacas o cansadas.",
+        "TONIFICA aportando firmeza y elasticidad con vitamina E.",
+        "VEGANO y biodegradable, sin parabenos, siliconas ni perfumes sinteticos.",
+        "HECHO en Espana a mano, en pequenos lotes.",
+    ],
+    "jabon-karite": [
+        "HIDRATACION intensiva y prolongada para piel seca o sensible.",
+        "REPARA y protege con lipidos naturales y vitaminas A y E.",
+        "ESPUMA untuosa y reconfortante que envuelve la piel.",
+        "VEGANO, biodegradable y zero waste, sin parabenos ni siliconas.",
+        "FABRICADO en Espana en pequenos lotes.",
+    ],
+    "jabon-argan": [
+        "HIDRATACION intensa y duradera con aceite de argan.",
+        "PIEL mas elastica, luminosa y firme con el uso regular.",
+        "ESPUMA sedosa y aroma calido para un ritual regenerador.",
+        "COSMETICA solida vegana, sin siliconas ni parabenos.",
+        "HECHO en Espana a mano, en pequenos lotes.",
+    ],
+    "jabon-arbol-te": [
+        "PURIFICA en profundidad y desobstruye los poros sin agredir.",
+        "SEBORREGULADOR: reduce el brillo sin resecar la piel.",
+        "AROMA herbal fresco que revitaliza cuerpo y mente.",
+        "VEGANO, libre de toxicos y con embalaje sostenible.",
+        "HECHO en Espana a mano, en pequenos lotes.",
+    ],
+    "jabon-lavanda": [
+        "RELAJA cuerpo y mente, ayudando a reducir el estres.",
+        "IDEAL para pieles sensibles y delicadas, sin agredir.",
+        "AROMA floral que envuelve como campos de lavanda.",
+        "VEGANO, biodegradable y libre de toxicos y plasticos.",
+        "FABRICADO en Espana a mano, en pequenos lotes.",
+    ],
+    "jabon-rosa-mosqueta": [
+        "REGENERA la piel difuminando marcas, cicatrices y lineas.",
+        "HIDRATA en profundidad aportando una suavidad sedosa.",
+        "FRAGANCIA floral para una experiencia intima y sensorial.",
+        "VEGANO, biodegradable y con embalaje sostenible.",
+        "FABRICADO a mano en Espana con ingredientes naturales.",
+    ],
+    "limpiador-facial-aloe-pepino": [
+        "HIDRATA y calma la piel gracias al aloe vera.",
+        "AROMA a pepino relajante que convierte la limpieza en un ritual.",
+        "PH semejante al de la piel, sin SCI ni SLS.",
+        "ECOLOGICO y solido, alternativa sin envase plastico.",
+        "DURA mas de 100 usos, elaborado a mano en Espana.",
+    ],
+    "limpiador-facial-rosa-mosqueta": [
+        "REGENERA la piel y estimula la produccion natural de colageno.",
+        "ANTIARRUGAS natural, rico en vitaminas C y E antioxidantes.",
+        "IDEAL para piel seca o madura, unifica el tono.",
+        "PH semejante al de la piel, sin SCI ni SLS.",
+        "ECOLOGICO y solido, dura mas de 100 usos, hecho en Espana.",
+    ],
+    "espuma-depilacion-aloe": [
+        "HIDRATA y calma la piel tras el rasurado con aloe vera canario.",
+        "FACILITA el deslizar de la cuchilla con una crema espumosa.",
+        "NUTRE con manteca de karite y cacao, protegiendo la piel.",
+        "VEGANA, 98% ingredientes naturales, sin SLS ni SCI.",
+        "SOLIDA y cero residuos, elaborada a mano una a una.",
+    ],
+    "espuma-depilacion-uva": [
+        "HIDRATA y nutre la piel con aceite de pepita de uva.",
+        "FACILITA el deslizar de la cuchilla con una crema espumosa.",
+        "PROTEGE con manteca de karite y cacao, reduciendo la sequedad.",
+        "VEGANA, 98% ingredientes naturales, sin SLS ni SCI.",
+        "SOLIDA y cero residuos, con aroma a frutos rojos.",
+    ],
+    "champu-barba-carbon": [
+        "CAPTURA y neutraliza el mal olor del pelo sin enmascararlo.",
+        "CARBON activado desintoxicante que regula el exceso de grasa.",
+        "IDEAL para barba y cabello, con aroma a eucalipto refrescante.",
+        "VEGANO y sostenible, sin SLS ni SCI, cero residuos plasticos.",
+        "DURA mas de 60 lavados, elaborado a mano en frio.",
+    ],
+})
