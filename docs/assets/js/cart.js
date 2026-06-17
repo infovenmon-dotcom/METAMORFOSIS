@@ -66,6 +66,16 @@ const Carrito = {
     let ahorroPromo = 0;
     for (let i = 0; i < gratisCount; i++) ahorroPromo += ordenados[i];
 
+    // Marca que unidades son el regalo: las mas baratas del pedido.
+    const unidadesOrden = [];
+    for (const { p, qty } of lineas) for (let i = 0; i < qty; i++) unidadesOrden.push(p.handle);
+    unidadesOrden.sort((a, b) => this.producto(a).price - this.producto(b).price);
+    const freeByHandle = {};
+    for (let i = 0; i < gratisCount; i++) {
+      const h = unidadesOrden[i];
+      freeByHandle[h] = (freeByHandle[h] || 0) + 1;
+    }
+
     const subtotalConPromo = subtotal - ahorroPromo;
 
     let envio = 0;
@@ -86,7 +96,7 @@ const Carrito = {
     const progresoGrupo = faltaParaProximoGratis === 0 ? GRUPO_GRATIS : GRUPO_GRATIS - faltaParaProximoGratis;
 
     return {
-      lineas, unidades, subtotal, gratisCount, ahorroPromo,
+      lineas, unidades, subtotal, gratisCount, ahorroPromo, freeByHandle,
       subtotalConPromo, envio, envioGratis, total,
       faltaParaEnvio, faltaParaProximoGratis, progresoGrupo, grupoGratis: GRUPO_GRATIS,
     };
@@ -170,6 +180,7 @@ function renderPanelCarrito(c) {
       <div class="mini-img"><img src="${p.image}" alt="${p.title}"></div>
       <div>
         <div class="titulo">${p.title}</div>
+        ${c.freeByHandle && c.freeByHandle[p.handle] ? `<div class="gratis">🎁 ${c.freeByHandle[p.handle]} de regalo (−${eur(c.freeByHandle[p.handle] * p.price)})</div>` : ''}
         <div class="card-precio" style="font-size:.9rem;margin:2px 0 0">${eur(p.price)}</div>
         <div class="cantidad">
           <button aria-label="Quitar uno" onclick="Carrito.añadir('${p.handle}', -1)">−</button>
