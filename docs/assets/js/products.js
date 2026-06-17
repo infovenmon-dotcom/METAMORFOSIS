@@ -1075,7 +1075,11 @@ window.SAVIA_DATA = {
       "emoji": "🌿",
       "image": "assets/img/products/espuma-depilacion-uva.jpg",
       "images": [
-        "assets/img/products/espuma-depilacion-uva.jpg"
+        "assets/img/products/espuma-depilacion-uva.jpg",
+        "assets/img/products/espuma-depilacion-uva-2.jpg",
+        "assets/img/products/espuma-depilacion-uva-3.jpg",
+        "assets/img/products/espuma-depilacion-uva-4.jpg",
+        "assets/img/products/espuma-depilacion-uva-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": true,
@@ -1112,7 +1116,11 @@ window.SAVIA_DATA = {
       "emoji": "🌿",
       "image": "assets/img/products/espuma-depilacion-aloe.jpg",
       "images": [
-        "assets/img/products/espuma-depilacion-aloe.jpg"
+        "assets/img/products/espuma-depilacion-aloe.jpg",
+        "assets/img/products/espuma-depilacion-aloe-2.jpg",
+        "assets/img/products/espuma-depilacion-aloe-3.jpg",
+        "assets/img/products/espuma-depilacion-aloe-4.jpg",
+        "assets/img/products/espuma-depilacion-aloe-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": true,
