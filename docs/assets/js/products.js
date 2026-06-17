@@ -72,9 +72,7 @@ window.SAVIA_DATA = {
       "emoji": "🫧",
       "image": "assets/img/products/champu-cafeina-canela.jpg",
       "images": [
-        "assets/img/products/champu-cafeina-canela.jpg",
-        "assets/img/products/champu-cafeina-canela-2.jpg",
-        "assets/img/products/champu-cafeina-canela-3.jpg"
+        "assets/img/products/champu-cafeina-canela.jpg"
       ],
       "bullets": [
         "EFECTO ANTICAIDA: la cafeina estimula el crecimiento y frena la fase de caida.",
@@ -125,7 +123,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-indigo-lavanda.jpg",
         "assets/img/products/champu-indigo-lavanda-2.jpg",
-        "assets/img/products/champu-indigo-lavanda-3.jpg"
+        "assets/img/products/champu-indigo-lavanda-3.jpg",
+        "assets/img/products/champu-indigo-lavanda-4.jpg",
+        "assets/img/products/champu-indigo-lavanda-5.jpg"
       ],
       "bullets": [
         "MATIZA CANAS Y PELO BLANCO: el indigo natural neutraliza los tonos amarillos.",
@@ -176,7 +176,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-cacao.jpg",
         "assets/img/products/champu-cacao-2.jpg",
-        "assets/img/products/champu-cacao-3.jpg"
+        "assets/img/products/champu-cacao-3.jpg",
+        "assets/img/products/champu-cacao-4.jpg",
+        "assets/img/products/champu-cacao-5.jpg"
       ],
       "bullets": [
         "REPARACION PROFUNDA: para cabello seco, danado o tenido que necesita hidratacion extra.",
@@ -328,7 +330,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-cebolla-arcilla.jpg",
         "assets/img/products/champu-cebolla-arcilla-2.jpg",
-        "assets/img/products/champu-cebolla-arcilla-3.jpg"
+        "assets/img/products/champu-cebolla-arcilla-3.jpg",
+        "assets/img/products/champu-cebolla-arcilla-4.jpg",
+        "assets/img/products/champu-cebolla-arcilla-5.jpg"
       ],
       "bullets": [
         "EFECTO CRECIMIENTO: extracto de cebolla rico en azufre y quercetina que estimula el foliculo.",
@@ -430,7 +434,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-romero-quina.jpg",
         "assets/img/products/champu-romero-quina-2.jpg",
-        "assets/img/products/champu-romero-quina-3.jpg"
+        "assets/img/products/champu-romero-quina-3.jpg",
+        "assets/img/products/champu-romero-quina-4.jpg",
+        "assets/img/products/champu-romero-quina-5.jpg"
       ],
       "bullets": [
         "VOLUMEN Y CUERPO: ideal para cabello fino, lacio y sin volumen.",
@@ -482,7 +488,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-cade-enebro.jpg",
         "assets/img/products/champu-cade-enebro-2.jpg",
-        "assets/img/products/champu-cade-enebro-3.jpg"
+        "assets/img/products/champu-cade-enebro-3.jpg",
+        "assets/img/products/champu-cade-enebro-4.jpg",
+        "assets/img/products/champu-cade-enebro-5.jpg"
       ],
       "bullets": [
         "ALIVIA CASPA, PSORIASIS Y ECCEMAS: aceite de cade de enebro (brea) sobre cuero cabelludo sensible.",
