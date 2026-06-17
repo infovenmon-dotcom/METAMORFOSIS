@@ -72,7 +72,11 @@ window.SAVIA_DATA = {
       "emoji": "🫧",
       "image": "assets/img/products/champu-cafeina-canela.jpg",
       "images": [
-        "assets/img/products/champu-cafeina-canela.jpg"
+        "assets/img/products/champu-cafeina-canela.jpg",
+        "assets/img/products/champu-cafeina-canela-2.jpg",
+        "assets/img/products/champu-cafeina-canela-3.jpg",
+        "assets/img/products/champu-cafeina-canela-4.jpg",
+        "assets/img/products/champu-cafeina-canela-5.jpg"
       ],
       "bullets": [
         "EFECTO ANTICAIDA: la cafeina estimula el crecimiento y frena la fase de caida.",
@@ -228,7 +232,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-betaina-sal.jpg",
         "assets/img/products/champu-betaina-sal-2.jpg",
-        "assets/img/products/champu-betaina-sal-3.jpg"
+        "assets/img/products/champu-betaina-sal-3.jpg",
+        "assets/img/products/champu-betaina-sal-4.jpg",
+        "assets/img/products/champu-betaina-sal-5.jpg"
       ],
       "bullets": [
         "PARA CABELLO GRASO: betaina y sal marina regulan el exceso de grasa del cuero cabelludo.",
@@ -279,7 +285,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-te-matcha.jpg",
         "assets/img/products/champu-te-matcha-2.jpg",
-        "assets/img/products/champu-te-matcha-3.jpg"
+        "assets/img/products/champu-te-matcha-3.jpg",
+        "assets/img/products/champu-te-matcha-4.jpg",
+        "assets/img/products/champu-te-matcha-5.jpg"
       ],
       "bullets": [
         "USO FRECUENTE PARA TODA LA FAMILIA: formula suave para cabello normal, ni seco ni graso.",
@@ -383,7 +391,9 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/champu-avena-almendra.jpg",
         "assets/img/products/champu-avena-almendra-2.jpg",
-        "assets/img/products/champu-avena-almendra-3.jpg"
+        "assets/img/products/champu-avena-almendra-3.jpg",
+        "assets/img/products/champu-avena-almendra-4.jpg",
+        "assets/img/products/champu-avena-almendra-5.jpg"
       ],
       "bullets": [
         "PARA PELO RIZADO: define el rizo y le aporta movimiento y flexibilidad.",
