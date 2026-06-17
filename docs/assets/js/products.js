@@ -745,7 +745,11 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-arbol-te.jpg",
       "images": [
-        "assets/img/products/jabon-arbol-te.jpg"
+        "assets/img/products/jabon-arbol-te.jpg",
+        "assets/img/products/jabon-arbol-te-2.jpg",
+        "assets/img/products/jabon-arbol-te-3.jpg",
+        "assets/img/products/jabon-arbol-te-4.jpg",
+        "assets/img/products/jabon-arbol-te-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -938,7 +942,11 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-carbon-activo.jpg",
       "images": [
-        "assets/img/products/jabon-carbon-activo.jpg"
+        "assets/img/products/jabon-carbon-activo.jpg",
+        "assets/img/products/jabon-carbon-activo-2.jpg",
+        "assets/img/products/jabon-carbon-activo-3.jpg",
+        "assets/img/products/jabon-carbon-activo-4.jpg",
+        "assets/img/products/jabon-carbon-activo-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -976,7 +984,10 @@ window.SAVIA_DATA = {
       "image": "assets/img/products/jabon-azufre.jpg",
       "images": [
         "assets/img/products/jabon-azufre.jpg",
-        "assets/img/products/jabon-azufre-2.jpg"
+        "assets/img/products/jabon-azufre-2.jpg",
+        "assets/img/products/jabon-azufre-3.jpg",
+        "assets/img/products/jabon-azufre-4.jpg",
+        "assets/img/products/jabon-azufre-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
