@@ -554,9 +554,13 @@ window.SAVIA_DATA = {
       "collection": "afeitado",
       "collectionName": "Afeitado y Barba",
       "emoji": "🪒",
-      "image": "assets/img/products/champu-barba-carbon.svg",
+      "image": "assets/img/products/champu-barba-carbon.jpg",
       "images": [
-        "assets/img/products/champu-barba-carbon.svg"
+        "assets/img/products/champu-barba-carbon.jpg",
+        "assets/img/products/champu-barba-carbon-2.jpg",
+        "assets/img/products/champu-barba-carbon-3.jpg",
+        "assets/img/products/champu-barba-carbon-4.jpg",
+        "assets/img/products/champu-barba-carbon-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": true,
@@ -1222,9 +1226,10 @@ window.SAVIA_DATA = {
       "collection": "desodorantes",
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
-      "image": "assets/img/products/desodorante-te-verde.svg",
+      "image": "assets/img/products/desodorante-te-verde.jpg",
       "images": [
-        "assets/img/products/desodorante-te-verde.svg"
+        "assets/img/products/desodorante-te-verde.jpg",
+        "assets/img/products/desodorante-te-verde-2.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -1264,9 +1269,13 @@ window.SAVIA_DATA = {
       "collection": "desodorantes",
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
-      "image": "assets/img/products/desodorante-pomelo.svg",
+      "image": "assets/img/products/desodorante-pomelo.jpg",
       "images": [
-        "assets/img/products/desodorante-pomelo.svg"
+        "assets/img/products/desodorante-pomelo.jpg",
+        "assets/img/products/desodorante-pomelo-2.jpg",
+        "assets/img/products/desodorante-pomelo-3.jpg",
+        "assets/img/products/desodorante-pomelo-4.jpg",
+        "assets/img/products/desodorante-pomelo-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -1306,9 +1315,13 @@ window.SAVIA_DATA = {
       "collection": "desodorantes",
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
-      "image": "assets/img/products/desodorante-algodon.svg",
+      "image": "assets/img/products/desodorante-algodon.jpg",
       "images": [
-        "assets/img/products/desodorante-algodon.svg"
+        "assets/img/products/desodorante-algodon.jpg",
+        "assets/img/products/desodorante-algodon-2.jpg",
+        "assets/img/products/desodorante-algodon-3.jpg",
+        "assets/img/products/desodorante-algodon-4.jpg",
+        "assets/img/products/desodorante-algodon-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": false,
@@ -1433,9 +1446,13 @@ window.SAVIA_DATA = {
       "collection": "acondicionadores",
       "collectionName": "Acondicionadores",
       "emoji": "🥥",
-      "image": "assets/img/products/acondicionador-almendra.svg",
+      "image": "assets/img/products/acondicionador-almendra.jpg",
       "images": [
-        "assets/img/products/acondicionador-almendra.svg"
+        "assets/img/products/acondicionador-almendra.jpg",
+        "assets/img/products/acondicionador-almendra-2.jpg",
+        "assets/img/products/acondicionador-almendra-3.jpg",
+        "assets/img/products/acondicionador-almendra-4.jpg",
+        "assets/img/products/acondicionador-almendra-5.jpg"
       ],
       "bullets": [],
       "exclusiveWeb": true,
