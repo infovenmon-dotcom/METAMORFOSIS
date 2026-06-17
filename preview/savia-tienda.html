@@ -446,10 +446,11 @@ img { max-width: 100%; display: block; }
 .linea-item .mini-img {
   width: 52px; height: 52px;
   border-radius: 10px;
-  display: grid; place-items: center;
-  font-size: 1.5rem;
-  background: var(--verde-claro);
+  overflow: hidden;
+  background: linear-gradient(145deg, #f3efe7, var(--ivory));
+  border: 1px solid var(--borde);
 }
+.linea-item .mini-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .linea-item .titulo { font-weight: 600; font-size: .9rem; }
 .linea-item .gratis {
   color: var(--verde-oscuro);
@@ -2437,7 +2438,7 @@ function renderPanelCarrito(c) {
 
   cont.innerHTML = c.lineas.map(({ p, qty }) => `
     <div class="linea-item">
-      <div class="mini-img">${p.emoji}</div>
+      <div class="mini-img"><img src="${p.image}" alt="${p.title}"></div>
       <div>
         <div class="titulo">${p.title}</div>
         <div class="card-precio" style="font-size:.9rem;margin:2px 0 0">${eur(p.price)}</div>

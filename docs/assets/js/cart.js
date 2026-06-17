@@ -167,7 +167,7 @@ function renderPanelCarrito(c) {
 
   cont.innerHTML = c.lineas.map(({ p, qty }) => `
     <div class="linea-item">
-      <div class="mini-img">${p.emoji}</div>
+      <div class="mini-img"><img src="${p.image}" alt="${p.title}"></div>
       <div>
         <div class="titulo">${p.title}</div>
         <div class="card-precio" style="font-size:.9rem;margin:2px 0 0">${eur(p.price)}</div>
