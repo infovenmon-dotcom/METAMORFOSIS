@@ -575,7 +575,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para la higiene y el cuidado diario de la barba.",
       "modoUso": "Frota la pastilla sobre la barba humeda hasta crear espuma. Masajea, deja actuar unos segundos y aclara. Apto para uso frecuente.",
       "lema": "Una barba limpia, suave y con caracter.",
-      "specs": {}
+      "specs": {
+        "cpnp": "3852941",
+        "peso": "60 g",
+        "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Cocamidopropyl Betaine, Parfum, Charcoal Powder, Benzyl Salicylate, Citronellol, Coumarine, Limonene.",
+        "fabricacion": "Champu solido en frio, hecho a mano en Espana · Vegano · Sin plastico."
+      }
     },
     {
       "handle": "jabon-cbd",
@@ -1207,7 +1212,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal como cuidado post-depilacion para calmar e hidratar la piel.",
       "modoUso": "Tras la depilacion, frota la pastilla sobre la piel humeda y limpia hasta crear una espuma suave. Masajea y aclara.",
       "lema": "Calma antioxidante para tu piel despues de depilarte.",
-      "specs": {}
+      "specs": {
+        "cpnp": "4270095",
+        "peso": "90 g",
+        "inci": "Sodium Coco-Sulfate, Aqua, Cocos nucifera Oil, Parfum, Butyrospermum parkii Butter, Theobroma cacao Seed Butter, Cocamidopropyl Betaine, Vitis vinifera seed oil, Linalool, CI 14720.",
+        "fabricacion": "Espuma de depilacion solida, hecha a mano en Espana · Vegana · Sin plastico."
+      }
     },
     {
       "handle": "espuma-depilacion-aloe",
@@ -1254,7 +1264,11 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles sensibles como cuidado calmante post-depilacion.",
       "modoUso": "Tras la depilacion, frota la pastilla sobre la piel humeda y limpia hasta crear espuma. Masajea suavemente y aclara.",
       "lema": "Aloe que refresca y calma tras la depilacion.",
-      "specs": {}
+      "specs": {
+        "peso": "90 g",
+        "inci": "Sodium Coco-Sulfate, Aqua, Cocos nucifera Oil, Parfum, Butyrospermum parkii Butter, Theobroma cacao Seed Butter, Cocamidopropyl Betaine, Aloe barbadensis leaf juice, Benzyl Alcohol, CI 61570.",
+        "fabricacion": "Espuma de depilacion solida, hecha a mano en Espana · Vegana · Sin plastico."
+      }
     },
     {
       "handle": "desodorante-te-verde",
@@ -1558,7 +1572,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para piel sensible y pieles que buscan luminosidad y regeneracion. Uso diario.",
       "modoUso": "Humedece la pastilla y crea una espuma suave entre las manos. Masajea el rostro con movimientos circulares y aclara con agua tibia.",
       "lema": "Luz para tu piel, cada manana.",
-      "specs": {}
+      "specs": {
+        "cpnp": "4150232",
+        "peso": "65 g",
+        "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Parfum, Rosa Canina Fruit Oil, Illite, Benzyl Salicylate, Citronellol, Gamma-Methyl Ionone, Geraniol, Hydroxycitronellal, Linalool.",
+        "fabricacion": "Limpiador facial solido, hecho a mano en Espana · Vegano · Sin plastico · pH semejante al de la piel."
+      }
     },
     {
       "handle": "limpiador-facial-aloe-pepino",
@@ -1601,7 +1620,12 @@ window.SAVIA_DATA = {
       "indicado": "Ideal para pieles mixtas y normales; uso diario, manana y noche.",
       "modoUso": "Humedece la pastilla y crea espuma entre las manos. Masajea el rostro con movimientos circulares y aclara con agua tibia.",
       "lema": "Frescor que equilibra, calma que se nota.",
-      "specs": {}
+      "specs": {
+        "cpnp": "4448218",
+        "peso": "65 g",
+        "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Parfum, Aloe barbadensis leaf juice, Citric Acid, CI 61570, Anise Alcohol, Limonene.",
+        "fabricacion": "Limpiador facial solido, hecho a mano en Espana · Vegano · Sin plastico · pH semejante al de la piel."
+      }
     },
     {
       "handle": "espuma-afeitar-avellana",

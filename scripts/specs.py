@@ -86,3 +86,33 @@ JABON_DESO_SPECS = {
 }
 for _h, (_cpnp, _inci, _fab) in JABON_DESO_SPECS.items():
     SPECS[_h] = {"cpnp": _cpnp, "inci": _inci, "peso": "100 g", "fabricacion": _fab}
+
+# --- Faciales, depilacion y barba (INCI leido de documentos del Drive) ---
+MAS_SPECS = {
+    "limpiador-facial-aloe-pepino": {
+        "cpnp": "4448218", "peso": "65 g",
+        "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Parfum, Aloe barbadensis leaf juice, Citric Acid, CI 61570, Anise Alcohol, Limonene.",
+        "fabricacion": "Limpiador facial solido, hecho a mano en Espana · Vegano · Sin plastico · pH semejante al de la piel.",
+    },
+    "limpiador-facial-rosa-mosqueta": {
+        "cpnp": "4150232", "peso": "65 g",
+        "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Parfum, Rosa Canina Fruit Oil, Illite, Benzyl Salicylate, Citronellol, Gamma-Methyl Ionone, Geraniol, Hydroxycitronellal, Linalool.",
+        "fabricacion": "Limpiador facial solido, hecho a mano en Espana · Vegano · Sin plastico · pH semejante al de la piel.",
+    },
+    "espuma-depilacion-aloe": {
+        "peso": "90 g",
+        "inci": "Sodium Coco-Sulfate, Aqua, Cocos nucifera Oil, Parfum, Butyrospermum parkii Butter, Theobroma cacao Seed Butter, Cocamidopropyl Betaine, Aloe barbadensis leaf juice, Benzyl Alcohol, CI 61570.",
+        "fabricacion": "Espuma de depilacion solida, hecha a mano en Espana · Vegana · Sin plastico.",
+    },
+    "espuma-depilacion-uva": {
+        "cpnp": "4270095", "peso": "90 g",
+        "inci": "Sodium Coco-Sulfate, Aqua, Cocos nucifera Oil, Parfum, Butyrospermum parkii Butter, Theobroma cacao Seed Butter, Cocamidopropyl Betaine, Vitis vinifera seed oil, Linalool, CI 14720.",
+        "fabricacion": "Espuma de depilacion solida, hecha a mano en Espana · Vegana · Sin plastico.",
+    },
+    "champu-barba-carbon": {
+        "cpnp": "3852941", "peso": "60 g",
+        "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Cocamidopropyl Betaine, Parfum, Charcoal Powder, Benzyl Salicylate, Citronellol, Coumarine, Limonene.",
+        "fabricacion": "Champu solido en frio, hecho a mano en Espana · Vegano · Sin plastico.",
+    },
+}
+SPECS.update(MAS_SPECS)
