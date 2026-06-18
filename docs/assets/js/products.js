@@ -954,9 +954,12 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-monoi.svg",
+      "image": "assets/img/products/jabon-monoi.jpg",
       "images": [
-        "assets/img/products/jabon-monoi.svg"
+        "assets/img/products/jabon-monoi.jpg",
+        "assets/img/products/jabon-monoi-2.jpg",
+        "assets/img/products/jabon-monoi-3.jpg",
+        "assets/img/products/jabon-monoi-4.jpg"
       ],
       "bullets": [
         "AROMA TROPICAL DE MONOI: un autentico ritual sensorial.",
@@ -1210,9 +1213,13 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-aguacate.svg",
+      "image": "assets/img/products/jabon-aguacate.jpg",
       "images": [
-        "assets/img/products/jabon-aguacate.svg"
+        "assets/img/products/jabon-aguacate.jpg",
+        "assets/img/products/jabon-aguacate-2.jpg",
+        "assets/img/products/jabon-aguacate-3.jpg",
+        "assets/img/products/jabon-aguacate-4.jpg",
+        "assets/img/products/jabon-aguacate-5.jpg"
       ],
       "bullets": [
         "ACEITE DE AGUACATE: nutritivo, rico en vitaminas A, D y E.",
