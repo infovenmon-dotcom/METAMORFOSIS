@@ -1171,13 +1171,16 @@ html.motion-ready .reveal { transition: none; }
 }
 .savia-final .savia-overlay {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(180deg, rgba(13,42,30,.74) 0%, rgba(20,60,44,.60) 50%, rgba(28,107,79,.72) 100%);
+  background: linear-gradient(180deg, rgba(12,38,28,.55) 0%, rgba(18,52,38,.38) 45%, rgba(20,70,50,.55) 100%);
 }
 /* contenido por encima del fondo y la capa */
 .savia-final h2,
 .savia-final .savia-texto,
 .savia-final .savia-claim,
 .savia-final .btn { position: relative; z-index: 2; }
+.savia-final h2, .savia-final .savia-texto, .savia-final .savia-claim {
+  text-shadow: 0 2px 16px rgba(0,0,0,.5);
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .savia-final .savia-bg {
