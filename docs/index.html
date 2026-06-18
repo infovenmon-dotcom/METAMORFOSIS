@@ -22,6 +22,19 @@
       <div class="banner-promo">
         <strong>🎁 POR CADA 3 PRODUCTOS, 1 GRATIS</strong> · Envío gratis desde 45 €
       </div>
+      <header class="cabecera">
+        <div class="cabecera-inner">
+          <a class="logo" href="index.html"><img class="logo-img" src="assets/img/logo-negro.png" alt="Savia de Alma"></a>
+          <nav class="nav-tienda">
+            <a href="index.html">Inicio</a>
+            <a href="tienda.html">Tienda</a>
+            <a href="#contacto">Contacto</a>
+          </nav>
+          <button class="boton-carrito" onclick="abrirCarrito()">
+            🛒 <span class="carrito-contador oculto" data-carrito-contador>0</span>
+          </button>
+        </div>
+      </header>
     </div>
 
     <!-- 1. HERO -->
@@ -179,8 +192,8 @@
           <p>Sí: <strong>100% veganos, sin plásticos ni tóxicos</strong>, registrados (CPNP) y hechos a mano en España con ingredientes nobles. Declaramos el 100% de los ingredientes.</p>
         </details>
         <details>
-          <summary>¿Puedo devolver el producto?</summary>
-          <p>Por supuesto. Dispones de <strong>14 días</strong> para devoluciones. Escríbenos y te ayudamos con el proceso.</p>
+          <summary>¿Tenéis alguna promoción o regalo?</summary>
+          <p>Sí: siempre tienes nuestro <strong>4×3</strong> — por cada 3 productos que compras, el 4º (el de menor valor) es <strong>gratis</strong>. Y en tu primer pedido te regalamos una <strong>jabonera de bambú + esponja exfoliante</strong> por hacerte cliente.</p>
         </details>
       </div>
     </section>
@@ -188,10 +201,10 @@
     <!-- NEWSLETTER -->
     <section class="newsletter">
       <h2>Únete a Savia de Alma</h2>
-      <p>Suscríbete y llévate un <strong>10% de descuento</strong> en tu primer pedido, además de consejos de cuidado natural.</p>
+      <p>Hazte cliente y llévate tu <strong>regalo de bienvenida</strong> —jabonera de bambú + esponja exfoliante— en tu primer pedido. Y recuerda: por cada 3 productos, el 4º te sale <strong>gratis</strong>.</p>
       <form class="newsletter-form" onsubmit="return suscribirNewsletter(event)">
         <input type="email" name="email" required placeholder="Tu correo electrónico" aria-label="Tu correo electrónico">
-        <button class="btn btn-primario" type="submit">Quiero mi 10%</button>
+        <button class="btn btn-primario" type="submit">Quiero mi regalo</button>
       </form>
       <p class="newsletter-ok" id="newsletter-ok" hidden>🌿 ¡Gracias! Te hemos apuntado. Revisa tu correo.</p>
       <small>Sin spam. Puedes darte de baja cuando quieras.</small>
@@ -219,12 +232,51 @@
       </div>
     </section>
 
+    <!-- CONTACTO -->
+    <section class="landing-seccion contacto" id="contacto">
+      <h2>¿Hablamos?</h2>
+      <p class="contacto-sub">¿Tienes dudas o quieres más información? Escríbenos y te respondemos pronto.</p>
+      <form class="contacto-form" onsubmit="return enviarContacto(event)">
+        <div class="cf-row">
+          <input type="text" name="nombre" required placeholder="Tu nombre" aria-label="Tu nombre">
+          <input type="email" name="email" required placeholder="Tu correo electrónico" aria-label="Tu correo electrónico">
+        </div>
+        <textarea name="mensaje" rows="5" required placeholder="¿En qué podemos ayudarte?" aria-label="Tu mensaje"></textarea>
+        <button class="btn btn-primario" type="submit">Enviar consulta</button>
+      </form>
+      <p class="contacto-ok" id="contacto-ok" hidden>🌿 ¡Gracias! Hemos recibido tu mensaje. Te responderemos pronto.</p>
+      <p class="contacto-alt">O escríbenos directamente a <a href="mailto:info@venmon.es">info@venmon.es</a></p>
+    </section>
+
   </main>
 
-  <!-- Carrito flotante -->
-  <button class="boton-carrito" style="position:fixed;bottom:18px;right:18px;z-index:60;box-shadow:var(--sombra-fuerte)" onclick="abrirCarrito()">
-    🛒 <span class="carrito-contador oculto" data-carrito-contador>0</span>
-  </button>
+  <!-- Footer -->
+  <footer class="pie">
+    <div class="contenedor pie-inner">
+      <div class="pie-marca">
+        <img class="pie-logo" src="assets/img/logo-blanco.png" alt="Savia de Alma">
+        <p>Cosmética sólida natural · Hecha a mano en España</p>
+        <div class="redes">
+          <a href="https://www.instagram.com/savia_dealma" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+          <a href="https://www.tiktok.com/@saviadealma" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
+          <a href="https://www.amazon.es/stores/SaviadeAlma/page/6AD3705D-E19B-4150-A0FB-7BB7F057E0DE" target="_blank" rel="noopener" aria-label="Amazon">🛍️</a>
+        </div>
+      </div>
+      <nav class="pie-col">
+        <h4>Mapa del sitio</h4>
+        <a href="index.html">Inicio</a>
+        <a href="tienda.html">Tienda</a>
+        <a href="index.html#contacto">Contacto</a>
+      </nav>
+      <nav class="pie-col">
+        <h4>Legales</h4>
+        <a href="aviso-legal.html">Aviso legal</a>
+        <a href="privacidad.html">Política de privacidad y cookies</a>
+        <a href="accesibilidad.html">Declaración de accesibilidad</a>
+      </nav>
+    </div>
+    <small>Precios con IVA (21%) incluido · Por cada 3 productos, el 4º (de menor valor) gratis · © Savia de Alma</small>
+  </footer>
 
   <div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
   <aside class="panel-carrito" id="panel-carrito" aria-label="Carrito">

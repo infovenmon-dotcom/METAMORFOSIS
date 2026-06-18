@@ -86,6 +86,17 @@ function suscribirNewsletter(e) {
   return false;
 }
 
+/* Formulario de contacto. Sin backend muestra confirmacion; para recibir los
+   mensajes de verdad, conecta el form a Formspree/Brevo (action + method POST). */
+function enviarContacto(e) {
+  e.preventDefault();
+  const f = e.target;
+  const ok = document.getElementById('contacto-ok');
+  if (f) f.style.display = 'none';
+  if (ok) ok.hidden = false;
+  return false;
+}
+
 /* ---------- Ficha de producto (modal con beneficios + modo de uso) ---------- */
 function abrirFicha(handle) {
   const p = DATA.products.find(x => x.handle === handle);
