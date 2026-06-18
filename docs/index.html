@@ -9,6 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- Entrada del hero sin parpadeo: se oculta antes de pintar y Motion lo
+       revela; failsafe a 2s deja el hero visible aunque Motion no cargue. -->
+  <style>.js-anim .hero > * { opacity: 0; transform: translateY(18px); }</style>
+  <script>(function(){var r=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r){document.documentElement.classList.add('js-anim');setTimeout(function(){document.documentElement.classList.remove('js-anim');},2000);}})();</script>
 </head>
 <body>
   <main class="landing">
@@ -128,5 +132,6 @@
   <script src="assets/js/products.js"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion-enhance.js"></script>
 </body>
 </html>

@@ -978,3 +978,6 @@ button:focus-visible,
   }
   .reveal.is-visible { opacity: 1; transform: none; }
 }
+/* Cuando la libreria Motion toma el relevo, ella controla la animacion con
+   muelle (Web Animations API): quitamos la transicion CSS para que no compitan. */
+html.motion-ready .reveal { transition: none; }

@@ -42,11 +42,16 @@ function addToCart(handle) {
   if (typeof mostrarAvisoFlotante === 'function') {
     mostrarAvisoFlotante('🛒 Añadido a la cesta · sigue comprando');
   }
-  // Pequeno latido en el contador del carrito como feedback visual
+  // Pequeno latido en el contador del carrito como feedback visual.
+  // Si Motion esta disponible, usa un muelle; si no, la animacion CSS.
   document.querySelectorAll('[data-carrito-contador]').forEach(c => {
-    c.classList.remove('pulso');
-    void c.offsetWidth; // reinicia la animacion
-    c.classList.add('pulso');
+    if (typeof window.__motionPop === 'function') {
+      window.__motionPop(c);
+    } else {
+      c.classList.remove('pulso');
+      void c.offsetWidth; // reinicia la animacion
+      c.classList.add('pulso');
+    }
   });
 }
 
@@ -206,7 +211,7 @@ function renderLandingCategorias() {
    menos movimiento, no observamos nada y el contenido queda visible. */
 function initReveal() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce || !('IntersectionObserver' in window)) return;
+  if (reduce) return;
 
   const selector = [
     '.landing-seccion', '.regalo-bienvenida', '.savia-final', '.cta-final',
@@ -217,6 +222,14 @@ function initReveal() {
     // Evita marcar como reveal un contenedor y, dentro, sus propias tarjetas
     // dos veces: las tarjetas se animan solas con su escalonado.
     .filter(el => !el.closest('.panel-ficha'));
+
+  elementos.forEach(el => el.classList.add('reveal'));
+
+  // Sin IntersectionObserver (navegador muy antiguo): mostrar todo.
+  if (!('IntersectionObserver' in window)) {
+    elementos.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
 
   const obs = new IntersectionObserver((entradas, observer) => {
     entradas.forEach(entrada => {
@@ -234,7 +247,12 @@ function initReveal() {
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
-  elementos.forEach(el => { el.classList.add('reveal'); obs.observe(el); });
+  elementos.forEach(el => obs.observe(el));
+
+  // Se exponen para que la capa Motion (motion-enhance.js) pueda tomar el
+  // relevo con animaciones de muelle si la libreria llega a cargar.
+  window.__revealObserver = obs;
+  window.__revealItems = elementos;
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarFicha(); });
