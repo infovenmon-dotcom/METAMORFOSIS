@@ -1680,7 +1680,11 @@ window.SAVIA_DATA = {
       "emoji": "✨",
       "image": "assets/img/products/limpiador-facial-rosa-mosqueta.jpg",
       "images": [
-        "assets/img/products/limpiador-facial-rosa-mosqueta.jpg"
+        "assets/img/products/limpiador-facial-rosa-mosqueta.jpg",
+        "assets/img/products/limpiador-facial-rosa-mosqueta-2.jpg",
+        "assets/img/products/limpiador-facial-rosa-mosqueta-3.jpg",
+        "assets/img/products/limpiador-facial-rosa-mosqueta-4.jpg",
+        "assets/img/products/limpiador-facial-rosa-mosqueta-5.jpg"
       ],
       "bullets": [
         "REGENERA la piel y estimula la produccion natural de colageno.",
@@ -1728,7 +1732,8 @@ window.SAVIA_DATA = {
       "emoji": "✨",
       "image": "assets/img/products/limpiador-facial-aloe-pepino.jpg",
       "images": [
-        "assets/img/products/limpiador-facial-aloe-pepino.jpg"
+        "assets/img/products/limpiador-facial-aloe-pepino.jpg",
+        "assets/img/products/limpiador-facial-aloe-pepino-2.jpg"
       ],
       "bullets": [
         "HIDRATA y calma la piel gracias al aloe vera.",
