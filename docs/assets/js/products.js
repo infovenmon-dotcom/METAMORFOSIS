@@ -1807,9 +1807,10 @@ window.SAVIA_DATA = {
       "collection": "accesorios",
       "collectionName": "Accesorios",
       "emoji": "🧺",
-      "image": "assets/img/products/jabonera-bambu.svg",
+      "image": "assets/img/products/jabonera-bambu.jpg",
       "images": [
-        "assets/img/products/jabonera-bambu.svg"
+        "assets/img/products/jabonera-bambu.jpg",
+        "assets/img/products/jabonera-bambu-2.jpg"
       ],
       "bullets": [
         "BAMBÚ NATURAL Y SOSTENIBLE: material renovable, biodegradable y resistente.",
@@ -1845,9 +1846,10 @@ window.SAVIA_DATA = {
       "collection": "accesorios",
       "collectionName": "Accesorios",
       "emoji": "🧺",
-      "image": "assets/img/products/esponja-exfoliante.svg",
+      "image": "assets/img/products/esponja-exfoliante.jpg",
       "images": [
-        "assets/img/products/esponja-exfoliante.svg"
+        "assets/img/products/esponja-exfoliante.jpg",
+        "assets/img/products/esponja-exfoliante-2.jpg"
       ],
       "bullets": [
         "EXFOLIACIÓN SUAVE: retira células muertas y deja la piel suave y luminosa.",
