@@ -75,6 +75,17 @@ function toggleHeroSound() {
   }
 }
 
+/* ---------- Newsletter (sin backend: confirma y oculta el formulario) ----------
+   Para activar el envio real, conecta el form a Mailchimp/Formspree. */
+function suscribirNewsletter(e) {
+  e.preventDefault();
+  const f = e.target;
+  const ok = document.getElementById('newsletter-ok');
+  if (f) f.style.display = 'none';
+  if (ok) ok.hidden = false;
+  return false;
+}
+
 /* ---------- Ficha de producto (modal con beneficios + modo de uso) ---------- */
 function abrirFicha(handle) {
   const p = DATA.products.find(x => x.handle === handle);
@@ -235,7 +246,8 @@ function initReveal() {
 
   const selector = [
     '.landing-seccion', '.regalo-bienvenida', '.savia-final', '.cta-final',
-    '.historia', '.seccion', '.card', '.beneficio'
+    '.historia', '.seccion', '.card', '.beneficio',
+    '.impacto', '.newsletter'
   ].join(',');
 
   const elementos = Array.from(document.querySelectorAll(selector))

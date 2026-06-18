@@ -1186,3 +1186,85 @@ html.motion-ready .reveal { transition: none; }
   }
   .savia-final.is-visible .savia-bg { opacity: 1; transform: scale(1); }
 }
+
+/* ===========================================================================
+   NUEVAS SECCIONES: sostenibilidad, resenas, FAQ, newsletter
+   =========================================================================== */
+/* --- Sostenibilidad / impacto (banda verde) --- */
+.impacto {
+  background: linear-gradient(160deg, var(--verde-oscuro), var(--verde-medio));
+  color: #fff; text-align: center; padding: 46px 24px;
+}
+.impacto h2 { color: #fff; }
+.impacto-sub { max-width: 520px; margin: 6px auto 26px; opacity: .95; }
+.impacto-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+  max-width: 900px; margin: 0 auto;
+}
+@media (min-width: 760px) { .impacto-grid { grid-template-columns: repeat(4, 1fr); } }
+.impacto-item { display: flex; flex-direction: column; gap: 4px; }
+.impacto-num {
+  font-family: var(--fuente-titulo); font-size: 2.6rem; line-height: 1;
+  color: var(--dorado-claro);
+}
+.impacto-lbl { font-size: .85rem; opacity: .95; line-height: 1.4; }
+
+/* --- Resenas / testimonios --- */
+.resenas { text-align: center; }
+.resenas-media { color: var(--dorado); font-size: 1.05rem; letter-spacing: 1px; margin: -6px 0 22px; }
+.resenas-media span { color: var(--texto-suave); font-size: .9rem; letter-spacing: 0; }
+.resenas-grid { display: grid; gap: 16px; }
+@media (min-width: 760px) { .resenas-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+.resena {
+  background: var(--blanco); border: 1px solid var(--borde); border-radius: var(--radio);
+  padding: 22px 20px; margin: 0; text-align: left; box-shadow: var(--sombra);
+}
+.resena-estrellas { color: #e8b53d; letter-spacing: 2px; margin-bottom: 8px; }
+.resena p { margin: 0 0 12px; font-size: .95rem; line-height: 1.6; color: var(--texto); }
+.resena cite { font-style: normal; font-weight: 600; color: var(--verde-oscuro); font-size: .9rem; }
+
+/* --- FAQ (acordeon nativo) --- */
+.faq-lista { max-width: 760px; margin: 0 auto; display: grid; gap: 10px; }
+.faq details {
+  background: var(--blanco); border: 1px solid var(--borde);
+  border-radius: var(--radio-sm); padding: 2px 18px; overflow: hidden;
+  transition: box-shadow .2s var(--ease);
+}
+.faq details[open] { box-shadow: var(--sombra); }
+.faq summary {
+  list-style: none; cursor: pointer; padding: 15px 28px 15px 0; position: relative;
+  font-weight: 600; color: var(--negro); font-size: 1rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; position: absolute; right: 2px; top: 50%; transform: translateY(-50%);
+  font-size: 1.4rem; color: var(--verde-oscuro); transition: transform .2s var(--ease);
+}
+.faq details[open] summary::after { content: "−"; }
+.faq details p { margin: 0 0 16px; color: var(--texto-suave); font-size: .92rem; line-height: 1.6; }
+
+/* --- Newsletter --- */
+.newsletter {
+  text-align: center; padding: 50px 24px;
+  background: var(--verde-claro);
+}
+.newsletter h2 { color: var(--verde-oscuro); }
+.newsletter > p { max-width: 480px; margin: 6px auto 20px; color: #2a4a3e; }
+.newsletter-form {
+  display: flex; gap: 10px; max-width: 460px; margin: 0 auto; flex-wrap: wrap;
+  justify-content: center;
+}
+.newsletter-form input {
+  flex: 1; min-width: 200px; padding: 13px 16px; border-radius: 999px;
+  border: 1px solid var(--borde); font-family: var(--fuente-cuerpo); font-size: 1rem;
+  background: #fff;
+}
+.newsletter-form input:focus-visible { outline: 2px solid var(--verde-medio); outline-offset: 2px; }
+.newsletter-ok { color: var(--verde-oscuro); font-weight: 600; margin: 14px 0 0; }
+.newsletter small { display: block; margin-top: 12px; color: #5b7a6c; font-size: .78rem; }
+
+@media (min-width: 900px) {
+  .impacto, .newsletter { padding-left: 24px; padding-right: 24px; }
+  .resenas, .faq { max-width: 1100px; margin-left: auto; margin-right: auto; }
+  .impacto-num { font-size: 3rem; }
+}
