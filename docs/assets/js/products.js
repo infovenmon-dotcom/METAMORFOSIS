@@ -654,9 +654,9 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-naranja-canela.svg",
+      "image": "assets/img/products/jabon-naranja-canela.jpg",
       "images": [
-        "assets/img/products/jabon-naranja-canela.svg"
+        "assets/img/products/jabon-naranja-canela.jpg"
       ],
       "bullets": [
         "AROMA CALIDO NARANJA Y CANELA: energizante y reconfortante.",
@@ -702,9 +702,9 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-borraja.svg",
+      "image": "assets/img/products/jabon-borraja.jpg",
       "images": [
-        "assets/img/products/jabon-borraja.svg"
+        "assets/img/products/jabon-borraja.jpg"
       ],
       "bullets": [
         "ACEITE DE BORRAJA: rico en omega-6 (GLA) que nutre en profundidad.",
