@@ -55,6 +55,26 @@ function addToCart(handle) {
   });
 }
 
+/* ---------- Sonido opcional del video del hero ----------
+   El video arranca en mudo (obligatorio para autoplay). Este boton permite
+   al usuario activar/silenciar el sonido tras su primer gesto. */
+function toggleHeroSound() {
+  const v = document.querySelector('.hero-video');
+  const b = document.getElementById('hero-sound');
+  if (!v) return;
+  v.muted = !v.muted;
+  if (!v.muted) {
+    v.volume = 1;
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+    if (b) { b.textContent = '🔊'; b.setAttribute('aria-label', 'Silenciar'); b.classList.add('activo'); }
+  } else if (b) {
+    b.textContent = '🔇';
+    b.setAttribute('aria-label', 'Activar sonido');
+    b.classList.remove('activo');
+  }
+}
+
 /* ---------- Ficha de producto (modal con beneficios + modo de uso) ---------- */
 function abrirFicha(handle) {
   const p = DATA.products.find(x => x.handle === handle);

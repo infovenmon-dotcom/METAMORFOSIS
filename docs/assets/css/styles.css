@@ -1030,3 +1030,71 @@ html.motion-ready .reveal { transition: none; }
     background-position: center;
   }
 }
+
+/* Boton de sonido opcional del hero (esquina inferior derecha) */
+.hero-sound {
+  position: absolute;
+  bottom: 14px; right: 14px;
+  z-index: 3;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.5);
+  background: rgba(10,34,24,.45);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: transform .15s var(--ease), background .15s var(--ease);
+}
+.hero-sound:hover { transform: scale(1.08); background: rgba(10,34,24,.65); }
+.hero-sound.activo { background: var(--verde-medio); border-color: #fff; }
+
+/* ===========================================================================
+   INICIO EN ESCRITORIO: el landing deja de ser una columna estrecha de movil
+   (la tienda ya es ancha y se queda igual). Hero a pantalla completa y
+   contenido centrado en un ancho legible.
+   =========================================================================== */
+@media (min-width: 900px) {
+  .landing { max-width: none; }
+
+  /* Hero a todo el ancho y mas alto/cinematografico */
+  .landing .hero-con-video { min-height: 90vh; }
+  .landing .hero-logo { width: 260px; max-width: 40%; }
+  .landing .hero-tagline { font-size: 2.8rem; }
+  .landing .hero-sub { font-size: 1.15rem; max-width: 520px; }
+
+  /* Banda promo y secciones de color a todo el ancho; contenido centrado */
+  .landing-seccion {
+    max-width: 1100px;
+    margin-left: auto; margin-right: auto;
+    padding: 48px 24px;
+  }
+  .landing-seccion > h2 { font-size: 2rem; margin-bottom: 26px; }
+
+  .regalo-bienvenida {
+    max-width: 900px; margin-left: auto; margin-right: auto;
+    padding: 22px 26px;
+  }
+
+  /* Historia: columna de lectura comoda y centrada */
+  .historia { max-width: 760px; }
+  .historia .historia-intro { font-size: 1.3rem; }
+
+  /* Mas vendidos: 4 columnas en pantalla grande */
+  .landing .grid-productos { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .landing .card h3 { font-size: 1rem; }
+
+  /* Categorias en rejilla de 2 columnas */
+  .landing-categorias {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  /* Secciones de cierre: texto centrado en ancho comodo */
+  .savia-final > h2, .savia-final .savia-texto,
+  .cta-final > * { margin-left: auto; margin-right: auto; }
+  .savia-final h2 { font-size: 2.1rem; }
+}
