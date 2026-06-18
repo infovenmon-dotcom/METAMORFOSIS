@@ -89,7 +89,7 @@ window.SAVIA_DATA = {
         "CANELA PURIFICANTE: limpia los folrculos y ayuda a un cuero cabelludo sano.",
         "PELO MAS FUERTE Y DENSO: indicado para cabello debil o fino.",
         "92,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": true,
@@ -101,7 +101,7 @@ window.SAVIA_DATA = {
         "cpnp": "3859323",
         "natural": "92,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Parfum, Coffea arabica seed Powder, Caffeine, Cinnamomum cassia Bark, Benzyl Benzoate, Cinnamal, Cinnamyl Alcohol, Coumarin, Eugenol.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -142,7 +142,7 @@ window.SAVIA_DATA = {
         "ACEITE ESENCIAL DE LAVANDA: calma, fortalece el folrculo y aporta aroma natural.",
         "BRILLO Y CUIDADO DEL COLOR: apto para uso diario sin resecar el cabello.",
         "96,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -154,7 +154,7 @@ window.SAVIA_DATA = {
         "cpnp": "4148266",
         "natural": "96,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Lavandula Angustifolia Flower Oil, Parfum, Indigofera Tinctoria Leaf Powder, CI 77007, Alpha-Isomethyl Ionone, Hydroxycitronellal, Limonene, Linalool.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -195,7 +195,7 @@ window.SAVIA_DATA = {
         "MANTECA DE CACAO Y KARITE: aportan suavidad, brillo y flexibilidad como acondicionador.",
         "AROMA A COOKIES: original y goloso, deja el pelo sedoso.",
         "96,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -207,7 +207,7 @@ window.SAVIA_DATA = {
         "cpnp": "3175568",
         "natural": "96,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Theobroma cacao seed powder, Aqua, Cocos nucifera Oil, Parfum, Butyrospermum parkii butter, Theobroma cacao seed butter, Cinnamal, Coumarine.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -247,7 +247,7 @@ window.SAVIA_DATA = {
         "SENSACION DE LIMPIO MAS DIAS: equilibra y permite espaciar los lavados.",
         "AROMA POMELO: fresco y duradero, apto para uso diario.",
         "96% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -259,7 +259,7 @@ window.SAVIA_DATA = {
         "cpnp": "3987564",
         "natural": "96% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Cocamidopropyl Betaine, Aqua, Parfum, Sodium Chloride, Amyl Cinnamal, Benzyl Alcohol, Benzyl Salicylate, Citral, Geraniol, Hexyl Cinnamal, Limonene, Linalool, CI 19140.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -300,7 +300,7 @@ window.SAVIA_DATA = {
         "ANTIOXIDANTE NATURAL: el te verde ayuda a proteger del envejecimiento y la agresion externa.",
         "HIDRATA CON ACEITE DE COCO: limpia y cuida el cabello sin resecarlo.",
         "94,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -312,7 +312,7 @@ window.SAVIA_DATA = {
         "cpnp": "3175569",
         "natural": "94,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Camellia Sinensis Leaf Extract, Parfum, Geraniol, Hexyl Cinnamal, Limonene, Linalool, CI 74160, CI 21100.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -353,7 +353,7 @@ window.SAVIA_DATA = {
         "ANTICAIDA Y FORTALECEDOR: mejora la circulacion del cuero cabelludo y da fuerza al cabello.",
         "ARCILLA ROJA PURIFICANTE: limpieza profunda del cuero cabelludo sin resecar.",
         "98% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -365,7 +365,7 @@ window.SAVIA_DATA = {
         "cpnp": "3859334",
         "natural": "98% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Allium cepa bulb Extract, Parfum, Illite, Limonene.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -406,7 +406,7 @@ window.SAVIA_DATA = {
         "EXTRACTO DE AVENA: emoliente y suavizante natural, calma e hidrata.",
         "ACEITE DE ALMENDRA: nutre, refuerza la fibra capilar y da brillo.",
         "INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -418,7 +418,7 @@ window.SAVIA_DATA = {
         "cpnp": "3907967",
         "natural": "Ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Kaolin, Illite, Avena Sativa Kernel Extract, Prunus Amygdalus Dulcis Oil, Parfum, Citronellol, Alpha-Isomethyl Ionone, Hexyl Cinnamal, Limonene, Linalool.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -459,7 +459,7 @@ window.SAVIA_DATA = {
         "ROMERO + QUINA (RONQUINA): tonico natural anticaida que densifica la fibra capilar.",
         "REGULA LA GRASA: arcilla astringente que activa la circulacion del folculo.",
         "98% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -471,7 +471,7 @@ window.SAVIA_DATA = {
         "cpnp": "3907972",
         "natural": "98% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Cinchona calisaya bark Extract, Rosmarinus officinalis leaf Extract, Illite, Kaolin, Alcohol Denat, Parfum, Benzyl Benzoate, Cinnamal, Citral, Citronellol, Coumarin, Eugenol, Farnesol, Alpha-Isomethyl Ionone, Geraniol, Hydroxycitronellal, Isoeugenol, Limonene, Linalool.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -513,7 +513,7 @@ window.SAVIA_DATA = {
         "CALMA EL PICOR: propiedades antisepticas, antieccematicas y fungicidas.",
         "DESCAMANTE NATURAL: ayuda a eliminar la caspa y a que no vuelva a formarse.",
         "92,5% INGREDIENTES NATURALES (Cosmos): sin SLS ni SCI, vegano y sin plastico.",
-        "60 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
+        "65 g · +60 LAVADOS: elaborado a mano, uno a uno, en Espana."
       ],
       "exclusiveWeb": false,
       "bestSeller": false,
@@ -525,7 +525,7 @@ window.SAVIA_DATA = {
         "cpnp": "3852869",
         "natural": "92,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Cocos nucifera Oil, Aqua, Juniperus oxycedrus Wood Oil.",
-        "peso": "60 g · mas de 60 lavados",
+        "peso": "65 g · mas de 60 lavados",
         "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano."
       }
     },
@@ -1382,7 +1382,7 @@ window.SAVIA_DATA = {
       "specs": {
         "cpnp": "4164680",
         "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Benzyl Benzoate, Benzyl Salicylate, Cinnamyl Alcohol, Citral, Citronellol, Coumarin, Eugenol, Alpha-Isomethyl Ionone, Geraniol, Hexyl Cinnamal, Isoeugenol, Limonene, Linalool.",
-        "peso": "100 g",
+        "peso": "50 g",
         "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
       }
     },
@@ -1434,7 +1434,7 @@ window.SAVIA_DATA = {
       "specs": {
         "cpnp": "4164676",
         "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, CI 45100, Benzyl Salicylate, Limonene.",
-        "peso": "100 g",
+        "peso": "50 g",
         "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
       }
     },
@@ -1486,7 +1486,7 @@ window.SAVIA_DATA = {
       "specs": {
         "cpnp": "3867185",
         "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Benzyl Benzoate, Benzyl Salicylate, Cinnamyl Alcohol, Citral, Citronellol, Coumarin, Eugenol, Alpha-Isomethyl Ionone, Geraniol, Hexyl Cinnamal, Isoeugenol, Limonene, Linalool.",
-        "peso": "100 g",
+        "peso": "50 g",
         "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
       }
     },
@@ -1534,7 +1534,7 @@ window.SAVIA_DATA = {
       "specs": {
         "cpnp": "3867191",
         "inci": "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Curcuma Longa Root Powder, Benzyl Salicylate, Citral, Citronellol, Coumarin, Eugenol, Geraniol, Limonene, Linalool.",
-        "peso": "100 g",
+        "peso": "50 g",
         "fabricacion": "Desodorante solido, hecho a mano en Espana. Vegano · Sin plastico · Sin sales de aluminio."
       }
     },

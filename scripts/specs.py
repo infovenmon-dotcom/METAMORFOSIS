@@ -8,7 +8,7 @@ peso y nº de usos. Datos disponibles para los champus solidos.
 
 # Datos genericos de la gama de champus solidos.
 GENERICO_CHAMPU = {
-    "peso": "60 g · mas de 60 lavados",
+    "peso": "65 g · mas de 60 lavados",
     "fabricacion": "Elaborado a mano, uno a uno. Sin SLS ni SCI. Sin plastico (cero residuos). Vegano.",
 }
 
@@ -85,7 +85,8 @@ JABON_DESO_SPECS = {
     "desodorante-madera": ("3867191", "Cetearyl Alcohol, Cocos Nucifera Oil, Parfum, Sodium Stearoyl Glutamate, Octyldodecanol, Coco-Caprylate, Glycerin, Curcuma Longa Root Powder, Benzyl Salicylate, Citral, Citronellol, Coumarin, Eugenol, Geraniol, Limonene, Linalool.", GEN_DESO),
 }
 for _h, (_cpnp, _inci, _fab) in JABON_DESO_SPECS.items():
-    SPECS[_h] = {"cpnp": _cpnp, "inci": _inci, "peso": "100 g", "fabricacion": _fab}
+    _peso = "50 g" if _h.startswith("desodorante") else "100 g"
+    SPECS[_h] = {"cpnp": _cpnp, "inci": _inci, "peso": _peso, "fabricacion": _fab}
 
 # --- Faciales, depilacion y barba (INCI leido de documentos del Drive) ---
 MAS_SPECS = {
