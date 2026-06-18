@@ -1166,7 +1166,7 @@ html.motion-ready .reveal { transition: none; }
    =========================================================================== */
 .savia-final .savia-bg {
   position: absolute; inset: 0; z-index: 0;
-  background-image: url("assets/img/savia-arbol.jpg");
+  background-image: url("../img/savia-arbol.jpg");
   background-size: cover; background-position: center;
 }
 .savia-final .savia-overlay {
