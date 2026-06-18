@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="assets/css/styles.css">
   <!-- Entrada del hero sin parpadeo: se oculta antes de pintar y Motion lo
        revela; failsafe a 2s deja el hero visible aunque Motion no cargue. -->
-  <style>.js-anim .hero > * { opacity: 0; transform: translateY(18px); }</style>
+  <style>.js-anim .hero-inner > * { opacity: 0; transform: translateY(18px); }</style>
   <script>(function(){var r=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r){document.documentElement.classList.add('js-anim');setTimeout(function(){document.documentElement.classList.remove('js-anim');},2000);}})();</script>
 </head>
 <body>
@@ -25,17 +25,25 @@
     </div>
 
     <!-- 1. HERO -->
-    <header class="hero">
-      <h1 class="sr-only">Savia de Alma</h1>
-      <img class="hero-logo" src="assets/img/logo-blanco.png" alt="Savia de Alma">
-      <p class="hero-tagline">Naturaleza en estado puro</p>
-      <p class="hero-sub">Cosmética sólida natural, hecha a mano en España. Vegana, sin plásticos y sin tóxicos.</p>
-      <a class="btn btn-primario" href="tienda.html">Descubre la tienda</a>
-      <div class="hero-badges">
-        <span>🌱 100% natural</span>
-        <span>🤲 Hecho a mano</span>
-        <span>♻️ Zero waste</span>
-        <span>🐰 Vegano</span>
+    <header class="hero hero-con-video">
+      <video class="hero-video" autoplay muted loop playsinline preload="auto"
+             poster="https://res.cloudinary.com/dvxfbfa7y/video/upload/so_0,q_auto,w_1280/hf_20260618_122931_8e567548-7836-4199-b8e9-5dafd75256c5_oyflta.jpg">
+        <source src="https://res.cloudinary.com/dvxfbfa7y/video/upload/q_auto,w_1280/hf_20260618_122931_8e567548-7836-4199-b8e9-5dafd75256c5_oyflta.webm" type="video/webm">
+        <source src="https://res.cloudinary.com/dvxfbfa7y/video/upload/q_auto,w_1280/hf_20260618_122931_8e567548-7836-4199-b8e9-5dafd75256c5_oyflta.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <h1 class="sr-only">Savia de Alma</h1>
+        <img class="hero-logo" src="assets/img/logo-blanco.png" alt="Savia de Alma">
+        <p class="hero-tagline">Naturaleza en estado puro</p>
+        <p class="hero-sub">Cosmética sólida natural, hecha a mano en España. Vegana, sin plásticos y sin tóxicos.</p>
+        <a class="btn btn-primario" href="tienda.html">Descubre la tienda</a>
+        <div class="hero-badges">
+          <span>🌱 100% natural</span>
+          <span>🤲 Hecho a mano</span>
+          <span>♻️ Zero waste</span>
+          <span>🐰 Vegano</span>
+        </div>
       </div>
     </header>
 

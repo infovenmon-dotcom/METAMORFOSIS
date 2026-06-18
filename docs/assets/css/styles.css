@@ -981,3 +981,52 @@ button:focus-visible,
 /* Cuando la libreria Motion toma el relevo, ella controla la animacion con
    muelle (Web Animations API): quitamos la transicion CSS para que no compitan. */
 html.motion-ready .reveal { transition: none; }
+
+/* ===========================================================================
+   HERO CON VIDEO DE FONDO (Cloudinary) — naturaleza en estado puro
+   =========================================================================== */
+.hero-con-video {
+  position: relative;
+  overflow: hidden;
+  min-height: 78vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* El degradado verde queda de respaldo si el video no carga */
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Capa verde translucida: legibilidad del logo/texto, mas oscura arriba */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(10,34,24,.55) 0%, rgba(20,60,44,.42) 45%, rgba(29,107,80,.52) 100%);
+}
+.hero-con-video .hero-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 8px 4px;
+}
+.hero-con-video .hero-tagline { text-shadow: 0 2px 16px rgba(0,0,0,.35); }
+.hero-con-video .hero-sub { text-shadow: 0 1px 10px rgba(0,0,0,.30); }
+.hero-con-video .hero-badges { text-shadow: 0 1px 8px rgba(0,0,0,.30); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sin movimiento: mostramos el poster (primer fotograma), no el video */
+  .hero-video { display: none; }
+  .hero-con-video {
+    background-image: url("https://res.cloudinary.com/dvxfbfa7y/video/upload/so_0,q_auto,w_1280/hf_20260618_122931_8e567548-7836-4199-b8e9-5dafd75256c5_oyflta.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+}

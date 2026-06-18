@@ -48,7 +48,7 @@
          Solo si el hero sigue oculto por .js-anim (evita parpadeos si Motion
          llegara muy tarde, tras el failsafe del <head>). */
       if (root.classList.contains('js-anim')) {
-        var heroKids = document.querySelectorAll('.hero > *');
+        var heroKids = document.querySelectorAll('.hero-inner > *');
         if (heroKids.length) {
           animate(
             heroKids,
