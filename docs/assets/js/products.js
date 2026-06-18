@@ -853,9 +853,13 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🧼",
-      "image": "assets/img/products/jabon-rosa-mosqueta.svg",
+      "image": "assets/img/products/jabon-rosa-mosqueta.jpg",
       "images": [
-        "assets/img/products/jabon-rosa-mosqueta.svg"
+        "assets/img/products/jabon-rosa-mosqueta.jpg",
+        "assets/img/products/jabon-rosa-mosqueta-2.jpg",
+        "assets/img/products/jabon-rosa-mosqueta-3.jpg",
+        "assets/img/products/jabon-rosa-mosqueta-4.jpg",
+        "assets/img/products/jabon-rosa-mosqueta-5.jpg"
       ],
       "bullets": [
         "REGENERA la piel difuminando marcas, cicatrices y lineas.",
