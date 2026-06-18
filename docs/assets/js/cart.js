@@ -9,7 +9,7 @@
 
 const ENVIO_GRATIS_DESDE = 45;
 const ENVIO_PENINSULA = 4.95;
-const GRUPO_GRATIS = 3; // por cada 3 productos, 1 gratis
+const GRUPO_GRATIS = 4; // 3+1: por cada 3 comprados, el 4o (mas barato) es gratis
 const STORAGE_KEY = 'savia_carrito';
 
 const Carrito = {

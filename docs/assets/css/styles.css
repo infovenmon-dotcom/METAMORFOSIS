@@ -111,12 +111,13 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(90deg, #143228, #1D6B50 50%, #143228);
   color: #f4efe6;
   text-align: center;
-  padding: 9px 16px;
-  font-size: .85rem;
-  font-weight: 500;
+  padding: 15px 18px;
+  font-size: 1.05rem;
+  font-weight: 600;
   letter-spacing: .4px;
 }
-.banner-promo strong { color: var(--dorado-claro); font-weight: 700; letter-spacing: .6px; }
+.banner-promo strong { color: var(--dorado-claro); font-weight: 800; letter-spacing: .6px; }
+@media (max-width: 600px) { .banner-promo { font-size: .92rem; padding: 13px 14px; } }
 
 /* ---------- Header tienda ---------- */
 .cabecera {
@@ -347,7 +348,8 @@ img { max-width: 100%; display: block; }
 .hero .btn-primario { background: #fff; color: var(--verde-oscuro); }
 .hero .btn-primario:hover { background: var(--beige); }
 
-.landing .banner-promo { font-size: .95rem; padding: 14px 16px; }
+.landing .banner-promo { font-size: 1.05rem; padding: 15px 16px; }
+@media (max-width: 600px) { .landing .banner-promo { font-size: .92rem; padding: 13px 14px; } }
 
 .landing-seccion { padding: 30px 18px; }
 .landing-seccion > h2 {
@@ -918,3 +920,7 @@ h1, h2, h3 { letter-spacing: -.01em; }
   .hero-nature .hero-logo,.savia-gota,.savia-mist { animation: none !important; }
   .fx-drops,.fx-leaves { display: none; }
 }
+
+/* Cierre "vuelve a lo natural" (texto sobre la niebla suave) */
+.savia-final > * { position: relative; z-index: 1; }
+.savia-claim { font-family: var(--fuente-titulo); font-size: 1.55rem; color: #fff; margin: 6px 0 22px; }
