@@ -1525,9 +1525,12 @@ window.SAVIA_DATA = {
       "collection": "desodorantes",
       "collectionName": "Desodorantes Solidos",
       "emoji": "🌿",
-      "image": "assets/img/products/desodorante-madera.svg",
+      "image": "assets/img/products/desodorante-madera.jpg",
       "images": [
-        "assets/img/products/desodorante-madera.svg"
+        "assets/img/products/desodorante-madera.jpg",
+        "assets/img/products/desodorante-madera-2.jpg",
+        "assets/img/products/desodorante-madera-3.jpg",
+        "assets/img/products/desodorante-madera-4.jpg"
       ],
       "bullets": [
         "NEUTRALIZA EL OLOR todo el dia, SIN sales de aluminio.",
