@@ -610,7 +610,13 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/jabon-cbd.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "CALMA Y EQUILIBRA: CBD (cannabidiol) que reconforta la piel reactiva.",
+        "ARNICA Y TE VERDE: accion antioxidante y descongestionante.",
+        "PIEL SERENA: ideal para pieles sensibles o estresadas.",
+        "VEGANO Y NATURAL, sin plastico ni toxicos.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El CBD es un calmante y antiinflamatorio natural que ayuda a reducir rojeces e irritaciones. Combinado con aceite de oliva, ofrece una hidratacion profunda y reconfortante.",
@@ -652,7 +658,13 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/jabon-naranja-canela.svg"
       ],
-      "bullets": [],
+      "bullets": [
+        "AROMA CALIDO NARANJA Y CANELA: energizante y reconfortante.",
+        "ACEITES ESENCIALES NATURALES de naranja, canela y clavo.",
+        "LIMPIA Y MIMA la piel en tu rutina diaria.",
+        "VEGANO, biodegradable y sin plastico.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "La naranja, energizante y antiseptica, se une a la canela para revitalizar la piel con un calido aroma citrico y especiado. El aceite de oliva aporta hidratacion profunda.",
@@ -694,7 +706,13 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/jabon-borraja.svg"
       ],
-      "bullets": [],
+      "bullets": [
+        "ACEITE DE BORRAJA: rico en omega-6 (GLA) que nutre en profundidad.",
+        "IDEAL PIEL SECA O MADURA: aporta elasticidad y confort.",
+        "TOQUE DE PACHULI: aroma calido y envolvente.",
+        "VEGANO, biodegradable y sin plastico.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "La borraja, rica en acidos grasos esenciales, es un regenerador y antiinflamatorio natural que repara la piel. El aceite de oliva nutre e hidrata en profundidad.",
@@ -940,7 +958,13 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/jabon-monoi.svg"
       ],
-      "bullets": [],
+      "bullets": [
+        "AROMA TROPICAL DE MONOI: un autentico ritual sensorial.",
+        "NUTRE E HIDRATA: deja la piel sedosa y perfumada.",
+        "EXTRACTO DE NONI (Morinda): suaviza y mima la piel.",
+        "VEGANO, biodegradable y sin plastico.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite de Monoi, originario de Tahiti, combina aceite de coco y flor de tiare. Aporta suavidad, brillo y un aroma envolvente de verano eterno.",
@@ -1038,7 +1062,13 @@ window.SAVIA_DATA = {
         "assets/img/products/jabon-carbon-activo-4.jpg",
         "assets/img/products/jabon-carbon-activo-5.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "CARBON ACTIVO DETOX: absorbe impurezas y exceso de grasa.",
+        "PURIFICA EN PROFUNDIDAD: ideal para piel mixta o grasa.",
+        "LIMPIEZA RESPETUOSA, sin resecar la piel.",
+        "VEGANO, biodegradable y sin plastico.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El carbon activo actua como un iman natural que absorbe toxinas, impurezas y exceso de grasa.",
@@ -1084,7 +1114,13 @@ window.SAVIA_DATA = {
         "assets/img/products/jabon-azufre-4.jpg",
         "assets/img/products/jabon-azufre-5.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "AZUFRE PURIFICANTE: ayuda en piel grasa, con acne o impurezas.",
+        "ACCION SEBORREGULADORA Y ANTIBACTERIANA.",
+        "LIMPIA Y EQUILIBRA el cutis sin agredir.",
+        "VEGANO, biodegradable y sin plastico.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El azufre, mineral de la tierra, tiene propiedades antibacterianas, calmantes y purificantes. Ayuda a equilibrar el exceso de grasa y a aliviar irritaciones o impurezas.",
@@ -1178,7 +1214,13 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/jabon-aguacate.svg"
       ],
-      "bullets": [],
+      "bullets": [
+        "ACEITE DE AGUACATE: nutritivo, rico en vitaminas A, D y E.",
+        "PIEL SUAVE Y FLEXIBLE: hidratacion profunda para piel seca.",
+        "ESPUMA CREMOSA y reconfortante.",
+        "VEGANO, biodegradable y sin plastico.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El aceite de aguacate hidrata y regenera profundamente, aportando suavidad y elasticidad a la piel.",
@@ -1324,7 +1366,13 @@ window.SAVIA_DATA = {
         "assets/img/products/desodorante-te-verde.jpg",
         "assets/img/products/desodorante-te-verde-2.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "NEUTRALIZA EL OLOR todo el dia, SIN sales de aluminio.",
+        "BASE DE ACEITE DE COCO: cuida y suaviza la piel.",
+        "AROMA FRESCO A TE VERDE.",
+        "VEGANO Y SIN PLASTICO, larga duracion.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "Inspirado en la pureza del te verde, neutraliza el mal olor de forma natural sin bloquear los poros, permitiendo que la piel respire. Su formula cremosa hidrata y cuida.",
@@ -1370,7 +1418,13 @@ window.SAVIA_DATA = {
         "assets/img/products/desodorante-pomelo-4.jpg",
         "assets/img/products/desodorante-pomelo-5.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "NEUTRALIZA EL OLOR todo el dia, SIN sales de aluminio.",
+        "BASE DE ACEITE DE COCO: cuida y suaviza la piel.",
+        "AROMA CITRICO Y VITAL DE POMELO.",
+        "VEGANO Y SIN PLASTICO, larga duracion.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El desodorante solido de pomelo aporta un frescor citrico, luminoso y estimulante. Su textura cremosa ofrece proteccion duradera sin obstruir los poros.",
@@ -1416,7 +1470,13 @@ window.SAVIA_DATA = {
         "assets/img/products/desodorante-algodon-4.jpg",
         "assets/img/products/desodorante-algodon-5.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "NEUTRALIZA EL OLOR todo el dia, SIN sales de aluminio.",
+        "BASE DE ACEITE DE COCO: cuida y suaviza la piel.",
+        "AROMA LIMPIO Y SUAVE A ALGODON.",
+        "VEGANO Y SIN PLASTICO, larga duracion.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": true,
       "descripcion": "El desodorante solido de algodon envuelve con una frescura delicada y un aroma empolvado y suave. Hidrata y protege sin irritar.",
@@ -1458,7 +1518,13 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/desodorante-madera.svg"
       ],
-      "bullets": [],
+      "bullets": [
+        "NEUTRALIZA EL OLOR todo el dia, SIN sales de aluminio.",
+        "BASE DE ACEITE DE COCO con curcuma.",
+        "AROMA AMADERADO Y ELEGANTE.",
+        "VEGANO Y SIN PLASTICO, larga duracion.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": false,
       "descripcion": "El desodorante solido de madera concentra una esencia calida y amaderada. Con propiedades antioxidantes y purificantes, ofrece proteccion efectiva cuidando la piel.",
@@ -1505,7 +1571,13 @@ window.SAVIA_DATA = {
         "assets/img/products/acondicionador-coco-4.jpg",
         "assets/img/products/acondicionador-coco-5.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "DESENREDA Y SUAVIZA: cabello manejable y brillante.",
+        "ACEITE DE COCO: nutre e hidrata la fibra capilar.",
+        "SIN SILICONAS NI PLASTICO: solido, cero residuos.",
+        "APTO para uso frecuente, vegano.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": true,
       "bestSeller": false,
       "descripcion": "El aceite de coco nutre en profundidad y aporta brillo, el pantenol fortalece y la vitamina E protege como antioxidante natural. Desenreda y suaviza sin siliconas.",
@@ -1552,7 +1624,13 @@ window.SAVIA_DATA = {
         "assets/img/products/acondicionador-almendra-4.jpg",
         "assets/img/products/acondicionador-almendra-5.jpg"
       ],
-      "bullets": [],
+      "bullets": [
+        "DESENREDA Y SUAVIZA: cabello sedoso y facil de peinar.",
+        "ACEITE DE ALMENDRA: nutre y aporta brillo.",
+        "SIN SILICONAS NI PLASTICO: solido, cero residuos.",
+        "APTO para uso frecuente, vegano.",
+        "HECHO a mano en Espana."
+      ],
       "exclusiveWeb": true,
       "bestSeller": false,
       "descripcion": "El aceite de almendra define y nutre los rizos, la manteca de karite protege y repara, y la provitamina B5 hidrata y fortalece. Controla el frizz sin apelmazar.",
@@ -1689,7 +1767,13 @@ window.SAVIA_DATA = {
       "images": [
         "assets/img/products/espuma-afeitar-avellana.svg"
       ],
-      "bullets": [],
+      "bullets": [
+        "AFEITADO APURADO Y SUAVE: espuma cremosa que facilita el deslizar de la cuchilla.",
+        "ACEITE DE AVELLANA: hidrata y protege la piel del rasurado.",
+        "SIN IRRITACION: formula saponificada natural, respetuosa con la piel.",
+        "VEGANA Y SIN PLASTICO: solida, cero residuos.",
+        "HECHA a mano en Espana."
+      ],
       "exclusiveWeb": false,
       "bestSeller": true,
       "descripcion": "El aceite de avellana nutre y suaviza la piel mientras genera una espuma cremosa de larga duracion que facilita un apurado sin irritacion. Sin SLS ni SCI.",
