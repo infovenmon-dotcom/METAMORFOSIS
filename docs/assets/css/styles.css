@@ -1159,3 +1159,30 @@ html.motion-ready .reveal { transition: none; }
   .cita-cine blockquote { font-size: 2.4rem; }
   .cita-cine { padding: 110px 24px; }
 }
+
+/* ===========================================================================
+   SAVIA-FINAL: fondo del arbol con la gota de savia, aparece al hacer scroll
+   (si falta assets/img/savia-arbol.jpg, queda el degradado verde de base)
+   =========================================================================== */
+.savia-final .savia-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: url("assets/img/savia-arbol.jpg");
+  background-size: cover; background-position: center;
+}
+.savia-final .savia-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(13,42,30,.74) 0%, rgba(20,60,44,.60) 50%, rgba(28,107,79,.72) 100%);
+}
+/* contenido por encima del fondo y la capa */
+.savia-final h2,
+.savia-final .savia-texto,
+.savia-final .savia-claim,
+.savia-final .btn { position: relative; z-index: 2; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .savia-final .savia-bg {
+    opacity: 0; transform: scale(1.08);
+    transition: opacity 1.5s var(--ease), transform 7s ease-out;
+  }
+  .savia-final.is-visible .savia-bg { opacity: 1; transform: scale(1); }
+}
