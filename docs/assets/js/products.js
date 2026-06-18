@@ -1773,9 +1773,13 @@ window.SAVIA_DATA = {
       "collection": "afeitado",
       "collectionName": "Afeitado y Barba",
       "emoji": "🪒",
-      "image": "assets/img/products/espuma-afeitar-avellana.svg",
+      "image": "assets/img/products/espuma-afeitar-avellana.jpg",
       "images": [
-        "assets/img/products/espuma-afeitar-avellana.svg"
+        "assets/img/products/espuma-afeitar-avellana.jpg",
+        "assets/img/products/espuma-afeitar-avellana-2.jpg",
+        "assets/img/products/espuma-afeitar-avellana-3.jpg",
+        "assets/img/products/espuma-afeitar-avellana-4.jpg",
+        "assets/img/products/espuma-afeitar-avellana-5.jpg"
       ],
       "bullets": [
         "AFEITADO APURADO Y SUAVE: espuma cremosa que facilita el deslizar de la cuchilla.",
