@@ -3,3 +3,7 @@ node_modules/
 *.log
 __pycache__/
 *.pyc
+# Tooling local (Higgsfield skills / Claude) - no forma parte del sitio
+.agents/
+.claude/
+skills-lock.json
