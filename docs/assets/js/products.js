@@ -608,7 +608,8 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-cbd.jpg",
       "images": [
-        "assets/img/products/jabon-cbd.jpg"
+        "assets/img/products/jabon-cbd.jpg",
+        "assets/img/products/jabon-cbd-2.jpg"
       ],
       "bullets": [
         "CALMA Y EQUILIBRA: CBD (cannabidiol) que reconforta la piel reactiva.",
