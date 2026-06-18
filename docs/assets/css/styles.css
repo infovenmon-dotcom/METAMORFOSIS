@@ -23,6 +23,7 @@
   --sombra-fuerte: 0 10px 30px rgba(29, 107, 80, 0.18);
   --radio: 16px;
   --radio-sm: 10px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
 
   --fuente-titulo: "Playfair Display", Georgia, "Times New Roman", serif;
   --fuente-cuerpo: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -924,3 +925,56 @@ h1, h2, h3 { letter-spacing: -.01em; }
 /* Cierre "vuelve a lo natural" (texto sobre la niebla suave) */
 .savia-final > * { position: relative; z-index: 1; }
 .savia-claim { font-family: var(--fuente-titulo); font-size: 1.55rem; color: #fff; margin: 6px 0 22px; }
+
+/* ===========================================================================
+   PULIDO UI/UX  —  microinteracciones, foco accesible y ritmo tipografico
+   (guias UI/UX Pro Max: ease-out al entrar, 1 capa por vista, reduced-motion)
+   =========================================================================== */
+
+/* --- Ritmo tipografico: mejores cortes de linea (sin cambiar tamanos) --- */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, .card-desc, .historia p, .savia-texto, .ficha-desc { text-wrap: pretty; }
+
+/* --- Foco visible para teclado (accesibilidad WCAG, no afecta al raton) --- */
+a:focus-visible,
+button:focus-visible,
+.card-img:focus-visible,
+.chip:focus-visible,
+.cat-boton:focus-visible,
+.ficha-thumb:focus-visible {
+  outline: 2px solid var(--verde-medio);
+  outline-offset: 3px;
+  border-radius: var(--radio-sm);
+}
+
+/* --- Microinteracciones suaves y consistentes --- */
+.cat-boton { transition: background .18s var(--ease), transform .18s var(--ease), box-shadow .18s var(--ease); }
+.cat-boton:hover { transform: translateX(3px); box-shadow: var(--sombra); }
+.beneficio { transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+.beneficio:hover { transform: translateY(-3px); box-shadow: var(--sombra); }
+.chip { transition: background .15s var(--ease), color .15s var(--ease), transform .15s var(--ease); }
+.chip:hover { transform: translateY(-1px); }
+.redes a { transition: background .18s var(--ease), transform .18s var(--ease); }
+.redes a:hover { transform: translateY(-2px); }
+.boton-carrito { transition: transform .15s var(--ease), box-shadow .15s var(--ease); }
+.boton-carrito:hover { transform: translateY(-2px); box-shadow: var(--sombra-fuerte); }
+
+/* Pildora del contador del carrito: pequeno latido al cambiar (clase via JS) */
+.carrito-contador.pulso { animation: contadorPulso .4s var(--ease); }
+@keyframes contadorPulso { 0%,100%{transform:scale(1)} 40%{transform:scale(1.35)} }
+
+/* --- Anclas de categoria: que el titulo no quede bajo la cabecera fija --- */
+[id^="col-"] { scroll-margin-top: 120px; }
+
+/* --- Scroll-reveal: aparicion sutil al entrar en pantalla --- */
+/* Solo se oculta si el usuario NO pide menos movimiento: si lo pide, el
+   contenido es visible desde el principio (sin parpadeos ni saltos). */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .65s var(--ease), transform .65s var(--ease);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible { opacity: 1; transform: none; }
+}

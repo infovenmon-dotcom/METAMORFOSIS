@@ -42,6 +42,12 @@ function addToCart(handle) {
   if (typeof mostrarAvisoFlotante === 'function') {
     mostrarAvisoFlotante('🛒 Añadido a la cesta · sigue comprando');
   }
+  // Pequeno latido en el contador del carrito como feedback visual
+  document.querySelectorAll('[data-carrito-contador]').forEach(c => {
+    c.classList.remove('pulso');
+    void c.offsetWidth; // reinicia la animacion
+    c.classList.add('pulso');
+  });
 }
 
 /* ---------- Ficha de producto (modal con beneficios + modo de uso) ---------- */
@@ -194,10 +200,48 @@ function renderLandingCategorias() {
      </a>`).join('');
 }
 
+/* ---------- Scroll-reveal: aparicion sutil al entrar en pantalla ----------
+   Revela bloques de seccion y tarjetas con un leve desplazamiento (ease-out)
+   y un pequeno escalonado. Respeta prefers-reduced-motion: si el usuario pide
+   menos movimiento, no observamos nada y el contenido queda visible. */
+function initReveal() {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+
+  const selector = [
+    '.landing-seccion', '.regalo-bienvenida', '.savia-final', '.cta-final',
+    '.historia', '.seccion', '.card', '.beneficio'
+  ].join(',');
+
+  const elementos = Array.from(document.querySelectorAll(selector))
+    // Evita marcar como reveal un contenedor y, dentro, sus propias tarjetas
+    // dos veces: las tarjetas se animan solas con su escalonado.
+    .filter(el => !el.closest('.panel-ficha'));
+
+  const obs = new IntersectionObserver((entradas, observer) => {
+    entradas.forEach(entrada => {
+      if (!entrada.isIntersecting) return;
+      const el = entrada.target;
+      // Escalonado para grupos de tarjetas dentro de una misma rejilla
+      const grid = el.closest('.grid-productos, .grid-beneficios');
+      if (grid && (el.classList.contains('card') || el.classList.contains('beneficio'))) {
+        const hermanos = Array.from(grid.children);
+        const i = hermanos.indexOf(el);
+        el.style.transitionDelay = Math.min(i, 6) * 70 + 'ms';
+      }
+      el.classList.add('is-visible');
+      observer.unobserve(el);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+  elementos.forEach(el => { el.classList.add('reveal'); obs.observe(el); });
+}
+
 document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarFicha(); });
 
 document.addEventListener('DOMContentLoaded', () => {
   renderTienda();
   renderLandingBestSellers();
   renderLandingCategorias();
+  initReveal();
 });
