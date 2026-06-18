@@ -807,8 +807,7 @@ window.SAVIA_DATA = {
         "assets/img/products/jabon-arbol-te.jpg",
         "assets/img/products/jabon-arbol-te-2.jpg",
         "assets/img/products/jabon-arbol-te-3.jpg",
-        "assets/img/products/jabon-arbol-te-4.jpg",
-        "assets/img/products/jabon-arbol-te-5.jpg"
+        "assets/img/products/jabon-arbol-te-4.jpg"
       ],
       "bullets": [
         "PURIFICA en profundidad y desobstruye los poros sin agredir.",
