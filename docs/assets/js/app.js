@@ -472,6 +472,47 @@ async function cargarConfigRemota() {
   } catch (e) { /* sin conexión: seguimos con la config local de config.js */ }
 }
 
+/* Al volver del pago de Stripe, la URL trae ?pago=ok o ?pago=cancelado.
+   - ok        -> damos las gracias y vaciamos la cesta (el pedido ya está hecho).
+   - cancelado -> avisamos sin vaciar (la cesta se conserva).
+   Después limpiamos el parámetro para que no se repita al recargar. */
+function gestionarRetornoPago() {
+  const params = new URLSearchParams(window.location.search);
+  const pago = params.get('pago');
+  if (!pago) return;
+  params.delete('pago');
+  const limpia = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + window.location.hash;
+  history.replaceState({}, '', limpia);
+
+  if (pago === 'ok') {
+    if (window.Carrito) { Carrito.items = {}; Carrito.guardar(); Carrito.render(); }
+    if (typeof cerrarCarrito === 'function') cerrarCarrito();
+    mostrarModalGracias();
+  } else if (pago === 'cancelado') {
+    if (typeof mostrarAvisoFlotante === 'function') mostrarAvisoFlotante('Has cancelado el pago · tu cesta sigue guardada 🛒');
+  }
+}
+
+function mostrarModalGracias() {
+  if (document.querySelector('.gracias-overlay')) return;
+  const ov = document.createElement('div');
+  ov.className = 'gracias-overlay';
+  ov.innerHTML = `
+    <div class="gracias-modal" role="dialog" aria-modal="true" aria-label="Compra realizada">
+      <div class="gracias-emoji">🌿</div>
+      <h2>¡Gracias por tu compra!</h2>
+      <p>Hemos recibido tu pedido. Te enviaremos la confirmación y el seguimiento a tu correo electrónico.</p>
+      <p class="gracias-sub">Preparamos tu cosmética sólida a mano y con mucho cariño. 💚</p>
+      <button class="btn btn-primario btn-bloque" onclick="cerrarGracias()">Seguir comprando</button>
+    </div>`;
+  document.body.appendChild(ov);
+  document.body.style.overflow = 'hidden';
+}
+function cerrarGracias() {
+  document.querySelector('.gracias-overlay')?.remove();
+  document.body.style.overflow = '';
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   await cargarConfigRemota();
   mostrarAvisoVacaciones();
@@ -481,4 +522,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initReveal();
   // Re-render del carrito con la config ya fusionada (precios/ofertas).
   if (window.Carrito && typeof Carrito.render === 'function') Carrito.render();
+  // Mensaje de gracias / cancelación al volver de Stripe.
+  gestionarRetornoPago();
 });
