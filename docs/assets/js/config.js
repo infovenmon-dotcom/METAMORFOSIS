@@ -17,7 +17,7 @@ window.SAVIA_CONFIG = {
        - Vacío ("")      -> el carrito deriva la compra a Amazon (modo escaparate).
      Ejemplo:
         checkoutEndpoint: "https://savia-pago.tu-usuario.workers.dev", */
-  checkoutEndpoint: "",
+  checkoutEndpoint: "https://savia-pago.info-venmon.workers.dev",
 
   /* PRODUCTOS AGOTADOS (sin stock) — lista rápida
      Pon aquí los "handle" de los productos sin stock. Esos mostrarán la etiqueta
