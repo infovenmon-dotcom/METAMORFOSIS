@@ -1358,3 +1358,7 @@ html.motion-ready .reveal { transition: none; }
 .ficha-resenas .resena-estrellas { color: #e8b53d; letter-spacing: 2px; font-size: .85rem; margin-bottom: 4px; }
 .ficha-resenas p { margin: 0 0 5px; font-size: .9rem; line-height: 1.5; color: var(--texto); }
 .ficha-resenas cite { font-style: normal; font-weight: 600; font-size: .82rem; color: var(--texto-suave); }
+
+/* Iconos SVG de redes sociales (Instagram, TikTok, Amazon) */
+.redes a svg { width: 19px; height: 19px; fill: currentColor; display: block; }
+.redes a { color: #fff; }
