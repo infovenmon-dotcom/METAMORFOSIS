@@ -275,7 +275,59 @@ async function crearCheckout(request, env, cors) {
   return jsonResp({ url: session.url }, 200, cors);
 }
 
-/* ---------- Webhook: baja el stock al completarse el pago ---------- */
+/* ---------- Email de aviso de pedido (Brevo) ----------
+   Si están configuradas EMAIL_API_KEY y ORDER_EMAIL_TO, envía un correo con el
+   cliente, la dirección de envío y los productos. Si no, no hace nada. */
+async function enviarEmailPedido(sesion, env) {
+  if (!env.EMAIL_API_KEY || !env.ORDER_EMAIL_TO) return;
+
+  // Recuperamos la sesión completa (con las líneas de producto).
+  let full = sesion;
+  try {
+    const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sesion.id}?expand[]=line_items`, {
+      headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY },
+    });
+    if (r.ok) full = await r.json();
+  } catch { /* usamos lo que haya */ }
+
+  const cd = full.customer_details || {};
+  const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
+  const a = ship.address || cd.address || {};
+  const dir = [a.line1, a.line2, [a.postal_code, a.city].filter(Boolean).join(' '), a.state, a.country]
+    .filter(Boolean).join('<br>');
+  const total = (full.amount_total != null) ? (full.amount_total / 100).toFixed(2) + ' €' : '—';
+  const envio = (full.shipping_cost && full.shipping_cost.amount_total != null)
+    ? (full.shipping_cost.amount_total / 100).toFixed(2) + ' €' : null;
+  const lineas = (full.line_items && full.line_items.data) ? full.line_items.data : [];
+  const itemsHtml = lineas.length
+    ? '<ul>' + lineas.map(li => `<li>${li.quantity} × ${li.description} — ${(li.amount_total / 100).toFixed(2)} €</li>`).join('') + '</ul>'
+    : '<p>(ver el detalle en el panel de Stripe)</p>';
+  const nombreEnvio = ship.name || cd.name || '';
+
+  const html =
+    `<h2>🛒 Nuevo pedido en Savia de Alma</h2>` +
+    `<p><strong>Cliente:</strong> ${cd.name || ''} &lt;${cd.email || '—'}&gt;</p>` +
+    `<h3>Dirección de envío</h3>` +
+    `<p>${nombreEnvio ? nombreEnvio + '<br>' : ''}${dir || '—'}</p>` +
+    `<h3>Productos</h3>${itemsHtml}` +
+    (envio ? `<p>Envío: ${envio}</p>` : '') +
+    `<p><strong>Total cobrado: ${total}</strong></p>` +
+    `<hr><p style="color:#888;font-size:12px">Pedido ${full.id}</p>`;
+
+  await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: { 'api-key': env.EMAIL_API_KEY, 'Content-Type': 'application/json', 'accept': 'application/json' },
+    body: JSON.stringify({
+      sender: { email: env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO, name: 'Tienda Savia de Alma' },
+      to: [{ email: env.ORDER_EMAIL_TO }],
+      replyTo: cd.email ? { email: cd.email } : undefined,
+      subject: `Nuevo pedido — ${total}`,
+      htmlContent: html,
+    }),
+  });
+}
+
+/* ---------- Webhook: baja el stock + avisa por email al completarse el pago ---------- */
 async function manejarWebhook(request, env) {
   const rawBody = await request.text();
   const sig = request.headers.get('stripe-signature');
@@ -287,21 +339,26 @@ async function manejarWebhook(request, env) {
 
   if (evento.type === 'checkout.session.completed') {
     const sesion = evento.data?.object || {};
-    if (sesion.payment_status === 'paid' && sesion.metadata && sesion.metadata.cart) {
-      let cart = {};
-      try { cart = JSON.parse(sesion.metadata.cart); } catch { cart = {}; }
-      const cfg = await getConfig(env);
-      const stock = cfg.stock || {};
-      let cambiado = false;
-      for (const [h, q] of Object.entries(cart)) {
-        // Solo bajamos el stock de referencias que SÍ se controlan por número.
-        if (Object.prototype.hasOwnProperty.call(stock, h)) {
-          const restante = Math.max(0, Math.floor(Number(stock[h]) || 0) - (parseInt(q, 10) || 0));
-          stock[h] = restante;
-          cambiado = true;
+    if (sesion.payment_status === 'paid') {
+      // 1) Bajar el stock (si el pedido trae el carrito en metadata).
+      if (sesion.metadata && sesion.metadata.cart) {
+        let cart = {};
+        try { cart = JSON.parse(sesion.metadata.cart); } catch { cart = {}; }
+        const cfg = await getConfig(env);
+        const stock = cfg.stock || {};
+        let cambiado = false;
+        for (const [h, q] of Object.entries(cart)) {
+          // Solo bajamos el stock de referencias que SÍ se controlan por número.
+          if (Object.prototype.hasOwnProperty.call(stock, h)) {
+            const restante = Math.max(0, Math.floor(Number(stock[h]) || 0) - (parseInt(q, 10) || 0));
+            stock[h] = restante;
+            cambiado = true;
+          }
         }
+        if (cambiado) { cfg.stock = stock; await putConfig(env, cfg); }
       }
-      if (cambiado) { cfg.stock = stock; await putConfig(env, cfg); }
+      // 2) Avisar por email del pedido (sin romper el webhook si fallara).
+      try { await enviarEmailPedido(sesion, env); } catch (e) { console.error('email pedido:', e); }
     }
   }
   return new Response('ok', { status: 200 });
