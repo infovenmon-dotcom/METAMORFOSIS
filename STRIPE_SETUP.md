@@ -75,6 +75,11 @@ Publica los cambios (commit + push). ¡Listo! "Finalizar compra" ya cobra con St
 
 ## Gestión diaria (sin tocar código complicado)
 
+> **Recomendado:** monta el **panel de control** (`PANEL_SETUP.md`) y gestiona
+> precios, ofertas, stock y vacaciones desde `/admin.html`, con cambios al
+> instante y stock que baja solo con cada venta. La opción de editar
+> `config.js` que sigue es la alternativa manual si no usas el panel.
+
 Todo en `docs/assets/js/config.js`:
 
 ### Modo vacaciones

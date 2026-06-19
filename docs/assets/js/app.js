@@ -451,10 +451,34 @@ function mostrarAvisoVacaciones() {
   document.body.insertBefore(av, document.body.firstChild);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+/* Carga la config EN VIVO desde el panel (Cloudflare Worker) y la fusiona sobre
+   la de config.js. Así, lo que cambies en /admin (precio, stock, ofertas,
+   vacaciones) sale al instante. Si no hay endpoint o falla la red, se usa la
+   config local de config.js (la web nunca se queda en blanco). */
+async function cargarConfigRemota() {
+  const ep = (_cfg().checkoutEndpoint || '').trim();
+  if (!ep) return;
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 4000);
+    const r = await fetch(ep.replace(/\/+$/, '') + '/config', { cache: 'no-store', signal: ctrl.signal });
+    clearTimeout(t);
+    if (!r.ok) return;
+    const remoto = await r.json();
+    if (remoto && typeof remoto === 'object') {
+      // checkoutEndpoint y demás ajustes locales se conservan.
+      window.SAVIA_CONFIG = Object.assign({}, window.SAVIA_CONFIG, remoto);
+    }
+  } catch (e) { /* sin conexión: seguimos con la config local de config.js */ }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await cargarConfigRemota();
   mostrarAvisoVacaciones();
   renderTienda();
   renderLandingBestSellers();
   renderLandingCategorias();
   initReveal();
+  // Re-render del carrito con la config ya fusionada (precios/ofertas).
+  if (window.Carrito && typeof Carrito.render === 'function') Carrito.render();
 });

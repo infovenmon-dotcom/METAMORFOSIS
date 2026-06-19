@@ -1,10 +1,23 @@
-# Configuración del Cloudflare Worker de pago de SAVIA DE ALMA.
+# Configuración del Cloudflare Worker de pago + panel de SAVIA DE ALMA.
 # Despliegue:  npx wrangler deploy   (desde la carpeta stripe/)
 name = "savia-pago"
 main = "worker.js"
 compatibility_date = "2024-11-01"
 
-# Variables NO secretas (la clave de Stripe se pone aparte, ver STRIPE_SETUP.md):
+# Variables NO secretas (los secretos van con `wrangler secret put`, ver PANEL_SETUP.md):
 [vars]
 PRODUCTS_URL = "https://TU-USUARIO.github.io/REPO/assets/js/products.js"
 ALLOWED_ORIGIN = "https://TU-USUARIO.github.io"
+
+# Base de datos KV donde se guarda la config del panel (precio/stock/ofertas/vacaciones).
+# Crea el namespace una vez con:
+#   npx wrangler kv namespace create SAVIA_KV
+# y pega el "id" que te devuelva aquí abajo:
+[[kv_namespaces]]
+binding = "SAVIA_KV"
+id = "PEGA_AQUI_EL_ID_DEL_KV"
+
+# Secretos (NO van en este archivo, se ponen con wrangler secret put):
+#   STRIPE_SECRET_KEY      -> sk_live_... o sk_test_...
+#   ADMIN_PASSWORD         -> contraseña del panel /admin
+#   STRIPE_WEBHOOK_SECRET  -> whsec_... (para que el stock baje solo)
