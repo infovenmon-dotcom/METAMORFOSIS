@@ -46,20 +46,42 @@ function acc(s) {
   return s;
 }
 
+/* ---------- Disponibilidad / stock / modo vacaciones (config.js) ---------- */
+function _cfg() { return window.SAVIA_CONFIG || {}; }
+function enVacaciones() { return !!_cfg().modoVacaciones; }
+function estaAgotado(p) {
+  return enVacaciones() || (_cfg().agotados || []).indexOf(p.handle) !== -1;
+}
+
 /* Tarjeta de producto. Web-exclusivos => solo "Anadir al carrito".
    Resto (en Amazon) => "Anadir al carrito" + "Ver en Amazon". */
 function cardProducto(p, { compacta = false } = {}) {
-  const etiqueta = p.exclusiveWeb
-    ? '<span class="etiqueta dorada">Exclusivo web</span>'
-    : (p.bestSeller ? '<span class="etiqueta">Más vendido</span>' : '');
+  const agotado = estaAgotado(p);
+  const etiqueta = (agotado && !enVacaciones())
+    ? '<span class="etiqueta agotado">Agotado</span>'
+    : (p.exclusiveWeb
+        ? '<span class="etiqueta dorada">Exclusivo web</span>'
+        : (p.bestSeller ? '<span class="etiqueta">Más vendido</span>' : ''));
 
-  const amazon = p.exclusiveWeb ? '' :
+  const amazonVer = p.exclusiveWeb ? '' :
     `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
 
   const desc = compacta ? '' : `<p class="card-desc">${acc(p.indicado || p.short)}</p>`;
 
+  let acciones;
+  if (agotado) {
+    acciones = (p.exclusiveWeb
+      ? `<button class="btn btn-secundario btn-sm btn-bloque" disabled>No disponible</button>`
+      : `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`)
+      + `<button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>`;
+  } else {
+    acciones = `<button class="btn btn-primario btn-sm btn-bloque" onclick="addToCart('${p.handle}')">Añadir al carrito</button>
+          <button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>
+          ${amazonVer}`;
+  }
+
   return `
-    <article class="card" data-handle="${p.handle}" data-collection="${p.collection}">
+    <article class="card${agotado ? ' es-agotado' : ''}" data-handle="${p.handle}" data-collection="${p.collection}">
       <button class="card-img" onclick="abrirFicha('${p.handle}')" aria-label="Ver detalles de ${acc(p.title)}">
         ${etiqueta}
         <img src="${p.image}" alt="${acc(p.title)}" loading="lazy">
@@ -69,9 +91,7 @@ function cardProducto(p, { compacta = false } = {}) {
         ${desc}
         <div class="card-precio">${eur(p.price)} <small>IVA incl.</small></div>
         <div class="card-acciones">
-          <button class="btn btn-primario btn-sm btn-bloque" onclick="addToCart('${p.handle}')">Añadir al carrito</button>
-          <button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>
-          ${amazon}
+          ${acciones}
         </div>
       </div>
     </article>`;
@@ -80,6 +100,11 @@ function cardProducto(p, { compacta = false } = {}) {
 /* Anade al carrito SIN salir de la pagina (estilo comercial): avisa con un
    toast y deja seguir comprando. La cesta se abre con el boton del carrito. */
 function addToCart(handle) {
+  const _p = DATA.products.find(x => x.handle === handle);
+  if (_p && estaAgotado(_p)) {
+    if (typeof mostrarAvisoFlotante === 'function') mostrarAvisoFlotante('Producto no disponible · cómpralo en Amazon');
+    return;
+  }
   Carrito.añadir(handle, 1);
   if (typeof mostrarAvisoFlotante === 'function') {
     mostrarAvisoFlotante('🛒 Añadido a la cesta · sigue comprando');
@@ -199,10 +224,15 @@ function abrirFicha(handle) {
         </div>`).join('')}
       </div>` : '';
 
+  const _agotado = estaAgotado(p);
   const acciones = `
       <div class="ficha-acciones">
-        <button class="btn btn-primario btn-bloque" onclick="addToCart('${p.handle}'); cerrarFicha();">Añadir al carrito</button>
-        ${amazon}
+        ${_agotado
+          ? (p.exclusiveWeb
+              ? `<button class="btn btn-secundario btn-bloque" disabled>No disponible temporalmente</button>`
+              : `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`)
+          : `<button class="btn btn-primario btn-bloque" onclick="addToCart('${p.handle}'); cerrarFicha();">Añadir al carrito</button>
+        ${amazon}`}
       </div>`;
 
   cont.innerHTML = `
@@ -358,7 +388,18 @@ function initReveal() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarFicha(); });
 
+/* Aviso de modo vacaciones (banda arriba del todo) */
+function mostrarAvisoVacaciones() {
+  if (!enVacaciones() || document.querySelector('.vacaciones-aviso')) return;
+  const av = document.createElement('div');
+  av.className = 'vacaciones-aviso';
+  av.innerHTML = '🌴 Estamos de vacaciones. Mientras tanto, puedes comprar nuestros productos en '
+    + `<a href="${DATA.amazonStore}" target="_blank" rel="noopener">nuestra tienda de Amazon</a>.`;
+  document.body.insertBefore(av, document.body.firstChild);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  mostrarAvisoVacaciones();
   renderTienda();
   renderLandingBestSellers();
   renderLandingCategorias();

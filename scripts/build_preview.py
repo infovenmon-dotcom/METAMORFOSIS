@@ -21,7 +21,7 @@ def inline_images(js):
     return re.sub(r'assets/img/(?:products/)?[A-Za-z0-9\-_]+\.(?:svg|jpe?g|png|webp)', repl, js)
 
 css=read('docs/assets/css/styles.css')
-js='\n'.join(read(f) for f in ['docs/assets/js/products.js','docs/assets/js/reviews.js','docs/assets/js/cart.js','docs/assets/js/app.js','docs/assets/js/motion-enhance.js','docs/assets/js/accesibilidad.js'])
+js='\n'.join(read(f) for f in ['docs/assets/js/products.js','docs/assets/js/reviews.js','docs/assets/js/config.js','docs/assets/js/cart.js','docs/assets/js/app.js','docs/assets/js/motion-enhance.js','docs/assets/js/accesibilidad.js'])
 js=inline_images(js)
 
 def build(src_html, out_name, link_map):
@@ -32,6 +32,7 @@ def build(src_html, out_name, link_map):
     # remove the three script tags, inject inline bundle before </body>
     h=re.sub(r'\s*<script src="assets/js/products\.js"></script>\s*'
              r'<script src="assets/js/reviews\.js"></script>\s*'
+             r'<script src="assets/js/config\.js"></script>\s*'
              r'<script src="assets/js/cart\.js"></script>\s*'
              r'<script src="assets/js/app\.js"></script>\s*'
              r'<script src="assets/js/motion-enhance\.js"></script>\s*'

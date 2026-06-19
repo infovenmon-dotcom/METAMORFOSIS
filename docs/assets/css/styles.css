@@ -1451,3 +1451,12 @@ html.a11y-contraste .btn-primario { background: #06402b !important; color: #fff 
 /* Banda Kit Digital (financiacion) — fondo blanco al pie */
 .kit-digital { background: #fff; text-align: center; padding: 20px 16px; border-top: 1px solid var(--borde); }
 .kit-digital img { max-width: 780px; width: 100%; height: auto; margin: 0 auto; display: block; }
+
+/* Disponibilidad / modo vacaciones */
+.etiqueta.agotado { background: #8a8a8a; }
+.card.es-agotado .card-precio { color: var(--texto-suave); }
+.vacaciones-aviso {
+  background: var(--dorado); color: #3a2c05; text-align: center;
+  padding: 11px 16px; font-weight: 600; font-size: .92rem;
+}
+.vacaciones-aviso a { color: #3a2c05; text-decoration: underline; }
