@@ -1362,3 +1362,88 @@ html.motion-ready .reveal { transition: none; }
 /* Iconos SVG de redes sociales (Instagram, TikTok, Amazon) */
 .redes a svg { width: 19px; height: 19px; fill: currentColor; display: block; }
 .redes a { color: #fff; }
+
+/* ===========================================================================
+   WIDGET DE ACCESIBILIDAD
+   =========================================================================== */
+.a11y-btn {
+  position: fixed; left: 18px; bottom: 18px; z-index: 120;
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--verde-oscuro); color: #fff; border: 2px solid #fff;
+  box-shadow: var(--sombra-fuerte); cursor: pointer;
+  display: grid; place-items: center;
+  transition: transform .15s var(--ease);
+}
+.a11y-btn:hover { transform: scale(1.08); }
+.a11y-btn svg { width: 26px; height: 26px; fill: #fff; }
+
+.a11y-panel {
+  position: fixed; left: 18px; bottom: 78px; z-index: 121;
+  width: min(320px, calc(100vw - 36px));
+  background: #fff; border: 1px solid var(--borde); border-radius: 16px;
+  box-shadow: var(--sombra-fuerte); overflow: hidden;
+}
+.a11y-cab {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--verde-oscuro); color: #fff; padding: 12px 14px;
+}
+.a11y-cab strong { font-family: var(--fuente-cuerpo); font-size: 1rem; }
+.a11y-x { background: none; border: none; color: #fff; font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.a11y-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
+.a11y-opt {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  text-align: center; background: var(--ivory); border: 1px solid var(--borde);
+  border-radius: 10px; padding: 12px 8px; font-size: .78rem; color: var(--texto);
+  font-family: var(--fuente-cuerpo); cursor: pointer; line-height: 1.25;
+  transition: border-color .15s var(--ease), background .15s var(--ease);
+}
+.a11y-opt:hover { border-color: var(--verde-medio); }
+.a11y-opt.activo { background: var(--verde-claro); border-color: var(--verde-oscuro); font-weight: 600; }
+.a11y-ico { font-size: 1.3rem; line-height: 1; }
+.a11y-reset {
+  width: calc(100% - 24px); margin: 0 12px 12px; padding: 10px;
+  background: #fff; border: 1px solid var(--borde); border-radius: 10px;
+  color: var(--texto-suave); cursor: pointer; font-family: var(--fuente-cuerpo); font-size: .85rem;
+}
+.a11y-reset:hover { border-color: var(--verde-oscuro); color: var(--verde-oscuro); }
+
+/* --- Clases que aplican los ajustes --- */
+html.a11y-fuente-grande { font-size: 119%; }
+html.a11y-interlineado body, html.a11y-interlineado p, html.a11y-interlineado li,
+html.a11y-interlineado .he-text { line-height: 2 !important; }
+html.a11y-legible body, html.a11y-legible h1, html.a11y-legible h2, html.a11y-legible h3,
+html.a11y-legible h4, html.a11y-legible p, html.a11y-legible a, html.a11y-legible li,
+html.a11y-legible button, html.a11y-legible input, html.a11y-legible textarea {
+  font-family: Verdana, Tahoma, Arial, sans-serif !important; letter-spacing: .01em;
+}
+html.a11y-grises { filter: grayscale(100%); }
+html.a11y-enlaces a { text-decoration: underline !important; text-underline-offset: 3px; }
+
+/* Ocultar imágenes (mantiene el layout, solo oculta el contenido visual) */
+html.a11y-sin-imagenes img,
+html.a11y-sin-imagenes video,
+html.a11y-sin-imagenes .hero-video,
+html.a11y-sin-imagenes .savia-bg,
+html.a11y-sin-imagenes .he-img { visibility: hidden !important; }
+html.a11y-sin-imagenes .cita-cine,
+html.a11y-sin-imagenes .savia-final .savia-bg { background-image: none !important; }
+
+/* Pausar animaciones */
+html.a11y-sin-animaciones *, html.a11y-sin-animaciones *::before, html.a11y-sin-animaciones *::after {
+  animation-duration: .001s !important; animation-iteration-count: 1 !important;
+  transition-duration: .001s !important; scroll-behavior: auto !important;
+}
+
+/* Alto contraste */
+html.a11y-contraste body { background: #fff !important; color: #000 !important; }
+html.a11y-contraste .card, html.a11y-contraste .beneficio, html.a11y-contraste .paso,
+html.a11y-contraste .ficha-bloque, html.a11y-contraste .resena, html.a11y-contraste .cat-boton,
+html.a11y-contraste .panel-ficha, html.a11y-contraste .panel-carrito {
+  background: #fff !important; color: #000 !important; border-color: #000 !important;
+}
+html.a11y-contraste .card h3, html.a11y-contraste .card-desc, html.a11y-contraste p,
+html.a11y-contraste li, html.a11y-contraste .seccion-sub, html.a11y-contraste .historia p {
+  color: #000 !important;
+}
+html.a11y-contraste a, html.a11y-contraste .card-precio { color: #06402b !important; }
+html.a11y-contraste .btn-primario { background: #06402b !important; color: #fff !important; }
