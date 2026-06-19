@@ -1325,3 +1325,8 @@ html.motion-ready .reveal { transition: none; }
 .legal-fecha { font-size: .85rem; opacity: .8; }
 .legal-volver { margin-top: 32px; }
 .legal-volver a { color: var(--verde-oscuro); font-weight: 600; }
+
+/* Enlace "ver mas resenas" */
+.resenas-cta { text-align: center; margin-top: 22px; }
+.resenas-cta a { color: var(--verde-oscuro); font-weight: 600; text-decoration: underline; }
+.resenas-cta a:hover { color: var(--verde-medio); }
