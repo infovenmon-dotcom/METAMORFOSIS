@@ -4,30 +4,72 @@
 
 const DATA = window.SAVIA_DATA;
 
+/* Corrige ñ y tildes SOLO en texto visible de producto (los datos vienen en
+   ASCII). No se aplica a handles, clases ni claves: únicamente a lo que se
+   muestra. */
+const _ACC = {
+  espana:'españa',espanol:'español',espanola:'española',espanoles:'españoles',
+  manana:'mañana',nino:'niño',ninos:'niños',nina:'niña',ninas:'niñas',
+  pequeno:'pequeño',pequena:'pequeña',pequenos:'pequeños',pequenas:'pequeñas',
+  diseno:'diseño',disenos:'diseños',bano:'baño',banos:'baños',ano:'año',anos:'años',
+  compania:'compañía',senal:'señal',senales:'señales',tamano:'tamaño',otono:'otoño',
+  montana:'montaña',anadir:'añadir',anade:'añade',acompana:'acompaña',
+  cosmetica:'cosmética',cosmeticas:'cosméticas',cosmetico:'cosmético',cosmeticos:'cosméticos',
+  solida:'sólida',solidas:'sólidas',solido:'sólido',solidos:'sólidos',
+  champu:'champú',champus:'champús',jabon:'jabón',limon:'limón',algodon:'algodón',
+  carbon:'carbón',karite:'karité',argan:'argán',cafeina:'cafeína',indigo:'índigo',
+  betaina:'betaína',monoi:'monoï',bambu:'bambú',arbol:'árbol',arboles:'árboles',
+  mas:'más',dia:'día',dias:'días',tambien:'también',ademas:'además',aqui:'aquí',asi:'así',
+  segun:'según',facil:'fácil',rapido:'rápido',rapida:'rápida',ultimo:'último',ultima:'última',
+  unico:'único',unica:'única',numero:'número',linea:'línea',formula:'fórmula',formulas:'fórmulas',
+  ecologico:'ecológico',ecologica:'ecológica',ecologicos:'ecológicos',organico:'orgánico',
+  organica:'orgánica',quimica:'química',quimico:'químico',quimicos:'químicos',
+  toxico:'tóxico',toxicos:'tóxicos',energia:'energía',garantia:'garantía',minimo:'mínimo',
+  maximo:'máximo',practico:'práctico',practica:'práctica',basico:'básico',aromatico:'aromático',
+  alergenos:'alérgenos'
+};
+const _ACC_PAIRS = [];
+function _cap(w){ return w.charAt(0).toUpperCase() + w.slice(1); }
+Object.keys(_ACC).sort((a, b) => b.length - a.length).forEach(function (a) {
+  var b = _ACC[a];
+  _ACC_PAIRS.push([new RegExp('\\b' + a + '\\b', 'g'), b]);
+  _ACC_PAIRS.push([new RegExp('\\b' + _cap(a) + '\\b', 'g'), _cap(b)]);
+  _ACC_PAIRS.push([new RegExp('\\b' + a.toUpperCase() + '\\b', 'g'), b.toUpperCase()]);
+});
+function acc(s) {
+  if (!s || typeof s !== 'string') return s;
+  for (var i = 0; i < _ACC_PAIRS.length; i++) s = s.replace(_ACC_PAIRS[i][0], _ACC_PAIRS[i][1]);
+  s = s.replace(/([A-Za-zÁÉÍÓÚáéíóúñ])cion\b/g, '$1ción').replace(/([A-Za-zÁÉÍÓÚáéíóúñ])CION\b/g, '$1CIÓN');
+  s = s.replace(/([A-Za-zÁÉÍÓÚáéíóúñ])sion\b/g, '$1sión');
+  s = s.replace(/Arbol de Te\b/g, 'Árbol de Té').replace(/\bde Te\b/g, 'de Té')
+       .replace(/\bTe Verde\b/g, 'Té Verde').replace(/\bTe Matcha\b/g, 'Té Matcha');
+  return s;
+}
+
 /* Tarjeta de producto. Web-exclusivos => solo "Anadir al carrito".
    Resto (en Amazon) => "Anadir al carrito" + "Ver en Amazon". */
 function cardProducto(p, { compacta = false } = {}) {
   const etiqueta = p.exclusiveWeb
     ? '<span class="etiqueta dorada">Exclusivo web</span>'
-    : (p.bestSeller ? '<span class="etiqueta">Mas vendido</span>' : '');
+    : (p.bestSeller ? '<span class="etiqueta">Más vendido</span>' : '');
 
   const amazon = p.exclusiveWeb ? '' :
     `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
 
-  const desc = compacta ? '' : `<p class="card-desc">${p.indicado || p.short}</p>`;
+  const desc = compacta ? '' : `<p class="card-desc">${acc(p.indicado || p.short)}</p>`;
 
   return `
     <article class="card" data-handle="${p.handle}" data-collection="${p.collection}">
-      <button class="card-img" onclick="abrirFicha('${p.handle}')" aria-label="Ver detalles de ${p.title}">
+      <button class="card-img" onclick="abrirFicha('${p.handle}')" aria-label="Ver detalles de ${acc(p.title)}">
         ${etiqueta}
-        <img src="${p.image}" alt="${p.title}" loading="lazy">
+        <img src="${p.image}" alt="${acc(p.title)}" loading="lazy">
       </button>
       <div class="card-cuerpo">
-        <h3>${p.title}</h3>
+        <h3>${acc(p.title)}</h3>
         ${desc}
         <div class="card-precio">${eur(p.price)} <small>IVA incl.</small></div>
         <div class="card-acciones">
-          <button class="btn btn-primario btn-sm btn-bloque" onclick="addToCart('${p.handle}')">Anadir al carrito</button>
+          <button class="btn btn-primario btn-sm btn-bloque" onclick="addToCart('${p.handle}')">Añadir al carrito</button>
           <button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>
           ${amazon}
         </div>
@@ -106,12 +148,12 @@ function abrirFicha(handle) {
 
   const etiqueta = p.exclusiveWeb
     ? '<span class="etiqueta dorada" style="position:static;display:inline-block">Exclusivo web</span>'
-    : (p.bestSeller ? '<span class="etiqueta" style="position:static;display:inline-block">Mas vendido</span>' : '');
+    : (p.bestSeller ? '<span class="etiqueta" style="position:static;display:inline-block">Más vendido</span>' : '');
 
   const amazon = p.exclusiveWeb ? '' :
     `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
 
-  const features = (p.features || []).map(f => `<li>${f}</li>`).join('');
+  const features = (p.features || []).map(f => `<li>${acc(f)}</li>`).join('');
 
   // Galeria de imagenes (principal + miniaturas)
   const imgs = (p.images && p.images.length) ? p.images : [p.image];
@@ -125,24 +167,24 @@ function abrirFicha(handle) {
     </div>`;
 
   // Bullets tipo Amazon (puntos clave)
-  const bullets = (p.bullets || []).map(b => `<li>${b}</li>`).join('');
+  const bullets = (p.bullets || []).map(b => `<li>${acc(b)}</li>`).join('');
   const bulletsBlock = bullets
     ? `<ul class="ficha-bullets">${bullets}</ul>`
     : '';
 
   const s = p.specs || {};
   const specsRows = [
-    s.peso ? `<div class="ficha-spec"><span>Formato</span><span>${s.peso}</span></div>` : '',
-    s.natural ? `<div class="ficha-spec"><span>Naturalidad</span><span>${s.natural}</span></div>` : '',
+    s.peso ? `<div class="ficha-spec"><span>Formato</span><span>${acc(s.peso)}</span></div>` : '',
+    s.natural ? `<div class="ficha-spec"><span>Naturalidad</span><span>${acc(s.natural)}</span></div>` : '',
     s.cpnp ? `<div class="ficha-spec"><span>Registro CPNP</span><span>${s.cpnp}</span></div>` : '',
-    s.fabricacion ? `<div class="ficha-spec"><span>Fabricacion</span><span>${s.fabricacion}</span></div>` : '',
+    s.fabricacion ? `<div class="ficha-spec"><span>Fabricación</span><span>${acc(s.fabricacion)}</span></div>` : '',
   ].join('');
   const specsBlock = (specsRows || s.inci) ? `
       <div class="ficha-bloque">
         <h4>📋 Especificaciones</h4>
         ${specsRows}
         ${s.inci ? `<div class="ficha-inci"><strong>Ingredientes (INCI):</strong> ${s.inci}</div>` : ''}
-        ${s.inci ? `<div class="ficha-transparencia">🌿 <strong>Transparencia total:</strong> declaramos el 100% de los ingredientes, incluidos los alergenos del perfume aunque la ley no obligue a listarlos en concentraciones tan bajas. Nada que esconder.</div>` : ''}
+        ${s.inci ? `<div class="ficha-transparencia">🌿 <strong>Transparencia total:</strong> declaramos el 100% de los ingredientes, incluidos los alérgenos del perfume aunque la ley no obligue a listarlos en concentraciones tan bajas. Nada que esconder.</div>` : ''}
       </div>` : '';
 
   // Reseñas del producto
@@ -152,8 +194,8 @@ function abrirFicha(handle) {
         <h4>⭐ Opiniones de clientes</h4>
         ${reviews.map(rv => `<div class="fr-item">
           <div class="resena-estrellas">${'★'.repeat(rv.r || 5)}${'☆'.repeat(5 - (rv.r || 5))}</div>
-          <p>"${rv.t}"</p>
-          <cite>— ${rv.n}</cite>
+          <p>"${acc(rv.t)}"</p>
+          <cite>— ${acc(rv.n)}</cite>
         </div>`).join('')}
       </div>` : '';
 
@@ -167,22 +209,22 @@ function abrirFicha(handle) {
     ${galeria}
     <div class="ficha-info">
       <div class="ficha-cabecera">
-        <span class="ficha-coleccion">${p.collectionName}</span>
+        <span class="ficha-coleccion">${acc(p.collectionName)}</span>
         ${etiqueta}
       </div>
-      <h2>${p.title}</h2>
+      <h2>${acc(p.title)}</h2>
       <div class="card-precio" style="font-size:1.4rem">${eur(p.price)} <small>IVA incl.</small></div>
-      <p class="ficha-desc">${p.descripcion || p.short}</p>
+      <p class="ficha-desc">${acc(p.descripcion || p.short)}</p>
       ${bulletsBlock}
       ${acciones}
 
-      ${p.indicado ? `<div class="ficha-bloque"><h4>✨ Para que es bueno</h4><p>${p.indicado}</p></div>` : ''}
-      ${p.modoUso ? `<div class="ficha-bloque"><h4>💧 Modo de uso</h4><p>${p.modoUso}</p></div>` : ''}
-      ${features ? `<div class="ficha-bloque"><h4>🌿 Caracteristicas</h4><ul class="ficha-features">${features}</ul></div>` : ''}
+      ${p.indicado ? `<div class="ficha-bloque"><h4>✨ Para qué es bueno</h4><p>${acc(p.indicado)}</p></div>` : ''}
+      ${p.modoUso ? `<div class="ficha-bloque"><h4>💧 Modo de uso</h4><p>${acc(p.modoUso)}</p></div>` : ''}
+      ${features ? `<div class="ficha-bloque"><h4>🌿 Características</h4><ul class="ficha-features">${features}</ul></div>` : ''}
       ${specsBlock}
       ${reviewsBlock}
 
-      ${p.lema ? `<p class="ficha-lema">${p.lema}</p>` : ''}
+      ${p.lema ? `<p class="ficha-lema">${acc(p.lema)}</p>` : ''}
     </div>`;
 
   document.getElementById('ficha-overlay')?.classList.add('abierto');
@@ -216,7 +258,7 @@ function renderTienda() {
     return `
       <section class="seccion" id="col-${col.slug}">
         <div class="contenedor">
-          <h2 class="seccion-titulo">${col.name}${badge}</h2>
+          <h2 class="seccion-titulo">${acc(col.name)}${badge}</h2>
           <p class="seccion-sub">${col.count} producto(s)</p>
           <div class="grid-productos">
             ${items.map(p => cardProducto(p)).join('')}
@@ -230,7 +272,7 @@ function renderTienda() {
   if (chips) {
     chips.innerHTML =
       `<button class="chip activo" data-filtro="all">Todo</button>` +
-      DATA.collections.map(c => `<button class="chip" data-filtro="${c.slug}">${c.name}</button>`).join('');
+      DATA.collections.map(c => `<button class="chip" data-filtro="${c.slug}">${acc(c.name)}</button>`).join('');
     chips.addEventListener('click', e => {
       const btn = e.target.closest('.chip');
       if (!btn) return;
@@ -258,7 +300,7 @@ function renderLandingCategorias() {
   if (!cont) return;
   cont.innerHTML = DATA.collections.map(c =>
     `<a class="cat-boton" href="tienda.html#col-${c.slug}">
-       <span>${c.name}</span>
+       <span>${acc(c.name)}</span>
        <span class="flecha">${c.count} →</span>
      </a>`).join('');
 }

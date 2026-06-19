@@ -170,22 +170,22 @@ function renderPanelCarrito(c) {
   if (!cont || !resumen) return;
 
   if (c.unidades === 0) {
-    cont.innerHTML = '<div class="carrito-vacio">Tu carrito esta vacio.<br>Descubre nuestra cosmetica solida natural.</div>';
+    cont.innerHTML = '<div class="carrito-vacio">Tu carrito está vacío.<br>Descubre nuestra cosmética sólida natural.</div>';
     resumen.innerHTML = '';
     return;
   }
 
   cont.innerHTML = c.lineas.map(({ p, qty }) => `
     <div class="linea-item">
-      <div class="mini-img"><img src="${p.image}" alt="${p.title}"></div>
+      <div class="mini-img"><img src="${p.image}" alt="${typeof acc==='function'?acc(p.title):p.title}"></div>
       <div>
-        <div class="titulo">${p.title}</div>
+        <div class="titulo">${typeof acc==='function'?acc(p.title):p.title}</div>
         ${c.freeByHandle && c.freeByHandle[p.handle] ? `<div class="gratis">🎁 ${c.freeByHandle[p.handle]} de regalo (−${eur(c.freeByHandle[p.handle] * p.price)})</div>` : ''}
         <div class="card-precio" style="font-size:.9rem;margin:2px 0 0">${eur(p.price)}</div>
         <div class="cantidad">
           <button aria-label="Quitar uno" onclick="Carrito.añadir('${p.handle}', -1)">−</button>
           <span>${qty}</span>
-          <button aria-label="Anadir uno" onclick="Carrito.añadir('${p.handle}', 1)">+</button>
+          <button aria-label="Añadir uno" onclick="Carrito.añadir('${p.handle}', 1)">+</button>
           <button class="quitar" onclick="Carrito.quitar('${p.handle}')">eliminar</button>
         </div>
       </div>
