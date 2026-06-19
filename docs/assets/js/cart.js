@@ -226,7 +226,7 @@ function renderPanelCarrito(c) {
     <div class="fila-resumen"><span>Envío</span><span>${c.envioGratis ? 'GRATIS' : eur(c.envio)}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${eur(c.total)}</span></div>
     <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 3 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío peninsular ${eur(ENVIO_PENINSULA)}.</p>
-    <a class="btn btn-primario btn-bloque" href="#" onclick="alert('En la tienda Shopify real este boton abre el checkout. La promo (por cada 3 productos, 1 gratis) y el envio gratis se aplican automaticamente.');return false;">Finalizar compra</a>
+    <a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>
     <button class="btn btn-secundario btn-bloque" style="margin-top:8px" onclick="cerrarCarrito()">← Seguir comprando</button>
   `;
 }

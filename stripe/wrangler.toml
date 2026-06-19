@@ -1,0 +1,10 @@
+# Configuración del Cloudflare Worker de pago de SAVIA DE ALMA.
+# Despliegue:  npx wrangler deploy   (desde la carpeta stripe/)
+name = "savia-pago"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Variables NO secretas (la clave de Stripe se pone aparte, ver STRIPE_SETUP.md):
+[vars]
+PRODUCTS_URL = "https://TU-USUARIO.github.io/REPO/assets/js/products.js"
+ALLOWED_ORIGIN = "https://TU-USUARIO.github.io"

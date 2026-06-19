@@ -49,8 +49,16 @@ function acc(s) {
 /* ---------- Disponibilidad / stock / modo vacaciones (config.js) ---------- */
 function _cfg() { return window.SAVIA_CONFIG || {}; }
 function enVacaciones() { return !!_cfg().modoVacaciones; }
+/* Unidades en stock segun config: numero si esta definido, null si no se controla. */
+function stockDe(handle) {
+  const s = _cfg().stock || {};
+  return Object.prototype.hasOwnProperty.call(s, handle) ? Number(s[handle]) : null;
+}
 function estaAgotado(p) {
-  return enVacaciones() || (_cfg().agotados || []).indexOf(p.handle) !== -1;
+  if (enVacaciones()) return true;
+  if ((_cfg().agotados || []).indexOf(p.handle) !== -1) return true;
+  const n = stockDe(p.handle);
+  return n !== null && !(n > 0); // stock 0 (o negativo/invalido) => agotado
 }
 
 /* Tarjeta de producto. Web-exclusivos => solo "Anadir al carrito".
