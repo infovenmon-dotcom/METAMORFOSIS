@@ -499,11 +499,13 @@ function mostrarModalGracias() {
   ov.className = 'gracias-overlay';
   ov.innerHTML = `
     <div class="gracias-modal" role="dialog" aria-modal="true" aria-label="Compra realizada">
-      <div class="gracias-emoji">🌿</div>
-      <h2>¡Gracias por tu compra!</h2>
-      <p>Hemos recibido tu pedido. Te enviaremos la confirmación y el seguimiento a tu correo electrónico.</p>
-      <p class="gracias-sub">Preparamos tu cosmética sólida a mano y con mucho cariño. 💚</p>
-      <button class="btn btn-primario btn-bloque" onclick="cerrarGracias()">Seguir comprando</button>
+      <img class="gracias-img" src="assets/img/savia-arbol.jpg" alt="Árbol con una gota de savia">
+      <div class="gracias-cuerpo">
+        <h2>¡Gracias por tu compra!</h2>
+        <p class="gracias-lema">Gracias por dejarnos cuidar de ti y del planeta. 🌍💚</p>
+        <p>Hemos recibido tu pedido. Te enviaremos la confirmación y el seguimiento a tu correo electrónico.</p>
+        <button class="btn btn-primario btn-bloque" onclick="cerrarGracias()">Seguir comprando</button>
+      </div>
     </div>`;
   document.body.appendChild(ov);
   document.body.style.overflow = 'hidden';
