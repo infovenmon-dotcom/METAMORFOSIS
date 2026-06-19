@@ -1447,3 +1447,7 @@ html.a11y-contraste li, html.a11y-contraste .seccion-sub, html.a11y-contraste .h
 }
 html.a11y-contraste a, html.a11y-contraste .card-precio { color: #06402b !important; }
 html.a11y-contraste .btn-primario { background: #06402b !important; color: #fff !important; }
+
+/* Banda Kit Digital (financiacion) — fondo blanco al pie */
+.kit-digital { background: #fff; text-align: center; padding: 20px 16px; border-top: 1px solid var(--borde); }
+.kit-digital img { max-width: 780px; width: 100%; height: auto; margin: 0 auto; display: block; }
