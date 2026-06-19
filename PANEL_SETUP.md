@@ -54,7 +54,7 @@ Abre en el navegador:
 https://TU-WEB/admin.html
 ```
 
-(p. ej. `https://infovenmon-dotcom.github.io/metamorfosis/admin.html`)
+(p. ej. `https://infovenmon-dotcom.github.io/METAMORFOSIS/admin.html`)
 
 - La **dirección del servidor** se rellena sola si `checkoutEndpoint` ya está
   puesto en `config.js`; si no, pégala a mano (la URL `...workers.dev`).

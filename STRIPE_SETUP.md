@@ -34,7 +34,7 @@ npx wrangler login        # abre el navegador y autoriza
 Edita `stripe/wrangler.toml` y pon tus valores reales:
 
 - `PRODUCTS_URL` → la URL pública de tu `products.js`.
-  Ejemplo: `https://infovenmon-dotcom.github.io/metamorfosis/assets/js/products.js`
+  Ejemplo: `https://infovenmon-dotcom.github.io/METAMORFOSIS/assets/js/products.js`
 - `ALLOWED_ORIGIN` → el dominio de tu web.
   Ejemplo: `https://infovenmon-dotcom.github.io`
 

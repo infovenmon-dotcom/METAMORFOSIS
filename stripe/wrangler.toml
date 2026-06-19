@@ -6,7 +6,7 @@ compatibility_date = "2024-11-01"
 
 # Variables NO secretas (los secretos van con `wrangler secret put`, ver PANEL_SETUP.md):
 [vars]
-PRODUCTS_URL = "https://infovenmon-dotcom.github.io/metamorfosis/assets/js/products.js"
+PRODUCTS_URL = "https://infovenmon-dotcom.github.io/METAMORFOSIS/assets/js/products.js"
 ALLOWED_ORIGIN = "https://infovenmon-dotcom.github.io"
 
 # Base de datos KV donde se guarda la config del panel (precio/stock/ofertas/vacaciones).
