@@ -40,6 +40,30 @@ window.SAVIA_CONFIG = {
           "champu-cacao": 5,      // 5 unidades disponibles
         },  */
   stock: {
+  },
+
+  /* PRECIOS (opcional) — cambia el precio actual de una referencia
+     Si pones un precio aquí, sustituye al del catálogo para ese "handle".
+     Útil para subir/bajar un precio sin regenerar el catálogo.
+       - Lo que no aparezca aquí mantiene su precio normal.
+     Ejemplo:
+        precios: {
+          "jabon-azufre": 8.99,
+        },  */
+  precios: {
+  },
+
+  /* OFERTAS (opcional) — precio anterior tachado + % de descuento
+     Pon aquí el PRECIO ANTERIOR de la referencia (debe ser MAYOR que el precio
+     actual). La web mostrará ese precio tachado, el precio actual y la etiqueta
+     "-XX%" calculada automáticamente.
+       - Para que se vea oferta, el "precio anterior" debe ser mayor que el
+         precio actual (ya sea el del catálogo o el de "precios" de arriba).
+       - Quita la línea para terminar la oferta.
+     Ejemplo (precio actual 8,99 € y antes 10,99 €):
+        precios: { "jabon-azufre": 8.99 },
+        ofertas: { "jabon-azufre": 10.99 },  */
+  ofertas: {
   }
 
 };

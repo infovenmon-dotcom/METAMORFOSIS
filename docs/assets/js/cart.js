@@ -12,6 +12,12 @@ const ENVIO_PENINSULA = 4.95;
 const GRUPO_GRATIS = 4; // 3+1: por cada 3 comprados, el 4o (mas barato) es gratis
 const STORAGE_KEY = 'savia_carrito';
 
+/* Precio efectivo de una unidad: usa precioDe() (ofertas/override de app.js)
+   si esta disponible; si no, el precio base del producto. */
+function _precioCarrito(p) {
+  return (typeof precioDe === 'function') ? precioDe(p) : p.price;
+}
+
 const Carrito = {
   items: {}, // handle -> qty
 
@@ -55,7 +61,7 @@ const Carrito = {
       const p = this.producto(handle);
       if (!p) continue;
       lineas.push({ p, qty });
-      for (let i = 0; i < qty; i++) precios.push(p.price);
+      for (let i = 0; i < qty; i++) precios.push(_precioCarrito(p));
     }
     const unidades = precios.length;
     const subtotal = precios.reduce((a, b) => a + b, 0);
@@ -69,7 +75,7 @@ const Carrito = {
     // Marca que unidades son el regalo: las mas baratas del pedido.
     const unidadesOrden = [];
     for (const { p, qty } of lineas) for (let i = 0; i < qty; i++) unidadesOrden.push(p.handle);
-    unidadesOrden.sort((a, b) => this.producto(a).price - this.producto(b).price);
+    unidadesOrden.sort((a, b) => _precioCarrito(this.producto(a)) - _precioCarrito(this.producto(b)));
     const freeByHandle = {};
     for (let i = 0; i < gratisCount; i++) {
       const h = unidadesOrden[i];
@@ -180,8 +186,8 @@ function renderPanelCarrito(c) {
       <div class="mini-img"><img src="${p.image}" alt="${typeof acc==='function'?acc(p.title):p.title}"></div>
       <div>
         <div class="titulo">${typeof acc==='function'?acc(p.title):p.title}</div>
-        ${c.freeByHandle && c.freeByHandle[p.handle] ? `<div class="gratis">🎁 ${c.freeByHandle[p.handle]} de regalo (−${eur(c.freeByHandle[p.handle] * p.price)})</div>` : ''}
-        <div class="card-precio" style="font-size:.9rem;margin:2px 0 0">${eur(p.price)}</div>
+        ${c.freeByHandle && c.freeByHandle[p.handle] ? `<div class="gratis">🎁 ${c.freeByHandle[p.handle]} de regalo (−${eur(c.freeByHandle[p.handle] * _precioCarrito(p))})</div>` : ''}
+        <div class="card-precio" style="font-size:.9rem;margin:2px 0 0">${eur(_precioCarrito(p))}</div>
         <div class="cantidad">
           <button aria-label="Quitar uno" onclick="Carrito.añadir('${p.handle}', -1)">−</button>
           <span>${qty}</span>

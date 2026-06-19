@@ -247,6 +247,26 @@ img { max-width: 100%; display: block; }
 .card-precio small { font-weight: 500; font-size: .72rem; color: var(--texto-suave); }
 .card-acciones { display: flex; flex-direction: column; gap: 8px; }
 
+/* Oferta: precio anterior tachado + precio actual + % descuento */
+.card-precio.tiene-oferta { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
+.precio-antes {
+  font-weight: 500;
+  font-size: .92em;
+  color: var(--texto-suave);
+  text-decoration: line-through;
+}
+.precio-ahora { color: #C0392B; font-weight: 800; }
+.precio-dto {
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .4px;
+  color: #fff;
+  background: #C0392B;
+  padding: 2px 7px;
+  border-radius: 999px;
+  align-self: center;
+}
+
 .etiqueta {
   position: absolute;
   top: 10px;
@@ -261,6 +281,7 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
 }
 .etiqueta.dorada { background: var(--dorado); }
+.etiqueta.oferta { background: #C0392B; }
 
 /* ---------- Secciones ---------- */
 .seccion { padding: 48px 0; }

@@ -61,15 +61,57 @@ function estaAgotado(p) {
   return n !== null && !(n > 0); // stock 0 (o negativo/invalido) => agotado
 }
 
+/* ---------- Precio efectivo y ofertas (config.js / panel) ----------
+   precioDe(p)       -> precio actual (override en config.precios si existe).
+   precioAntesDe(p)  -> precio anterior tachado SOLO si hay oferta valida
+                        (config.ofertas[handle] mayor que el precio actual),
+                        en caso contrario null.
+   El servidor de pago (Stripe) recalcula el cobro con estos mismos precios,
+   por lo que el navegador nunca decide el importe final. */
+function precioDe(p) {
+  const o = _cfg().precios || {};
+  const v = Object.prototype.hasOwnProperty.call(o, p.handle) ? Number(o[p.handle]) : p.price;
+  return (isFinite(v) && v >= 0) ? v : p.price;
+}
+function precioAntesDe(p) {
+  const o = _cfg().ofertas || {};
+  if (!Object.prototype.hasOwnProperty.call(o, p.handle)) return null;
+  const antes = Number(o[p.handle]);
+  const ahora = precioDe(p);
+  return (isFinite(antes) && antes > ahora) ? antes : null;
+}
+function dtoPorcentaje(antes, ahora) {
+  return Math.max(1, Math.round((1 - ahora / antes) * 100));
+}
+/* Bloque de precio reutilizable: con oferta muestra precio anterior tachado,
+   precio actual y % de descuento; sin oferta, solo el precio. */
+function bloquePrecio(p, { grande = false } = {}) {
+  const ahora = precioDe(p);
+  const antes = precioAntesDe(p);
+  const style = grande ? ' style="font-size:1.4rem"' : '';
+  if (antes !== null) {
+    return `<div class="card-precio tiene-oferta"${style}>`
+      + `<span class="precio-antes">${eur(antes)}</span> `
+      + `<span class="precio-ahora">${eur(ahora)}</span> `
+      + `<span class="precio-dto">-${dtoPorcentaje(antes, ahora)}%</span> `
+      + `<small>IVA incl.</small></div>`;
+  }
+  return `<div class="card-precio"${style}>${eur(ahora)} <small>IVA incl.</small></div>`;
+}
+
 /* Tarjeta de producto. Web-exclusivos => solo "Anadir al carrito".
    Resto (en Amazon) => "Anadir al carrito" + "Ver en Amazon". */
 function cardProducto(p, { compacta = false } = {}) {
   const agotado = estaAgotado(p);
+  const _antes = precioAntesDe(p);
+  const enOferta = !agotado && _antes !== null;
   const etiqueta = (agotado && !enVacaciones())
     ? '<span class="etiqueta agotado">Agotado</span>'
-    : (p.exclusiveWeb
-        ? '<span class="etiqueta dorada">Exclusivo web</span>'
-        : (p.bestSeller ? '<span class="etiqueta">Más vendido</span>' : ''));
+    : (enOferta
+        ? `<span class="etiqueta oferta">-${dtoPorcentaje(_antes, precioDe(p))}%</span>`
+        : (p.exclusiveWeb
+            ? '<span class="etiqueta dorada">Exclusivo web</span>'
+            : (p.bestSeller ? '<span class="etiqueta">Más vendido</span>' : '')));
 
   const amazonVer = p.exclusiveWeb ? '' :
     `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
@@ -97,7 +139,7 @@ function cardProducto(p, { compacta = false } = {}) {
       <div class="card-cuerpo">
         <h3>${acc(p.title)}</h3>
         ${desc}
-        <div class="card-precio">${eur(p.price)} <small>IVA incl.</small></div>
+        ${bloquePrecio(p)}
         <div class="card-acciones">
           ${acciones}
         </div>
@@ -179,9 +221,12 @@ function abrirFicha(handle) {
   const cont = document.getElementById('ficha-contenido');
   if (!cont) return;
 
-  const etiqueta = p.exclusiveWeb
-    ? '<span class="etiqueta dorada" style="position:static;display:inline-block">Exclusivo web</span>'
-    : (p.bestSeller ? '<span class="etiqueta" style="position:static;display:inline-block">Más vendido</span>' : '');
+  const _antesFicha = precioAntesDe(p);
+  const etiqueta = _antesFicha !== null
+    ? `<span class="etiqueta oferta" style="position:static;display:inline-block">-${dtoPorcentaje(_antesFicha, precioDe(p))}%</span>`
+    : (p.exclusiveWeb
+        ? '<span class="etiqueta dorada" style="position:static;display:inline-block">Exclusivo web</span>'
+        : (p.bestSeller ? '<span class="etiqueta" style="position:static;display:inline-block">Más vendido</span>' : ''));
 
   const amazon = p.exclusiveWeb ? '' :
     `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
@@ -251,7 +296,7 @@ function abrirFicha(handle) {
         ${etiqueta}
       </div>
       <h2>${acc(p.title)}</h2>
-      <div class="card-precio" style="font-size:1.4rem">${eur(p.price)} <small>IVA incl.</small></div>
+      ${bloquePrecio(p, { grande: true })}
       <p class="ficha-desc">${acc(p.descripcion || p.short)}</p>
       ${bulletsBlock}
       ${acciones}
