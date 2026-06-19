@@ -131,6 +131,11 @@ const Carrito = {
   },
 };
 
+// Exponer el carrito en window para que checkout.js y app.js (que lo consultan
+// como window.Carrito) lo encuentren. Una variable `const` NO se cuelga sola de
+// window, por eso hay que asignarla explícitamente.
+window.Carrito = Carrito;
+
 /* Barra de estado de promociones en la propia pagina de compra (mientras
    navegas), con el progreso hacia el regalo (1 por cada 3) y al envio gratis. */
 function actualizarBarraPromo(c) {
