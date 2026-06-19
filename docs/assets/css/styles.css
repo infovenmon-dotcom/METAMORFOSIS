@@ -1330,3 +1330,31 @@ html.motion-ready .reveal { transition: none; }
 .resenas-cta { text-align: center; margin-top: 22px; }
 .resenas-cta a { color: var(--verde-oscuro); font-weight: 600; text-decoration: underline; }
 .resenas-cta a:hover { color: var(--verde-medio); }
+
+/* ===========================================================================
+   FICHA: mas ancha en escritorio, CTA visible arriba y resenas
+   =========================================================================== */
+@media (min-width: 720px) {
+  .panel-ficha { width: min(1060px, 95vw); }
+  /* La galeria (col izq) se queda fija mientras la info (col der) hace scroll */
+  #ficha-contenido { grid-template-columns: 46% 54%; align-items: start; }
+  .ficha-galeria { position: sticky; top: 0; }
+}
+/* Acciones de la ficha: bloque destacado justo bajo los bullets (no hay que bajar) */
+.ficha-acciones {
+  margin: 8px 0 18px;
+  padding-top: 4px;
+}
+/* Resenas dentro de la ficha */
+.ficha-resenas { margin-top: 8px; }
+.ficha-resenas h4 {
+  font-family: var(--fuente-cuerpo); font-size: .95rem;
+  color: var(--verde-oscuro); margin: 0 0 10px;
+}
+.ficha-resenas .fr-item {
+  border-top: 1px solid var(--borde); padding: 12px 0;
+}
+.ficha-resenas .fr-item:first-of-type { border-top: none; }
+.ficha-resenas .resena-estrellas { color: #e8b53d; letter-spacing: 2px; font-size: .85rem; margin-bottom: 4px; }
+.ficha-resenas p { margin: 0 0 5px; font-size: .9rem; line-height: 1.5; color: var(--texto); }
+.ficha-resenas cite { font-style: normal; font-weight: 600; font-size: .82rem; color: var(--texto-suave); }

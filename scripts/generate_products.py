@@ -46,7 +46,8 @@ EMOJI = {
 
 best_handles = {
     'champu-cafeina-canela','jabon-rosa-mosqueta','desodorante-algodon',
-    'limpiador-facial-aloe-pepino','espuma-afeitar-avellana','champu-barba-carbon'
+    'limpiador-facial-aloe-pepino','espuma-afeitar-avellana','champu-barba-carbon',
+    'espuma-depilacion-aloe','acondicionador-coco'
 }
 
 def find_images(handle):

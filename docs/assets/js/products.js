@@ -1337,7 +1337,7 @@ window.SAVIA_DATA = {
         "SOLIDA y cero residuos, elaborada a mano una a una."
       ],
       "exclusiveWeb": true,
-      "bestSeller": false,
+      "bestSeller": true,
       "descripcion": "El aloe vera refresca y calma la piel, mientras el aceite de coco y la manteca de karite hidratan y protegen. Pensada para el cuidado tras la depilacion.",
       "indicado": "Ideal para pieles sensibles como cuidado calmante post-depilacion.",
       "modoUso": "Tras la depilacion, frota la pastilla sobre la piel humeda y limpia hasta crear espuma. Masajea suavemente y aclara.",
@@ -1593,7 +1593,7 @@ window.SAVIA_DATA = {
         "HECHO a mano en Espana."
       ],
       "exclusiveWeb": true,
-      "bestSeller": false,
+      "bestSeller": true,
       "descripcion": "El aceite de coco nutre en profundidad y aporta brillo, el pantenol fortalece y la vitamina E protege como antioxidante natural. Desenreda y suaviza sin siliconas.",
       "indicado": "Ideal para cabello seco o encrespado que busca suavidad y brillo.",
       "modoUso": "Tras el champu, frota la pastilla sobre los medios y puntas del cabello humedo. Deja actuar 1-2 minutos y aclara.",

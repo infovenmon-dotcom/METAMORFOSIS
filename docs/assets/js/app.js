@@ -145,6 +145,24 @@ function abrirFicha(handle) {
         ${s.inci ? `<div class="ficha-transparencia">🌿 <strong>Transparencia total:</strong> declaramos el 100% de los ingredientes, incluidos los alergenos del perfume aunque la ley no obligue a listarlos en concentraciones tan bajas. Nada que esconder.</div>` : ''}
       </div>` : '';
 
+  // Reseñas del producto
+  const reviews = (window.SAVIA_RESENAS && window.SAVIA_RESENAS[p.handle]) || [];
+  const reviewsBlock = reviews.length ? `
+      <div class="ficha-resenas">
+        <h4>⭐ Opiniones de clientes</h4>
+        ${reviews.map(rv => `<div class="fr-item">
+          <div class="resena-estrellas">${'★'.repeat(rv.r || 5)}${'☆'.repeat(5 - (rv.r || 5))}</div>
+          <p>"${rv.t}"</p>
+          <cite>— ${rv.n}</cite>
+        </div>`).join('')}
+      </div>` : '';
+
+  const acciones = `
+      <div class="ficha-acciones">
+        <button class="btn btn-primario btn-bloque" onclick="addToCart('${p.handle}'); cerrarFicha();">Añadir al carrito</button>
+        ${amazon}
+      </div>`;
+
   cont.innerHTML = `
     ${galeria}
     <div class="ficha-info">
@@ -156,16 +174,14 @@ function abrirFicha(handle) {
       <div class="card-precio" style="font-size:1.4rem">${eur(p.price)} <small>IVA incl.</small></div>
       <p class="ficha-desc">${p.descripcion || p.short}</p>
       ${bulletsBlock}
+      ${acciones}
 
       ${p.indicado ? `<div class="ficha-bloque"><h4>✨ Para que es bueno</h4><p>${p.indicado}</p></div>` : ''}
       ${p.modoUso ? `<div class="ficha-bloque"><h4>💧 Modo de uso</h4><p>${p.modoUso}</p></div>` : ''}
       ${features ? `<div class="ficha-bloque"><h4>🌿 Caracteristicas</h4><ul class="ficha-features">${features}</ul></div>` : ''}
       ${specsBlock}
+      ${reviewsBlock}
 
-      <div class="ficha-acciones">
-        <button class="btn btn-primario btn-bloque" onclick="addToCart('${p.handle}'); cerrarFicha();">Anadir al carrito</button>
-        ${amazon}
-      </div>
       ${p.lema ? `<p class="ficha-lema">${p.lema}</p>` : ''}
     </div>`;
 
