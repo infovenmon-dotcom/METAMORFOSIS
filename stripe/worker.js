@@ -133,7 +133,7 @@ function calcular(items, productos, cfg) {
     const cobra = n - (freeByHandle[handle] || 0);
     if (cobra > 0) cobradas[handle] = cobra;
   }
-  return { cobradas, envio, unidades };
+  return { cobradas, freeByHandle, envio, unidades };
 }
 
 /* ---------- CORS ---------- */
@@ -218,7 +218,7 @@ async function crearCheckout(request, env, cors) {
   }
 
   const productos = await cargarProductos(env.PRODUCTS_URL);
-  const { cobradas, envio, unidades } = calcular(itemsVendibles, productos, cfg);
+  const { cobradas, freeByHandle, envio, unidades } = calcular(itemsVendibles, productos, cfg);
 
   if (unidades === 0 || Object.keys(cobradas).length === 0) {
     return jsonResp({ error: 'Carrito vacío' }, 400, cors);
@@ -231,8 +231,11 @@ async function crearCheckout(request, env, cors) {
   form.append('locale', 'es');
   form.append('billing_address_collection', 'auto');
   form.append('shipping_address_collection[allowed_countries][0]', 'ES');
+  // Genera una factura descargable en Stripe por cada pago.
+  form.append('invoice_creation[enabled]', 'true');
 
   let i = 0;
+  // Líneas que SÍ se cobran.
   for (const [handle, qty] of Object.entries(cobradas)) {
     const p = productos[handle];
     const precio = precioEfectivo(handle, productos, cfg);
@@ -240,6 +243,16 @@ async function crearCheckout(request, env, cors) {
     form.append(`line_items[${i}][price_data][currency]`, 'eur');
     form.append(`line_items[${i}][price_data][unit_amount]`, String(Math.round(precio * 100)));
     form.append(`line_items[${i}][price_data][product_data][name]`, p.title);
+    i++;
+  }
+  // Líneas de REGALO (por cada 3, 1 gratis): se muestran a 0,00 € para que el
+  // cliente vea lo que se lleva de regalo. No suman al importe.
+  for (const [handle, qty] of Object.entries(freeByHandle || {})) {
+    if (!qty || !productos[handle]) continue;
+    form.append(`line_items[${i}][quantity]`, String(qty));
+    form.append(`line_items[${i}][price_data][currency]`, 'eur');
+    form.append(`line_items[${i}][price_data][unit_amount]`, '0');
+    form.append(`line_items[${i}][price_data][product_data][name]`, '🎁 Regalo (gratis): ' + productos[handle].title);
     i++;
   }
 
