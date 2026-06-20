@@ -35,6 +35,8 @@
     .admin .switch { display:flex; align-items:center; gap:8px; font-weight:600; }
     .admin .pill { background:#fdeaea; color:#C0392B; border-radius:999px; padding:2px 9px; font-size:.72rem; font-weight:700; }
     .admin .buscador { max-width:280px; }
+    .tab-btn { font:inherit; font-weight:600; background:none; border:none; padding:10px 16px; cursor:pointer; color:var(--texto-suave); border-bottom:3px solid transparent; margin-bottom:-2px; }
+    .tab-btn.activo { color:var(--verde-oscuro); border-bottom-color:var(--verde-oscuro); }
     .oculto { display:none !important; }
     .admin .nota { font-size:.78rem; color:var(--texto-suave); }
   </style>
@@ -60,6 +62,12 @@
 
     <!-- PANEL -->
     <div id="panel" class="oculto">
+      <div class="admin-tabs" style="display:flex;gap:8px;margin-bottom:18px;border-bottom:2px solid #eee">
+        <button class="tab-btn activo" id="tb-prod" onclick="mostrarTab('prod')">🧴 Productos</button>
+        <button class="tab-btn" id="tb-cuentas" onclick="mostrarTab('cuentas')">📊 Cuentas</button>
+      </div>
+
+      <div id="tab-prod">
       <div class="admin-caja">
         <div class="fila-top">
           <span class="switch"><input type="checkbox" id="vacaciones"> 🌴 Modo vacaciones</span>
@@ -97,8 +105,10 @@
         <button class="btn btn-secundario" onclick="cargar()">↻ Recargar</button>
         <span class="msg" id="msg"></span>
       </div>
+      </div><!-- /tab-prod -->
 
-      <div class="admin-caja" style="margin-top:26px">
+      <div id="tab-cuentas" class="oculto">
+      <div class="admin-caja" style="margin-top:0">
         <h2 style="color:var(--verde-oscuro);font-size:1.2rem;margin:0 0 4px">📊 Centro de cuentas</h2>
         <p class="nota" style="margin-bottom:12px">Ventas, comisiones de Stripe, IVA y neto de un periodo. Para tu control y para tu gestor (exporta a CSV).</p>
         <div class="fila-top">
@@ -116,6 +126,7 @@
         </div>
         <p class="nota" style="margin-top:10px">El IVA se calcula al 21% sobre el total (los precios ya incluyen IVA). Confírmalo con tu gestor; algunos productos podrían tener otro tipo.</p>
       </div>
+      </div><!-- /tab-cuentas -->
     </div>
   </main>
 

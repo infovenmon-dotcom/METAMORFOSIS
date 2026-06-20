@@ -25,7 +25,25 @@ async function entrar() {
   if (!ENDPOINT) { _msg(lm, 'Falta la dirección del servidor (Worker).', 'err'); return; }
   if (!PASS) { _msg(lm, 'Escribe la contraseña.', 'err'); return; }
   lm.classList.add('oculto');
+  // Validar la contraseña ANTES de abrir el panel.
+  try {
+    const chk = await fetch(_base() + '/admin/check', {
+      method: 'POST', headers: { 'Authorization': 'Bearer ' + PASS },
+    });
+    if (chk.status === 401) { _msg(lm, 'Contraseña incorrecta.', 'err'); return; }
+    if (!chk.ok) { _msg(lm, 'No se pudo conectar con el servidor. Revisa la dirección.', 'err'); return; }
+  } catch (e) {
+    _msg(lm, 'No se pudo conectar con el servidor. Revisa la dirección.', 'err'); return;
+  }
   await cargar(true);
+}
+
+/* Cambiar entre pestañas Productos / Cuentas */
+function mostrarTab(t) {
+  document.getElementById('tab-prod').classList.toggle('oculto', t !== 'prod');
+  document.getElementById('tab-cuentas').classList.toggle('oculto', t !== 'cuentas');
+  document.getElementById('tb-prod').classList.toggle('activo', t === 'prod');
+  document.getElementById('tb-cuentas').classList.toggle('activo', t === 'cuentas');
 }
 
 /* Carga la config actual del servidor y pinta la tabla. */
@@ -208,3 +226,4 @@ window.calcularCuentas = calcularCuentas;
 window.rangoMes = rangoMes;
 window.rangoTrim = rangoTrim;
 window.exportarCSV = exportarCSV;
+window.mostrarTab = mostrarTab;

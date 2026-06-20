@@ -480,6 +480,14 @@ export default {
       if (path === '/admin/config' && request.method === 'POST') {
         return await guardarConfig(request, env, cors);
       }
+      if (path === '/admin/check' && request.method === 'POST') {
+        const auth = request.headers.get('authorization') || '';
+        const pass = auth.replace(/^Bearer\s+/i, '');
+        if (!env.ADMIN_PASSWORD || !igualSeguro(pass, env.ADMIN_PASSWORD)) {
+          return jsonResp({ error: 'no_autorizado' }, 401, cors);
+        }
+        return jsonResp({ ok: true }, 200, cors);
+      }
       if (path === '/admin/cuentas' && request.method === 'POST') {
         return await manejarCuentas(request, env, cors);
       }
