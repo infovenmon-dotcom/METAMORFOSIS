@@ -309,8 +309,8 @@ async function enviarEmailPedido(sesion, env) {
   const dir = [a.line1, a.line2, [a.postal_code, a.city].filter(Boolean).join(' '), a.state, a.country]
     .filter(Boolean).join('<br>');
   const total = (full.amount_total != null) ? (full.amount_total / 100).toFixed(2) + ' €' : '—';
-  const envio = (full.shipping_cost && full.shipping_cost.amount_total != null)
-    ? (full.shipping_cost.amount_total / 100).toFixed(2) + ' €' : null;
+  const envioCent = (full.shipping_cost && full.shipping_cost.amount_total != null) ? full.shipping_cost.amount_total : null;
+  const envio = (envioCent == null) ? null : (envioCent === 0 ? 'GRATIS' : (envioCent / 100).toFixed(2) + ' €');
   const lineas = (full.line_items && full.line_items.data) ? full.line_items.data : [];
   const itemsHtml = lineas.length
     ? '<ul>' + lineas.map(li => `<li>${li.quantity} × ${li.description} — ${(li.amount_total / 100).toFixed(2)} €</li>`).join('') + '</ul>'
