@@ -1,23 +1,19 @@
 # Configuración del Cloudflare Worker de pago + panel de SAVIA DE ALMA.
-# Despliegue:  npx wrangler deploy   (desde la carpeta stripe/)
+# Con despliegue automático desde GitHub (Workers Builds): cada push despliega.
 name = "savia-pago"
 main = "worker.js"
 compatibility_date = "2024-11-01"
 
-# Variables NO secretas (los secretos van con `wrangler secret put`, ver PANEL_SETUP.md):
+# Variables NO secretas. (Los SECRETOS —STRIPE_SECRET_KEY, ADMIN_PASSWORD,
+# STRIPE_WEBHOOK_SECRET, EMAIL_API_KEY— se gestionan aparte en el panel y se
+# conservan en cada despliegue.)
 [vars]
-PRODUCTS_URL = "https://infovenmon-dotcom.github.io/METAMORFOSIS/assets/js/products.js"
-ALLOWED_ORIGIN = "https://infovenmon-dotcom.github.io"
+PRODUCTS_URL = "https://saviadealma.com/assets/js/products.js"
+ALLOWED_ORIGIN = "https://saviadealma.com"
+ORDER_EMAIL_TO = "info@saviadealma.com"
+ORDER_EMAIL_FROM = "info@saviadealma.com"
 
 # Base de datos KV donde se guarda la config del panel (precio/stock/ofertas/vacaciones).
-# Crea el namespace una vez con:
-#   npx wrangler kv namespace create SAVIA_KV
-# y pega el "id" que te devuelva aquí abajo:
 [[kv_namespaces]]
 binding = "SAVIA_KV"
-id = "PEGA_AQUI_EL_ID_DEL_KV"
-
-# Secretos (NO van en este archivo, se ponen con wrangler secret put):
-#   STRIPE_SECRET_KEY      -> sk_live_... o sk_test_...
-#   ADMIN_PASSWORD         -> contraseña del panel /admin
-#   STRIPE_WEBHOOK_SECRET  -> whsec_... (para que el stock baje solo)
+id = "4dc06d48c3d54e4dabe001c8370b5adc"
