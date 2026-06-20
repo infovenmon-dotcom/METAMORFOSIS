@@ -120,6 +120,55 @@ async function cargar(esLogin) {
   document.getElementById('login').classList.add('oculto');
   document.getElementById('panel').classList.remove('oculto');
   pintar(cfg);
+  rellenarSelectCompra();
+}
+
+/* Rellena el desplegable de "Registrar compra" con los productos. */
+function rellenarSelectCompra() {
+  const sel = document.getElementById('compra-prod');
+  if (!sel || sel.options.length) return;
+  sel.innerHTML = PRODUCTOS.map(p => `<option value="${p.handle}">${p.title}</option>`).join('');
+}
+
+/* Registra una compra: coste/ud = importe/cantidad, actualiza Coste y Stock. */
+function registrarCompra() {
+  const msg = document.getElementById('compra-msg');
+  const h = document.getElementById('compra-prod').value;
+  const cant = parseInt(document.getElementById('compra-cant').value, 10);
+  const importe = parseFloat(document.getElementById('compra-importe').value);
+  if (!h) { _msg(msg, 'Elige un producto.', 'err'); return; }
+  if (!(cant > 0)) { _msg(msg, 'Cantidad no válida.', 'err'); return; }
+  if (!(importe >= 0)) { _msg(msg, 'Importe no válido.', 'err'); return; }
+  const costeCompra = importe / cant;
+
+  const tr = document.querySelector(`#filas tr[data-handle="${h}"]`);
+  if (!tr) { _msg(msg, 'Producto no encontrado en la tabla.', 'err'); return; }
+  const costeEl = tr.querySelector('.f-coste');
+  const stockEl = tr.querySelector('.f-stock');
+
+  // Coste: media ponderada con el stock actual, o reemplazo directo.
+  let nuevoCoste = costeCompra;
+  const media = document.getElementById('compra-media').checked;
+  const stockPrev = stockEl.value !== '' ? Number(stockEl.value) : null;
+  const costePrev = costeEl.value !== '' ? Number(costeEl.value) : null;
+  if (media && stockPrev !== null && stockPrev > 0 && costePrev !== null) {
+    nuevoCoste = (stockPrev * costePrev + cant * costeCompra) / (stockPrev + cant);
+  }
+  costeEl.value = Math.round(nuevoCoste * 10000) / 10000;
+
+  // Stock: sumar la cantidad recibida.
+  if (document.getElementById('compra-stock').checked) {
+    const base = stockEl.value !== '' && stockPrev !== null ? stockPrev : 0;
+    stockEl.value = base + cant;
+  }
+
+  // Persistir (reutiliza el guardado de config) y avisar.
+  _msg(msg, 'Guardando compra…', '');
+  guardar().then(() => {
+    _msg(msg, `✓ Compra registrada · coste/ud. ${_fmtEur(costeCompra)}${document.getElementById('compra-stock').checked ? ' · stock actualizado' : ''}`, 'ok');
+    document.getElementById('compra-cant').value = '';
+    document.getElementById('compra-importe').value = '';
+  });
 }
 
 function pintar(cfg) {
@@ -294,3 +343,4 @@ window.exportarCSV = exportarCSV;
 window.mostrarTab = mostrarTab;
 window.calcularBeneficio = calcularBeneficio;
 window.rangoMesB = rangoMesB;
+window.registrarCompra = registrarCompra;

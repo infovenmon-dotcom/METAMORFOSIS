@@ -70,6 +70,24 @@
 
       <div id="tab-prod">
       <div class="admin-caja">
+        <h2 style="color:var(--verde-oscuro);font-size:1.1rem;margin:0 0 4px">🧾 Registrar compra a proveedor</h2>
+        <p class="nota" style="margin-bottom:10px">Al recibir mercancía: calcula el coste por unidad (importe ÷ cantidad), actualiza la columna "Coste" y suma el stock.</p>
+        <div class="fila-top">
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Producto
+            <select id="compra-prod" style="font:inherit;padding:8px;border:1px solid #cfcfcf;border-radius:9px;min-width:240px"></select>
+          </label>
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Cantidad<input type="number" step="1" min="1" id="compra-cant" style="width:110px"></label>
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Importe total (€)<input type="number" step="0.01" min="0" id="compra-importe" style="width:130px"></label>
+          <button class="btn btn-primario" onclick="registrarCompra()">Registrar</button>
+        </div>
+        <div class="fila-top" style="margin-top:8px">
+          <label style="font-size:.82rem"><input type="checkbox" id="compra-stock" checked> Sumar al stock</label>
+          <label style="font-size:.82rem"><input type="checkbox" id="compra-media"> Coste por media ponderada (si ya hay stock)</label>
+          <span class="msg" id="compra-msg"></span>
+        </div>
+      </div>
+
+      <div class="admin-caja">
         <div class="fila-top">
           <span class="switch"><input type="checkbox" id="vacaciones"> 🌴 Modo vacaciones</span>
           <span class="nota">Activado: toda la web deriva la compra a Amazon (los exclusivos web aparecen como "No disponible").</span>
