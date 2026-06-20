@@ -38,12 +38,70 @@ async function entrar() {
   await cargar(true);
 }
 
-/* Cambiar entre pestañas Productos / Cuentas */
+/* Cambiar entre pestañas Productos / Cuentas / Beneficio */
 function mostrarTab(t) {
-  document.getElementById('tab-prod').classList.toggle('oculto', t !== 'prod');
-  document.getElementById('tab-cuentas').classList.toggle('oculto', t !== 'cuentas');
-  document.getElementById('tb-prod').classList.toggle('activo', t === 'prod');
-  document.getElementById('tb-cuentas').classList.toggle('activo', t === 'cuentas');
+  ['prod', 'cuentas', 'beneficio'].forEach(x => {
+    document.getElementById('tab-' + x).classList.toggle('oculto', x !== t);
+    document.getElementById('tb-' + x).classList.toggle('activo', x === t);
+  });
+}
+
+/* ---------- Beneficio ---------- */
+function rangoMesB() {
+  const n = new Date();
+  document.getElementById('b-desde').value = _isoFecha(new Date(n.getFullYear(), n.getMonth(), 1));
+  document.getElementById('b-hasta').value = _isoFecha(new Date(n.getFullYear(), n.getMonth() + 1, 0));
+  calcularBeneficio();
+}
+
+async function calcularBeneficio() {
+  const msg = document.getElementById('b-msg');
+  const desde = document.getElementById('b-desde').value;
+  const hasta = document.getElementById('b-hasta').value;
+  if (!desde || !hasta) { _msg(msg, 'Elige las dos fechas.', 'err'); return; }
+  const ivaSoportado = parseFloat(document.getElementById('b-ivasop').value) || 0;
+  _msg(msg, 'Calculando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/beneficio', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ desde, hasta, ivaSoportado }),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    pintarBeneficio(d);
+    _msg(msg, '', '');
+  } catch (e) {
+    _msg(msg, 'No se pudo calcular: ' + e.message, 'err');
+  }
+}
+
+function pintarBeneficio(d) {
+  const margenColor = (d.margen || 0) >= 0 ? 'var(--verde-oscuro)' : '#C0392B';
+  document.getElementById('b-resumen').innerHTML = `<div class="fila-top" style="gap:24px;align-items:flex-start">
+    <div><div class="nota">Ventas (sin IVA)</div><strong style="font-size:1.15rem">${_fmtEur(d.base || 0)}</strong></div>
+    <div><div class="nota">Coste de lo vendido</div><strong style="font-size:1.15rem">${_fmtEur(d.cogs || 0)}</strong></div>
+    <div><div class="nota">Comisiones Stripe</div><strong style="font-size:1.15rem">${_fmtEur(d.comisiones || 0)}</strong></div>
+    <div><div class="nota">MARGEN / BENEFICIO</div><strong style="font-size:1.3rem;color:${margenColor}">${_fmtEur(d.margen || 0)}</strong></div>
+  </div>
+  <div class="fila-top" style="gap:24px;margin-top:14px;align-items:flex-start">
+    <div><div class="nota">IVA repercutido (ventas)</div><strong>${_fmtEur(d.ivaRepercutido || 0)}</strong></div>
+    <div><div class="nota">IVA soportado (compras)</div><strong>${_fmtEur(d.ivaSoportado || 0)}</strong></div>
+    <div><div class="nota">IVA a ingresar ≈</div><strong style="color:var(--verde-oscuro)">${_fmtEur(d.ivaIngresar || 0)}</strong></div>
+  </div>`;
+  const pp = d.porProducto || [];
+  const T = document.getElementById('b-tabla');
+  if (!pp.length) {
+    T.innerHTML = '<p class="nota" style="margin-top:14px">Sin pedidos registrados en ese periodo. (Solo cuentan los pedidos hechos a partir de ahora.)</p>';
+    return;
+  }
+  T.innerHTML = `<table style="margin-top:16px">
+    <thead><tr><th>Producto</th><th>Uds. vendidas</th><th>Coste/ud.</th><th>Coste total</th></tr></thead>
+    <tbody>${pp.map(x => `<tr>
+      <td>${x.titulo || x.handle}</td><td class="num">${x.unidades}</td>
+      <td class="num">${_fmtEur(x.costeUnit)}</td><td class="num">${_fmtEur(x.costeTotal)}</td>
+    </tr>`).join('')}</tbody></table>`;
 }
 
 /* Carga la config actual del servidor y pinta la tabla. */
@@ -69,6 +127,7 @@ function pintar(cfg) {
   const precios = cfg.precios || {};
   const ofertas = cfg.ofertas || {};
   const stock = cfg.stock || {};
+  const costes = cfg.costes || {};
   const agotados = cfg.agotados || [];
 
   const tbody = document.getElementById('filas');
@@ -76,11 +135,13 @@ function pintar(cfg) {
     const precio = Object.prototype.hasOwnProperty.call(precios, p.handle) ? precios[p.handle] : p.price;
     const antes = Object.prototype.hasOwnProperty.call(ofertas, p.handle) ? ofertas[p.handle] : '';
     const stk = Object.prototype.hasOwnProperty.call(stock, p.handle) ? stock[p.handle] : '';
+    const coste = Object.prototype.hasOwnProperty.call(costes, p.handle) ? costes[p.handle] : '';
     const ago = agotados.indexOf(p.handle) !== -1;
     return `<tr data-handle="${p.handle}" data-nombre="${(p.title || '').toLowerCase()}">
       <td><div class="prod-nombre">${p.title}</div><div class="prod-handle">${p.handle}${p.exclusiveWeb ? ' · exclusivo web' : ''}</div></td>
       <td class="num"><input type="number" step="0.01" min="0" class="f-precio" value="${precio}" data-base="${p.price}"></td>
       <td class="num"><input type="number" step="0.01" min="0" class="f-antes" value="${antes}" placeholder="—"></td>
+      <td class="num"><input type="number" step="0.01" min="0" class="f-coste" value="${coste}" placeholder="—"></td>
       <td class="num"><input type="number" step="1" min="0" class="f-stock" value="${stk}" placeholder="∞"></td>
       <td><input type="checkbox" class="f-agotado" ${ago ? 'checked' : ''}></td>
     </tr>`;
@@ -98,12 +159,13 @@ function filtrar() {
 /* Reúne los valores de la tabla y los guarda en el servidor. */
 async function guardar() {
   const msg = document.getElementById('msg');
-  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, agotados: [], stock: {}, precios: {}, ofertas: {} };
+  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {} };
 
   document.querySelectorAll('#filas tr').forEach(tr => {
     const h = tr.dataset.handle;
     const precioEl = tr.querySelector('.f-precio');
     const antesEl = tr.querySelector('.f-antes');
+    const costeEl = tr.querySelector('.f-coste');
     const stockEl = tr.querySelector('.f-stock');
     const agoEl = tr.querySelector('.f-agotado');
 
@@ -113,6 +175,9 @@ async function guardar() {
 
     const antes = parseFloat(antesEl.value);
     if (isFinite(antes) && antes > 0) cfg.ofertas[h] = antes;
+
+    const coste = parseFloat(costeEl.value);
+    if (isFinite(coste) && coste >= 0 && costeEl.value !== '') cfg.costes[h] = coste;
 
     if (stockEl.value !== '' && isFinite(Number(stockEl.value))) cfg.stock[h] = Math.max(0, Math.floor(Number(stockEl.value)));
 
@@ -227,3 +292,5 @@ window.rangoMes = rangoMes;
 window.rangoTrim = rangoTrim;
 window.exportarCSV = exportarCSV;
 window.mostrarTab = mostrarTab;
+window.calcularBeneficio = calcularBeneficio;
+window.rangoMesB = rangoMesB;

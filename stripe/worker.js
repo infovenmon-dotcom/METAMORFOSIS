@@ -40,6 +40,7 @@ const CONFIG_DEFAULT = {
   stock: {},
   precios: {},
   ofertas: {},
+  costes: {},
 };
 
 let _cacheProductos = null;
@@ -163,14 +164,14 @@ function igualSeguro(a, b) {
 /* ---------- Saneado de la config que llega del panel ---------- */
 function numNoNeg(v) { const n = Number(v); return (isFinite(n) && n >= 0) ? n : null; }
 function sanearConfig(entrada, handlesValidos) {
-  const out = { ...CONFIG_DEFAULT, agotados: [], stock: {}, precios: {}, ofertas: {} };
+  const out = { ...CONFIG_DEFAULT, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {} };
   out.modoVacaciones = !!entrada.modoVacaciones;
   const valido = (h) => !handlesValidos || handlesValidos.has(h);
 
   if (Array.isArray(entrada.agotados)) {
     for (const h of entrada.agotados) if (typeof h === 'string' && valido(h)) out.agotados.push(h);
   }
-  for (const obj of ['stock', 'precios', 'ofertas']) {
+  for (const obj of ['stock', 'precios', 'ofertas', 'costes']) {
     const src = entrada[obj] || {};
     if (src && typeof src === 'object') {
       for (const [h, v] of Object.entries(src)) {
@@ -351,15 +352,16 @@ async function manejarWebhook(request, env) {
   if (evento.type === 'checkout.session.completed') {
     const sesion = evento.data?.object || {};
     if (sesion.payment_status === 'paid') {
-      // 1) Bajar el stock (si el pedido trae el carrito en metadata).
+      let cart = {};
       if (sesion.metadata && sesion.metadata.cart) {
-        let cart = {};
         try { cart = JSON.parse(sesion.metadata.cart); } catch { cart = {}; }
+      }
+      // 1) Bajar el stock de las referencias controladas por número.
+      if (Object.keys(cart).length) {
         const cfg = await getConfig(env);
         const stock = cfg.stock || {};
         let cambiado = false;
         for (const [h, q] of Object.entries(cart)) {
-          // Solo bajamos el stock de referencias que SÍ se controlan por número.
           if (Object.prototype.hasOwnProperty.call(stock, h)) {
             const restante = Math.max(0, Math.floor(Number(stock[h]) || 0) - (parseInt(q, 10) || 0));
             stock[h] = restante;
@@ -368,7 +370,15 @@ async function manejarWebhook(request, env) {
         }
         if (cambiado) { cfg.stock = stock; await putConfig(env, cfg); }
       }
-      // 2) Avisar por email del pedido (sin romper el webhook si fallara).
+      // 2) Registrar el pedido (productos + fecha) para el cálculo de beneficio.
+      try {
+        if (env.SAVIA_KV) {
+          const fecha = sesion.created || Math.floor(Date.now() / 1000);
+          const clave = 'pedido:' + fecha + ':' + (sesion.id || String(Math.random()).slice(2));
+          await env.SAVIA_KV.put(clave, '1', { metadata: { fecha, items: cart } });
+        }
+      } catch (e) { console.error('registro pedido:', e); }
+      // 3) Avisar por email del pedido (sin romper el webhook si fallara).
       try { await enviarEmailPedido(sesion, env); } catch (e) { console.error('email pedido:', e); }
     }
   }
@@ -396,20 +406,9 @@ async function guardarConfig(request, env, cors) {
   return jsonResp({ ok: true, config: limpio }, 200, cors);
 }
 
-/* ---------- Centro de cuentas: lee Stripe y agrega ventas/comisiones/IVA ---------- */
-async function manejarCuentas(request, env, cors) {
-  const auth = request.headers.get('authorization') || '';
-  const pass = auth.replace(/^Bearer\s+/i, '');
-  if (!env.ADMIN_PASSWORD || !igualSeguro(pass, env.ADMIN_PASSWORD)) {
-    return jsonResp({ error: 'no_autorizado' }, 401, cors);
-  }
-  let body = {};
-  try { body = await request.json(); } catch { /* sin cuerpo */ }
-  const desde = body.desde ? Math.floor(new Date(body.desde + 'T00:00:00Z').getTime() / 1000) : null;
-  const hasta = body.hasta ? Math.floor(new Date(body.hasta + 'T23:59:59Z').getTime() / 1000) : null;
-  if (!desde || !hasta) return jsonResp({ error: 'Fechas no válidas' }, 400, cors);
-
-  // Recoge los movimientos de saldo de Stripe en el rango (paginado).
+/* Lee los movimientos de saldo de Stripe en un rango y agrega ventas, comisiones,
+   IVA (21%) y neto. Devuelve { resumen, movimientos }. Lanza si Stripe falla. */
+async function agregarStripe(env, desde, hasta) {
   const movs = [];
   let startingAfter = null, guard = 0;
   while (guard++ < 30) {
@@ -421,7 +420,7 @@ async function manejarCuentas(request, env, cors) {
     const r = await fetch('https://api.stripe.com/v1/balance_transactions?' + p.toString(), {
       headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY },
     });
-    if (!r.ok) { const e = await r.json(); return jsonResp({ error: 'Stripe', detalle: e.error?.message }, 502, cors); }
+    if (!r.ok) { const e = await r.json(); throw new Error(e.error?.message || 'Stripe'); }
     const data = await r.json();
     for (const t of data.data) movs.push(t);
     if (!data.has_more || data.data.length === 0) break;
@@ -436,7 +435,7 @@ async function manejarCuentas(request, env, cors) {
     } else if (t.type === 'refund' || t.type === 'payment_refund') {
       reemb += -t.amount; comis += t.fee; neto += t.net;
     } else {
-      continue; // payouts, ajustes, etc. no son ventas
+      continue;
     }
     filas.push({
       fecha: new Date(t.created * 1000).toISOString().slice(0, 10),
@@ -448,7 +447,7 @@ async function manejarCuentas(request, env, cors) {
   const ventasEur = ventas / 100;
   const base = Math.round((ventasEur / 1.21) * 100) / 100;
   const iva = Math.round((ventasEur - base) * 100) / 100;
-  return jsonResp({
+  return {
     resumen: {
       pedidos,
       ventasBrutas: Math.round(ventasEur * 100) / 100,
@@ -458,6 +457,94 @@ async function manejarCuentas(request, env, cors) {
       reembolsos: Math.round(reemb) / 100,
     },
     movimientos: filas,
+  };
+}
+
+function _authAdmin(request, env) {
+  const auth = request.headers.get('authorization') || '';
+  const pass = auth.replace(/^Bearer\s+/i, '');
+  return !!env.ADMIN_PASSWORD && igualSeguro(pass, env.ADMIN_PASSWORD);
+}
+function _rango(body) {
+  const desde = body.desde ? Math.floor(new Date(body.desde + 'T00:00:00Z').getTime() / 1000) : null;
+  const hasta = body.hasta ? Math.floor(new Date(body.hasta + 'T23:59:59Z').getTime() / 1000) : null;
+  return { desde, hasta };
+}
+
+/* ---------- Centro de cuentas: ventas/comisiones/IVA/neto ---------- */
+async function manejarCuentas(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const { desde, hasta } = _rango(body);
+  if (!desde || !hasta) return jsonResp({ error: 'Fechas no válidas' }, 400, cors);
+  try {
+    const out = await agregarStripe(env, desde, hasta);
+    return jsonResp(out, 200, cors);
+  } catch (e) {
+    return jsonResp({ error: 'Stripe', detalle: String(e.message || e) }, 502, cors);
+  }
+}
+
+/* ---------- Beneficio real: ventas (base) - coste de lo vendido - comisiones ---------- */
+async function manejarBeneficio(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const { desde, hasta } = _rango(body);
+  if (!desde || !hasta) return jsonResp({ error: 'Fechas no válidas' }, 400, cors);
+
+  let stripe;
+  try { stripe = await agregarStripe(env, desde, hasta); }
+  catch (e) { return jsonResp({ error: 'Stripe', detalle: String(e.message || e) }, 502, cors); }
+
+  // Unidades vendidas por producto (desde el registro de pedidos en KV).
+  const unidades = {};
+  if (env.SAVIA_KV) {
+    let cursor = null, guard = 0;
+    do {
+      const lst = await env.SAVIA_KV.list({ prefix: 'pedido:', limit: 1000, cursor });
+      for (const k of lst.keys) {
+        const m = k.metadata || {};
+        const f = Number(m.fecha) || Number(k.name.split(':')[1]) || 0;
+        if (f < desde || f > hasta) continue;
+        const items = m.items || {};
+        for (const [h, q] of Object.entries(items)) unidades[h] = (unidades[h] || 0) + (parseInt(q, 10) || 0);
+      }
+      cursor = lst.list_complete ? null : lst.cursor;
+    } while (cursor && guard++ < 20);
+  }
+
+  const cfg = await getConfig(env);
+  const costes = cfg.costes || {};
+  let productos = {};
+  try { productos = await cargarProductos(env.PRODUCTS_URL); } catch { /* opcional, solo para títulos */ }
+
+  let cogs = 0;
+  const porProducto = [];
+  for (const [h, u] of Object.entries(unidades)) {
+    const c = Number(costes[h]) || 0;
+    const total = Math.round(c * u * 100) / 100;
+    cogs += total;
+    porProducto.push({
+      handle: h,
+      titulo: (productos[h] && productos[h].title) || h,
+      unidades: u, costeUnit: c, costeTotal: total,
+    });
+  }
+  cogs = Math.round(cogs * 100) / 100;
+  porProducto.sort((a, b) => b.costeTotal - a.costeTotal);
+
+  const base = stripe.resumen.base;
+  const comis = stripe.resumen.comisiones;
+  const margen = Math.round((base - cogs - comis) * 100) / 100;
+  const ivaSoportado = Number(body.ivaSoportado) || 0;
+  const ivaIngresar = Math.round((stripe.resumen.iva - ivaSoportado) * 100) / 100;
+
+  return jsonResp({
+    pedidos: stripe.resumen.pedidos,
+    ventasBrutas: stripe.resumen.ventasBrutas,
+    base, comisiones: comis, cogs, margen,
+    ivaRepercutido: stripe.resumen.iva, ivaSoportado, ivaIngresar,
+    porProducto,
   }, 200, cors);
 }
 
@@ -490,6 +577,9 @@ export default {
       }
       if (path === '/admin/cuentas' && request.method === 'POST') {
         return await manejarCuentas(request, env, cors);
+      }
+      if (path === '/admin/beneficio' && request.method === 'POST') {
+        return await manejarBeneficio(request, env, cors);
       }
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {
