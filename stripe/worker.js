@@ -231,8 +231,6 @@ async function crearCheckout(request, env, cors) {
   form.append('locale', 'es');
   form.append('billing_address_collection', 'auto');
   form.append('shipping_address_collection[allowed_countries][0]', 'ES');
-  // Genera una factura descargable en Stripe por cada pago.
-  form.append('invoice_creation[enabled]', 'true');
 
   let i = 0;
   // Líneas que SÍ se cobran.
