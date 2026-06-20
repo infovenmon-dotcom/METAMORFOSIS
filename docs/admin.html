@@ -97,6 +97,25 @@
         <button class="btn btn-secundario" onclick="cargar()">↻ Recargar</button>
         <span class="msg" id="msg"></span>
       </div>
+
+      <div class="admin-caja" style="margin-top:26px">
+        <h2 style="color:var(--verde-oscuro);font-size:1.2rem;margin:0 0 4px">📊 Centro de cuentas</h2>
+        <p class="nota" style="margin-bottom:12px">Ventas, comisiones de Stripe, IVA y neto de un periodo. Para tu control y para tu gestor (exporta a CSV).</p>
+        <div class="fila-top">
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Desde<input type="date" id="c-desde" style="width:160px"></label>
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Hasta<input type="date" id="c-hasta" style="width:160px"></label>
+          <button class="btn btn-primario" onclick="calcularCuentas()">Calcular</button>
+          <button class="btn btn-secundario" onclick="rangoMes()">Este mes</button>
+          <button class="btn btn-secundario" onclick="rangoTrim()">Este trimestre</button>
+          <span class="msg" id="c-msg"></span>
+        </div>
+        <div id="c-resumen" style="margin-top:16px"></div>
+        <div id="c-tabla"></div>
+        <div id="c-export" class="oculto" style="margin-top:12px">
+          <button class="btn btn-secundario" onclick="exportarCSV()">⬇ Exportar a CSV</button>
+        </div>
+        <p class="nota" style="margin-top:10px">El IVA se calcula al 21% sobre el total (los precios ya incluyen IVA). Confírmalo con tu gestor; algunos productos podrían tener otro tipo.</p>
+      </div>
     </div>
   </main>
 

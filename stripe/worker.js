@@ -396,6 +396,71 @@ async function guardarConfig(request, env, cors) {
   return jsonResp({ ok: true, config: limpio }, 200, cors);
 }
 
+/* ---------- Centro de cuentas: lee Stripe y agrega ventas/comisiones/IVA ---------- */
+async function manejarCuentas(request, env, cors) {
+  const auth = request.headers.get('authorization') || '';
+  const pass = auth.replace(/^Bearer\s+/i, '');
+  if (!env.ADMIN_PASSWORD || !igualSeguro(pass, env.ADMIN_PASSWORD)) {
+    return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  }
+  let body = {};
+  try { body = await request.json(); } catch { /* sin cuerpo */ }
+  const desde = body.desde ? Math.floor(new Date(body.desde + 'T00:00:00Z').getTime() / 1000) : null;
+  const hasta = body.hasta ? Math.floor(new Date(body.hasta + 'T23:59:59Z').getTime() / 1000) : null;
+  if (!desde || !hasta) return jsonResp({ error: 'Fechas no válidas' }, 400, cors);
+
+  // Recoge los movimientos de saldo de Stripe en el rango (paginado).
+  const movs = [];
+  let startingAfter = null, guard = 0;
+  while (guard++ < 30) {
+    const p = new URLSearchParams();
+    p.append('limit', '100');
+    p.append('created[gte]', String(desde));
+    p.append('created[lte]', String(hasta));
+    if (startingAfter) p.append('starting_after', startingAfter);
+    const r = await fetch('https://api.stripe.com/v1/balance_transactions?' + p.toString(), {
+      headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY },
+    });
+    if (!r.ok) { const e = await r.json(); return jsonResp({ error: 'Stripe', detalle: e.error?.message }, 502, cors); }
+    const data = await r.json();
+    for (const t of data.data) movs.push(t);
+    if (!data.has_more || data.data.length === 0) break;
+    startingAfter = data.data[data.data.length - 1].id;
+  }
+
+  let ventas = 0, comis = 0, neto = 0, reemb = 0, pedidos = 0;
+  const filas = [];
+  for (const t of movs) {
+    if (t.type === 'charge' || t.type === 'payment') {
+      ventas += t.amount; comis += t.fee; neto += t.net; pedidos++;
+    } else if (t.type === 'refund' || t.type === 'payment_refund') {
+      reemb += -t.amount; comis += t.fee; neto += t.net;
+    } else {
+      continue; // payouts, ajustes, etc. no son ventas
+    }
+    filas.push({
+      fecha: new Date(t.created * 1000).toISOString().slice(0, 10),
+      tipo: (t.type === 'refund' || t.type === 'payment_refund') ? 'reembolso' : 'venta',
+      descripcion: t.description || '',
+      bruto: t.amount / 100, comision: t.fee / 100, neto: t.net / 100,
+    });
+  }
+  const ventasEur = ventas / 100;
+  const base = Math.round((ventasEur / 1.21) * 100) / 100;
+  const iva = Math.round((ventasEur - base) * 100) / 100;
+  return jsonResp({
+    resumen: {
+      pedidos,
+      ventasBrutas: Math.round(ventasEur * 100) / 100,
+      base, iva,
+      comisiones: Math.round(comis) / 100,
+      neto: Math.round(neto) / 100,
+      reembolsos: Math.round(reemb) / 100,
+    },
+    movimientos: filas,
+  }, 200, cors);
+}
+
 export default {
   async fetch(request, env) {
     const allowed = env.ALLOWED_ORIGIN || '*';
@@ -414,6 +479,9 @@ export default {
       // Guardar config desde el panel /admin.
       if (path === '/admin/config' && request.method === 'POST') {
         return await guardarConfig(request, env, cors);
+      }
+      if (path === '/admin/cuentas' && request.method === 'POST') {
+        return await manejarCuentas(request, env, cors);
       }
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {

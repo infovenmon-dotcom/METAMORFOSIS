@@ -118,7 +118,93 @@ async function guardar() {
   }
 }
 
+/* ---------- Centro de cuentas ---------- */
+let MOVIMIENTOS = [];
+function _fmtEur(n) { return Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; }
+function _isoFecha(d) { return d.toISOString().slice(0, 10); }
+
+function rangoMes() {
+  const n = new Date();
+  document.getElementById('c-desde').value = _isoFecha(new Date(n.getFullYear(), n.getMonth(), 1));
+  document.getElementById('c-hasta').value = _isoFecha(new Date(n.getFullYear(), n.getMonth() + 1, 0));
+  calcularCuentas();
+}
+function rangoTrim() {
+  const n = new Date();
+  const q = Math.floor(n.getMonth() / 3);
+  document.getElementById('c-desde').value = _isoFecha(new Date(n.getFullYear(), q * 3, 1));
+  document.getElementById('c-hasta').value = _isoFecha(new Date(n.getFullYear(), q * 3 + 3, 0));
+  calcularCuentas();
+}
+
+async function calcularCuentas() {
+  const msg = document.getElementById('c-msg');
+  const desde = document.getElementById('c-desde').value;
+  const hasta = document.getElementById('c-hasta').value;
+  if (!desde || !hasta) { _msg(msg, 'Elige las dos fechas.', 'err'); return; }
+  _msg(msg, 'Calculando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/cuentas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ desde, hasta }),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    MOVIMIENTOS = d.movimientos || [];
+    pintarCuentas(d.resumen || {}, MOVIMIENTOS);
+    _msg(msg, '', '');
+  } catch (e) {
+    _msg(msg, 'No se pudo calcular: ' + e.message, 'err');
+  }
+}
+
+function pintarCuentas(res, movs) {
+  const R = document.getElementById('c-resumen');
+  R.innerHTML = `<div class="fila-top" style="gap:24px;align-items:flex-start">
+    <div><div class="nota">Pedidos</div><strong style="font-size:1.15rem">${res.pedidos || 0}</strong></div>
+    <div><div class="nota">Ventas (IVA incl.)</div><strong style="font-size:1.15rem">${_fmtEur(res.ventasBrutas || 0)}</strong></div>
+    <div><div class="nota">Base imponible</div><strong style="font-size:1.15rem">${_fmtEur(res.base || 0)}</strong></div>
+    <div><div class="nota">IVA (21%)</div><strong style="font-size:1.15rem">${_fmtEur(res.iva || 0)}</strong></div>
+    <div><div class="nota">Comisiones Stripe</div><strong style="font-size:1.15rem">${_fmtEur(res.comisiones || 0)}</strong></div>
+    <div><div class="nota">Neto recibido</div><strong style="font-size:1.15rem;color:var(--verde-oscuro)">${_fmtEur(res.neto || 0)}</strong></div>
+  </div>`;
+  const T = document.getElementById('c-tabla');
+  if (!movs.length) {
+    T.innerHTML = '<p class="nota" style="margin-top:14px">Sin movimientos en ese periodo.</p>';
+    document.getElementById('c-export').classList.add('oculto');
+    return;
+  }
+  T.innerHTML = `<table style="margin-top:16px">
+    <thead><tr><th>Fecha</th><th>Tipo</th><th>Descripción</th><th>Bruto</th><th>Comisión</th><th>Neto</th></tr></thead>
+    <tbody>${movs.map(m => `<tr>
+      <td>${m.fecha}</td><td>${m.tipo}</td><td>${m.descripcion || ''}</td>
+      <td class="num">${_fmtEur(m.bruto)}</td><td class="num">${_fmtEur(m.comision)}</td><td class="num">${_fmtEur(m.neto)}</td>
+    </tr>`).join('')}</tbody></table>`;
+  document.getElementById('c-export').classList.remove('oculto');
+}
+
+function exportarCSV() {
+  if (!MOVIMIENTOS.length) return;
+  const cab = ['Fecha', 'Tipo', 'Descripcion', 'Bruto', 'Comision', 'Neto'];
+  const rows = MOVIMIENTOS.map(m => [
+    m.fecha, m.tipo, '"' + String(m.descripcion || '').replace(/"/g, '""') + '"',
+    Number(m.bruto).toFixed(2), Number(m.comision).toFixed(2), Number(m.neto).toFixed(2),
+  ].join(';'));
+  const csv = [cab.join(';'), ...rows].join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cuentas-saviadealma.csv';
+  a.click();
+}
+
 window.entrar = entrar;
 window.cargar = cargar;
 window.guardar = guardar;
 window.filtrar = filtrar;
+window.calcularCuentas = calcularCuentas;
+window.rangoMes = rangoMes;
+window.rangoTrim = rangoTrim;
+window.exportarCSV = exportarCSV;
