@@ -127,7 +127,7 @@ function verFactura(num) {
       <button onclick="window.print()" style="padding:8px 16px;background:#1D6B50;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px">🖨️ Imprimir / Guardar PDF</button>
     </div>
     <div class="cab">
-      <img src="https://${EMPRESA.web}/assets/img/logo-negro.png" alt="${EMPRESA.marca}">
+      <div><img src="https://${EMPRESA.web}/assets/img/logo-negro.png" alt="${EMPRESA.marca}"><div style="font-size:13px;color:#1D6B50;font-weight:700;margin-top:2px">${EMPRESA.marca}</div></div>
       <div class="emp"><strong>${EMPRESA.nombre}</strong><br>CIF: ${EMPRESA.cif}<br>${EMPRESA.dir}<br>${EMPRESA.email}</div>
     </div>
     <h1>Factura</h1>
