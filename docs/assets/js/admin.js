@@ -38,12 +38,117 @@ async function entrar() {
   await cargar(true);
 }
 
-/* Cambiar entre pestañas Productos / Cuentas / Beneficio */
+/* Cambiar entre pestañas */
 function mostrarTab(t) {
-  ['prod', 'cuentas', 'beneficio'].forEach(x => {
+  ['prod', 'cuentas', 'beneficio', 'facturas'].forEach(x => {
     document.getElementById('tab-' + x).classList.toggle('oculto', x !== t);
     document.getElementById('tb-' + x).classList.toggle('activo', x === t);
   });
+}
+
+/* ---------- Facturas ---------- */
+const EMPRESA = {
+  nombre: 'VENMON NATURALMENTE SL',
+  marca: 'Savia de Alma',
+  cif: 'B19399609',
+  dir: 'Calle Gabriel Celaya 15 posterior, 28320 Pinto (Madrid)',
+  email: 'info@saviadealma.com',
+  web: 'saviadealma.com',
+};
+let FACTURAS = [];
+
+function rangoMesF() {
+  const n = new Date();
+  document.getElementById('fa-desde').value = _isoFecha(new Date(n.getFullYear(), n.getMonth(), 1));
+  document.getElementById('fa-hasta').value = _isoFecha(new Date(n.getFullYear(), n.getMonth() + 1, 0));
+  cargarFacturas();
+}
+
+async function cargarFacturas() {
+  const msg = document.getElementById('fa-msg');
+  const desde = document.getElementById('fa-desde').value;
+  const hasta = document.getElementById('fa-hasta').value;
+  if (!desde || !hasta) { _msg(msg, 'Elige las dos fechas.', 'err'); return; }
+  _msg(msg, 'Buscando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/facturas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ desde, hasta }),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    FACTURAS = d.facturas || [];
+    const T = document.getElementById('fa-tabla');
+    if (!FACTURAS.length) { T.innerHTML = '<p class="nota">No hay facturas en ese periodo. (Se generan con cada pedido pagado, a partir de ahora.)</p>'; _msg(msg, '', ''); return; }
+    T.innerHTML = `<table>
+      <thead><tr><th>Nº factura</th><th>Fecha</th><th>Cliente</th><th>Total</th><th></th></tr></thead>
+      <tbody>${FACTURAS.map(f => `<tr>
+        <td>${f.num}</td><td>${f.fechaIso}</td><td>${(f.cliente && f.cliente.nombre) || '—'}</td>
+        <td class="num">${_fmtEur(f.totalConIva)}</td>
+        <td><button class="btn btn-secundario btn-sm" onclick="verFactura('${f.num}')">Ver / Imprimir</button></td>
+      </tr>`).join('')}</tbody></table>`;
+    _msg(msg, '', '');
+  } catch (e) {
+    _msg(msg, 'No se pudieron cargar: ' + e.message, 'err');
+  }
+}
+
+function verFactura(num) {
+  const f = FACTURAS.find(x => x.num === num);
+  if (!f) return;
+  const cli = f.cliente || {};
+  const lineasHtml = (f.lineas || []).map(l => `<tr>
+    <td>${l.desc}</td><td style="text-align:center">${l.cant}</td><td style="text-align:right">${_fmtEur(l.importe)}</td>
+  </tr>`).join('');
+  const dirCli = (cli.direccion || '').replace(/\n/g, '<br>');
+  const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>${f.num}</title>
+    <style>
+      body{font-family:Arial,Helvetica,sans-serif;color:#222;max-width:760px;margin:24px auto;padding:0 18px;font-size:14px}
+      .cab{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #1D6B50;padding-bottom:14px}
+      .cab img{height:64px}
+      .emp{font-size:12px;line-height:1.5;text-align:right}
+      h1{color:#1D6B50;font-size:22px;margin:18px 0 2px}
+      .meta{color:#555;margin-bottom:18px}
+      .bloques{display:flex;justify-content:space-between;gap:20px;margin:18px 0}
+      .bloque{font-size:13px;line-height:1.5}
+      .bloque h3{font-size:12px;text-transform:uppercase;color:#1D6B50;margin:0 0 4px}
+      table{width:100%;border-collapse:collapse;margin-top:10px}
+      th,td{padding:8px;border-bottom:1px solid #eee}
+      th{background:#f3f8f5;text-align:left;font-size:12px;text-transform:uppercase}
+      .tot{margin-top:14px;margin-left:auto;width:280px}
+      .tot tr td{border:none;padding:4px 8px}
+      .tot .grand{font-weight:bold;font-size:16px;border-top:2px solid #1D6B50}
+      .pie{margin-top:26px;font-size:11px;color:#888;text-align:center}
+      @media print{ .noprint{display:none} body{margin:0} }
+    </style></head><body>
+    <div class="noprint" style="text-align:right;margin-bottom:10px">
+      <button onclick="window.print()" style="padding:8px 16px;background:#1D6B50;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px">🖨️ Imprimir / Guardar PDF</button>
+    </div>
+    <div class="cab">
+      <img src="https://${EMPRESA.web}/assets/img/logo-negro.png" alt="${EMPRESA.marca}">
+      <div class="emp"><strong>${EMPRESA.nombre}</strong><br>CIF: ${EMPRESA.cif}<br>${EMPRESA.dir}<br>${EMPRESA.email}</div>
+    </div>
+    <h1>Factura</h1>
+    <div class="meta">Nº <strong>${f.num}</strong> · Fecha: ${f.fechaIso}</div>
+    <div class="bloques">
+      <div class="bloque"><h3>Cliente</h3>${cli.nombre || '—'}<br>${dirCli || ''}${cli.email ? '<br>' + cli.email : ''}</div>
+    </div>
+    <table>
+      <thead><tr><th>Concepto</th><th style="text-align:center">Cant.</th><th style="text-align:right">Importe (IVA inc.)</th></tr></thead>
+      <tbody>${lineasHtml}${f.envio ? `<tr><td>Gastos de envío</td><td style="text-align:center">1</td><td style="text-align:right">${_fmtEur(f.envio)}</td></tr>` : ''}</tbody>
+    </table>
+    <table class="tot">
+      <tr><td>Base imponible</td><td style="text-align:right">${_fmtEur(f.base)}</td></tr>
+      <tr><td>IVA (21%)</td><td style="text-align:right">${_fmtEur(f.iva)}</td></tr>
+      <tr class="grand"><td>TOTAL</td><td style="text-align:right">${_fmtEur(f.totalConIva)}</td></tr>
+    </table>
+    <p class="pie">${EMPRESA.marca} · ${EMPRESA.nombre} · ${EMPRESA.web} · Factura simplificada.</p>
+    </body></html>`;
+  const w = window.open('', '_blank');
+  if (!w) { alert('Permite las ventanas emergentes para ver la factura.'); return; }
+  w.document.open(); w.document.write(html); w.document.close();
 }
 
 /* ---------- Beneficio ---------- */
@@ -344,3 +449,6 @@ window.mostrarTab = mostrarTab;
 window.calcularBeneficio = calcularBeneficio;
 window.rangoMesB = rangoMesB;
 window.registrarCompra = registrarCompra;
+window.cargarFacturas = cargarFacturas;
+window.rangoMesF = rangoMesF;
+window.verFactura = verFactura;

@@ -66,6 +66,7 @@
         <button class="tab-btn activo" id="tb-prod" onclick="mostrarTab('prod')">🧴 Productos</button>
         <button class="tab-btn" id="tb-cuentas" onclick="mostrarTab('cuentas')">📊 Cuentas</button>
         <button class="tab-btn" id="tb-beneficio" onclick="mostrarTab('beneficio')">💰 Beneficio</button>
+        <button class="tab-btn" id="tb-facturas" onclick="mostrarTab('facturas')">🧾 Facturas</button>
       </div>
 
       <div id="tab-prod">
@@ -165,6 +166,22 @@
         <p class="nota" style="margin-top:10px">El "IVA soportado" es el IVA de tus compras/gastos del periodo (lo pones tú; tu gestor lo afina). "IVA a ingresar" ≈ IVA de ventas − IVA soportado. El margen no descuenta gastos generales ni impuesto de sociedades.</p>
       </div>
       </div><!-- /tab-beneficio -->
+
+      <div id="tab-facturas" class="oculto">
+      <div class="admin-caja" style="margin-top:0">
+        <h2 style="color:var(--verde-oscuro);font-size:1.2rem;margin:0 0 4px">🧾 Facturas</h2>
+        <p class="nota" style="margin-bottom:12px">Facturas generadas automáticamente por cada pedido (con los datos de la empresa). Ábrelas para imprimir o guardar en PDF.</p>
+        <div class="fila-top">
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Desde<input type="date" id="fa-desde" style="width:160px"></label>
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Hasta<input type="date" id="fa-hasta" style="width:160px"></label>
+          <button class="btn btn-primario" onclick="cargarFacturas()">Buscar</button>
+          <button class="btn btn-secundario" onclick="rangoMesF()">Este mes</button>
+          <span class="msg" id="fa-msg"></span>
+        </div>
+        <div id="fa-tabla" style="margin-top:14px"></div>
+        <p class="nota" style="margin-top:10px">Factura simplificada (no certificada). Para facturación legal completa, usa una herramienta certificada cuando lo necesites.</p>
+      </div>
+      </div><!-- /tab-facturas -->
     </div>
   </main>
 

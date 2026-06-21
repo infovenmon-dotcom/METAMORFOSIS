@@ -290,17 +290,21 @@ async function crearCheckout(request, env, cors) {
 /* ---------- Email de aviso de pedido (Brevo) ----------
    Si están configuradas EMAIL_API_KEY y ORDER_EMAIL_TO, envía un correo con el
    cliente, la dirección de envío y los productos. Si no, no hace nada. */
-async function enviarEmailPedido(sesion, env) {
-  if (!env.EMAIL_API_KEY || !env.ORDER_EMAIL_TO) return;
-
-  // Recuperamos la sesión completa (con las líneas de producto).
-  let full = sesion;
+/* Devuelve la sesión de Stripe con las líneas de producto expandidas. */
+async function getSesionCompleta(sesion, env) {
   try {
     const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sesion.id}?expand[]=line_items`, {
       headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY },
     });
-    if (r.ok) full = await r.json();
+    if (r.ok) return await r.json();
   } catch { /* usamos lo que haya */ }
+  return sesion;
+}
+
+/* ---------- Email de aviso de pedido (Brevo) ----------
+   Recibe la sesión YA expandida (con line_items). */
+async function enviarEmailPedido(full, env) {
+  if (!env.EMAIL_API_KEY || !env.ORDER_EMAIL_TO) return;
 
   const cd = full.customer_details || {};
   const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
@@ -337,6 +341,40 @@ async function enviarEmailPedido(sesion, env) {
       htmlContent: html,
     }),
   });
+}
+
+/* ---------- Genera y guarda una factura numerada del pedido ----------
+   Numeración anual FAC-AAAA-NNNN (contador en KV). Guarda el registro en
+   'factura:<ts>:<num>' para listarlo y verlo desde el panel. */
+async function generarFactura(full, env) {
+  if (!env.SAVIA_KV) return;
+  const ts = full.created || Math.floor(Date.now() / 1000);
+  const fecha = new Date(ts * 1000);
+  const year = fecha.getUTCFullYear();
+  const ckey = 'factura:contador:' + year;
+  const n = (parseInt(await env.SAVIA_KV.get(ckey) || '0', 10) || 0) + 1;
+  await env.SAVIA_KV.put(ckey, String(n));
+  const num = 'FAC-' + year + '-' + String(n).padStart(4, '0');
+
+  const cd = full.customer_details || {};
+  const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
+  const a = ship.address || cd.address || {};
+  const direccion = [a.line1, a.line2, [a.postal_code, a.city].filter(Boolean).join(' '), a.state, a.country]
+    .filter(Boolean).join('\n');
+  const lineas = ((full.line_items && full.line_items.data) ? full.line_items.data : []).map(li => ({
+    desc: li.description || '', cant: li.quantity || 1, importe: (li.amount_total || 0) / 100,
+  }));
+  const envio = (full.shipping_cost && full.shipping_cost.amount_total != null) ? full.shipping_cost.amount_total / 100 : 0;
+  const totalConIva = (full.amount_total || 0) / 100;
+  const base = Math.round((totalConIva / 1.21) * 100) / 100;
+  const iva = Math.round((totalConIva - base) * 100) / 100;
+
+  const rec = {
+    num, ts, fechaIso: fecha.toISOString().slice(0, 10),
+    cliente: { nombre: cd.name || '', email: cd.email || '', direccion },
+    lineas, envio, totalConIva, base, iva,
+  };
+  await env.SAVIA_KV.put('factura:' + ts + ':' + num, JSON.stringify(rec));
 }
 
 /* ---------- Webhook: baja el stock + avisa por email al completarse el pago ---------- */
@@ -378,8 +416,12 @@ async function manejarWebhook(request, env) {
           await env.SAVIA_KV.put(clave, '1', { metadata: { fecha, items: cart } });
         }
       } catch (e) { console.error('registro pedido:', e); }
-      // 3) Avisar por email del pedido (sin romper el webhook si fallara).
-      try { await enviarEmailPedido(sesion, env); } catch (e) { console.error('email pedido:', e); }
+      // 3) Sesión completa (con líneas) para factura y email.
+      const full = await getSesionCompleta(sesion, env);
+      // 4) Generar y guardar la factura numerada.
+      try { await generarFactura(full, env); } catch (e) { console.error('factura:', e); }
+      // 5) Avisar por email del pedido (sin romper el webhook si fallara).
+      try { await enviarEmailPedido(full, env); } catch (e) { console.error('email pedido:', e); }
     }
   }
   return new Response('ok', { status: 200 });
@@ -485,6 +527,31 @@ async function manejarCuentas(request, env, cors) {
   }
 }
 
+/* ---------- Facturas: lista las facturas guardadas en un rango ---------- */
+async function manejarFacturas(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const { desde, hasta } = _rango(body);
+  if (!desde || !hasta) return jsonResp({ error: 'Fechas no válidas' }, 400, cors);
+  const facturas = [];
+  if (env.SAVIA_KV) {
+    let cursor = null, guard = 0;
+    do {
+      const lst = await env.SAVIA_KV.list({ prefix: 'factura:', limit: 1000, cursor });
+      for (const k of lst.keys) {
+        if (k.name.indexOf('contador') !== -1) continue;
+        const ts = Number(k.name.split(':')[1]) || 0;
+        if (ts < desde || ts > hasta) continue;
+        const v = await env.SAVIA_KV.get(k.name);
+        if (v) { try { facturas.push(JSON.parse(v)); } catch { /* */ } }
+      }
+      cursor = lst.list_complete ? null : lst.cursor;
+    } while (cursor && guard++ < 20);
+  }
+  facturas.sort((a, b) => (a.ts || 0) - (b.ts || 0));
+  return jsonResp({ facturas }, 200, cors);
+}
+
 /* ---------- Beneficio real: ventas (base) - coste de lo vendido - comisiones ---------- */
 async function manejarBeneficio(request, env, cors) {
   if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
@@ -580,6 +647,9 @@ export default {
       }
       if (path === '/admin/beneficio' && request.method === 'POST') {
         return await manejarBeneficio(request, env, cors);
+      }
+      if (path === '/admin/facturas' && request.method === 'POST') {
+        return await manejarFacturas(request, env, cors);
       }
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {
