@@ -60,6 +60,7 @@ async function finalizarCompra() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         items: Carrito.items,                 // { handle: cantidad }
+        cp: (typeof window.savia_getCP === 'function' ? window.savia_getCP() : ''),
         returnUrl: window.location.origin + window.location.pathname,
       }),
     });

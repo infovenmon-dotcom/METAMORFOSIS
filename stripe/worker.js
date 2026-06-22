@@ -47,6 +47,17 @@ const CONFIG_DEFAULT = {
 let _cacheProductos = null;
 let _cacheTs = 0;
 
+/* Zona de envío a partir del código postal español.
+   '07' = Baleares; 35/38 (Canarias), 51 (Ceuta), 52 (Melilla) = no se envía. */
+function zonaPorCP(cp) {
+  cp = String(cp || '').trim();
+  if (!/^\d{5}$/.test(cp)) return null;
+  const p = cp.slice(0, 2);
+  if (p === '07') return 'baleares';
+  if (p === '35' || p === '38' || p === '51' || p === '52') return 'no';
+  return 'peninsula';
+}
+
 /* ---------- Catálogo (precios base + títulos desde products.js) ---------- */
 async function cargarProductos(url) {
   const ahora = Date.now();
@@ -98,8 +109,9 @@ function noVendible(handle, cfg) {
   return false;
 }
 
-/* Recalcula importes y devuelve unidades a cobrar por handle (ya con promo). */
-function calcular(items, productos, cfg) {
+/* Recalcula importes y devuelve unidades a cobrar por handle (ya con promo).
+   `zona` ('peninsula' | 'baleares') determina el gasto de envío. */
+function calcular(items, productos, cfg, zona) {
   const precios = [];        // un precio por unidad
   const unidadesOrden = [];  // un handle por unidad
   for (const [handle, qty] of Object.entries(items)) {
@@ -125,7 +137,10 @@ function calcular(items, productos, cfg) {
 
   const subtotal = precios.reduce((a, b) => a + b, 0);
   const subtotalConPromo = subtotal - ahorroPromo;
-  const envio = unidades === 0 ? 0 : (subtotalConPromo >= ENVIO_GRATIS_DESDE ? 0 : ENVIO_PENINSULA);
+  let envio;
+  if (unidades === 0) envio = 0;
+  else if (zona === 'baleares') envio = ENVIO_BALEARES;
+  else envio = subtotalConPromo >= ENVIO_GRATIS_DESDE ? 0 : ENVIO_PENINSULA;
 
   // Unidades realmente cobradas por handle (cantidad - regalos).
   const cobradas = {};
@@ -219,8 +234,13 @@ async function crearCheckout(request, env, cors) {
     if (!noVendible(h, cfg)) itemsVendibles[h] = q;
   }
 
+  // Zona de envío según el código postal que el cliente puso en el carrito.
+  const zona = zonaPorCP(body.cp);
+  if (zona === 'no') return jsonResp({ error: 'zona_no_disponible' }, 409, cors);
+  const zonaEnvio = zona === 'baleares' ? 'baleares' : 'peninsula';
+
   const productos = await cargarProductos(env.PRODUCTS_URL);
-  const { cobradas, freeByHandle, envio, unidades } = calcular(itemsVendibles, productos, cfg);
+  const { cobradas, freeByHandle, envio, unidades } = calcular(itemsVendibles, productos, cfg, zonaEnvio);
 
   if (unidades === 0 || Object.keys(cobradas).length === 0) {
     return jsonResp({ error: 'Carrito vacío' }, 400, cors);
@@ -256,16 +276,14 @@ async function crearCheckout(request, env, cors) {
     i++;
   }
 
-  // El cliente elige su zona en el checkout: Península (gratis si llega al umbral)
-  // o Baleares (tarifa fija).
+  // Una sola tarifa, ya calculada según la zona del código postal.
+  const nombreEnvio = zonaEnvio === 'baleares'
+    ? 'Envío Baleares'
+    : (envio === 0 ? 'Envío GRATIS (Península)' : 'Envío Península');
   form.append('shipping_options[0][shipping_rate_data][type]', 'fixed_amount');
   form.append('shipping_options[0][shipping_rate_data][fixed_amount][amount]', String(Math.round(envio * 100)));
   form.append('shipping_options[0][shipping_rate_data][fixed_amount][currency]', 'eur');
-  form.append('shipping_options[0][shipping_rate_data][display_name]', envio === 0 ? 'Envío GRATIS (Península)' : 'Envío Península');
-  form.append('shipping_options[1][shipping_rate_data][type]', 'fixed_amount');
-  form.append('shipping_options[1][shipping_rate_data][fixed_amount][amount]', String(Math.round(ENVIO_BALEARES * 100)));
-  form.append('shipping_options[1][shipping_rate_data][fixed_amount][currency]', 'eur');
-  form.append('shipping_options[1][shipping_rate_data][display_name]', 'Envío Baleares');
+  form.append('shipping_options[0][shipping_rate_data][display_name]', nombreEnvio);
 
   // Guardamos las UNIDADES FÍSICAS del pedido (incluidos los regalos) para
   // poder bajar el stock en el webhook.

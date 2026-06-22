@@ -12,6 +12,26 @@ const ENVIO_PENINSULA = 3.50;
 const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 3+1: por cada 3 comprados, el 4o (mas barato) es gratis
 const STORAGE_KEY = 'savia_carrito';
+const CP_KEY = 'savia_cp';
+
+/* Código postal del cliente para calcular el envío por zona. */
+let CP = '';
+try { CP = localStorage.getItem(CP_KEY) || ''; } catch { CP = ''; }
+function zonaPorCP(cp) {
+  cp = String(cp || '').trim();
+  if (!/^\d{5}$/.test(cp)) return null;
+  const p = cp.slice(0, 2);
+  if (p === '07') return 'baleares';
+  if (p === '35' || p === '38' || p === '51' || p === '52') return 'no';
+  return 'peninsula';
+}
+function fijarCP(v) {
+  CP = String(v || '').replace(/\D/g, '').slice(0, 5);
+  try { localStorage.setItem(CP_KEY, CP); } catch { /* */ }
+  if (window.Carrito) Carrito.render();
+}
+window.fijarCP = fijarCP;
+window.savia_getCP = function () { return CP; };
 
 /* Precio efectivo de una unidad: usa precioDe() (ofertas/override de app.js)
    si esta disponible; si no, el precio base del producto. */
@@ -85,15 +105,19 @@ const Carrito = {
 
     const subtotalConPromo = subtotal - ahorroPromo;
 
-    let envio = 0;
-    let envioGratis = false;
+    const zona = zonaPorCP(CP);
+    let envio = 0, envioGratis = false, envioZona = 'peninsula', zonaNoDisponible = false;
     if (unidades === 0) {
       envio = 0;
-    } else if (subtotalConPromo >= ENVIO_GRATIS_DESDE) {
-      envio = 0;
-      envioGratis = true;
+    } else if (zona === 'no') {
+      zonaNoDisponible = true;
+    } else if (zona === 'baleares') {
+      envioZona = 'baleares';
+      envio = ENVIO_BALEARES;
     } else {
-      envio = ENVIO_PENINSULA;
+      // Península, o sin CP todavía (se muestra la estimación peninsular).
+      if (subtotalConPromo >= ENVIO_GRATIS_DESDE) { envio = 0; envioGratis = true; }
+      else envio = ENVIO_PENINSULA;
     }
 
     const total = subtotalConPromo + envio;
@@ -106,6 +130,7 @@ const Carrito = {
       lineas, unidades, subtotal, gratisCount, ahorroPromo, freeByHandle,
       subtotalConPromo, envio, envioGratis, total,
       faltaParaEnvio, faltaParaProximoGratis, progresoGrupo, grupoGratis: GRUPO_GRATIS,
+      cp: CP, zona, envioZona, zonaNoDisponible,
     };
   },
 
@@ -233,12 +258,20 @@ function renderPanelCarrito(c) {
     ${envioAviso}
     <div class="aviso-bienvenida">🎁 ¿Tu primer pedido? Te regalamos <strong>jabonera de bambú + esponja exfoliante</strong>.</div>
     <div class="barra-envio"><span style="width:${pct}%"></span></div>
+    <div class="fila-cp" style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0">
+      <label style="font-size:.82rem;font-weight:600">Código postal
+        <input type="text" inputmode="numeric" maxlength="5" value="${c.cp || ''}" oninput="fijarCP(this.value)" placeholder="Ej. 28320" style="width:90px;margin-left:6px;padding:6px 8px;border:1px solid #cfcfcf;border-radius:8px">
+      </label>
+      <span style="font-size:.74rem;color:var(--texto-suave)">${c.zonaNoDisponible ? '<span style="color:#C0392B">No enviamos a tu zona</span>' : (!c.cp ? 'para calcular el envío' : (c.envioZona === 'baleares' ? 'Baleares' : 'Península'))}</span>
+    </div>
     <div class="fila-resumen"><span>Subtotal (${c.unidades} art.)</span><span>${eur(c.subtotal)}</span></div>
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
-    <div class="fila-resumen"><span>Envío</span><span>${c.envioGratis ? 'GRATIS' : eur(c.envio)}</span></div>
-    <div class="fila-resumen total"><span>Total</span><span>${eur(c.total)}</span></div>
-    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 3 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío: Península ${eur(ENVIO_PENINSULA)} · Baleares ${eur(ENVIO_BALEARES)} (lo eliges al pagar) · Gratis desde ${eur(ENVIO_GRATIS_DESDE)} en Península.</p>
-    <a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>
+    <div class="fila-resumen"><span>Envío${c.envioZona === 'baleares' ? ' (Baleares)' : ''}</span><span>${c.zonaNoDisponible ? '—' : (c.envioGratis ? 'GRATIS' : eur(c.envio))}</span></div>
+    <div class="fila-resumen total"><span>Total</span><span>${c.zonaNoDisponible ? '—' : eur(c.total)}</span></div>
+    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 3 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío: Península ${eur(ENVIO_PENINSULA)} (gratis desde ${eur(ENVIO_GRATIS_DESDE)}) · Baleares ${eur(ENVIO_BALEARES)}.</p>
+    ${c.zonaNoDisponible
+      ? '<button class="btn btn-secundario btn-bloque" disabled>No realizamos envíos a tu zona</button>'
+      : '<a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>'}
     <button class="btn btn-secundario btn-bloque" style="margin-top:8px" onclick="cerrarCarrito()">← Seguir comprando</button>
   `;
 }
