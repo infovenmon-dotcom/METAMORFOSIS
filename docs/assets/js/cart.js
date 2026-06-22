@@ -3,12 +3,13 @@
    Reglas (espejo de la configuracion de Shopify):
      - POR CADA 3 PRODUCTOS, 1 GRATIS: el de menor precio de cada grupo de 3.
        Escalable: 3 art. = 1 gratis, 6 = 2 gratis, 9 = 3 gratis...
-     - Envio GRATIS desde 45 EUR (Espana Peninsula, base 4,95 EUR).
+     - Envio: Peninsula 3,50 EUR (gratis desde 45 EUR) y Baleares 6 EUR.
      - Los precios YA incluyen IVA 21% (no se anaden impuestos).
    =========================================================================== */
 
 const ENVIO_GRATIS_DESDE = 45;
-const ENVIO_PENINSULA = 4.95;
+const ENVIO_PENINSULA = 3.50;
+const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 3+1: por cada 3 comprados, el 4o (mas barato) es gratis
 const STORAGE_KEY = 'savia_carrito';
 
@@ -236,7 +237,7 @@ function renderPanelCarrito(c) {
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
     <div class="fila-resumen"><span>Envío</span><span>${c.envioGratis ? 'GRATIS' : eur(c.envio)}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${eur(c.total)}</span></div>
-    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 3 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío peninsular ${eur(ENVIO_PENINSULA)}.</p>
+    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 3 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío: Península ${eur(ENVIO_PENINSULA)} · Baleares ${eur(ENVIO_BALEARES)} (lo eliges al pagar) · Gratis desde ${eur(ENVIO_GRATIS_DESDE)} en Península.</p>
     <a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>
     <button class="btn btn-secundario btn-bloque" style="margin-top:8px" onclick="cerrarCarrito()">← Seguir comprando</button>
   `;

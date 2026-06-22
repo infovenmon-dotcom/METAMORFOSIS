@@ -26,12 +26,13 @@
 
    Reglas (espejo de cart.js):
      - Por cada 4 unidades, la más barata es gratis (3+1).
-     - Envío gratis desde 45 €; si no, 4,95 € (Península).
+     - Envío: Península 3,50 € (gratis desde 45 €) o Baleares 6 € (lo elige el cliente).
      - Precios YA con IVA (21%).
    =========================================================================== */
 
 const ENVIO_GRATIS_DESDE = 45;
-const ENVIO_PENINSULA = 4.95;
+const ENVIO_PENINSULA = 3.50;
+const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // por cada 3 comprados, el 4º (más barato) gratis
 
 const CONFIG_DEFAULT = {
@@ -255,10 +256,16 @@ async function crearCheckout(request, env, cors) {
     i++;
   }
 
+  // El cliente elige su zona en el checkout: Península (gratis si llega al umbral)
+  // o Baleares (tarifa fija).
   form.append('shipping_options[0][shipping_rate_data][type]', 'fixed_amount');
   form.append('shipping_options[0][shipping_rate_data][fixed_amount][amount]', String(Math.round(envio * 100)));
   form.append('shipping_options[0][shipping_rate_data][fixed_amount][currency]', 'eur');
-  form.append('shipping_options[0][shipping_rate_data][display_name]', envio === 0 ? 'Envío GRATIS' : 'Envío Península');
+  form.append('shipping_options[0][shipping_rate_data][display_name]', envio === 0 ? 'Envío GRATIS (Península)' : 'Envío Península');
+  form.append('shipping_options[1][shipping_rate_data][type]', 'fixed_amount');
+  form.append('shipping_options[1][shipping_rate_data][fixed_amount][amount]', String(Math.round(ENVIO_BALEARES * 100)));
+  form.append('shipping_options[1][shipping_rate_data][fixed_amount][currency]', 'eur');
+  form.append('shipping_options[1][shipping_rate_data][display_name]', 'Envío Baleares');
 
   // Guardamos las UNIDADES FÍSICAS del pedido (incluidos los regalos) para
   // poder bajar el stock en el webhook.
