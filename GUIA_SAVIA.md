@@ -153,7 +153,7 @@ Ahora mismo estás en **MODO PRUEBA** (clave `sk_test_`): puedes probar con la t
 ## 10. Envíos
 
 - **Transportista:** CTT Express.
-- **Tarifa al cliente:** Península **3,50 €** (GRATIS desde 45 €) · Baleares **6,00 €**.
+- **Tarifa al cliente:** Península **3,95 €** (GRATIS desde 45 €) · Baleares **6,00 €**.
 - La web pide el **código postal** en el carrito y calcula la zona (07xxx = Baleares). Canarias/Ceuta/Melilla (35/38/51/52) quedan bloqueadas.
 - **Promo:** por cada 3 productos, el 4.º (de menor valor) gratis. Válida solo en la web.
 - **Operativa:** preparas el pedido, generas la etiqueta en el panel de CTT (pegando la dirección que ves en Stripe) y CTT lo recoge. Empaqueta **pequeño y ajustado** (te facturan por peso volumétrico si la caja es grande: `Largo×Ancho×Alto/6000`).

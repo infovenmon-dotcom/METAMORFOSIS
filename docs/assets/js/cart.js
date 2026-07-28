@@ -3,12 +3,12 @@
    Reglas (espejo de la configuracion de Shopify):
      - POR CADA 3 PRODUCTOS, 1 GRATIS: el de menor precio de cada grupo de 3.
        Escalable: 3 art. = 1 gratis, 6 = 2 gratis, 9 = 3 gratis...
-     - Envio: Peninsula 3,50 EUR (gratis desde 45 EUR) y Baleares 6 EUR.
+     - Envio: Peninsula 3,95 EUR (gratis desde 45 EUR) y Baleares 6 EUR.
      - Los precios YA incluyen IVA 21% (no se anaden impuestos).
    =========================================================================== */
 
 const ENVIO_GRATIS_DESDE = 45;
-const ENVIO_PENINSULA = 3.50;
+const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 3+1: por cada 3 comprados, el 4o (mas barato) es gratis
 const STORAGE_KEY = 'savia_carrito';
