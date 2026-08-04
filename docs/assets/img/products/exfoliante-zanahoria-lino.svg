@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Exfoliante Solido Zanahoria y Lino">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F2EC"/><stop offset="1" stop-color="#F6E2C8"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8873B"/><stop offset="1" stop-color="#CE6C22"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="24" letter-spacing="2" fill="#1D6B50">SAVIA DE ALMA</text>
+  <text x="300" y="122" text-anchor="middle" font-size="34">🥕</text>
+  <rect x="185" y="205" width="230" height="150" rx="26" fill="url(#bar)"/>
+  <circle cx="250" cy="258" r="6" fill="#8a4413" opacity="0.45"/>
+  <circle cx="330" cy="292" r="7" fill="#8a4413" opacity="0.45"/>
+  <circle cx="350" cy="238" r="5" fill="#8a4413" opacity="0.45"/>
+  <text text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="26" fill="#1A1A1A" y="418"><tspan x="300" dy="0">Exfoliante</tspan><tspan x="300" dy="30">Zanahoria &amp; Lino</tspan></text>
+  <text x="300" y="548" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" fill="#B8860B" font-weight="bold">Próximamente</text>
+</svg>

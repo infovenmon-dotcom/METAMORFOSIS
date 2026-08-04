@@ -49,6 +49,12 @@ window.SAVIA_DATA = {
       "name": "Accesorios",
       "count": 2,
       "exclusiveWeb": true
+    },
+    {
+      "slug": "exfoliantes",
+      "name": "Exfoliantes Solidos",
+      "count": 2,
+      "exclusiveWeb": true
     }
   ],
   "products": [
@@ -1887,6 +1893,87 @@ window.SAVIA_DATA = {
       "modoUso": "",
       "lema": "",
       "specs": {}
+    },
+    {
+      "handle": "exfoliante-cafe-coco",
+      "title": "Exfoliante Sólido Café y Coco",
+      "short": "Exfoliante corporal sólido de café y coco · 98,5% natural · vegano · zero waste",
+      "features": [
+        "Exfolia y nutre a la vez",
+        "98,5% natural (Norma Cosmos)",
+        "Zero waste, sin plástico",
+        "Apto para veganos",
+        "Hecho a mano en España"
+      ],
+      "tags": ["exfoliante", "cafe", "coco", "corporal", "natural", "vegano"],
+      "price": 10.99,
+      "sku": "SDA-EX-CAFECOCO",
+      "type": "Exfoliante",
+      "collection": "exfoliantes",
+      "collectionName": "Exfoliantes Sólidos",
+      "emoji": "☕",
+      "image": "assets/img/products/exfoliante-cafe-coco.svg",
+      "images": ["assets/img/products/exfoliante-cafe-coco.svg"],
+      "bullets": [
+        "EXFOLIACIÓN NATURAL: el café y el karité arrastran las células muertas y nutren la piel.",
+        "REGULA EL pH: con ácido cítrico y aceite de coco.",
+        "IDEAL EN CODOS, TALONES Y RODILLAS: suaviza las zonas más ásperas.",
+        "98,5% INGREDIENTES NATURALES (Cosmos): sin colorantes, vegano y sin plástico.",
+        "~75 g · elaborado a mano en España."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "descripcion": "Pastilla exfoliante sólida con café y coco para una exfoliación media. Arrastra las células muertas mientras la manteca de karité y el aceite de coco nutren la piel, que queda suave y perfumada.",
+      "indicado": "Perfecto para zonas que necesitan un extra de suavidad: codos, talones, rodillas y pies.",
+      "modoUso": "Masajea la pastilla bajo el agua caliente de la ducha (máx. 37°), insistiendo en las zonas más ásperas. Aclara y termina con agua fría para tonificar.",
+      "lema": "Piel nueva en cada ducha.",
+      "specs": {
+        "natural": "98,5% ingredientes naturales (Norma Cosmos)",
+        "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Coffea arabica Seed Powder.",
+        "peso": "~75 g",
+        "fabricacion": "Elaborado a mano en España. Sin SLS ni SCI. Sin plástico (cero residuos). Vegano."
+      }
+    },
+    {
+      "handle": "exfoliante-zanahoria-lino",
+      "title": "Exfoliante Sólido Zanahoria y Lino",
+      "short": "Exfoliante corporal sólido de zanahoria y lino · 98,5% natural · vegano (próximamente)",
+      "features": [
+        "Exfolia y nutre a la vez",
+        "98,5% natural (Norma Cosmos)",
+        "Zero waste, sin plástico",
+        "Apto para veganos",
+        "Hecho a mano en España"
+      ],
+      "tags": ["exfoliante", "zanahoria", "lino", "corporal", "natural", "vegano"],
+      "price": 10.99,
+      "sku": "SDA-EX-ZANALINO",
+      "type": "Exfoliante",
+      "collection": "exfoliantes",
+      "collectionName": "Exfoliantes Sólidos",
+      "emoji": "🥕",
+      "image": "assets/img/products/exfoliante-zanahoria-lino.svg",
+      "images": ["assets/img/products/exfoliante-zanahoria-lino.svg"],
+      "bullets": [
+        "EXFOLIACIÓN SUAVE: la zanahoria y el lino cuidan y suavizan la piel.",
+        "NUTRE E ILUMINA: con manteca de karité y aceite de coco.",
+        "98,5% INGREDIENTES NATURALES (Cosmos): sin colorantes, vegano y sin plástico.",
+        "~75 g · elaborado a mano en España.",
+        "PRÓXIMAMENTE disponible."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "proximamente": true,
+      "descripcion": "Pastilla exfoliante sólida de zanahoria y lino para una exfoliación suave que cuida y nutre la piel. Muy pronto disponible.",
+      "indicado": "Para todo tipo de pieles que buscan una exfoliación delicada.",
+      "modoUso": "Masajea la pastilla bajo el agua caliente de la ducha (máx. 37°). Aclara y termina con agua fría para tonificar.",
+      "lema": "Suavidad natural, muy pronto.",
+      "specs": {
+        "natural": "98,5% ingredientes naturales (Norma Cosmos)",
+        "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Daucus carota Extract, Linum usitatissimum Seed.",
+        "peso": "~75 g",
+        "fabricacion": "Elaborado a mano en España. Sin SLS ni SCI. Sin plástico (cero residuos). Vegano."
+      }
     }
   ]
 };

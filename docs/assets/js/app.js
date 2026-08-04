@@ -55,6 +55,7 @@ function stockDe(handle) {
   return Object.prototype.hasOwnProperty.call(s, handle) ? Number(s[handle]) : null;
 }
 function estaAgotado(p) {
+  if (p.proximamente) return true; // "Próximamente": no vendible aún
   if (enVacaciones()) return true;
   if ((_cfg().agotados || []).indexOf(p.handle) !== -1) return true;
   const n = stockDe(p.handle);
@@ -105,7 +106,9 @@ function cardProducto(p, { compacta = false } = {}) {
   const agotado = estaAgotado(p);
   const _antes = precioAntesDe(p);
   const enOferta = !agotado && _antes !== null;
-  const etiqueta = (agotado && !enVacaciones())
+  const etiqueta = p.proximamente
+    ? '<span class="etiqueta dorada">Próximamente</span>'
+    : (agotado && !enVacaciones())
     ? '<span class="etiqueta agotado">Agotado</span>'
     : (enOferta
         ? `<span class="etiqueta oferta">-${dtoPorcentaje(_antes, precioDe(p))}%</span>`
@@ -121,7 +124,7 @@ function cardProducto(p, { compacta = false } = {}) {
   let acciones;
   if (agotado) {
     acciones = (p.exclusiveWeb
-      ? `<button class="btn btn-secundario btn-sm btn-bloque" disabled>No disponible</button>`
+      ? `<button class="btn btn-secundario btn-sm btn-bloque" disabled>${p.proximamente ? 'Próximamente' : 'No disponible'}</button>`
       : `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`)
       + `<button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>`;
   } else {
@@ -222,7 +225,9 @@ function abrirFicha(handle) {
   if (!cont) return;
 
   const _antesFicha = precioAntesDe(p);
-  const etiqueta = _antesFicha !== null
+  const etiqueta = p.proximamente
+    ? '<span class="etiqueta dorada" style="position:static;display:inline-block">Próximamente</span>'
+    : _antesFicha !== null
     ? `<span class="etiqueta oferta" style="position:static;display:inline-block">-${dtoPorcentaje(_antesFicha, precioDe(p))}%</span>`
     : (p.exclusiveWeb
         ? '<span class="etiqueta dorada" style="position:static;display:inline-block">Exclusivo web</span>'
@@ -282,7 +287,7 @@ function abrirFicha(handle) {
       <div class="ficha-acciones">
         ${_agotado
           ? (p.exclusiveWeb
-              ? `<button class="btn btn-secundario btn-bloque" disabled>No disponible temporalmente</button>`
+              ? `<button class="btn btn-secundario btn-bloque" disabled>${p.proximamente ? 'Próximamente' : 'No disponible temporalmente'}</button>`
               : `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`)
           : `<button class="btn btn-primario btn-bloque" onclick="addToCart('${p.handle}'); cerrarFicha();">Añadir al carrito</button>
         ${amazon}`}
