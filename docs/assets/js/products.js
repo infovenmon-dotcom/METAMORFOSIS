@@ -1912,11 +1912,18 @@ window.SAVIA_DATA = {
       "collection": "exfoliantes",
       "collectionName": "Exfoliantes Sólidos",
       "emoji": "☕",
-      "image": "assets/img/products/exfoliante-cafe-coco.svg",
-      "images": ["assets/img/products/exfoliante-cafe-coco.svg"],
+      "image": "assets/img/products/exfoliante-cafe-coco.jpg",
+      "images": [
+        "assets/img/products/exfoliante-cafe-coco.jpg",
+        "assets/img/products/exfoliante-cafe-coco-2.jpg",
+        "assets/img/products/exfoliante-cafe-coco-3.jpg",
+        "assets/img/products/exfoliante-cafe-coco-4.jpg",
+        "assets/img/products/exfoliante-cafe-coco-5.jpg",
+        "assets/img/products/exfoliante-cafe-coco-6.jpg"
+      ],
       "bullets": [
-        "EXFOLIA Y RENUEVA: el café y el ácido cítrico arrastran las células muertas y dejan la piel más lisa y luminosa, sin microplásticos ni granos sintéticos.",
-        "NUTRE MIENTRAS EXFOLIA: la manteca de karité y el aceite de coco hidratan a la vez; la piel queda suave y no necesita crema después.",
+        "EXFOLIA Y RENUEVA: el café arábica y el ácido cítrico arrastran las células muertas y dejan la piel más lisa y luminosa, sin microplásticos ni granos sintéticos.",
+        "NUTRE MIENTRAS EXFOLIA: la manteca de karité, el aceite de coco y la vitamina E (antioxidante) hidratan a la vez; la piel queda suave y no necesita crema después.",
         "PARA TUS ZONAS MÁS ÁSPERAS: ideal en codos, talones, rodillas y pies, y suave en escote y cuello. Ayuda a regular el pH de la piel.",
         "98,5% NATURAL (Cosmos) · VEGANO · SIN COLORANTES: sin SLS ni SCI; un tensoactivo suave derivado del coco hace una ligera espuma fácil de aclarar.",
         "ZERO WASTE · HECHO A MANO EN ESPAÑA: pastilla sólida sin plástico ni packaging, elaborada artesanalmente en pequeños lotes. Aroma a café energizante."
@@ -1929,7 +1936,7 @@ window.SAVIA_DATA = {
       "lema": "Piel nueva en cada ducha.",
       "specs": {
         "natural": "98,5% ingredientes naturales (Norma Cosmos)",
-        "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Coffea arabica Seed Powder.",
+        "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Coffea arabica Seed Powder, Tocopherol (Vitamina E).",
         "peso": "~75 g",
         "fabricacion": "Elaborado a mano en España. Sin SLS ni SCI. Sin plástico (cero residuos). Vegano."
       }
