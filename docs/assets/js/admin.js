@@ -456,6 +456,7 @@ window.verFactura = verFactura;
 
 /* ---------- Envíos (CTT) ---------- */
 let ENVIOS = [];
+let CTT_OK = false;
 
 function _fechaCorta(ts) {
   if (!ts) return '—';
@@ -482,6 +483,7 @@ async function cargarEnvios() {
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const d = await r.json();
     ENVIOS = d.pedidos || [];
+    CTT_OK = !!d.ctt;
     pintarEnvios();
     _msg(msg, ENVIOS.length ? ENVIOS.length + ' pedido(s)' : '', 'ok');
   } catch (e) {
@@ -517,10 +519,11 @@ function pintarEnvios() {
         <div style="min-width:160px">${prods}</div>
       </div>
       <div class="fila-top" style="margin-top:10px">
+        ${CTT_OK ? `<button class="btn btn-primario btn-sm" onclick="crearEtiquetaCTT(${i})">🏷️ Crear etiqueta CTT</button>` : ''}
         <button class="btn btn-secundario btn-sm" onclick="copiarEnvio(${i})">📋 Copiar datos</button>
-        <input type="text" id="trk-${i}" placeholder="Nº seguimiento CTT" value="${_esc(p.tracking || '')}" style="max-width:220px">
+        <input type="text" id="trk-${i}" placeholder="Nº seguimiento CTT" value="${_esc(p.tracking || '')}" style="max-width:200px">
         <label style="font-size:.8rem"><input type="checkbox" id="avi-${i}" checked> Avisar al cliente</label>
-        <button class="btn btn-primario btn-sm" onclick="guardarTracking(${i})">${p.enviado ? 'Actualizar' : 'Marcar enviado'}</button>
+        <button class="btn btn-secundario btn-sm" onclick="guardarTracking(${i})">${p.enviado ? 'Actualizar' : 'Marcar enviado'}</button>
         <span class="msg" id="env-r-${i}"></span>
       </div>
     </div>`;
@@ -588,7 +591,49 @@ function exportarEnviosCSV() {
   a.click();
 }
 
+/* Crea el envío en CTT (etiqueta térmica + tracking) con la API. */
+async function crearEtiquetaCTT(i) {
+  const p = ENVIOS[i]; if (!p) return;
+  const r = document.getElementById('env-r-' + i);
+  const avisar = document.getElementById('avi-' + i).checked;
+  _msg(r, 'Creando envío en CTT…', '');
+  try {
+    const resp = await fetch(_base() + '/admin/envio/etiqueta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ clave: p.clave, avisar }),
+    });
+    const d = await resp.json().catch(() => ({}));
+    if (resp.status === 401) { _msg(r, 'Contraseña incorrecta.', 'err'); return; }
+    if (!resp.ok) { _msg(r, 'CTT: ' + (d.detalle || d.error || ('HTTP ' + resp.status)), 'err'); return; }
+    p.tracking = d.tracking || ''; p.enviado = true;
+    const trk = document.getElementById('trk-' + i); if (trk) trk.value = p.tracking;
+    // Abrir la etiqueta PDF para imprimir en la térmica.
+    if (d.pdfBase64) abrirPdfBase64(d.pdfBase64, 'etiqueta-' + p.tracking + '.pdf');
+    else if (d.thermal && d.thermal.length) descargarTexto(d.thermal.join('\n'), 'etiqueta-' + p.tracking + '.zpl');
+    _msg(r, '✔ Envío ' + p.tracking + (d.avisado ? ' · cliente avisado' : ''), 'ok');
+  } catch (e) {
+    _msg(r, 'Error: ' + e.message, 'err');
+  }
+}
+
+function abrirPdfBase64(b64, nombre) {
+  try {
+    const bin = atob(b64); const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    const blob = new Blob([arr], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const w = window.open(url, '_blank');
+    if (!w) { const a = document.createElement('a'); a.href = url; a.download = nombre || 'etiqueta.pdf'; a.click(); }
+  } catch (e) { /* nada */ }
+}
+function descargarTexto(txt, nombre) {
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre; a.click();
+}
+
 window.cargarEnvios = cargarEnvios;
 window.copiarEnvio = copiarEnvio;
 window.guardarTracking = guardarTracking;
 window.exportarEnviosCSV = exportarEnviosCSV;
+window.crearEtiquetaCTT = crearEtiquetaCTT;

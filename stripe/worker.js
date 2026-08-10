@@ -739,7 +739,7 @@ async function manejarEnviosLista(request, env, cors) {
     } while (cursor && guard++ < 20);
   }
   pedidos.sort((a, b) => (b.fecha || 0) - (a.fecha || 0));
-  return jsonResp({ pedidos }, 200, cors);
+  return jsonResp({ pedidos, ctt: cttConfigurado(env) }, 200, cors);
 }
 
 /* Guarda el nº de seguimiento de un pedido, lo marca como enviado y avisa al cliente. */
@@ -765,6 +765,132 @@ async function manejarEnvioGuardar(request, env, cors) {
     try { await enviarEmailCliente(rec, env); avisado = true; } catch (e) { console.error('email cliente:', e); }
   }
   return jsonResp({ ok: true, avisado }, 200, cors);
+}
+
+/* ===========================================================================
+   CTT EXPRESS — API REST (Last Mile). Modo "online": CTT genera el número de
+   envío y nos devuelve la etiqueta. Todo va parametrizado por variables de
+   entorno; si faltan las credenciales, los endpoints responden sin romper nada.
+   Variables: CTT_BASE_URL, CTT_CLIENT_ID (secreto), CTT_CLIENT_SECRET (secreto),
+   CTT_CLIENT_CENTER, CTT_SERVICE_PENINSULA (def C24), CTT_SERVICE_BALEARES,
+   CTT_LABEL_TYPE (def PDF), CTT_LABEL_MODEL (def SINGLE), CTT_PESO_DEFECTO,
+   SENDER_NAME/ADDRESS/CP/TOWN/PHONE (remitente).
+   =========================================================================== */
+const CTT_TOKEN_KEY = 'ctt:token';
+function cttBase(env) { return (env.CTT_BASE_URL || 'https://api-test.cttexpress.com').replace(/\/+$/, ''); }
+function cttConfigurado(env) { return !!(env.CTT_CLIENT_ID && env.CTT_CLIENT_SECRET && env.CTT_CLIENT_CENTER); }
+function cttZonaDeCP(cp) { return String(cp || '').padStart(5, '0').startsWith('07') ? 'baleares' : 'peninsula'; }
+function cttServicio(env, zona) {
+  return zona === 'baleares' ? (env.CTT_SERVICE_BALEARES || env.CTT_SERVICE_PENINSULA || 'C24')
+                             : (env.CTT_SERVICE_PENINSULA || 'C24');
+}
+
+async function getTokenCTT(env) {
+  if (env.SAVIA_KV) {
+    const c = await env.SAVIA_KV.get(CTT_TOKEN_KEY, { type: 'json' });
+    if (c && c.token && c.exp > Math.floor(Date.now() / 1000) + 60) return c.token;
+  }
+  const body = new URLSearchParams();
+  body.append('client_id', env.CTT_CLIENT_ID);
+  body.append('client_secret', env.CTT_CLIENT_SECRET);
+  body.append('scope', 'urn:com:ctt-express:integration-clients:scopes:common/ALL');
+  body.append('grant_type', 'client_credentials');
+  const r = await fetch(cttBase(env) + '/integrations/oauth2/token', {
+    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString(),
+  });
+  if (!r.ok) throw new Error('token ' + r.status + ': ' + (await r.text()).slice(0, 200));
+  const d = await r.json();
+  const token = d.access_token || d.token;
+  const ttl = Math.min(Number(d.expires_in) || 3600, 86400);
+  if (env.SAVIA_KV && token) {
+    await env.SAVIA_KV.put(CTT_TOKEN_KEY, JSON.stringify({ token, exp: Math.floor(Date.now() / 1000) + ttl }), { expirationTtl: ttl });
+  }
+  return token;
+}
+
+/* Declara el envío (manifest). Devuelve el shipping_code generado por CTT. */
+async function crearEnvioCTT(rec, env) {
+  const token = await getTokenCTT(env);
+  const e = rec.envio || {};
+  const zona = cttZonaDeCP(e.cp);
+  const peso = Number(env.CTT_PESO_DEFECTO) || 0.5;
+  const body = {
+    client_center_code: env.CTT_CLIENT_CENTER,
+    shipping_type_code: cttServicio(env, zona),
+    client_references: [String(rec.id || '').slice(-16) || 'SDA'],
+    shipping_weight_declared: peso,
+    item_count: 1,
+    sender_name: env.SENDER_NAME || 'VENMON NATURALMENTE SL',
+    sender_country_code: 'ES',
+    sender_postal_code: env.SENDER_CP || '28320',
+    sender_address: env.SENDER_ADDRESS || 'Calle Gabriel Celaya 15 posterior',
+    sender_town: env.SENDER_TOWN || 'Pinto',
+    sender_email_notify_address: env.ORDER_EMAIL_TO || 'info@saviadealma.com',
+    sender_phones: [env.SENDER_PHONE || '+34665872016'],
+    recipient_name: e.nombre || '',
+    recipient_country_code: (e.pais || 'ES').toUpperCase(),
+    recipient_postal_code: e.cp || '',
+    recipient_address: [e.line1, e.line2].filter(Boolean).join(', '),
+    recipient_town: e.ciudad || '',
+    recipient_email_notify_address: e.email || '',
+    recipient_phones: e.telefono ? [e.telefono] : [],
+    items: [{ item_weight_declared: peso }],
+  };
+  const r = await fetch(cttBase(env) + '/integrations/manifest/v2.0/shippings', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const txt = await r.text();
+  if (!r.ok) throw new Error('manifest ' + r.status + ': ' + txt.slice(0, 300));
+  let d = {}; try { d = JSON.parse(txt); } catch { /* */ }
+  const dd = d.data || d;
+  const first = Array.isArray(dd) ? (dd[0] || {}) : dd;
+  const sc = first.shipping_code || first.item_code || d.shipping_code || '';
+  return { shipping_code: sc, raw: d };
+}
+
+/* Recupera la etiqueta de un envío ya declarado. */
+async function getEtiquetaCTT(shippingCode, env) {
+  const token = await getTokenCTT(env);
+  const tipo = env.CTT_LABEL_TYPE || 'PDF';
+  const model = env.CTT_LABEL_MODEL || 'SINGLE';
+  const url = cttBase(env) + '/integrations/trf/labelling/v1.0/shippings/' +
+    encodeURIComponent(shippingCode) + '/shipping-labels?label_type_code=' + tipo + '&model_type_code=' + model + '&label_offset=1';
+  const r = await fetch(url, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' } });
+  const txt = await r.text();
+  if (!r.ok) throw new Error('label ' + r.status + ': ' + txt.slice(0, 300));
+  let d = {}; try { d = JSON.parse(txt); } catch { /* */ }
+  const item = (d.data && d.data[0]) || {};
+  return { pdfBase64: item.label || '', thermal: item.thermal_label || [] };
+}
+
+/* Endpoint del panel: crea el envío en CTT, guarda el tracking y devuelve la etiqueta. */
+async function manejarEtiquetaCTT(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  if (!cttConfigurado(env)) return jsonResp({ error: 'ctt_no_configurado' }, 400, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const clave = body.clave;
+  if (!clave || !env.SAVIA_KV) return jsonResp({ error: 'faltan_datos' }, 400, cors);
+  const v = await env.SAVIA_KV.get(clave);
+  if (!v) return jsonResp({ error: 'no_encontrado' }, 404, cors);
+  let rec; try { rec = JSON.parse(v); } catch { return jsonResp({ error: 'corrupto' }, 500, cors); }
+
+  try {
+    const envio = await crearEnvioCTT(rec, env);
+    if (!envio.shipping_code) return jsonResp({ error: 'sin_codigo', detalle: JSON.stringify(envio.raw).slice(0, 400) }, 502, cors);
+    let etiqueta = { pdfBase64: '', thermal: [] };
+    try { etiqueta = await getEtiquetaCTT(envio.shipping_code, env); } catch (e) { console.error('label:', e); }
+    rec.tracking = envio.shipping_code; rec.enviado = true; rec.etiquetaCreada = true;
+    await env.SAVIA_KV.put(clave, JSON.stringify(rec), { metadata: { fecha: rec.fecha, items: rec.items || {} } });
+    let avisado = false;
+    if (body.avisar !== false && rec.envio && rec.envio.email) {
+      try { await enviarEmailCliente(rec, env); avisado = true; } catch (e) { console.error('email cliente:', e); }
+    }
+    return jsonResp({ ok: true, tracking: envio.shipping_code, pdfBase64: etiqueta.pdfBase64, thermal: etiqueta.thermal, avisado }, 200, cors);
+  } catch (e) {
+    return jsonResp({ error: 'ctt_error', detalle: String(e.message || e) }, 502, cors);
+  }
 }
 
 export default {
@@ -808,6 +934,9 @@ export default {
       }
       if (path === '/admin/envio' && request.method === 'POST') {
         return await manejarEnvioGuardar(request, env, cors);
+      }
+      if (path === '/admin/envio/etiqueta' && request.method === 'POST') {
+        return await manejarEtiquetaCTT(request, env, cors);
       }
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {

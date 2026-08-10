@@ -13,6 +13,27 @@ ALLOWED_ORIGIN = "https://saviadealma.com"
 ORDER_EMAIL_TO = "info@saviadealma.com"
 ORDER_EMAIL_FROM = "info@saviadealma.com"
 
+# --- CTT Express (API REST Last Mile) ---
+# Empezamos en el entorno de PRUEBAS. Al pasar a real: CTT_BASE_URL = "https://api.cttexpress.com"
+CTT_BASE_URL = "https://api-test.cttexpress.com"
+# Código de centro de cliente (10 dígitos) que te da CTT. Rellénalo cuando lo tengas.
+CTT_CLIENT_CENTER = ""
+# Códigos de servicio: C24 = 24h. Confirma con CTT el de Baleares.
+CTT_SERVICE_PENINSULA = "C24"
+CTT_SERVICE_BALEARES = "C24"
+# Etiqueta: PDF tamaño SINGLE (10x15) para impresora térmica. Para ZPL: CTT_LABEL_TYPE = "ZPL"
+CTT_LABEL_TYPE = "PDF"
+CTT_LABEL_MODEL = "SINGLE"
+CTT_PESO_DEFECTO = "0.5"
+# Remitente (origen de recogida).
+SENDER_NAME = "VENMON NATURALMENTE SL"
+SENDER_ADDRESS = "Calle Gabriel Celaya 15 posterior"
+SENDER_CP = "28320"
+SENDER_TOWN = "Pinto"
+SENDER_PHONE = "+34665872016"
+# Los SECRETOS CTT_CLIENT_ID y CTT_CLIENT_SECRET se ponen aparte (panel de
+# Cloudflare → Settings → Variables → tipo "Secret"), no aquí.
+
 # Base de datos KV donde se guarda la config del panel (precio/stock/ofertas/vacaciones).
 [[kv_namespaces]]
 binding = "SAVIA_KV"
