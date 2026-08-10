@@ -40,10 +40,11 @@ async function entrar() {
 
 /* Cambiar entre pestañas */
 function mostrarTab(t) {
-  ['prod', 'cuentas', 'beneficio', 'facturas'].forEach(x => {
+  ['prod', 'envios', 'cuentas', 'beneficio', 'facturas'].forEach(x => {
     document.getElementById('tab-' + x).classList.toggle('oculto', x !== t);
     document.getElementById('tb-' + x).classList.toggle('activo', x === t);
   });
+  if (t === 'envios' && !ENVIOS.length) cargarEnvios();
 }
 
 /* ---------- Facturas ---------- */
@@ -452,3 +453,142 @@ window.registrarCompra = registrarCompra;
 window.cargarFacturas = cargarFacturas;
 window.rangoMesF = rangoMesF;
 window.verFactura = verFactura;
+
+/* ---------- Envíos (CTT) ---------- */
+let ENVIOS = [];
+
+function _fechaCorta(ts) {
+  if (!ts) return '—';
+  const d = new Date(ts * 1000);
+  return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
+}
+function _dirTexto(e) {
+  return [e.line1, e.line2, [e.cp, e.ciudad].filter(Boolean).join(' '), e.provincia]
+    .filter(Boolean).join(', ');
+}
+function _esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+async function cargarEnvios() {
+  const msg = document.getElementById('env-msg');
+  const soloPendientes = document.getElementById('env-pend').checked;
+  _msg(msg, 'Cargando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/envios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ soloPendientes }),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    ENVIOS = d.pedidos || [];
+    pintarEnvios();
+    _msg(msg, ENVIOS.length ? ENVIOS.length + ' pedido(s)' : '', 'ok');
+  } catch (e) {
+    _msg(msg, 'No se pudieron cargar: ' + e.message, 'err');
+  }
+}
+
+function pintarEnvios() {
+  const T = document.getElementById('env-tabla');
+  if (!ENVIOS.length) {
+    T.innerHTML = '<p class="nota">No hay pedidos ' + (document.getElementById('env-pend').checked ? 'pendientes' : '') + '. (Aparecerán aquí en cuanto entre una venta pagada.)</p>';
+    return;
+  }
+  T.innerHTML = ENVIOS.map((p, i) => {
+    const e = p.envio || {};
+    const prods = (p.lineas || []).map(l => l.cantidad + '× ' + _esc(l.titulo)).join('<br>');
+    const dir = _esc(_dirTexto(e));
+    const tel = _esc(e.telefono || '');
+    const badge = p.enviado
+      ? '<span class="pill" style="background:#e6f4ea;color:#1D6B50">✔ Enviado</span>'
+      : '<span class="pill">Pendiente</span>';
+    return `<div class="admin-caja" style="margin-bottom:12px">
+      <div class="fila-top" style="justify-content:space-between">
+        <div><strong>${_esc(e.nombre || '—')}</strong> · ${_fechaCorta(p.fecha)} ${badge}</div>
+        <div class="nota">${p.total != null ? _fmtEur(p.total) : ''}</div>
+      </div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:6px;font-size:.86rem">
+        <div style="min-width:240px">
+          <div>${dir || '—'}</div>
+          <div>${tel ? '📞 ' + tel : '<span class="nota">sin teléfono</span>'}</div>
+          <div class="nota">${_esc(e.email || '')}</div>
+        </div>
+        <div style="min-width:160px">${prods}</div>
+      </div>
+      <div class="fila-top" style="margin-top:10px">
+        <button class="btn btn-secundario btn-sm" onclick="copiarEnvio(${i})">📋 Copiar datos</button>
+        <input type="text" id="trk-${i}" placeholder="Nº seguimiento CTT" value="${_esc(p.tracking || '')}" style="max-width:220px">
+        <label style="font-size:.8rem"><input type="checkbox" id="avi-${i}" checked> Avisar al cliente</label>
+        <button class="btn btn-primario btn-sm" onclick="guardarTracking(${i})">${p.enviado ? 'Actualizar' : 'Marcar enviado'}</button>
+        <span class="msg" id="env-r-${i}"></span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copiarEnvio(i) {
+  const p = ENVIOS[i]; if (!p) return;
+  const e = p.envio || {};
+  const txt = [
+    'Nombre: ' + (e.nombre || ''),
+    'Dirección: ' + (e.line1 || '') + (e.line2 ? ', ' + e.line2 : ''),
+    'CP: ' + (e.cp || ''),
+    'Población: ' + (e.ciudad || ''),
+    'Provincia: ' + (e.provincia || ''),
+    'País: ' + (e.pais || 'ES'),
+    'Teléfono: ' + (e.telefono || ''),
+    'Email: ' + (e.email || ''),
+    'Bultos: 1',
+    'Contenido: ' + (p.lineas || []).map(l => l.cantidad + 'x ' + l.titulo).join(', '),
+  ].join('\n');
+  const done = () => _msg(document.getElementById('env-r-' + i), '¡Copiado!', 'ok');
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, done);
+  else { const t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (e) {} t.remove(); done(); }
+}
+
+async function guardarTracking(i) {
+  const p = ENVIOS[i]; if (!p) return;
+  const r = document.getElementById('env-r-' + i);
+  const tracking = (document.getElementById('trk-' + i).value || '').trim();
+  const avisar = document.getElementById('avi-' + i).checked;
+  _msg(r, 'Guardando…', '');
+  try {
+    const resp = await fetch(_base() + '/admin/envio', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ clave: p.clave, tracking, avisar }),
+    });
+    if (resp.status === 401) { _msg(r, 'Contraseña incorrecta.', 'err'); return; }
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const d = await resp.json();
+    p.tracking = tracking; p.enviado = true;
+    _msg(r, d.avisado ? '✔ Enviado y cliente avisado' : '✔ Marcado como enviado', 'ok');
+    if (document.getElementById('env-pend').checked) setTimeout(cargarEnvios, 900);
+  } catch (e) {
+    _msg(r, 'Error: ' + e.message, 'err');
+  }
+}
+
+function exportarEnviosCSV() {
+  if (!ENVIOS.length) { _msg(document.getElementById('env-msg'), 'Carga los pedidos primero.', 'err'); return; }
+  const cab = ['Nombre', 'Direccion', 'CP', 'Poblacion', 'Provincia', 'Pais', 'Telefono', 'Email', 'Bultos', 'Peso_kg', 'Referencia', 'Contenido'];
+  const filas = ENVIOS.map(p => {
+    const e = p.envio || {};
+    const ref = (p.id || '').slice(-10);
+    const cont = (p.lineas || []).map(l => l.cantidad + 'x ' + l.titulo).join(' | ');
+    return [e.nombre, (e.line1 || '') + (e.line2 ? ' ' + e.line2 : ''), e.cp, e.ciudad, e.provincia, e.pais || 'ES', e.telefono, e.email, 1, 0.5, ref, cont]
+      .map(c => '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"').join(';');
+  });
+  const csv = '﻿' + cab.join(';') + '\n' + filas.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'envios-ctt-' + _isoFecha(new Date()) + '.csv';
+  a.click();
+}
+
+window.cargarEnvios = cargarEnvios;
+window.copiarEnvio = copiarEnvio;
+window.guardarTracking = guardarTracking;
+window.exportarEnviosCSV = exportarEnviosCSV;

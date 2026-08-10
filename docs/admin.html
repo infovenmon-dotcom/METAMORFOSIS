@@ -64,6 +64,7 @@
     <div id="panel" class="oculto">
       <div class="admin-tabs" style="display:flex;gap:8px;margin-bottom:18px;border-bottom:2px solid #eee">
         <button class="tab-btn activo" id="tb-prod" onclick="mostrarTab('prod')">🧴 Productos</button>
+        <button class="tab-btn" id="tb-envios" onclick="mostrarTab('envios')">📦 Envíos</button>
         <button class="tab-btn" id="tb-cuentas" onclick="mostrarTab('cuentas')">📊 Cuentas</button>
         <button class="tab-btn" id="tb-beneficio" onclick="mostrarTab('beneficio')">💰 Beneficio</button>
         <button class="tab-btn" id="tb-facturas" onclick="mostrarTab('facturas')">🧾 Facturas</button>
@@ -127,6 +128,21 @@
         <span class="msg" id="msg"></span>
       </div>
       </div><!-- /tab-prod -->
+
+      <div id="tab-envios" class="oculto">
+      <div class="admin-caja" style="margin-top:0">
+        <h2 style="color:var(--verde-oscuro);font-size:1.2rem;margin:0 0 4px">📦 Envíos (CTT Express)</h2>
+        <p class="nota" style="margin-bottom:12px">Pedidos pagados listos para expedir. Crea la etiqueta en el <a href="https://www.cttexpress.com" target="_blank" rel="noopener">portal de CTT</a> (o descarga el CSV para hacerlo en lote), pega el nº de seguimiento y avisa al cliente con un clic.</p>
+        <div class="fila-top">
+          <button class="btn btn-primario" onclick="cargarEnvios()">↻ Cargar pedidos</button>
+          <label style="font-size:.82rem"><input type="checkbox" id="env-pend" checked onchange="cargarEnvios()"> Solo pendientes de enviar</label>
+          <button class="btn btn-secundario" onclick="exportarEnviosCSV()">⬇ CSV para CTT</button>
+          <span class="msg" id="env-msg"></span>
+        </div>
+        <div id="env-tabla" style="margin-top:14px"></div>
+        <p class="nota" style="margin-top:10px">La etiqueta 100% automática requiere la <strong>API de CTT</strong> (aún no disponible con tu acceso de portal). Este flujo te deja los datos listos para crearla en el portal en segundos.</p>
+      </div>
+      </div><!-- /tab-envios -->
 
       <div id="tab-cuentas" class="oculto">
       <div class="admin-caja" style="margin-top:0">

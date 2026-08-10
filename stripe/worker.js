@@ -253,6 +253,8 @@ async function crearCheckout(request, env, cors) {
   form.append('locale', 'es');
   form.append('billing_address_collection', 'auto');
   form.append('shipping_address_collection[allowed_countries][0]', 'ES');
+  // Teléfono del cliente: CTT lo necesita para el aviso de entrega.
+  form.append('phone_number_collection[enabled]', 'true');
 
   let i = 0;
   // Líneas que SÍ se cobran.
@@ -402,6 +404,61 @@ async function generarFactura(full, env) {
   await env.SAVIA_KV.put('factura:' + ts + ':' + num, JSON.stringify(rec));
 }
 
+/* ---------- Datos de envío estructurados a partir de la sesión de Stripe ---------- */
+function extraerEnvio(full) {
+  const cd = full.customer_details || {};
+  const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
+  const a = ship.address || cd.address || {};
+  return {
+    nombre: ship.name || cd.name || '',
+    email: cd.email || '',
+    telefono: cd.phone || '',
+    line1: a.line1 || '', line2: a.line2 || '',
+    cp: a.postal_code || '', ciudad: a.city || '',
+    provincia: a.state || '', pais: a.country || 'ES',
+  };
+}
+
+/* Enlace público de seguimiento de CTT Express. */
+function urlSeguimientoCTT(tracking) {
+  return 'https://www.cttexpress.com/localizador-de-envios/?sc=' + encodeURIComponent(tracking || '');
+}
+
+/* ---------- Email al CLIENTE avisando de que su pedido ha salido ----------
+   Se envía cuando marcas el pedido como enviado y pegas el nº de CTT. */
+async function enviarEmailCliente(rec, env) {
+  if (!env.EMAIL_API_KEY) return;
+  const env2 = rec.envio || {};
+  const email = env2.email;
+  if (!email) return;
+  const track = rec.tracking || '';
+  const link = urlSeguimientoCTT(track);
+  const nombre = (env2.nombre || '').split(' ')[0] || '';
+  const html =
+    `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#33302b">` +
+    `<h2 style="color:#6b7a4f">Tu pedido ya está en camino 🌿</h2>` +
+    `<p>${nombre ? 'Hola ' + nombre + ',' : 'Hola,'}</p>` +
+    `<p>Tu pedido de <strong>Savia de Alma</strong> ha salido hoy con <strong>CTT Express</strong>. ` +
+    `El plazo de entrega estimado es de 24–72 h laborables.</p>` +
+    (track
+      ? `<p><strong>Nº de seguimiento:</strong> ${track}</p>` +
+        `<p><a href="${link}" style="background:#6b7a4f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Seguir mi envío</a></p>`
+      : '') +
+    `<p style="margin-top:24px">Gracias por dejarnos cuidar de ti y del planeta.</p>` +
+    `<p style="color:#888;font-size:12px">Si tienes cualquier duda, responde a este correo o escríbenos a info@saviadealma.com</p>` +
+    `</div>`;
+  await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: { 'api-key': env.EMAIL_API_KEY, 'Content-Type': 'application/json', 'accept': 'application/json' },
+    body: JSON.stringify({
+      sender: { email: env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO, name: 'Savia de Alma' },
+      to: [{ email }],
+      subject: 'Tu pedido de Savia de Alma ya está en camino 🌿',
+      htmlContent: html,
+    }),
+  });
+}
+
 /* ---------- Webhook: baja el stock + avisa por email al completarse el pago ---------- */
 async function manejarWebhook(request, env) {
   const rawBody = await request.text();
@@ -433,16 +490,23 @@ async function manejarWebhook(request, env) {
         }
         if (cambiado) { cfg.stock = stock; await putConfig(env, cfg); }
       }
-      // 2) Registrar el pedido (productos + fecha) para el cálculo de beneficio.
+      // 2) Sesión completa (con líneas y dirección) para pedido, factura y email.
+      const full = await getSesionCompleta(sesion, env);
+      // 3) Registrar el pedido. La METADATA guarda {fecha, items} para el cálculo
+      //    de beneficio; el VALOR guarda los datos de envío para la pestaña Envíos.
       try {
         if (env.SAVIA_KV) {
           const fecha = sesion.created || Math.floor(Date.now() / 1000);
           const clave = 'pedido:' + fecha + ':' + (sesion.id || String(Math.random()).slice(2));
-          await env.SAVIA_KV.put(clave, '1', { metadata: { fecha, items: cart } });
+          const rec = {
+            id: sesion.id || '', fecha, items: cart,
+            envio: extraerEnvio(full),
+            total: (full.amount_total != null) ? full.amount_total / 100 : null,
+            tracking: '', enviado: false,
+          };
+          await env.SAVIA_KV.put(clave, JSON.stringify(rec), { metadata: { fecha, items: cart } });
         }
       } catch (e) { console.error('registro pedido:', e); }
-      // 3) Sesión completa (con líneas) para factura y email.
-      const full = await getSesionCompleta(sesion, env);
       // 4) Generar y guardar la factura numerada.
       try { await generarFactura(full, env); } catch (e) { console.error('factura:', e); }
       // 5) Avisar por email del pedido (sin romper el webhook si fallara).
@@ -640,6 +704,69 @@ async function manejarBeneficio(request, env, cors) {
   }, 200, cors);
 }
 
+/* ---------- Envíos: lista de pedidos con datos para crear la etiqueta en CTT ---------- */
+async function manejarEnviosLista(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const soloPendientes = !!body.soloPendientes;
+
+  let productos = {};
+  try { productos = await cargarProductos(env.PRODUCTS_URL); } catch { /* solo para títulos */ }
+
+  const pedidos = [];
+  if (env.SAVIA_KV) {
+    let cursor = null, guard = 0;
+    do {
+      const lst = await env.SAVIA_KV.list({ prefix: 'pedido:', limit: 1000, cursor });
+      for (const k of lst.keys) {
+        const v = await env.SAVIA_KV.get(k.name);
+        if (!v) continue;
+        let rec; try { rec = JSON.parse(v); } catch { continue; }
+        if (typeof rec !== 'object' || !rec.envio) continue; // pedidos antiguos sin datos de envío
+        if (soloPendientes && rec.enviado) continue;
+        const items = rec.items || {};
+        const lineas = Object.entries(items).map(([h, q]) => ({
+          handle: h, cantidad: parseInt(q, 10) || 0,
+          titulo: (productos[h] && productos[h].title) || h,
+        }));
+        pedidos.push({
+          clave: k.name, id: rec.id || '', fecha: rec.fecha || 0,
+          envio: rec.envio, total: rec.total,
+          lineas, tracking: rec.tracking || '', enviado: !!rec.enviado,
+        });
+      }
+      cursor = lst.list_complete ? null : lst.cursor;
+    } while (cursor && guard++ < 20);
+  }
+  pedidos.sort((a, b) => (b.fecha || 0) - (a.fecha || 0));
+  return jsonResp({ pedidos }, 200, cors);
+}
+
+/* Guarda el nº de seguimiento de un pedido, lo marca como enviado y avisa al cliente. */
+async function manejarEnvioGuardar(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const clave = body.clave;
+  const tracking = (body.tracking || '').trim();
+  const avisar = body.avisar !== false;
+  if (!clave || !env.SAVIA_KV) return jsonResp({ error: 'faltan_datos' }, 400, cors);
+
+  const v = await env.SAVIA_KV.get(clave);
+  if (!v) return jsonResp({ error: 'no_encontrado' }, 404, cors);
+  let rec; try { rec = JSON.parse(v); } catch { return jsonResp({ error: 'corrupto' }, 500, cors); }
+
+  rec.tracking = tracking;
+  rec.enviado = true;
+  const meta = { fecha: rec.fecha, items: rec.items || {} };
+  await env.SAVIA_KV.put(clave, JSON.stringify(rec), { metadata: meta });
+
+  let avisado = false;
+  if (avisar && rec.envio && rec.envio.email) {
+    try { await enviarEmailCliente(rec, env); avisado = true; } catch (e) { console.error('email cliente:', e); }
+  }
+  return jsonResp({ ok: true, avisado }, 200, cors);
+}
+
 export default {
   async fetch(request, env) {
     const allowed = env.ALLOWED_ORIGIN || '*';
@@ -675,6 +802,12 @@ export default {
       }
       if (path === '/admin/facturas' && request.method === 'POST') {
         return await manejarFacturas(request, env, cors);
+      }
+      if (path === '/admin/envios' && request.method === 'POST') {
+        return await manejarEnviosLista(request, env, cors);
+      }
+      if (path === '/admin/envio' && request.method === 'POST') {
+        return await manejarEnvioGuardar(request, env, cors);
       }
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {
