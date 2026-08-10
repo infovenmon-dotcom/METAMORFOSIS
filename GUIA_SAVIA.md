@@ -49,7 +49,7 @@ Cliente → saviadealma.com (tienda) → "Finalizar compra"
 
 Entra en **https://saviadealma.com/admin.html** → escribe la **contraseña** → **Entrar**.
 
-Tiene 4 pestañas:
+Tiene 5 pestañas:
 
 ### 🧴 Productos
 - **Registrar compra a proveedor** (arriba): elige producto + cantidad + importe → calcula el **coste/ud.**, actualiza la columna "Coste" y **suma el stock**. Marca "media ponderada" si compras a distinto precio.
@@ -61,6 +61,9 @@ Tiene 4 pestañas:
   - **Agotado:** fuerza "Comprar en Amazon" sin tocar el stock.
 - **🌴 Modo vacaciones:** toda la web deriva la compra a Amazon (los productos exclusivos web muestran "No disponible").
 - **💾 Guardar cambios** para aplicar (sale al instante en la web).
+
+### 📦 Envíos
+Los pedidos pagados aparecen aquí listos para expedir (ver **sección 10**). Por cada pedido: **Copiar datos** / **CSV** para el portal de CTT, campo de **nº de seguimiento**, y **Marcar enviado** (avisa al cliente por email). Cuando estén las credenciales de la API, sale el botón **🏷️ Crear etiqueta CTT** que lo hace todo automático.
 
 ### 📊 Cuentas
 Ventas, comisiones de Stripe, IVA y neto de un periodo. Elige fechas (o "Este mes") → **Calcular**. **Exporta a CSV** para tu gestor.
@@ -101,7 +104,12 @@ En **Settings → Variables and Secrets**. No borres ninguna.
 | `ADMIN_PASSWORD` | **Secreto** | Contraseña del panel |
 | `STRIPE_WEBHOOK_SECRET` | **Secreto** | Firma del webhook (`whsec_…`) para bajar stock/factura |
 | `EMAIL_API_KEY` | **Secreto** | Clave de Brevo (`xkeysib-…`) para los emails |
+| `CTT_CLIENT_CENTER` | Texto | Código de centro de cliente CTT (10 dígitos) — lo da CTT |
+| `CTT_CLIENT_ID` | **Secreto** | Usuario de la API de CTT — lo da CTT (integración) |
+| `CTT_CLIENT_SECRET` | **Secreto** | Contraseña de la API de CTT — lo da CTT (integración) |
 | `SAVIA_KV` | Binding | Base de datos (en la pestaña **Bindings/Encuadernaciones**) |
+
+> El resto de variables de CTT (`CTT_BASE_URL`, `CTT_SERVICE_PENINSULA`, `CTT_SERVICE_BALEARES`, etiqueta, remitente…) ya vienen puestas en `wrangler.toml` y se despliegan solas. Para pasar la API de pruebas a real, cambia `CTT_BASE_URL` a `https://api.cttexpress.com`.
 
 ⚠️ Si algún día vuelves a añadir/editar secretos, recuerda que **editar un secreto se aplica solo** (sin desplegar).
 
@@ -150,14 +158,48 @@ Ahora mismo estás en **MODO PRUEBA** (clave `sk_test_`): puedes probar con la t
 
 ---
 
-## 10. Envíos
+## 10. Envíos (CTT Express)
 
-- **Transportista:** CTT Express.
+- **Transportista:** CTT Express (contrato firmado el 10/08/2026).
 - **Tarifa al cliente:** Península **3,95 €** (GRATIS desde 45 €) · Baleares **6,00 €**.
 - La web pide el **código postal** en el carrito y calcula la zona (07xxx = Baleares). Canarias/Ceuta/Melilla (35/38/51/52) quedan bloqueadas.
 - **Promo:** por cada 3 productos, el 4.º (de menor valor) gratis. Válida solo en la web.
-- **Operativa:** preparas el pedido, generas la etiqueta en el panel de CTT (pegando la dirección que ves en Stripe) y CTT lo recoge. Empaqueta **pequeño y ajustado** (te facturan por peso volumétrico si la caja es grande: `Largo×Ancho×Alto/6000`).
-- Los precios/tarifas se editan en `docs/assets/js/cart.js` y `stripe/worker.js` (constantes `ENVIO_PENINSULA`, `ENVIO_BALEARES`, `ENVIO_GRATIS_DESDE`).
+- Los precios/tarifas al cliente se editan en `docs/assets/js/cart.js` y `stripe/worker.js` (constantes `ENVIO_PENINSULA`, `ENVIO_BALEARES`, `ENVIO_GRATIS_DESDE`).
+
+### Cómo expedir un pedido (pestaña 📦 Envíos del panel)
+
+**Con la API de CTT configurada (automático):**
+1. Panel → **Envíos** → pulsa **🏷️ Crear etiqueta CTT** en el pedido.
+2. Se genera el envío, se abre la **etiqueta (PDF 10×15)** para imprimir en la **térmica**, se guarda el nº de seguimiento y **se avisa al cliente** por email con su enlace de rastreo.
+
+**Sin API todavía (con el portal de CTT):**
+1. Panel → **Envíos** → **Copiar datos** (o **CSV para CTT**) → crea la etiqueta en el portal de CTT e imprímela.
+2. Pega el **nº de seguimiento** → **Marcar enviado** → el cliente recibe el email de rastreo.
+
+### Empaquetado y peso volumétrico
+Empaqueta **pequeño y ajustado**. CTT factura el mayor entre el peso real y el **volumétrico** = `Largo × Ancho × Alto (cm) ÷ 6000`. Con caja pequeña (hasta ~20×15×10 cm) pagas el **tramo mínimo de 1 kg** (~3,80 € + fuel; el IVA lo recuperas). Si la caja pasa de ~30×20×15 saltas a 2 kg.
+
+### Servicios y códigos CTT
+- **C24** = Península 24h · **C48** = Península 48h · **CBA48** = Baleares Economy · **CBA24** = Baleares Express.
+- La tarifa lleva **IVA + suplemento de combustible (fuel)** aparte, ambos variables.
+
+### 📇 Contactos CTT (referencia rápida)
+
+| Para… | Contacto | Teléfono |
+|---|---|---|
+| Atención cliente (1er mes, PREMIUM) | sacpremium1@cttexpress.com | 916 698 489 |
+| Atención cliente (desde 2º mes) | cca.z4@cttexpress.com | 916 748 112 |
+| Recogidas (problemas de recogida) | incidenciasrecogidas@cttexpress.com | 918 309 796 |
+| Canarias (adjuntar factura + nº envío) | saereos1@cttexpress.com | — |
+| Internacional | internacional@cttexpress.com | — |
+| Facturación (Yolanda) | yolanda.blas@cttexpress.com | 916 274 086 |
+| Material, tarifas y contrato | Mónica (comercial) | — |
+| API / integración | integracion@cttexpress.com (Juan) | — |
+
+**⚠️ 3 reglas de oro:**
+1. **Incidencias: 7 días máximo** desde que ocurren para reclamar.
+2. **Si llega dañado:** fotos del **contenido dañado + etiqueta CTT + caja por dentro y por fuera**.
+3. **Siempre** pon el **nº de envío en el asunto** de cualquier reclamación.
 
 ---
 
@@ -179,7 +221,7 @@ Si el Worker no respondiera, la web usa esta config local (precios base + lo que
 ## 13. Tareas futuras (opcionales)
 
 - 🔑 **Pasar Stripe a modo real** (§6) cuando vayas a vender de verdad.
-- 🏷️ **Etiquetas de envío automáticas:** integrar la **API de CTT** en el Worker para generar etiqueta + tracking con cada pedido.
+- 🏷️ **Encender la API de CTT:** la integración ya está hecha en el Worker; solo falta pegar `CTT_CLIENT_ID`, `CTT_CLIENT_SECRET` y `CTT_CLIENT_CENTER` (los da CTT), probar en `api-test` y luego cambiar `CTT_BASE_URL` a producción (§5 y §10).
 - 🧾 **Facturación certificada** (Quaderno/Holded) para cumplir Veri*Factu cuando el volumen lo pida.
 - 🌐 **Redirigir** `.online` y `.store` a `.com` (IONOS).
 - 🎁 Añadir opción "comprar como regalo" (y su cláusula de devoluciones) si la quieres.
