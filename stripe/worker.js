@@ -488,6 +488,18 @@ async function enviarEmailCliente(rec, env) {
   const track = rec.tracking || '';
   const link = urlSeguimientoCTT(track);
   const nombre = (env2.nombre || '').split(' ')[0] || '';
+  const eur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  const lineas = rec.lineas || [];
+  const filas = lineas.map(l =>
+    `<tr><td style="padding:6px 0;border-bottom:1px solid #eee">${l.cant}× ${l.desc}</td>` +
+    `<td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right;white-space:nowrap">${eur(l.importe)}</td></tr>`).join('');
+  const resumenHtml = lineas.length
+    ? `<h3 style="color:#6b7a4f;font-size:15px;margin:22px 0 6px">Resumen de tu pedido</h3>` +
+      `<table style="width:100%;border-collapse:collapse;font-size:14px">${filas}` +
+      (rec.envioCoste != null ? `<tr><td style="padding:6px 0">Envío</td><td style="padding:6px 0;text-align:right">${rec.envioCoste === 0 ? 'GRATIS' : eur(rec.envioCoste)}</td></tr>` : '') +
+      (rec.total != null ? `<tr><td style="padding:8px 0;font-weight:bold">Total</td><td style="padding:8px 0;text-align:right;font-weight:bold">${eur(rec.total)}</td></tr>` : '') +
+      `</table>`
+    : '';
   const html =
     `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#33302b">` +
     `<h2 style="color:#6b7a4f">Tu pedido ya está en camino 🌿</h2>` +
@@ -498,6 +510,7 @@ async function enviarEmailCliente(rec, env) {
       ? `<p><strong>Nº de seguimiento:</strong> ${track}</p>` +
         `<p><a href="${link}" style="background:#6b7a4f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Seguir mi envío</a></p>`
       : '') +
+    resumenHtml +
     `<p style="margin-top:24px">Gracias por dejarnos cuidar de ti y del planeta.</p>` +
     `<p style="color:#888;font-size:12px">Si tienes cualquier duda, responde a este correo o escríbenos a info@saviadealma.com</p>` +
     `</div>`;
@@ -550,6 +563,10 @@ async function manejarWebhook(request, env) {
           const rec = {
             id: sesion.id || '', fecha, items: cart,
             envio: extraerEnvio(full),
+            lineas: ((full.line_items && full.line_items.data) || []).map(li => ({
+              desc: li.description || '', cant: li.quantity || 1, importe: (li.amount_total || 0) / 100,
+            })),
+            envioCoste: (full.shipping_cost && full.shipping_cost.amount_total != null) ? full.shipping_cost.amount_total / 100 : null,
             total: (full.amount_total != null) ? full.amount_total / 100 : null,
             tracking: '', enviado: false,
           };
