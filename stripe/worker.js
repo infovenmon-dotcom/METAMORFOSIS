@@ -1089,6 +1089,25 @@ async function manejarChat(request, env, cors) {
   }
 }
 
+/* Diagnóstico del asistente: llama a Anthropic con un mensaje mínimo y devuelve
+   el status y la respuesta cruda, para ver el error exacto (modelo/clave/crédito). */
+async function manejarTestChat(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  if (!env.ANTHROPIC_API_KEY) return jsonResp({ ok: false, motivo: 'Falta ANTHROPIC_API_KEY' }, 200, cors);
+  const model = env.ANTHROPIC_MODEL || 'claude-haiku-4-5-20251001';
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': String(env.ANTHROPIC_API_KEY).trim(), 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model, max_tokens: 50, messages: [{ role: 'user', content: 'Responde solo: hola' }] }),
+    });
+    const texto = (await r.text()).slice(0, 700);
+    return jsonResp({ ok: r.ok, status: r.status, model, respuesta: texto }, 200, cors);
+  } catch (e) {
+    return jsonResp({ ok: false, error: String(e.message || e), model }, 200, cors);
+  }
+}
+
 export default {
   async fetch(request, env) {
     const allowed = env.ALLOWED_ORIGIN || '*';
@@ -1139,6 +1158,9 @@ export default {
       }
       if (path === '/chat' && request.method === 'POST') {
         return await manejarChat(request, env, cors);
+      }
+      if (path === '/admin/test-chat' && request.method === 'POST') {
+        return await manejarTestChat(request, env, cors);
       }
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {

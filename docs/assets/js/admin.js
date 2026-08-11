@@ -671,7 +671,25 @@ async function probarEmail() {
   }
 }
 
+async function probarChat() {
+  const msg = document.getElementById('env-msg');
+  _msg(msg, 'Probando el asistente…', '');
+  try {
+    const r = await fetch(_base() + '/admin/test-chat', {
+      method: 'POST', headers: { 'Authorization': 'Bearer ' + PASS },
+    });
+    const d = await r.json().catch(() => ({}));
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (d.ok) { _msg(msg, '✔ Asistente OK (modelo ' + (d.model || '') + ')', 'ok'); }
+    else { _msg(msg, '✖ Asistente ' + (d.status || '') + ' [' + (d.model || '') + ']: ' + (d.respuesta || d.motivo || d.error || 'error'), 'err'); }
+    console.log('Test chat:', d);
+  } catch (e) {
+    _msg(msg, 'Error: ' + e.message, 'err');
+  }
+}
+
 window.probarEmail = probarEmail;
+window.probarChat = probarChat;
 window.cargarEnvios = cargarEnvios;
 window.copiarEnvio = copiarEnvio;
 window.guardarTracking = guardarTracking;
