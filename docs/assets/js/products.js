@@ -11,7 +11,7 @@ window.SAVIA_DATA = {
     {
       "slug": "jabones",
       "name": "Jabones Artesanales",
-      "count": 16,
+      "count": 17,
       "exclusiveWeb": false
     },
     {
@@ -2150,6 +2150,48 @@ window.SAVIA_DATA = {
       "specs": {
         "natural": "100% aceite de oliva, vegano",
         "inci": "Sodium Olivate, Aqua, Glycerin.",
+        "peso": "~100 g",
+        "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos). Vegano."
+      }
+    },
+    {
+      "handle": "jabon-aceite-arroz",
+      "title": "Jabón Artesanal de Aceite de Arroz",
+      "short": "Jabón artesanal con aceite de salvado de arroz · nutre, suaviza y aporta antioxidantes · vegano (próximamente)",
+      "features": [
+        "Nutre y suaviza la piel",
+        "Rico en vitamina E y antioxidantes",
+        "Exfoliación suave (semillas de amapola)",
+        "Vegano · sin plástico",
+        "Hecho a mano en España"
+      ],
+      "tags": ["jabon", "arroz", "antioxidante", "vitamina e", "vegano", "natural"],
+      "price": 9.99,
+      "sku": "SDA-JAB-ARROZ",
+      "type": "Jabón artesanal",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🌾",
+      "vegano": true,
+      "image": "assets/img/products/jabon-aceite-arroz.svg",
+      "images": ["assets/img/products/jabon-aceite-arroz.svg"],
+      "bullets": [
+        "NUTRE Y SUAVIZA: el aceite de salvado de arroz aporta ácidos grasos que dejan la piel suave y confortable tras el lavado.",
+        "ANTIOXIDANTES NATURALES: rico en vitamina E y gamma-orizanol, que ayudan a proteger la piel frente al estrés oxidativo del día a día.",
+        "EXFOLIACIÓN SUAVE: las semillas de amapola aportan una ligera exfoliación mecánica que renueva la piel sin agredirla.",
+        "IDEAL PARA PIEL NORMAL, MIXTA Y MADURA: de tacto ligero, se absorbe con facilidad y no deja sensación grasa.",
+        "🔜 PRÓXIMAMENTE · VEGANO · HECHO EN ESPAÑA: elaborado con aceite de oliva y coco saponificados en frío, sin detergentes ni plástico."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "proximamente": true,
+      "descripcion": "Jabón artesanal con aceite de salvado de arroz, apreciado por sus propiedades suavizantes y antioxidantes. El aceite de arroz, rico en vitamina E y gamma-orizanol, nutre y ayuda a proteger la piel, mientras las semillas de amapola aportan una exfoliación mecánica muy suave. Elaborado con aceite de oliva y coco saponificados en frío. Vegano, sin detergentes y sin plástico. Muy pronto disponible.",
+      "indicado": "Para piel normal, mixta, grasa, sensible y madura que busca una limpieza suave con un plus antioxidante.",
+      "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara. Guárdalo seco entre usos.",
+      "lema": "Suavidad antioxidante del arroz. Muy pronto.",
+      "specs": {
+        "natural": "Ingredientes naturales, vegano, hecho a mano",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Oryza Sativa Bran Oil, Papaver Somniferum Seed, Parfum, Benzyl Salicylate, Hexyl Cinnamal, Linalool, Limonene, Citronellol, Coumarin, CI 77891.",
         "peso": "~100 g",
         "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos). Vegano."
       }

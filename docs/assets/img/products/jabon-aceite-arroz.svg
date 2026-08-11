@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Jabon de Aceite de Arroz">
+  <defs>
+    <linearGradient id="ba" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F2EC"/><stop offset="1" stop-color="#EFE9D6"/>
+    </linearGradient>
+    <linearGradient id="bb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F6EFDC"/><stop offset="1" stop-color="#E4D6B4"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#ba)"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="24" letter-spacing="2" fill="#1D6B50">SAVIA DE ALMA</text>
+  <text x="300" y="122" text-anchor="middle" font-size="34">🌾</text>
+  <rect x="185" y="205" width="230" height="150" rx="20" fill="url(#bb)" stroke="#D6C9A6" stroke-width="2"/>
+  <circle cx="250" cy="255" r="4" fill="#6b5a2e" opacity="0.4"/>
+  <circle cx="330" cy="300" r="5" fill="#6b5a2e" opacity="0.4"/>
+  <circle cx="300" cy="240" r="3.5" fill="#6b5a2e" opacity="0.4"/>
+  <text text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="26" fill="#1A1A1A" y="418"><tspan x="300" dy="0">Jabón Aceite</tspan><tspan x="300" dy="30">de Arroz</tspan></text>
+  <text x="300" y="548" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" fill="#B8860B" font-weight="bold">Próximamente</text>
+</svg>
