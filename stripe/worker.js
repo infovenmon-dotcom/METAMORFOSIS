@@ -921,6 +921,33 @@ async function manejarEtiquetaCTT(request, env, cors) {
   }
 }
 
+/* Diagnóstico: envía un email de prueba por Brevo y devuelve su respuesta cruda. */
+async function manejarTestEmail(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  if (!env.EMAIL_API_KEY) return jsonResp({ ok: false, motivo: 'Falta EMAIL_API_KEY' }, 200, cors);
+  const to = env.ORDER_EMAIL_TO;
+  const from = env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO;
+  if (!to) return jsonResp({ ok: false, motivo: 'Falta ORDER_EMAIL_TO' }, 200, cors);
+  let status = 0, texto = '';
+  try {
+    const resp = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': env.EMAIL_API_KEY, 'Content-Type': 'application/json', 'accept': 'application/json' },
+      body: JSON.stringify({
+        sender: { email: from, name: 'Savia de Alma' },
+        to: [{ email: to }],
+        subject: '✅ Prueba de aviso de pedido — Savia de Alma',
+        htmlContent: '<p>Si recibes este correo, los avisos de pedido funcionan correctamente.</p>',
+      }),
+    });
+    status = resp.status;
+    texto = (await resp.text()).slice(0, 600);
+    return jsonResp({ ok: resp.ok, status, from, to, brevo: texto }, 200, cors);
+  } catch (e) {
+    return jsonResp({ ok: false, error: String(e.message || e), from, to }, 200, cors);
+  }
+}
+
 export default {
   async fetch(request, env) {
     const allowed = env.ALLOWED_ORIGIN || '*';
@@ -965,6 +992,9 @@ export default {
       }
       if (path === '/admin/envio/etiqueta' && request.method === 'POST') {
         return await manejarEtiquetaCTT(request, env, cors);
+      }
+      if (path === '/admin/test-email' && request.method === 'POST') {
+        return await manejarTestEmail(request, env, cors);
       }
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {

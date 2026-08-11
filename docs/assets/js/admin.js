@@ -650,6 +650,24 @@ function descargarTexto(txt, nombre) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre; a.click();
 }
 
+async function probarEmail() {
+  const msg = document.getElementById('env-msg');
+  _msg(msg, 'Enviando email de prueba…', '');
+  try {
+    const r = await fetch(_base() + '/admin/test-email', {
+      method: 'POST', headers: { 'Authorization': 'Bearer ' + PASS },
+    });
+    const d = await r.json().catch(() => ({}));
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (d.ok) { _msg(msg, '✔ Email enviado a ' + d.to + ' (revisa bandeja y spam)', 'ok'); }
+    else { _msg(msg, '✖ Brevo ' + (d.status || '') + ': ' + (d.brevo || d.motivo || d.error || 'error'), 'err'); }
+    console.log('Test email:', d);
+  } catch (e) {
+    _msg(msg, 'Error: ' + e.message, 'err');
+  }
+}
+
+window.probarEmail = probarEmail;
 window.cargarEnvios = cargarEnvios;
 window.copiarEnvio = copiarEnvio;
 window.guardarTracking = guardarTracking;
