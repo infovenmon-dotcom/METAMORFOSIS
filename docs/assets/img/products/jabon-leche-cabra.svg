@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Jabon de Leche de Cabra">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F2EC"/><stop offset="1" stop-color="#EFE7DA"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBF6EC"/><stop offset="1" stop-color="#E8DCC4"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <text x="300" y="78" text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="24" letter-spacing="2" fill="#1D6B50">SAVIA DE ALMA</text>
+  <text x="300" y="122" text-anchor="middle" font-size="34">🐐</text>
+  <rect x="185" y="205" width="230" height="150" rx="20" fill="url(#bar)" stroke="#DACDB4" stroke-width="2"/>
+  <text text-anchor="middle" font-family="Georgia, 'Playfair Display', serif" font-size="26" fill="#1A1A1A" y="418"><tspan x="300" dy="0">Jabón Leche</tspan><tspan x="300" dy="30">de Cabra</tspan></text>
+  <text x="300" y="548" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="17" fill="#B8860B" font-weight="bold">Próximamente</text>
+</svg>

@@ -11,7 +11,7 @@ window.SAVIA_DATA = {
     {
       "slug": "jabones",
       "name": "Jabones Artesanales",
-      "count": 13,
+      "count": 16,
       "exclusiveWeb": false
     },
     {
@@ -54,6 +54,12 @@ window.SAVIA_DATA = {
       "slug": "exfoliantes",
       "name": "Exfoliantes Solidos",
       "count": 2,
+      "exclusiveWeb": true
+    },
+    {
+      "slug": "ceras",
+      "name": "Ceras de Peinado",
+      "count": 1,
       "exclusiveWeb": true
     }
   ],
@@ -1980,6 +1986,170 @@ window.SAVIA_DATA = {
         "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Daucus carota Extract, Linum usitatissimum Seed.",
         "peso": "~75 g",
         "fabricacion": "Elaborado a mano en España. Sin SLS ni SCI. Sin plástico (cero residuos). Vegano."
+      }
+    },
+    {
+      "handle": "cera-peinado",
+      "title": "Cera de Peinado Sólida Natural",
+      "short": "Cera de peinado sólida natural · moldea, define y sella puntas · sin plástico · vegana (próximamente)",
+      "features": [
+        "Moldea y da forma al cabello",
+        "Fijación flexible y natural",
+        "Sin plástico, formato sólido",
+        "Apta para veganos",
+        "Hecha a mano en España"
+      ],
+      "tags": ["cera", "peinado", "fijacion", "cabello", "natural", "vegano"],
+      "price": 11.99,
+      "sku": "SDA-CERA-PEINADO",
+      "type": "Cera de peinado",
+      "collection": "ceras",
+      "collectionName": "Ceras de Peinado",
+      "emoji": "💈",
+      "image": "assets/img/products/cera-peinado.svg",
+      "images": ["assets/img/products/cera-peinado.svg"],
+      "bullets": [
+        "MOLDEA Y DA FORMA: a base de cera de soja, manteca de karité y aceite de coco. Perfecta para moldear el pelo corto, definir y peinar con un acabado natural.",
+        "FIJACIÓN FLEXIBLE, SIN APELMAZAR: aporta movimiento y control sin dejar el pelo rígido ni acartonado; elimina el encrespamiento y sella las puntas abiertas.",
+        "NUTRE MIENTRAS PEINAS: ingredientes naturales que cuidan el cabello, sin siliconas ni derivados del petróleo.",
+        "ZERO WASTE · VEGANA: formato sólido sin plástico, una alternativa natural a las ceras y gominas en envase.",
+        "🔜 PRÓXIMAMENTE · HECHA A MANO EN ESPAÑA: muy pronto disponible, elaborada artesanalmente en pequeños lotes."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "proximamente": true,
+      "descripcion": "Cera de peinado sólida y natural para moldear, definir y dar forma al cabello con una fijación flexible. Elaborada con cera de soja, manteca de karité y aceite de coco; nutre mientras peinas, elimina el encrespamiento y sella las puntas abiertas, sin apelmazar. Formato sólido sin plástico. Muy pronto disponible.",
+      "indicado": "Ideal para pelo corto y medio, para moldear, definir rizos o texturizar. Apta para toda la familia (uso adulto).",
+      "modoUso": "Frota los dedos sobre la pastilla para tomar un poco de producto, aplícalo sobre el cabello seco o ligeramente húmedo y peina o moldea a tu gusto. Empieza con poca cantidad y añade según necesites.",
+      "lema": "Moldea a tu manera. Muy pronto.",
+      "specs": {
+        "natural": "Fórmula natural, vegana, sin plástico",
+        "inci": "Hydrogenated Soybean Oil, Butyrospermum parkii Butter, Cocos nucifera Oil, Parfum, Tocopherol, Citronellol, Coumarin, Alpha-isomethyl Ionone, Hexyl Cinnamal, Limonene, Linalool.",
+        "peso": "~55 g",
+        "fabricacion": "Elaborada a mano en España. Sin plástico (cero residuos). Vegana."
+      }
+    },
+    {
+      "handle": "jabon-leche-cabra",
+      "title": "Jabón Artesanal de Leche de Cabra",
+      "short": "Jabón artesanal de leche de cabra · hidratante y nutritivo · ideal para pieles sensibles y secas (próximamente)",
+      "features": [
+        "Hidrata y nutre en profundidad",
+        "Ideal para pieles sensibles y secas",
+        "Rico en vitaminas y minerales",
+        "Sin plástico, formato sólido",
+        "Hecho a mano en España"
+      ],
+      "tags": ["jabon", "leche de cabra", "hidratante", "sensible", "natural"],
+      "price": 9.99,
+      "sku": "SDA-JAB-LECHECABRA",
+      "type": "Jabón artesanal",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🐐",
+      "image": "assets/img/products/jabon-leche-cabra.svg",
+      "images": ["assets/img/products/jabon-leche-cabra.svg"],
+      "bullets": [
+        "HIDRATACIÓN QUE SE NOTA: la leche de cabra es rica en ácidos grasos, vitaminas (A, B, E) y minerales que nutren y suavizan la piel.",
+        "PARA PIELES SENSIBLES Y SECAS: limpia con delicadeza sin resecar, ayudando a mantener la piel calmada y confortable.",
+        "RENUEVA CON SUAVIDAD: aporta una limpieza suave que deja la piel tersa y luminosa día a día.",
+        "ZERO WASTE · HECHO A MANO: pastilla sólida sin plástico, elaborada artesanalmente en pequeños lotes en España.",
+        "🔜 PRÓXIMAMENTE: muy pronto disponible en la web."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "proximamente": true,
+      "descripcion": "Jabón artesanal de leche de cabra, uno de los ingredientes más valorados en cosmética natural por su riqueza en vitaminas, minerales y ácidos grasos. Hidrata y nutre en profundidad, limpiando con delicadeza; perfecto para pieles sensibles y secas que buscan un cuidado suave. Sin plástico. Muy pronto disponible.",
+      "indicado": "Especialmente indicado para pieles sensibles, secas o delicadas que necesitan hidratación y suavidad.",
+      "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara. Para rostro y cuerpo.",
+      "lema": "Suavidad de leche de cabra. Muy pronto.",
+      "specs": {
+        "natural": "Ingredientes naturales, hecho a mano",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Goat Milk, Parfum, Butyrospermum parkii Butter.",
+        "peso": "~100 g",
+        "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos)."
+      }
+    },
+    {
+      "handle": "jabon-leche-burra-aloe",
+      "title": "Jabón Artesanal de Leche de Burra y Aloe",
+      "short": "Jabón artesanal de leche de burra y aloe vera · nutritivo y regenerador · pieles maduras y sensibles (próximamente)",
+      "features": [
+        "Nutre y ayuda a regenerar la piel",
+        "Leche de burra + aloe vera",
+        "Ideal para pieles maduras y sensibles",
+        "Sin plástico, formato sólido",
+        "Hecho a mano en España"
+      ],
+      "tags": ["jabon", "leche de burra", "aloe", "regenerador", "sensible", "natural"],
+      "price": 10.99,
+      "sku": "SDA-JAB-LECHEBURRA",
+      "type": "Jabón artesanal",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🫏",
+      "image": "assets/img/products/jabon-leche-burra-aloe.svg",
+      "images": ["assets/img/products/jabon-leche-burra-aloe.svg"],
+      "bullets": [
+        "UN CLÁSICO PREMIUM: la leche de burra, muy valorada en cosmética, es rica en vitaminas y ácidos grasos que nutren y ayudan a mantener la piel joven y elástica.",
+        "CON ALOE VERA: aporta calma e hidratación extra, perfecto para pieles sensibles o que necesitan un mimo.",
+        "NUTRE Y REGENERA: cuida especialmente las pieles maduras, secas o delicadas, dejándolas suaves y confortables.",
+        "ZERO WASTE · HECHO A MANO: pastilla sólida sin plástico, elaborada artesanalmente en pequeños lotes en España.",
+        "🔜 PRÓXIMAMENTE: muy pronto disponible en la web."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "proximamente": true,
+      "descripcion": "Jabón artesanal de leche de burra y aloe vera, una combinación premium muy apreciada en cosmética natural. La leche de burra, rica en vitaminas y ácidos grasos, nutre y ayuda a mantener la piel elástica; el aloe vera calma e hidrata. Ideal para pieles maduras, secas o sensibles. Sin plástico. Muy pronto disponible.",
+      "indicado": "Para pieles maduras, secas o sensibles que buscan nutrición, calma y un cuidado regenerador.",
+      "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara. Para rostro y cuerpo.",
+      "lema": "El mimo de la leche de burra. Muy pronto.",
+      "specs": {
+        "natural": "Ingredientes naturales, hecho a mano",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Donkey Milk, Aloe Barbadensis Leaf Juice, Parfum, Benzyl Salicylate, Limonene.",
+        "peso": "~100 g",
+        "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos)."
+      }
+    },
+    {
+      "handle": "jabon-puro-oliva-almazara",
+      "title": "Jabón Puro de Oliva – Almazara",
+      "short": "Jabón puro de aceite de oliva (tipo Castilla) · suavísimo · pieles delicadas y bebés · vegano (próximamente)",
+      "features": [
+        "100% aceite de oliva",
+        "Suavísimo, para pieles delicadas",
+        "Apto para bebés y toda la familia",
+        "Vegano, sin plástico",
+        "Hecho a mano en España"
+      ],
+      "tags": ["jabon", "oliva", "castilla", "delicada", "bebe", "natural", "vegano"],
+      "price": 8.99,
+      "sku": "SDA-JAB-OLIVAALMAZARA",
+      "type": "Jabón artesanal",
+      "collection": "jabones",
+      "collectionName": "Jabones Artesanales",
+      "emoji": "🫒",
+      "image": "assets/img/products/jabon-puro-oliva-almazara.svg",
+      "images": ["assets/img/products/jabon-puro-oliva-almazara.svg"],
+      "bullets": [
+        "EL JABÓN MÁS PURO: elaborado únicamente con aceite de oliva (tipo jabón de Castilla), sin aromas ni aditivos. La opción más natural y noble.",
+        "SUAVÍSIMO Y RESPETUOSO: limpia con extrema delicadeza respetando la piel; apto para pieles muy sensibles, reactivas y para bebés.",
+        "PARA TODA LA FAMILIA: rostro, cuerpo y manos. Un jabón de siempre, hecho como se ha hecho toda la vida.",
+        "VEGANO · ZERO WASTE: pastilla sólida sin plástico, elaborada artesanalmente en pequeños lotes en España.",
+        "🔜 PRÓXIMAMENTE: muy pronto disponible en la web."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "proximamente": true,
+      "descripcion": "Jabón puro de aceite de oliva, al estilo del tradicional jabón de Castilla: elaborado solo con aceite de oliva, sin aromas ni aditivos. Limpia con extrema suavidad respetando la piel, por lo que es perfecto para pieles muy delicadas, sensibles, reactivas e incluso para bebés. Vegano y sin plástico. Muy pronto disponible.",
+      "indicado": "Para pieles muy sensibles, delicadas o reactivas, bebés y toda la familia. Rostro, cuerpo y manos.",
+      "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara.",
+      "lema": "La pureza del olivo. Muy pronto.",
+      "specs": {
+        "natural": "100% aceite de oliva, vegano",
+        "inci": "Sodium Olivate, Aqua, Glycerin.",
+        "peso": "~100 g",
+        "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos). Vegano."
       }
     }
   ]
