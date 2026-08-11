@@ -2037,8 +2037,8 @@ window.SAVIA_DATA = {
         "Hidrata y nutre en profundidad",
         "Ideal para pieles sensibles y secas",
         "Rico en vitaminas y minerales",
-        "Sin plástico, formato sólido",
-        "Hecho a mano en España"
+        "No testado en animales (cruelty-free)",
+        "Sin plástico · Hecho a mano en España"
       ],
       "tags": ["jabon", "leche de cabra", "hidratante", "sensible", "natural"],
       "price": 9.99,
@@ -2078,8 +2078,8 @@ window.SAVIA_DATA = {
         "Nutre y ayuda a regenerar la piel",
         "Leche de burra + aloe vera",
         "Ideal para pieles maduras y sensibles",
-        "Sin plástico, formato sólido",
-        "Hecho a mano en España"
+        "No testado en animales (cruelty-free)",
+        "Sin plástico · Hecho a mano en España"
       ],
       "tags": ["jabon", "leche de burra", "aloe", "regenerador", "sensible", "natural"],
       "price": 10.99,
