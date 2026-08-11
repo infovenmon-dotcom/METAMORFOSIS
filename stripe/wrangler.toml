@@ -35,6 +35,11 @@ SENDER_PHONE = "+34665872016"
 # Los SECRETOS CTT_CLIENT_ID y CTT_CLIENT_SECRET se ponen aparte (panel de
 # Cloudflare → Settings → Variables → tipo "Secret"), no aquí.
 
+# --- Asistente IA (Claude) ---
+# Secreto ANTHROPIC_API_KEY (sk-ant-...) en Cloudflare para activar el chat.
+# Modelo por defecto: claude-haiku-4-5 (barato y rápido). Cambia con ANTHROPIC_MODEL.
+ANTHROPIC_MODEL = "claude-haiku-4-5-20251001"
+
 # --- Email ---
 # Proveedor de email para los avisos de pedido y el correo al cliente.
 # Si defines el SECRETO RESEND_API_KEY (re_...), se usa Resend; si no, Brevo
