@@ -2047,6 +2047,7 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🐐",
+      "vegano": false,
       "image": "assets/img/products/jabon-leche-cabra.svg",
       "images": ["assets/img/products/jabon-leche-cabra.svg"],
       "bullets": [
@@ -2088,6 +2089,7 @@ window.SAVIA_DATA = {
       "collection": "jabones",
       "collectionName": "Jabones Artesanales",
       "emoji": "🫏",
+      "vegano": false,
       "image": "assets/img/products/jabon-leche-burra-aloe.svg",
       "images": ["assets/img/products/jabon-leche-burra-aloe.svg"],
       "bullets": [

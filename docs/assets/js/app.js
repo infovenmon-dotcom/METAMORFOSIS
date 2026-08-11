@@ -298,6 +298,17 @@ function abrirFicha(handle) {
         ${amazon}`}
       </div>`;
 
+  const sellos = [
+    ['🤲', 'Artesanal'],
+    ['🇪🇸', 'Hecho en España'],
+    ['🌿', 'Origen natural'],
+    ['♻️', 'Sin envase'],
+    ['🐰', 'Cruelty free'],
+  ];
+  if (p.vegano !== false) sellos.push(['🌱', 'Vegano']);
+  const sellosBlock = `<div class="ficha-sellos">${sellos.map(([e, t]) =>
+    `<span class="sello"><span class="sello-ico">${e}</span>${t}</span>`).join('')}</div>`;
+
   cont.innerHTML = `
     ${galeria}
     <div class="ficha-info">
@@ -308,6 +319,7 @@ function abrirFicha(handle) {
       <h2>${acc(p.title)}</h2>
       ${bloquePrecio(p, { grande: true })}
       <p class="ficha-desc">${acc(p.descripcion || p.short)}</p>
+      ${sellosBlock}
       ${bulletsBlock}
       ${acciones}
 
