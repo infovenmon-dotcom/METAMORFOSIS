@@ -155,7 +155,12 @@ function cardProducto(p, { compacta = false } = {}) {
 function addToCart(handle) {
   const _p = DATA.products.find(x => x.handle === handle);
   if (_p && estaAgotado(_p)) {
-    if (typeof mostrarAvisoFlotante === 'function') mostrarAvisoFlotante('Producto no disponible · cómpralo en Amazon');
+    if (typeof mostrarAvisoFlotante === 'function') {
+      const msg = _p.proximamente ? 'Muy pronto disponible'
+        : (_p.exclusiveWeb ? 'Producto agotado temporalmente'
+        : 'Producto no disponible · cómpralo en Amazon');
+      mostrarAvisoFlotante(msg);
+    }
     return;
   }
   Carrito.añadir(handle, 1);
