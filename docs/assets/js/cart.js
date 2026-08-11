@@ -272,8 +272,20 @@ function renderPanelCarrito(c) {
     ${c.zonaNoDisponible
       ? '<button class="btn btn-secundario btn-bloque" disabled>No realizamos envíos a tu zona</button>'
       : '<a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>'}
+    ${badgesPago()}
     <button class="btn btn-secundario btn-bloque" style="margin-top:8px" onclick="cerrarCarrito()">← Seguir comprando</button>
   `;
+}
+
+/* Tira de "pago seguro" con los métodos que ofrece Stripe. Solo informativo:
+   los métodos reales que se muestran los decide Stripe según lo activado en el
+   panel de Stripe y la elegibilidad (Apple Pay en Safari, Bizum en España…). */
+function badgesPago() {
+  const metodos = ['Visa', 'Mastercard', 'Apple Pay', 'Google Pay', 'Klarna', 'Bizum'];
+  return `<div class="pago-seguro">
+    <span class="pago-seguro-txt">🔒 Pago 100% seguro</span>
+    <div class="pago-badges">${metodos.map(m => `<span class="pago-chip">${m}</span>`).join('')}</div>
+  </div>`;
 }
 
 /* ---------- Apertura / cierre ---------- */
