@@ -328,10 +328,42 @@ async function getSesionCompleta(sesion, env) {
   return sesion;
 }
 
-/* ---------- Email de aviso de pedido (Brevo) ----------
+/* ---------- Envío de email multi-proveedor ----------
+   Usa RESEND si está RESEND_API_KEY; si no, BREVO (EMAIL_API_KEY). Devuelve
+   { ok, status, body, proveedor }. */
+function hayEmail(env) { return !!(env.RESEND_API_KEY || env.EMAIL_API_KEY); }
+
+async function enviarEmail(env, { to, subject, html, replyTo, fromName }) {
+  const fromEmail = env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO;
+  const nombre = fromName || 'Savia de Alma';
+  if (!to || !fromEmail) return { ok: false, status: 0, body: 'faltan destinatario/remitente', proveedor: null };
+  if (env.RESEND_API_KEY) {
+    const cuerpo = { from: `${nombre} <${fromEmail}>`, to: [to], subject, html };
+    if (replyTo) cuerpo.reply_to = replyTo;
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + String(env.RESEND_API_KEY).trim(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(cuerpo),
+    });
+    return { ok: r.ok, status: r.status, body: (await r.text()).slice(0, 600), proveedor: 'resend' };
+  }
+  if (env.EMAIL_API_KEY) {
+    const payload = { sender: { email: fromEmail, name: nombre }, to: [{ email: to }], subject, htmlContent: html };
+    if (replyTo) payload.replyTo = { email: replyTo };
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': env.EMAIL_API_KEY, 'Content-Type': 'application/json', 'accept': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return { ok: r.ok, status: r.status, body: (await r.text()).slice(0, 600), proveedor: 'brevo' };
+  }
+  return { ok: false, status: 0, body: 'sin proveedor de email', proveedor: null };
+}
+
+/* ---------- Email de aviso de pedido ----------
    Recibe la sesión YA expandida (con line_items). */
 async function enviarEmailPedido(full, env) {
-  if (!env.EMAIL_API_KEY || !env.ORDER_EMAIL_TO) return;
+  if (!hayEmail(env) || !env.ORDER_EMAIL_TO) return;
 
   const cd = full.customer_details || {};
   const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
@@ -357,16 +389,12 @@ async function enviarEmailPedido(full, env) {
     `<p><strong>Total cobrado: ${total}</strong></p>` +
     `<hr><p style="color:#888;font-size:12px">Pedido ${full.id}</p>`;
 
-  await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: { 'api-key': env.EMAIL_API_KEY, 'Content-Type': 'application/json', 'accept': 'application/json' },
-    body: JSON.stringify({
-      sender: { email: env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO, name: 'Tienda Savia de Alma' },
-      to: [{ email: env.ORDER_EMAIL_TO }],
-      replyTo: cd.email ? { email: cd.email } : undefined,
-      subject: `Nuevo pedido — ${total}`,
-      htmlContent: html,
-    }),
+  await enviarEmail(env, {
+    to: env.ORDER_EMAIL_TO,
+    subject: `Nuevo pedido — ${total}`,
+    html,
+    replyTo: cd.email || undefined,
+    fromName: 'Tienda Savia de Alma',
   });
 }
 
@@ -453,7 +481,7 @@ function urlSeguimientoCTT(tracking) {
 /* ---------- Email al CLIENTE avisando de que su pedido ha salido ----------
    Se envía cuando marcas el pedido como enviado y pegas el nº de CTT. */
 async function enviarEmailCliente(rec, env) {
-  if (!env.EMAIL_API_KEY) return;
+  if (!hayEmail(env)) return;
   const env2 = rec.envio || {};
   const email = env2.email;
   if (!email) return;
@@ -473,15 +501,10 @@ async function enviarEmailCliente(rec, env) {
     `<p style="margin-top:24px">Gracias por dejarnos cuidar de ti y del planeta.</p>` +
     `<p style="color:#888;font-size:12px">Si tienes cualquier duda, responde a este correo o escríbenos a info@saviadealma.com</p>` +
     `</div>`;
-  await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: { 'api-key': env.EMAIL_API_KEY, 'Content-Type': 'application/json', 'accept': 'application/json' },
-    body: JSON.stringify({
-      sender: { email: env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO, name: 'Savia de Alma' },
-      to: [{ email }],
-      subject: 'Tu pedido de Savia de Alma ya está en camino 🌿',
-      htmlContent: html,
-    }),
+  await enviarEmail(env, {
+    to: email,
+    subject: 'Tu pedido de Savia de Alma ya está en camino 🌿',
+    html,
   });
 }
 
@@ -923,40 +946,38 @@ async function manejarEtiquetaCTT(request, env, cors) {
   }
 }
 
-/* Diagnóstico: envía un email de prueba por Brevo y devuelve su respuesta cruda. */
+/* Diagnóstico: envía un email de prueba (Resend o Brevo) y devuelve el resultado
+   + info de la cuenta/dominio, para depurar la entregabilidad. */
 async function manejarTestEmail(request, env, cors) {
   if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
-  if (!env.EMAIL_API_KEY) return jsonResp({ ok: false, motivo: 'Falta EMAIL_API_KEY' }, 200, cors);
+  const proveedor = env.RESEND_API_KEY ? 'resend' : (env.EMAIL_API_KEY ? 'brevo' : null);
+  if (!proveedor) return jsonResp({ ok: false, motivo: 'Sin proveedor: falta RESEND_API_KEY o EMAIL_API_KEY' }, 200, cors);
   const to = env.ORDER_EMAIL_TO;
   const from = env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO;
   if (!to) return jsonResp({ ok: false, motivo: 'Falta ORDER_EMAIL_TO' }, 200, cors);
-  // Info de la cuenta Brevo (para saber a qué cuenta pertenece la API key).
+
+  // Diagnóstico de la cuenta/dominio.
   let cuenta = null;
   try {
-    const ra = await fetch('https://api.brevo.com/v3/account', { headers: { 'api-key': env.EMAIL_API_KEY, 'accept': 'application/json' } });
-    if (ra.ok) {
-      const a = await ra.json();
-      cuenta = { email: a.email || '', empresa: a.companyName || '', plan: (a.plan && a.plan[0] && a.plan[0].type) || '' };
+    if (proveedor === 'resend') {
+      const rd = await fetch('https://api.resend.com/domains', { headers: { 'Authorization': 'Bearer ' + String(env.RESEND_API_KEY).trim() } });
+      if (rd.ok) {
+        const dd = await rd.json();
+        const doms = (dd.data || dd || []).map(x => `${x.name}: ${x.status}`);
+        cuenta = { dominios: doms };
+      } else { cuenta = { error: 'domains ' + rd.status }; }
+    } else {
+      const ra = await fetch('https://api.brevo.com/v3/account', { headers: { 'api-key': env.EMAIL_API_KEY, 'accept': 'application/json' } });
+      if (ra.ok) { const a = await ra.json(); cuenta = { email: a.email || '', empresa: a.companyName || '' }; }
     }
   } catch { /* */ }
-  let status = 0, texto = '';
-  try {
-    const resp = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: { 'api-key': env.EMAIL_API_KEY, 'Content-Type': 'application/json', 'accept': 'application/json' },
-      body: JSON.stringify({
-        sender: { email: from, name: 'Savia de Alma' },
-        to: [{ email: to }],
-        subject: '✅ Prueba de aviso de pedido — Savia de Alma',
-        htmlContent: '<p>Si recibes este correo, los avisos de pedido funcionan correctamente.</p>',
-      }),
-    });
-    status = resp.status;
-    texto = (await resp.text()).slice(0, 600);
-    return jsonResp({ ok: resp.ok, status, from, to, brevo: texto, cuenta }, 200, cors);
-  } catch (e) {
-    return jsonResp({ ok: false, error: String(e.message || e), from, to, cuenta }, 200, cors);
-  }
+
+  const res = await enviarEmail(env, {
+    to,
+    subject: '✅ Prueba de aviso de pedido — Savia de Alma',
+    html: '<p>Si recibes este correo, los avisos de pedido funcionan correctamente.</p>',
+  });
+  return jsonResp({ ok: res.ok, status: res.status, proveedor, from, to, respuesta: res.body, cuenta }, 200, cors);
 }
 
 export default {

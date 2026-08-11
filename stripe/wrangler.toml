@@ -35,6 +35,12 @@ SENDER_PHONE = "+34665872016"
 # Los SECRETOS CTT_CLIENT_ID y CTT_CLIENT_SECRET se ponen aparte (panel de
 # Cloudflare → Settings → Variables → tipo "Secret"), no aquí.
 
+# --- Email ---
+# Proveedor de email para los avisos de pedido y el correo al cliente.
+# Si defines el SECRETO RESEND_API_KEY (re_...), se usa Resend; si no, Brevo
+# (EMAIL_API_KEY). El remitente sale de ORDER_EMAIL_FROM y requiere que el
+# dominio saviadealma.com esté verificado en el proveedor elegido.
+
 # Base de datos KV donde se guarda la config del panel (precio/stock/ofertas/vacaciones).
 [[kv_namespaces]]
 binding = "SAVIA_KV"
