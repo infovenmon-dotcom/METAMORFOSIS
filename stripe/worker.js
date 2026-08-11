@@ -872,9 +872,11 @@ async function crearEnvioCTT(rec, env) {
   const txt = await r.text();
   if (!r.ok) throw new Error('manifest ' + r.status + ': ' + txt.slice(0, 300));
   let d = {}; try { d = JSON.parse(txt); } catch { /* */ }
-  const dd = d.data || d;
-  const first = Array.isArray(dd) ? (dd[0] || {}) : dd;
-  const sc = first.shipping_code || first.item_code || d.shipping_code || '';
+  // CTT devuelve { shipping_data: { shipping_code, items:[{item_code}] } }.
+  const sd = d.shipping_data || d.data || d;
+  const node = Array.isArray(sd) ? (sd[0] || {}) : sd;
+  const itemCode = (node.items && node.items[0] && node.items[0].item_code) || '';
+  const sc = node.shipping_code || d.shipping_code || itemCode || '';
   return { shipping_code: sc, raw: d };
 }
 
