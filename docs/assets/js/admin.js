@@ -659,8 +659,9 @@ async function probarEmail() {
     });
     const d = await r.json().catch(() => ({}));
     if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
-    if (d.ok) { _msg(msg, '✔ Email enviado a ' + d.to + ' (revisa bandeja y spam)', 'ok'); }
-    else { _msg(msg, '✖ Brevo ' + (d.status || '') + ': ' + (d.brevo || d.motivo || d.error || 'error'), 'err'); }
+    const cta = d.cuenta && d.cuenta.email ? ' · Cuenta Brevo: ' + d.cuenta.email : '';
+    if (d.ok) { _msg(msg, '✔ Email aceptado por Brevo → ' + d.to + ' (revisa spam)' + cta, 'ok'); }
+    else { _msg(msg, '✖ Brevo ' + (d.status || '') + ': ' + (d.brevo || d.motivo || d.error || 'error') + cta, 'err'); }
     console.log('Test email:', d);
   } catch (e) {
     _msg(msg, 'Error: ' + e.message, 'err');

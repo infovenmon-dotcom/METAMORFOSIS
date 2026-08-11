@@ -930,6 +930,15 @@ async function manejarTestEmail(request, env, cors) {
   const to = env.ORDER_EMAIL_TO;
   const from = env.ORDER_EMAIL_FROM || env.ORDER_EMAIL_TO;
   if (!to) return jsonResp({ ok: false, motivo: 'Falta ORDER_EMAIL_TO' }, 200, cors);
+  // Info de la cuenta Brevo (para saber a qué cuenta pertenece la API key).
+  let cuenta = null;
+  try {
+    const ra = await fetch('https://api.brevo.com/v3/account', { headers: { 'api-key': env.EMAIL_API_KEY, 'accept': 'application/json' } });
+    if (ra.ok) {
+      const a = await ra.json();
+      cuenta = { email: a.email || '', empresa: a.companyName || '', plan: (a.plan && a.plan[0] && a.plan[0].type) || '' };
+    }
+  } catch { /* */ }
   let status = 0, texto = '';
   try {
     const resp = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -944,9 +953,9 @@ async function manejarTestEmail(request, env, cors) {
     });
     status = resp.status;
     texto = (await resp.text()).slice(0, 600);
-    return jsonResp({ ok: resp.ok, status, from, to, brevo: texto }, 200, cors);
+    return jsonResp({ ok: resp.ok, status, from, to, brevo: texto, cuenta }, 200, cors);
   } catch (e) {
-    return jsonResp({ ok: false, error: String(e.message || e), from, to }, 200, cors);
+    return jsonResp({ ok: false, error: String(e.message || e), from, to, cuenta }, 200, cors);
   }
 }
 
