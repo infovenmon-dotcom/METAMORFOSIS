@@ -16,8 +16,8 @@ ORDER_EMAIL_FROM = "info@saviadealma.com"
 # --- CTT Express (API REST Last Mile) ---
 # Empezamos en el entorno de PRUEBAS. Al pasar a real: CTT_BASE_URL = "https://api.cttexpress.com"
 CTT_BASE_URL = "https://api-test.cttexpress.com"
-# Código de centro de cliente (10 dígitos) que te da CTT. Rellénalo cuando lo tengas.
-CTT_CLIENT_CENTER = ""
+# Código de centro de cliente (10 dígitos) que da CTT. (Código de cliente: 66037)
+CTT_CLIENT_CENTER = "6603700001"
 # Códigos de servicio (de la hoja oficial de CTT):
 #   C24 = CTT 24h · C48 = CTT 48h · CBA24 = Baleares Express · CBA48 = Baleares Economy
 CTT_SERVICE_PENINSULA = "C24"
