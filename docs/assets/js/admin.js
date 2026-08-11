@@ -292,7 +292,7 @@ function pintar(cfg) {
     const stk = Object.prototype.hasOwnProperty.call(stock, p.handle) ? stock[p.handle] : '';
     const coste = Object.prototype.hasOwnProperty.call(costes, p.handle) ? costes[p.handle] : '';
     const ago = agotados.indexOf(p.handle) !== -1;
-    return `<tr data-handle="${p.handle}" data-nombre="${(p.title || '').toLowerCase()}">
+    return `<tr data-handle="${p.handle}" data-nombre="${(p.title || '').toLowerCase()}" data-collection="${p.collection || ''}">
       <td><div class="prod-nombre">${p.title}</div><div class="prod-handle">${p.handle}${p.exclusiveWeb ? ' · exclusivo web' : ''}</div></td>
       <td class="num"><input type="number" step="0.01" min="0" class="f-precio" value="${precio}" data-base="${p.price}"></td>
       <td class="num"><input type="number" step="0.01" min="0" class="f-antes" value="${antes}" placeholder="—"></td>
@@ -301,14 +301,32 @@ function pintar(cfg) {
       <td><input type="checkbox" class="f-agotado" ${ago ? 'checked' : ''}></td>
     </tr>`;
   }).join('');
+  poblarCategorias();
+  filtrar();
   _msg(document.getElementById('msg'), '', '');
 }
 
 function filtrar() {
   const q = (document.getElementById('buscador').value || '').toLowerCase().trim();
+  const catEl = document.getElementById('cat-filtro');
+  const cat = catEl ? catEl.value : '';
   document.querySelectorAll('#filas tr').forEach(tr => {
-    tr.classList.toggle('oculto', q && tr.dataset.nombre.indexOf(q) === -1);
+    const okTexto = !q || tr.dataset.nombre.indexOf(q) !== -1;
+    const okCat = !cat || tr.dataset.collection === cat;
+    tr.classList.toggle('oculto', !(okTexto && okCat));
   });
+}
+
+/* Rellena el desplegable de categorías con las colecciones que tienen producto. */
+function poblarCategorias() {
+  const sel = document.getElementById('cat-filtro');
+  if (!sel) return;
+  const vistas = new Map();
+  PRODUCTOS.forEach(p => {
+    if (p.collection && !vistas.has(p.collection)) vistas.set(p.collection, p.collectionName || p.collection);
+  });
+  sel.innerHTML = '<option value="">Todas las categorías</option>' +
+    [...vistas.entries()].map(([c, n]) => `<option value="${c}">${n}</option>`).join('');
 }
 
 /* Reúne los valores de la tabla y los guarda en el servidor. */

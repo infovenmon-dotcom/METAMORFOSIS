@@ -99,7 +99,12 @@
       <div class="admin-caja">
         <div class="fila-top" style="justify-content:space-between">
           <strong>Productos</strong>
-          <input type="text" class="buscador" id="buscador" placeholder="Buscar producto…" oninput="filtrar()">
+          <div class="fila-top" style="gap:8px">
+            <select id="cat-filtro" onchange="filtrar()" style="font:inherit;padding:8px 10px;border:1px solid #cfcfcf;border-radius:9px">
+              <option value="">Todas las categorías</option>
+            </select>
+            <input type="text" class="buscador" id="buscador" placeholder="Buscar producto…" oninput="filtrar()">
+          </div>
         </div>
         <table>
           <thead>
