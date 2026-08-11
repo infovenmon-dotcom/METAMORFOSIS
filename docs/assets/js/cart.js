@@ -256,7 +256,6 @@ function renderPanelCarrito(c) {
   resumen.innerHTML = `
     ${regalo}
     ${envioAviso}
-    <div class="aviso-bienvenida">🎁 ¿Tu primer pedido? Te regalamos <strong>jabonera de bambú + esponja exfoliante</strong>.</div>
     <div class="barra-envio"><span style="width:${pct}%"></span></div>
     <div class="fila-cp" style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0">
       <label style="font-size:.82rem;font-weight:600">Código postal
@@ -268,7 +267,7 @@ function renderPanelCarrito(c) {
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
     <div class="fila-resumen"><span>Envío${c.envioZona === 'baleares' ? ' (Baleares)' : ''}</span><span>${c.zonaNoDisponible ? '—' : (c.envioGratis ? 'GRATIS' : eur(c.envio))}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${c.zonaNoDisponible ? '—' : eur(c.total)}</span></div>
-    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 4 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío: Península ${eur(ENVIO_PENINSULA)} (gratis desde ${eur(ENVIO_GRATIS_DESDE)}) · Baleares ${eur(ENVIO_BALEARES)}.</p>
+    <p style="font-size:.7rem;color:var(--texto-suave);text-align:center;margin:6px 0 10px">Por cada 4 productos, 1 de regalo (el de menor valor) · IVA incluido.</p>
     ${c.zonaNoDisponible
       ? '<button class="btn btn-secundario btn-bloque" disabled>No realizamos envíos a tu zona</button>'
       : '<a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>'}
