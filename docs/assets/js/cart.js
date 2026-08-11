@@ -1,8 +1,8 @@
 /* ===========================================================================
    SAVIA DE ALMA — Carrito + promociones
    Reglas (espejo de la configuracion de Shopify):
-     - POR CADA 3 PRODUCTOS, 1 GRATIS: el de menor precio de cada grupo de 3.
-       Escalable: 3 art. = 1 gratis, 6 = 2 gratis, 9 = 3 gratis...
+     - 4x3 · POR CADA 4 PRODUCTOS, 1 GRATIS: el de menor precio del pedido.
+       Escalable: 4 art. = 1 gratis, 8 = 2 gratis, 12 = 3 gratis...
      - Envio: Peninsula 3,95 EUR (gratis desde 45 EUR) y Baleares 6 EUR.
      - Los precios YA incluyen IVA 21% (no se anaden impuestos).
    =========================================================================== */
@@ -10,7 +10,7 @@
 const ENVIO_GRATIS_DESDE = 45;
 const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
-const GRUPO_GRATIS = 4; // 3+1: por cada 3 comprados, el 4o (mas barato) es gratis
+const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la mas barata es gratis
 const STORAGE_KEY = 'savia_carrito';
 const CP_KEY = 'savia_cp';
 
@@ -73,7 +73,7 @@ const Carrito = {
     return Object.values(this.items).reduce((a, b) => a + b, 0);
   },
 
-  /* Calcula subtotal, unidades gratis (1 por cada 3) y totales. */
+  /* Calcula subtotal, unidades gratis (1 por cada 4) y totales. */
   calcular() {
     // Lista plana de precios, una entrada por unidad.
     const precios = [];
@@ -87,7 +87,7 @@ const Carrito = {
     const unidades = precios.length;
     const subtotal = precios.reduce((a, b) => a + b, 0);
 
-    // Por cada 3 productos, 1 gratis (el mas barato del grupo).
+    // Por cada 4 productos, 1 gratis (el mas barato del pedido).
     const gratisCount = Math.floor(unidades / GRUPO_GRATIS);
     const ordenados = [...precios].sort((a, b) => a - b);
     let ahorroPromo = 0;
@@ -144,7 +144,7 @@ const Carrito = {
     // Avisos tipo Temu al cruzar un umbral (solo tras una interaccion, no al cargar)
     if (this._prev) {
       if (c.gratisCount > this._prev.gratisCount) {
-        mostrarAvisoFlotante('🎁 ¡Tienes 1 producto de REGALO! (por cada 3, el de menor valor gratis)');
+        mostrarAvisoFlotante('🎁 ¡Tienes 1 producto de REGALO! (por cada 4, el de menor valor gratis)');
         abrirCarrito();
       }
       if (c.envioGratis && !this._prev.envioGratis) {
@@ -163,7 +163,7 @@ const Carrito = {
 window.Carrito = Carrito;
 
 /* Barra de estado de promociones en la propia pagina de compra (mientras
-   navegas), con el progreso hacia el regalo (1 por cada 3) y al envio gratis. */
+   navegas), con el progreso hacia el regalo (1 por cada 4) y al envio gratis. */
 function actualizarBarraPromo(c) {
   const bar = document.getElementById('barra-promo');
   if (!bar) return;
@@ -173,7 +173,7 @@ function actualizarBarraPromo(c) {
   const regalo = falta === 0
     ? `🎁 ¡Llevas <strong>${c.gratisCount} de regalo</strong>!`
     : (falta === 1
-        ? `🎁 <strong>1 producto más</strong> y el 3º es de regalo`
+        ? `🎁 <strong>1 producto más</strong> y el 4º es de regalo`
         : `🎁 Añade <strong>${falta}</strong> y llévate 1 de regalo`);
   const envio = c.envioGratis
     ? `🚚 <strong>¡Envío GRATIS!</strong>`
@@ -241,7 +241,7 @@ function renderPanelCarrito(c) {
     regalo = `<div class="aviso-regalo cerca">🎁 ¡Solo <strong>1 producto más</strong> y tienes <strong>1 de regalo</strong>!
       <div class="barra-regalo"><span style="width:${pgRegalo}%"></span></div></div>`;
   } else {
-    regalo = `<div class="aviso-regalo">🎁 Añade <strong>${falta} productos</strong> y consigue <strong>1 de regalo</strong> (por cada 3, 1 gratis).
+    regalo = `<div class="aviso-regalo">🎁 Añade <strong>${falta} productos</strong> y consigue <strong>1 de regalo</strong> (por cada 4, 1 gratis).
       <div class="barra-regalo"><span style="width:${pgRegalo}%"></span></div></div>`;
   }
 
@@ -268,7 +268,7 @@ function renderPanelCarrito(c) {
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
     <div class="fila-resumen"><span>Envío${c.envioZona === 'baleares' ? ' (Baleares)' : ''}</span><span>${c.zonaNoDisponible ? '—' : (c.envioGratis ? 'GRATIS' : eur(c.envio))}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${c.zonaNoDisponible ? '—' : eur(c.total)}</span></div>
-    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 3 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío: Península ${eur(ENVIO_PENINSULA)} (gratis desde ${eur(ENVIO_GRATIS_DESDE)}) · Baleares ${eur(ENVIO_BALEARES)}.</p>
+    <p style="font-size:.72rem;color:var(--texto-suave);text-align:center;margin:8px 0 12px">Por cada 4 productos, 1 de regalo (el de menor valor) · Precios con IVA (21%) · Envío: Península ${eur(ENVIO_PENINSULA)} (gratis desde ${eur(ENVIO_GRATIS_DESDE)}) · Baleares ${eur(ENVIO_BALEARES)}.</p>
     ${c.zonaNoDisponible
       ? '<button class="btn btn-secundario btn-bloque" disabled>No realizamos envíos a tu zona</button>'
       : '<a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>'}

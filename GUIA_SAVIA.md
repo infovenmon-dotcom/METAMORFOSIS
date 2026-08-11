@@ -163,7 +163,7 @@ Ahora mismo estás en **MODO PRUEBA** (clave `sk_test_`): puedes probar con la t
 - **Transportista:** CTT Express (contrato firmado el 10/08/2026).
 - **Tarifa al cliente:** Península **3,95 €** (GRATIS desde 45 €) · Baleares **6,00 €**.
 - La web pide el **código postal** en el carrito y calcula la zona (07xxx = Baleares). Canarias/Ceuta/Melilla (35/38/51/52) quedan bloqueadas.
-- **Promo:** por cada 3 productos, el 4.º (de menor valor) gratis. Válida solo en la web.
+- **Promo (4×3):** por cada **4 productos**, 1 gratis (el de menor valor). Válida solo en la web. Mecanismo en `GRUPO_GRATIS = 4` (regala 1 por cada 4 unidades: `Math.floor(unidades/4)`).
 - Los precios/tarifas al cliente se editan en `docs/assets/js/cart.js` y `stripe/worker.js` (constantes `ENVIO_PENINSULA`, `ENVIO_BALEARES`, `ENVIO_GRATIS_DESDE`).
 
 ### Cómo expedir un pedido (pestaña 📦 Envíos del panel)

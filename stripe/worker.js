@@ -33,7 +33,7 @@
 const ENVIO_GRATIS_DESDE = 45;
 const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
-const GRUPO_GRATIS = 4; // por cada 3 comprados, el 4º (más barato) gratis
+const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la más barata es gratis
 
 const CONFIG_DEFAULT = {
   modoVacaciones: false,
@@ -267,7 +267,7 @@ async function crearCheckout(request, env, cors) {
     form.append(`line_items[${i}][price_data][product_data][name]`, p.title);
     i++;
   }
-  // Líneas de REGALO (por cada 3, 1 gratis): se muestran a 0,00 € para que el
+  // Líneas de REGALO (por cada 4, 1 gratis): se muestran a 0,00 € para que el
   // cliente vea lo que se lleva de regalo. No suman al importe.
   for (const [handle, qty] of Object.entries(freeByHandle || {})) {
     if (!qty || !productos[handle]) continue;
