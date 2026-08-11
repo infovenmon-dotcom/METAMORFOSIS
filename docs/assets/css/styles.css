@@ -106,13 +106,8 @@ img { max-width: 100%; display: block; }
 /* ---------- Tira de pago seguro (métodos de pago) ---------- */
 .pago-seguro { text-align: center; margin: 12px 0 4px; }
 .pago-seguro-txt { display: block; font-size: .74rem; color: var(--texto-suave); margin-bottom: 6px; }
-.pago-badges { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-.pago-chip {
-  font-size: .68rem; font-weight: 700; letter-spacing: .2px;
-  padding: 3px 8px; border-radius: 6px;
-  background: #fff; color: #3a3a34; border: 1px solid #e3e3dd;
-  box-shadow: 0 1px 2px rgba(0,0,0,.04);
-}
+.pago-badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center; }
+.pago-logo { height: 28px; width: auto; display: block; border-radius: 5px; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
 
 /* ---------- Barra superior fija (banner + cabecera) ---------- */
 .barra-fija { position: sticky; top: 0; z-index: 60; }

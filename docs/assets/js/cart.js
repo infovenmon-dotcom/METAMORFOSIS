@@ -280,10 +280,20 @@ function renderPanelCarrito(c) {
    los métodos reales que se muestran los decide Stripe según lo activado en el
    panel de Stripe y la elegibilidad (Apple Pay en Safari, Bizum en España…). */
 function badgesPago() {
-  const metodos = ['Visa', 'Mastercard', 'Apple Pay', 'Google Pay', 'Klarna', 'Bizum'];
+  const r = '<rect width="48" height="30" rx="4" fill="#fff" stroke="#e6e6e0"/>';
+  const logos = {
+    visa: `<svg viewBox="0 0 48 30" class="pago-logo" role="img" aria-label="Visa">${r}<text x="24" y="20" font-family="Arial,Helvetica,sans-serif" font-size="13" font-style="italic" font-weight="700" fill="#1A1F71" text-anchor="middle">VISA</text></svg>`,
+    mastercard: `<svg viewBox="0 0 48 30" class="pago-logo" role="img" aria-label="Mastercard">${r}<circle cx="20" cy="15" r="7.5" fill="#EB001B"/><circle cx="28" cy="15" r="7.5" fill="#FF9F00" fill-opacity=".85"/></svg>`,
+    apple: `<svg viewBox="0 0 48 30" class="pago-logo" role="img" aria-label="Apple Pay"><rect width="48" height="30" rx="4" fill="#000"/><path transform="translate(8,6) scale(0.85)" fill="#fff" d="M13.62 5.16c.44-.53.74-1.27.66-2.01-.63.03-1.4.42-1.85.95-.4.47-.76 1.22-.66 1.94.71.05 1.42-.36 1.85-.88zm.64 1.02c-1.02-.06-1.89.58-2.38.58-.49 0-1.24-.55-2.05-.54-1.05.02-2.03.61-2.57 1.56-1.1 1.9-.28 4.71.79 6.26.52.76 1.14 1.61 1.96 1.58.78-.03 1.08-.5 2.03-.5.95 0 1.21.5 2.05.49.85-.02 1.38-.77 1.9-1.53.6-.88.85-1.73.86-1.77-.02-.01-1.65-.63-1.66-2.51-.02-1.57 1.28-2.32 1.34-2.36-.73-1.08-1.87-1.2-2.27-1.23z"/><text x="32" y="20" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">Pay</text></svg>`,
+    google: `<svg viewBox="0 0 48 30" class="pago-logo" role="img" aria-label="Google Pay">${r}<text x="16" y="20" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#4285F4" text-anchor="middle">G</text><text x="31" y="20" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#5F6368" text-anchor="middle">Pay</text></svg>`,
+    link: `<svg viewBox="0 0 48 30" class="pago-logo" role="img" aria-label="Link"><rect width="48" height="30" rx="4" fill="#00D66F"/><circle cx="14" cy="15" r="6" fill="#011E0F"/><path d="M12.2 12l3 3-3 3" fill="none" stroke="#00D66F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="32" y="20" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#011E0F" text-anchor="middle">link</text></svg>`,
+    klarna: `<svg viewBox="0 0 48 30" class="pago-logo" role="img" aria-label="Klarna"><rect width="48" height="30" rx="4" fill="#FFB3C7"/><text x="24" y="20" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="#0A0B09" text-anchor="middle">Klarna</text></svg>`,
+    bizum: `<svg viewBox="0 0 48 30" class="pago-logo" role="img" aria-label="Bizum">${r}<text x="24" y="20" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="#00B0C7" text-anchor="middle">bizum</text></svg>`,
+  };
+  const orden = ['visa', 'mastercard', 'apple', 'google', 'link', 'klarna', 'bizum'];
   return `<div class="pago-seguro">
     <span class="pago-seguro-txt">🔒 Pago 100% seguro</span>
-    <div class="pago-badges">${metodos.map(m => `<span class="pago-chip">${m}</span>`).join('')}</div>
+    <div class="pago-badges">${orden.map(k => logos[k]).join('')}</div>
   </div>`;
 }
 
