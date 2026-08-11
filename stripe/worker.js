@@ -370,6 +370,32 @@ async function enviarEmailPedido(full, env) {
   });
 }
 
+/* ---------- Notificación instantánea al móvil por Telegram (opcional) ----------
+   Si están TELEGRAM_TOKEN y TELEGRAM_CHAT_ID, envía un mensaje al instante con
+   el resumen del pedido. No rompe nada si no está configurado. */
+async function enviarTelegram(full, env) {
+  if (!env.TELEGRAM_TOKEN || !env.TELEGRAM_CHAT_ID) return;
+  const cd = full.customer_details || {};
+  const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
+  const a = ship.address || cd.address || {};
+  const total = (full.amount_total != null) ? (full.amount_total / 100).toFixed(2) + ' €' : '—';
+  const lineas = (full.line_items && full.line_items.data) ? full.line_items.data : [];
+  const prods = lineas.map(li => `• ${li.quantity}× ${li.description}`).join('\n') || '(ver panel)';
+  const dir = [a.line1, [a.postal_code, a.city].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+  const texto =
+    `🛒 NUEVO PEDIDO — ${total}\n\n` +
+    `👤 ${ship.name || cd.name || ''}\n` +
+    `📞 ${cd.phone || '—'}\n` +
+    `📍 ${dir || '—'}\n\n` +
+    `${prods}\n\n` +
+    `Prepáralo en el panel → Envíos.`;
+  await fetch(`https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: texto, disable_web_page_preview: true }),
+  });
+}
+
 /* ---------- Genera y guarda una factura numerada del pedido ----------
    Numeración anual FAC-AAAA-NNNN (contador en KV). Guarda el registro en
    'factura:<ts>:<num>' para listarlo y verlo desde el panel. */
@@ -511,6 +537,8 @@ async function manejarWebhook(request, env) {
       try { await generarFactura(full, env); } catch (e) { console.error('factura:', e); }
       // 5) Avisar por email del pedido (sin romper el webhook si fallara).
       try { await enviarEmailPedido(full, env); } catch (e) { console.error('email pedido:', e); }
+      // 6) Notificación instantánea al móvil por Telegram (opcional).
+      try { await enviarTelegram(full, env); } catch (e) { console.error('telegram:', e); }
     }
   }
   return new Response('ok', { status: 200 });
@@ -791,14 +819,14 @@ async function getTokenCTT(env) {
     if (c && c.token && c.exp > Math.floor(Date.now() / 1000) + 60) return c.token;
   }
   const body = new URLSearchParams();
-  body.append('client_id', env.CTT_CLIENT_ID);
-  body.append('client_secret', env.CTT_CLIENT_SECRET);
+  body.append('client_id', String(env.CTT_CLIENT_ID || '').trim());
+  body.append('client_secret', String(env.CTT_CLIENT_SECRET || '').trim());
   body.append('scope', 'urn:com:ctt-express:integration-clients:scopes:common/ALL');
   body.append('grant_type', 'client_credentials');
   const r = await fetch(cttBase(env) + '/integrations/oauth2/token', {
-    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString(),
+    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }, body: body.toString(),
   });
-  if (!r.ok) throw new Error('token ' + r.status + ': ' + (await r.text()).slice(0, 200));
+  if (!r.ok) throw new Error('token ' + r.status + ': ' + (await r.text()).slice(0, 300));
   const d = await r.json();
   const token = d.access_token || d.token;
   const ttl = Math.min(Number(d.expires_in) || 3600, 86400);
