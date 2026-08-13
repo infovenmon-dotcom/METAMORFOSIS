@@ -621,7 +621,10 @@ window.SAVIA_DATA = {
       "image": "assets/img/products/jabon-cbd.jpg",
       "images": [
         "assets/img/products/jabon-cbd.jpg",
-        "assets/img/products/jabon-cbd-2.jpg"
+        "assets/img/products/jabon-cbd-2.jpg",
+        "assets/img/products/jabon-cbd-3.jpg",
+        "assets/img/products/jabon-cbd-4.jpg",
+        "assets/img/products/jabon-cbd-5.jpg"
       ],
       "bullets": [
         "CALMA Y EQUILIBRA: CBD (cannabidiol) que reconforta la piel reactiva.",
@@ -669,7 +672,10 @@ window.SAVIA_DATA = {
       "emoji": "🧼",
       "image": "assets/img/products/jabon-naranja-canela.jpg",
       "images": [
-        "assets/img/products/jabon-naranja-canela.jpg"
+        "assets/img/products/jabon-naranja-canela.jpg",
+        "assets/img/products/jabon-naranja-canela-2.jpg",
+        "assets/img/products/jabon-naranja-canela-3.jpg",
+        "assets/img/products/jabon-naranja-canela-4.jpg"
       ],
       "bullets": [
         "AROMA CALIDO NARANJA Y CANELA: energizante y reconfortante.",
@@ -2006,8 +2012,13 @@ window.SAVIA_DATA = {
       "collection": "ceras",
       "collectionName": "Ceras de Peinado",
       "emoji": "💈",
-      "image": "assets/img/products/cera-peinado.svg",
-      "images": ["assets/img/products/cera-peinado.svg"],
+      "image": "assets/img/products/cera-peinado.jpg",
+      "images": [
+        "assets/img/products/cera-peinado.jpg",
+        "assets/img/products/cera-peinado-2.jpg",
+        "assets/img/products/cera-peinado-3.jpg",
+        "assets/img/products/cera-peinado-4.jpg"
+      ],
       "bullets": [
         "MOLDEA Y DA FORMA: a base de cera de soja, manteca de karité y aceite de coco. Perfecta para moldear el pelo corto, definir y peinar con un acabado natural.",
         "FIJACIÓN FLEXIBLE, SIN APELMAZAR: aporta movimiento y control sin dejar el pelo rígido ni acartonado; elimina el encrespamiento y sella las puntas abiertas.",
