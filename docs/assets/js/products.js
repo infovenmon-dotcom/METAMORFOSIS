@@ -2059,8 +2059,8 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🐐",
       "vegano": false,
-      "image": "assets/img/products/jabon-leche-cabra.jpg",
-      "images": ["assets/img/products/jabon-leche-cabra.jpg"],
+      "image": "assets/img/products/jabon-leche-cabra.jpg?v=2",
+      "images": ["assets/img/products/jabon-leche-cabra.jpg?v=2"],
       "bullets": [
         "HIDRATACIÓN QUE SE NOTA: la leche de cabra es rica en ácidos grasos, vitaminas (A, B, E) y minerales que nutren y suavizan la piel.",
         "PARA PIELES SENSIBLES Y SECAS: limpia con delicadeza sin resecar, ayudando a mantener la piel calmada y confortable.",
