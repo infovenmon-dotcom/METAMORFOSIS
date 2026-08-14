@@ -2184,8 +2184,8 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🌾",
       "vegano": true,
-      "image": "assets/img/products/jabon-aceite-arroz.svg",
-      "images": ["assets/img/products/jabon-aceite-arroz.svg"],
+      "image": "assets/img/products/jabon-aceite-arroz.jpg",
+      "images": ["assets/img/products/jabon-aceite-arroz.jpg"],
       "bullets": [
         "NUTRE Y SUAVIZA: el aceite de salvado de arroz aporta ácidos grasos que dejan la piel suave y confortable tras el lavado.",
         "ANTIOXIDANTES NATURALES: rico en vitamina E y gamma-orizanol, que ayudan a proteger la piel frente al estrés oxidativo del día a día.",
