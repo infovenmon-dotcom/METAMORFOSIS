@@ -200,14 +200,25 @@ function toggleHeroSound() {
   }
 }
 
-/* ---------- Newsletter (sin backend: confirma y oculta el formulario) ----------
-   Para activar el envio real, conecta el form a Mailchimp/Formspree. */
+/* ---------- Newsletter ----------
+   Envía el email al Worker (/subscribe), que guarda el lead y manda el correo
+   de bienvenida. Si no hay endpoint o falla la red, igualmente confirmamos al
+   usuario (no le hacemos esperar ni ver errores). */
 function suscribirNewsletter(e) {
   e.preventDefault();
   const f = e.target;
   const ok = document.getElementById('newsletter-ok');
+  const email = ((f && f.email && f.email.value) || '').trim();
+  const ep = ((window.SAVIA_CONFIG || {}).checkoutEndpoint || '').trim().replace(/\/+$/, '');
   if (f) f.style.display = 'none';
   if (ok) ok.hidden = false;
+  if (ep && email) {
+    fetch(ep + '/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    }).catch(() => { /* sin conexión: no molestamos al usuario */ });
+  }
   return false;
 }
 

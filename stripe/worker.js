@@ -375,7 +375,17 @@ async function enviarEmailPedido(full, env) {
   const envio = (envioCent == null) ? null : (envioCent === 0 ? 'GRATIS' : (envioCent / 100).toFixed(2) + ' €');
   const lineas = (full.line_items && full.line_items.data) ? full.line_items.data : [];
   const itemsHtml = lineas.length
-    ? '<ul>' + lineas.map(li => `<li>${li.quantity} × ${li.description} — ${(li.amount_total / 100).toFixed(2)} €</li>`).join('') + '</ul>'
+    ? '<ul>' + lineas.map(li => {
+        const cant = li.quantity || 1;
+        const totalLinea = (li.amount_total || 0) / 100;
+        const esRegalo = totalLinea === 0 || /^🎁/.test(li.description || '');
+        const unit = cant > 0 ? totalLinea / cant : 0;
+        return `<li>${cant} × ${li.description}` +
+          (esRegalo
+            ? ' — <strong>GRATIS (regalo 3+1)</strong>'
+            : ` — ${unit.toFixed(2)} €/ud — ${totalLinea.toFixed(2)} €`) +
+          `</li>`;
+      }).join('') + '</ul>'
     : '<p>(ver el detalle en el panel de Stripe)</p>';
   const nombreEnvio = ship.name || cd.name || '';
 
@@ -395,6 +405,70 @@ async function enviarEmailPedido(full, env) {
     html,
     replyTo: cd.email || undefined,
     fromName: 'Tienda Savia de Alma',
+  });
+}
+
+/* ---------- Email de CONFIRMACIÓN al CLIENTE (al confirmarse el pago) ----------
+   Incluye el detalle: unidades por producto, precio unitario, total de cada
+   línea y marca claramente el/los productos de regalo (promo 3+1). */
+async function enviarEmailConfirmacionCliente(full, env) {
+  if (!hayEmail(env)) return;
+  const cd = full.customer_details || {};
+  const to = cd.email;
+  if (!to) return;
+  const eur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  const nombre = (cd.name || '').split(' ')[0] || '';
+  const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
+  const a = ship.address || cd.address || {};
+  const dir = [a.line1, a.line2, [a.postal_code, a.city].filter(Boolean).join(' '), a.state]
+    .filter(Boolean).join('<br>');
+  const lineas = (full.line_items && full.line_items.data) ? full.line_items.data : [];
+  const filas = lineas.map(li => {
+    const cant = li.quantity || 1;
+    const totalLinea = (li.amount_total || 0) / 100;
+    const esRegalo = totalLinea === 0 || /^🎁/.test(li.description || '');
+    const unit = cant > 0 ? totalLinea / cant : 0;
+    const nombreProd = (li.description || '').replace(/^🎁\s*Regalo\s*\(gratis\):\s*/i, '');
+    const colPrecio = esRegalo
+      ? '<span style="color:#8a6d3b;font-weight:600">GRATIS 🎁</span>'
+      : `${eur(unit)} <span style="color:#999">/ ud.</span>`;
+    const colTotal = esRegalo ? '0,00 €' : eur(totalLinea);
+    return `<tr>` +
+      `<td style="padding:8px 0;border-bottom:1px solid #eee">${cant} × ${nombreProd}` +
+        `${esRegalo ? ' <span style="color:#8a6d3b">(regalo 3+1)</span>' : ''}</td>` +
+      `<td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;white-space:nowrap">${colPrecio}</td>` +
+      `<td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;white-space:nowrap">${colTotal}</td>` +
+      `</tr>`;
+  }).join('');
+  const envioCent = (full.shipping_cost && full.shipping_cost.amount_total != null) ? full.shipping_cost.amount_total : null;
+  const envioTxt = envioCent == null ? '' : (envioCent === 0 ? 'GRATIS' : eur(envioCent / 100));
+  const total = (full.amount_total != null) ? eur(full.amount_total / 100) : '—';
+
+  const html =
+    `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#333">` +
+    `<h2 style="color:#6b7a4f">¡Gracias por tu pedido${nombre ? ', ' + nombre : ''}! 🌿</h2>` +
+    `<p>Hemos recibido tu pago correctamente. Este es el detalle de tu pedido:</p>` +
+    `<table style="width:100%;border-collapse:collapse;font-size:14px">` +
+    `<thead><tr>` +
+    `<th style="text-align:left;padding:6px 0;border-bottom:2px solid #6b7a4f">Producto</th>` +
+    `<th style="text-align:right;padding:6px 0;border-bottom:2px solid #6b7a4f">Precio</th>` +
+    `<th style="text-align:right;padding:6px 0;border-bottom:2px solid #6b7a4f">Total</th>` +
+    `</tr></thead><tbody>${filas}</tbody></table>` +
+    (envioTxt ? `<p style="text-align:right;margin:10px 0 0">Envío: <strong>${envioTxt}</strong></p>` : '') +
+    `<p style="text-align:right;font-size:16px;margin:4px 0 0">Total pagado: <strong>${total}</strong></p>` +
+    `<h3 style="color:#6b7a4f;font-size:15px;margin-top:22px">Dirección de envío</h3>` +
+    `<p>${ship.name || cd.name || ''}<br>${dir || '—'}</p>` +
+    `<p style="margin-top:22px">Te avisaremos por email en cuanto tu pedido salga hacia tu casa, con el número de seguimiento. 💚</p>` +
+    `<p style="color:#8a9b6a;font-weight:600">Savia de Alma · Cosmética sólida natural</p>` +
+    `<hr style="border:none;border-top:1px solid #eee"><p style="color:#aaa;font-size:12px">Pedido ${full.id || ''}</p>` +
+    `</div>`;
+
+  await enviarEmail(env, {
+    to,
+    subject: '✅ Confirmación de tu pedido — Savia de Alma',
+    html,
+    replyTo: env.ORDER_EMAIL_TO || undefined,
+    fromName: 'Savia de Alma',
   });
 }
 
@@ -575,8 +649,10 @@ async function manejarWebhook(request, env) {
       } catch (e) { console.error('registro pedido:', e); }
       // 4) Generar y guardar la factura numerada.
       try { await generarFactura(full, env); } catch (e) { console.error('factura:', e); }
-      // 5) Avisar por email del pedido (sin romper el webhook si fallara).
+      // 5) Avisar por email del pedido al DUEÑO (sin romper el webhook si fallara).
       try { await enviarEmailPedido(full, env); } catch (e) { console.error('email pedido:', e); }
+      // 5b) Email de CONFIRMACIÓN al CLIENTE con el detalle y el regalo marcado.
+      try { await enviarEmailConfirmacionCliente(full, env); } catch (e) { console.error('email confirmacion cliente:', e); }
       // 6) Notificación instantánea al móvil por Telegram (opcional).
       try { await enviarTelegram(full, env); } catch (e) { console.error('telegram:', e); }
     }
@@ -1115,6 +1191,60 @@ async function manejarTestChat(request, env, cors) {
   }
 }
 
+/* ---------- Alta en la newsletter (con email de bienvenida) ----------
+   Guarda el lead en KV, envía un correo de bienvenida al suscriptor y avisa
+   al dueño (ORDER_EMAIL_TO). No rompe nada si falta el proveedor de email. */
+async function manejarSuscripcion(request, env, cors) {
+  let body;
+  try { body = await request.json(); } catch { return jsonResp({ ok: false, error: 'json' }, 400, cors); }
+  const email = String(body.email || '').trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return jsonResp({ ok: false, error: 'email' }, 400, cors);
+
+  // Guardar el lead (si hay KV).
+  try {
+    if (env.SAVIA_KV) {
+      const ts = Math.floor(Date.now() / 1000);
+      await env.SAVIA_KV.put('lead:' + ts + ':' + email, JSON.stringify({ email, ts }));
+    }
+  } catch (e) { console.error('lead:', e); }
+
+  // Email de bienvenida al suscriptor.
+  let enviado = false;
+  if (hayEmail(env)) {
+    const html =
+      `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#333">` +
+      `<h2 style="color:#6b7a4f">¡Bienvenida/o a Savia de Alma! 🌿</h2>` +
+      `<p>Gracias por unirte. Como <strong>regalo de bienvenida</strong>, en tu <strong>primer pedido</strong> te incluimos una <strong>jabonera de bambú</strong> + una <strong>esponja exfoliante</strong>.</p>` +
+      `<p>Y recuerda nuestra promo: <strong>por cada 3 productos, el 4º gratis</strong> (el de menor valor). Envío gratis desde 45 €.</p>` +
+      `<p style="margin:22px 0"><a href="https://saviadealma.com/tienda.html" style="background:#6b7a4f;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Ver la tienda</a></p>` +
+      `<p style="color:#8a9b6a;font-weight:600">Savia de Alma · Cosmética sólida natural</p>` +
+      `<hr style="border:none;border-top:1px solid #eee"><p style="color:#aaa;font-size:12px">Recibes este correo porque te apuntaste en saviadealma.com. Puedes darte de baja respondiendo a este correo.</p>` +
+      `</div>`;
+    const r = await enviarEmail(env, {
+      to: email,
+      subject: '🌿 Tu regalo de bienvenida — Savia de Alma',
+      html,
+      replyTo: env.ORDER_EMAIL_TO || undefined,
+      fromName: 'Savia de Alma',
+    });
+    enviado = !!(r && r.ok);
+  }
+
+  // Aviso al dueño (opcional).
+  try {
+    if (hayEmail(env) && env.ORDER_EMAIL_TO) {
+      await enviarEmail(env, {
+        to: env.ORDER_EMAIL_TO,
+        subject: 'Nuevo suscriptor en la newsletter',
+        html: `<p>Nuevo apuntado a la newsletter: <strong>${email}</strong></p>`,
+        fromName: 'Tienda Savia de Alma',
+      });
+    }
+  } catch (e) { console.error('aviso lead:', e); }
+
+  return jsonResp({ ok: true, enviado }, 200, cors);
+}
+
 export default {
   async fetch(request, env) {
     const allowed = env.ALLOWED_ORIGIN || '*';
@@ -1165,6 +1295,10 @@ export default {
       }
       if (path === '/chat' && request.method === 'POST') {
         return await manejarChat(request, env, cors);
+      }
+      // Alta en la newsletter (público). Envía email de bienvenida.
+      if (path === '/subscribe' && request.method === 'POST') {
+        return await manejarSuscripcion(request, env, cors);
       }
       if (path === '/admin/test-chat' && request.method === 'POST') {
         return await manejarTestChat(request, env, cors);
