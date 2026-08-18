@@ -10,6 +10,8 @@ compatibility_date = "2024-11-01"
 [vars]
 PRODUCTS_URL = "https://saviadealma.com/assets/js/products.js"
 ALLOWED_ORIGIN = "https://saviadealma.com"
+# URL pública del propio Worker (para el enlace de baja de la newsletter).
+SELF_URL = "https://savia-pago.info-venmon.workers.dev"
 ORDER_EMAIL_TO = "info@saviadealma.com"
 ORDER_EMAIL_FROM = "info@saviadealma.com"
 
@@ -50,3 +52,9 @@ ANTHROPIC_MODEL = "claude-haiku-4-5-20251001"
 [[kv_namespaces]]
 binding = "SAVIA_KV"
 id = "4dc06d48c3d54e4dabe001c8370b5adc"
+
+# --- Correo semanal automático (newsletter) ---
+# Domingos 09:00 UTC (~10:00-11:00 hora peninsular según horario de verano/invierno).
+# El Worker elige el "producto de la semana" y lo envía a los suscriptores.
+[triggers]
+crons = ["0 9 * * 0"]

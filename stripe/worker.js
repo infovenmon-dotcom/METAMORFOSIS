@@ -1245,6 +1245,224 @@ async function manejarSuscripcion(request, env, cors) {
   return jsonResp({ ok: true, enviado }, 200, cors);
 }
 
+/* ===================== NEWSLETTER SEMANAL (domingos) =====================
+   Correo automático con un "producto de la semana": beneficios, consejo de uso,
+   para quién es, y sugerencias de productos que combinan. Selección MIXTA:
+   rotación automática por defecto, o un producto forzado desde el panel.
+   Se envía a los suscriptores (KV 'lead:*') menos los dados de baja ('unsub:*').
+   ------------------------------------------------------------------------- */
+const NL_SITE = 'https://saviadealma.com';
+function nlWorker(env) { return (env.SELF_URL || 'https://savia-pago.info-venmon.workers.dev').replace(/\/+$/, ''); }
+
+/* Catálogo COMPLETO (todos los campos) — el de checkout solo guarda precio/título. */
+async function cargarCatalogoCompleto(url) {
+  const resp = await fetch(url, { cf: { cacheTtl: 300 } });
+  if (!resp.ok) throw new Error('catalogo HTTP ' + resp.status);
+  const txt = await resp.text();
+  const json = txt.slice(txt.indexOf('{'), txt.lastIndexOf('}') + 1);
+  const data = JSON.parse(json);
+  return (data.products || []).filter(p => p && p.handle);
+}
+function nlImg(img) {
+  if (!img) return NL_SITE + '/assets/img/logo-negro.png';
+  if (/^https?:/i.test(img)) return img;
+  return NL_SITE + '/' + String(img).replace(/^\/+/, '');
+}
+function nlProductoUrl(handle) { return NL_SITE + '/tienda.html#' + encodeURIComponent(handle); }
+const nlEur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+/* Productos que combinan: misma familia primero, luego por etiquetas compartidas. */
+function elegirComplementarios(prod, todos, cfg, n = 3) {
+  const tags = new Set(prod.tags || []);
+  const cand = todos.filter(p => p.handle !== prod.handle && !p.proximamente && !noVendible(p.handle, cfg));
+  const puntuar = (p) => {
+    let s = 0;
+    if (p.collection === prod.collection) s += 2;
+    for (const t of (p.tags || [])) if (tags.has(t)) s += 1;
+    if (p.collection === 'accesorios') s += 1; // jabonera/esponja combinan con casi todo
+    return s;
+  };
+  return cand.map(p => [puntuar(p), p]).filter(x => x[0] > 0)
+    .sort((a, b) => b[0] - a[0]).slice(0, n).map(x => x[1]);
+}
+
+async function nlGetOverride(env) {
+  if (!env.SAVIA_KV) return null;
+  try { const r = await env.SAVIA_KV.get('newsletter:override'); return r ? JSON.parse(r) : null; }
+  catch { return null; }
+}
+
+/* Elige el producto destacado. avanzar=true mueve el puntero de rotación. */
+async function elegirDestacado(env, prods, cfg, avanzar) {
+  const vendibles = prods.filter(p => !p.proximamente && !noVendible(p.handle, cfg));
+  const ov = await nlGetOverride(env);
+  if (ov && ov.tipo === 'producto' && ov.handle) {
+    const p = prods.find(x => x.handle === ov.handle);
+    if (p) return p;
+  }
+  const lista = vendibles.length ? vendibles : prods;
+  let idx = 0;
+  if (env.SAVIA_KV) {
+    idx = parseInt(await env.SAVIA_KV.get('newsletter:rotIndex') || '0', 10) || 0;
+    if (avanzar) await env.SAVIA_KV.put('newsletter:rotIndex', String((idx + 1) % lista.length));
+  }
+  return lista[idx % lista.length];
+}
+
+/* Beneficios legibles: primeras viñetas, saltando avisos de "próximamente". */
+function nlBeneficios(prod) {
+  const items = (prod.bullets && prod.bullets.length) ? prod.bullets : (prod.features || []);
+  const buenos = items
+    .map(b => String(b).trim())
+    .filter(b => b && !/^🔜|pr[oó]ximamente/i.test(b))
+    .slice(0, 3);
+  if (!buenos.length) return '';
+  return `<ul style="padding-left:18px;margin:10px 0;color:#444">` +
+    buenos.map(b => `<li style="margin:6px 0;font-size:14px;line-height:1.5">${b}</li>`).join('') + `</ul>`;
+}
+
+function construirCorreoSemanal(prod, prods, cfg, unsubUrl) {
+  const comps = elegirComplementarios(prod, prods, cfg, 3);
+  const compCards = comps.map(c => `
+    <td style="padding:6px;vertical-align:top;width:33%">
+      <a href="${nlProductoUrl(c.handle)}" style="text-decoration:none;color:#333">
+        <img src="${nlImg(c.image)}" alt="${c.title}" width="150" style="width:100%;max-width:160px;border-radius:10px;display:block">
+        <div style="font-size:13px;margin:6px 0 2px;font-weight:600;line-height:1.3">${c.emoji || ''} ${c.title}</div>
+        <div style="font-size:13px;color:#6b7a4f;font-weight:700">${nlEur(precioEfectivo(c.handle, prods.reduce((m, p) => (m[p.handle] = p, m), {}), cfg))}</div>
+      </a>
+    </td>`).join('');
+
+  const beneficios = nlBeneficios(prod);
+  const uso = prod.modoUso ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">💡 Cómo usarlo:</strong> ${prod.modoUso}</p>` : '';
+  const paraQuien = prod.indicado ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">🌿 Ideal para:</strong> ${prod.indicado}</p>` : '';
+  const lema = prod.lema ? `<p style="font-style:italic;color:#8a9b6a;margin:4px 0 0">${prod.lema}</p>` : '';
+  const precioProd = prods.reduce((m, p) => (m[p.handle] = p, m), {});
+
+  const html =
+    `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#fff">` +
+    `<div style="text-align:center;padding:18px 0"><span style="font-size:20px;font-weight:700;color:#6b7a4f">Savia de Alma</span><br><span style="font-size:12px;color:#999;letter-spacing:1px">COSMÉTICA SÓLIDA NATURAL</span></div>` +
+    `<div style="background:#eef3e6;border-radius:14px;padding:20px;text-align:center">` +
+      `<div style="font-size:13px;color:#8a9b6a;font-weight:700;letter-spacing:1px;text-transform:uppercase">El favorito de esta semana</div>` +
+      `<img src="${nlImg(prod.image)}" alt="${prod.title}" width="280" style="width:100%;max-width:300px;border-radius:12px;margin:12px 0">` +
+      `<h1 style="font-size:22px;color:#3f4a2e;margin:6px 0">${prod.emoji || ''} ${prod.title}</h1>` +
+      lema +
+      `<div style="font-size:20px;color:#6b7a4f;font-weight:800;margin:10px 0">${nlEur(precioEfectivo(prod.handle, precioProd, cfg))}</div>` +
+      `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:6px">Verlo en la tienda</a>` +
+    `</div>` +
+    (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
+    uso + paraQuien +
+    (compCards ? `<h3 style="color:#6b7a4f;font-size:16px;margin:24px 0 6px">Combínalo con…</h3>` +
+      `<table style="width:100%;border-collapse:collapse"><tr>${compCards}</tr></table>` : '') +
+    `<div style="text-align:center;margin:28px 0 6px">` +
+      `<a href="${NL_SITE}/tienda.html" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Ver toda la tienda</a>` +
+      `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
+    `</div>` +
+    `<hr style="border:none;border-top:1px solid #eee;margin:20px 0">` +
+    `<p style="font-size:11px;color:#aaa;text-align:center;line-height:1.6">` +
+      `Savia de Alma · Cosmética sólida natural · Hecho a mano en España<br>` +
+      `Recibes este correo porque te apuntaste en saviadealma.com.<br>` +
+      `<a href="${unsubUrl}" style="color:#999">Darse de baja</a>` +
+    `</p></div>`;
+
+  const subject = `🌿 ${prod.emoji || ''} ${prod.title} — el favorito de esta semana`;
+  return { subject, html };
+}
+
+/* Token de baja (firma corta del email). */
+async function nlToken(email, env) {
+  const secret = env.NEWSLETTER_SECRET || env.ADMIN_PASSWORD || 'savia-de-alma';
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(String(email).toLowerCase()));
+  return [...new Uint8Array(sig)].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 24);
+}
+
+/* Lista de destinatarios (leads menos bajas). */
+async function nlDestinatarios(env) {
+  if (!env.SAVIA_KV) return [];
+  const emails = new Set();
+  let cursor;
+  for (let i = 0; i < 50; i++) {
+    const res = await env.SAVIA_KV.list({ prefix: 'lead:', cursor });
+    for (const k of res.keys) {
+      const email = k.name.split(':').slice(2).join(':');
+      if (email) emails.add(email.toLowerCase());
+    }
+    if (res.list_complete) break;
+    cursor = res.cursor;
+  }
+  const out = [];
+  for (const e of emails) {
+    const baja = await env.SAVIA_KV.get('unsub:' + e);
+    if (!baja) out.push(e);
+  }
+  return out;
+}
+
+/* Envío del correo semanal. opts.soloA = email de prueba; opts.avanzar mueve rotación. */
+async function enviarNewsletterSemanal(env, opts = {}) {
+  if (!hayEmail(env)) return { ok: false, motivo: 'sin proveedor de email' };
+  const prods = await cargarCatalogoCompleto(env.PRODUCTS_URL);
+  if (!prods.length) return { ok: false, motivo: 'catálogo vacío' };
+  const cfg = await getConfig(env);
+  const prod = await elegirDestacado(env, prods, cfg, opts.avanzar !== false && !opts.soloA);
+  const destinatarios = opts.soloA ? [String(opts.soloA).toLowerCase()] : await nlDestinatarios(env);
+  if (!destinatarios.length) return { ok: true, enviados: 0, motivo: 'sin suscriptores', destacado: prod.handle };
+  let enviados = 0;
+  for (const to of destinatarios) {
+    try {
+      const token = await nlToken(to, env);
+      const unsub = nlWorker(env) + '/unsubscribe?e=' + encodeURIComponent(to) + '&t=' + token;
+      const { subject, html } = construirCorreoSemanal(prod, prods, cfg, unsub);
+      const r = await enviarEmail(env, { to, subject, html, replyTo: env.ORDER_EMAIL_TO || undefined, fromName: 'Savia de Alma' });
+      if (r && r.ok) enviados++;
+    } catch (e) { console.error('nl envio', to, e); }
+  }
+  return { ok: true, destacado: prod.handle, enviados, total: destinatarios.length };
+}
+
+/* Baja de la newsletter (enlace del correo). Devuelve una página simpática. */
+async function manejarBaja(request, env) {
+  const url = new URL(request.url);
+  const email = String(url.searchParams.get('e') || '').trim().toLowerCase();
+  const token = url.searchParams.get('t') || '';
+  let ok = false;
+  if (email && token && (await nlToken(email, env)) === token) {
+    if (env.SAVIA_KV) await env.SAVIA_KV.put('unsub:' + email, '1');
+    ok = true;
+  }
+  const html = `<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">` +
+    `<body style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;text-align:center;padding:60px 20px;color:#333">` +
+    `<h2 style="color:#6b7a4f">${ok ? 'Te has dado de baja 🌿' : 'Enlace no válido'}</h2>` +
+    `<p>${ok ? 'No recibirás más correos de Savia de Alma. Si fue un error, puedes volver a apuntarte en la web.' : 'No hemos podido procesar la baja. Escríbenos a info@saviadealma.com y lo hacemos nosotros.'}</p>` +
+    `<p><a href="${NL_SITE}" style="color:#6b7a4f">Volver a saviadealma.com</a></p></body></html>`;
+  return new Response(html, { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+}
+
+/* Panel: configurar el destacado (auto/producto) y enviar prueba o envío ya. */
+async function manejarNewsletter(request, env, cors) {
+  const auth = request.headers.get('authorization') || '';
+  const pass = auth.replace(/^Bearer\s+/i, '');
+  if (!env.ADMIN_PASSWORD || !igualSeguro(pass, env.ADMIN_PASSWORD)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body; try { body = await request.json(); } catch { body = {}; }
+  const accion = body.accion || 'guardar';
+  if (accion === 'guardar') {
+    const ov = (body.override && body.override.tipo === 'producto' && body.override.handle)
+      ? { tipo: 'producto', handle: String(body.override.handle) }
+      : { tipo: 'auto' };
+    if (env.SAVIA_KV) await env.SAVIA_KV.put('newsletter:override', JSON.stringify(ov));
+    return jsonResp({ ok: true, override: ov }, 200, cors);
+  }
+  if (accion === 'test') {
+    const to = body.to || env.ORDER_EMAIL_TO;
+    return jsonResp(await enviarNewsletterSemanal(env, { soloA: to, avanzar: false }), 200, cors);
+  }
+  if (accion === 'enviar_ya') {
+    return jsonResp(await enviarNewsletterSemanal(env, { avanzar: true }), 200, cors);
+  }
+  return jsonResp({ error: 'accion_desconocida' }, 400, cors);
+}
+
 export default {
   async fetch(request, env) {
     const allowed = env.ALLOWED_ORIGIN || '*';
@@ -1300,6 +1518,14 @@ export default {
       if (path === '/subscribe' && request.method === 'POST') {
         return await manejarSuscripcion(request, env, cors);
       }
+      // Baja de la newsletter (público, GET desde el enlace del correo).
+      if (path === '/unsubscribe' && request.method === 'GET') {
+        return await manejarBaja(request, env);
+      }
+      // Panel: configurar/enviar el correo semanal.
+      if (path === '/admin/newsletter' && request.method === 'POST') {
+        return await manejarNewsletter(request, env, cors);
+      }
       if (path === '/admin/test-chat' && request.method === 'POST') {
         return await manejarTestChat(request, env, cors);
       }
@@ -1316,6 +1542,13 @@ export default {
       console.error(err);
       return jsonResp({ error: String(err) }, 500, cors);
     }
+  },
+
+  // Temporizador semanal (domingos): envía el correo del "producto de la semana".
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(
+      enviarNewsletterSemanal(env, { avanzar: true }).catch((e) => console.error('newsletter cron:', e))
+    );
   },
 };
 
