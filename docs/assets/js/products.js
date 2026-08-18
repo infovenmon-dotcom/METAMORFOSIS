@@ -2125,47 +2125,6 @@ window.SAVIA_DATA = {
       }
     },
     {
-      "handle": "jabon-puro-oliva-almazara",
-      "title": "Jabón Puro de Oliva – Almazara",
-      "short": "Jabón puro de aceite de oliva (tipo Castilla) · suavísimo · pieles delicadas y bebés · vegano (próximamente)",
-      "features": [
-        "100% aceite de oliva",
-        "Suavísimo, para pieles delicadas",
-        "Apto para bebés y toda la familia",
-        "Vegano, sin plástico",
-        "Hecho a mano en España"
-      ],
-      "tags": ["jabon", "oliva", "castilla", "delicada", "bebe", "natural", "vegano"],
-      "price": 8.99,
-      "sku": "SDA-JAB-OLIVAALMAZARA",
-      "type": "Jabón artesanal",
-      "collection": "jabones",
-      "collectionName": "Jabones Artesanales",
-      "emoji": "🫒",
-      "image": "assets/img/products/jabon-puro-oliva-almazara.jpg",
-      "images": ["assets/img/products/jabon-puro-oliva-almazara.jpg"],
-      "bullets": [
-        "EL JABÓN MÁS PURO: elaborado únicamente con aceite de oliva (tipo jabón de Castilla), sin aromas ni aditivos. La opción más natural y noble.",
-        "SUAVÍSIMO Y RESPETUOSO: limpia con extrema delicadeza respetando la piel; apto para pieles muy sensibles, reactivas y para bebés.",
-        "PARA TODA LA FAMILIA: rostro, cuerpo y manos. Un jabón de siempre, hecho como se ha hecho toda la vida.",
-        "VEGANO · ZERO WASTE: pastilla sólida sin plástico, elaborada artesanalmente en pequeños lotes en España.",
-        "🔜 PRÓXIMAMENTE: muy pronto disponible en la web."
-      ],
-      "exclusiveWeb": true,
-      "bestSeller": false,
-      "proximamente": true,
-      "descripcion": "Jabón puro de aceite de oliva, al estilo del tradicional jabón de Castilla: elaborado solo con aceite de oliva, sin aromas ni aditivos. Limpia con extrema suavidad respetando la piel, por lo que es perfecto para pieles muy delicadas, sensibles, reactivas e incluso para bebés. Vegano y sin plástico. Muy pronto disponible.",
-      "indicado": "Para pieles muy sensibles, delicadas o reactivas, bebés y toda la familia. Rostro, cuerpo y manos.",
-      "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara.",
-      "lema": "La pureza del olivo. Muy pronto.",
-      "specs": {
-        "natural": "100% aceite de oliva, vegano",
-        "inci": "Sodium Olivate, Aqua, Glycerin.",
-        "peso": "~100 g",
-        "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos). Vegano."
-      }
-    },
-    {
       "handle": "jabon-aceite-arroz",
       "title": "Jabón Artesanal de Aceite de Arroz",
       "short": "Jabón artesanal con aceite de salvado de arroz · nutre, suaviza y aporta antioxidantes · vegano (próximamente)",
