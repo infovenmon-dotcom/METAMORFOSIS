@@ -1337,6 +1337,142 @@ function nlBloqueValores() {
     `<table style="width:100%;border-collapse:collapse">${filas}</table></div>`;
 }
 
+/* ---------- "Un minuto para cuidar mejor de ti" ----------
+   Sección fija con FORMATO rotativo: cada semana toca un tipo distinto de
+   contenido de valor (no venta). Algunos son contextuales al producto. */
+function _sinAcentos(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+// Ingredientes: [claves, nombre, texto]. Se detecta por tags/título del producto.
+const NL_INGREDIENTES = [
+  [['cafeina'], 'Cafeína', 'La cafeína ayuda a estimular el cuero cabelludo y se asocia a un efecto revitalizante en el cabello.'],
+  [['canela'], 'Canela', 'Además de su aroma cálido, la canela es muy apreciada por sus propiedades purificantes y por ayudar a mantener el cuero cabelludo limpio.'],
+  [['romero'], 'Romero', 'El romero es un clásico del cuidado capilar: refresca el cuero cabelludo y aporta una agradable sensación de vitalidad.'],
+  [['arcilla'], 'Arcilla', 'La arcilla absorbe el exceso de grasa y ayuda a purificar, dejando una sensación de limpieza profunda.'],
+  [['coco'], 'Coco', 'El aceite de coco nutre e hidrata en profundidad, aportando suavidad y un aroma reconfortante.'],
+  [['aloe'], 'Aloe vera', 'El aloe vera es sinónimo de calma: hidrata y cuida especialmente las pieles más sensibles.'],
+  [['lavanda'], 'Lavanda', 'La lavanda relaja los sentidos y convierte la ducha en un pequeño momento de calma.'],
+  [['carbon'], 'Carbón activo', 'El carbón activo es conocido por su poder de arrastre: ayuda a purificar la piel en profundidad.'],
+  [['matcha', 'te verde', 'té verde'], 'Té verde / Matcha', 'El té verde aporta antioxidantes y una sensación de frescor muy agradable.'],
+  [['avena'], 'Avena', 'La avena es un ingrediente amable: suaviza y reconforta las pieles sensibles o reactivas.'],
+  [['almendra'], 'Almendra', 'El aceite de almendra nutre y deja la piel suave y flexible.'],
+  [['karite'], 'Karité', 'La manteca de karité es pura nutrición: protege e hidrata las pieles más secas.'],
+  [['rosa mosqueta'], 'Rosa mosqueta', 'La rosa mosqueta es muy valorada por su efecto regenerador y su cuidado de la piel.'],
+  [['cebolla'], 'Cebolla roja', 'La cebolla roja, rica en antioxidantes, es un remedio tradicional para ayudar a fortalecer el cabello.'],
+  [['cacao'], 'Cacao', 'El cacao aporta antioxidantes y un aroma envolvente e irresistible.'],
+  [['pepita uva', 'uva'], 'Pepita de uva', 'El aceite de pepita de uva es ligero y antioxidante, ideal para pieles que buscan equilibrio.'],
+  [['carbon', 'cade', 'enebro'], 'Cade (enebro)', 'El aceite de cade se usa tradicionalmente para calmar y cuidar los cueros cabelludos delicados.'],
+];
+
+// Consejo de la experta (cat opcional = colección a la que aplica).
+const NL_CONSEJOS_EXPERTA = [
+  { cat: 'champus', t: 'El masaje del cuero cabelludo durante uno o dos minutos favorece la limpieza y reparte mejor el champú. Hazlo con la yema de los dedos, sin usar las uñas.' },
+  { cat: 'champus', t: 'Aplica el champú sobre el cabello ya mojado: frota la pastilla directamente o entre las manos hasta lograr espuma, masajea y aclara bien.' },
+  { cat: 'jabones', t: 'Para que tu jabón dure más, deja que se seque entre usos en una jabonera con drenaje: el agua estancada es lo que más lo consume.' },
+  { cat: 'faciales', t: 'Limpia el rostro con agua tibia, nunca muy caliente: así cuidas la barrera natural de la piel.' },
+  { cat: 'desodorantes', t: 'Aplica el desodorante sólido sobre la piel limpia y seca; con unas pocas pasadas es suficiente para todo el día.' },
+  { cat: 'afeitado', t: 'Deja actuar la espuma unos segundos antes de afeitar: ablanda el vello y apura mejor, con menos irritación.' },
+  { cat: null, t: 'Con la cosmética sólida, menos es más: una pasada suele bastar porque estás usando producto concentrado.' },
+  { cat: null, t: 'Guarda tus pastillas fuera del chorro directo del agua. Secas entre usos, duran muchísimo más.' },
+];
+
+const NL_MITOS = [
+  { m: 'Cuanta más espuma hace un champú, mejor limpia.', r: 'La cantidad de espuma no determina la limpieza: depende sobre todo de los tensioactivos y del agua. Un champú suave puede limpiar igual con menos espuma.' },
+  { m: 'Lo natural limpia o cuida menos.', r: 'Bien formulados, los ingredientes naturales cuidan igual o mejor, y suelen ser más respetuosos con la piel y con el planeta.' },
+  { m: 'Un champú sólido dura poco.', r: 'Al ir concentrado y sin agua, una pastilla suele rendir tanto o más que un bote grande… si la dejas secar entre usos.' },
+  { m: 'El jabón natural reseca la piel.', r: 'Un jabón artesanal conserva su glicerina natural, que ayuda a mantener la piel hidratada y equilibrada.' },
+  { m: 'Lo sólido es incómodo de usar.', r: 'Solo cambia el formato: frotas, haces espuma y listo. Sin botes, sin plástico y perfecto para viajar.' },
+];
+
+const NL_TALLER = [
+  'Esta semana hemos preparado un nuevo lote de jabones. Cada pieza se corta y se revisa a mano antes de salir del taller.',
+  'Elaboramos en frío y en lotes pequeños: así cuidamos mejor las propiedades de cada ingrediente. La paciencia también es un ingrediente.',
+  'Cada pastilla necesita su tiempo de curado antes de estar lista. No hay prisa: lo bueno se hace despacio.',
+  'Elegimos ingredientes sencillos y de origen natural. Si no lo usaríamos nosotras, no entra en la fórmula.',
+];
+
+const NL_MINIGUIAS = [
+  { t: '¿Cómo elegir tu champú sólido?', x: 'Fíjate en tu cabello y cuero cabelludo: graso, seco, con caspa, sin volumen… Cada fórmula está pensada para una necesidad. Ante la duda, empieza por uno suave y observa cómo responde tu pelo.' },
+  { t: '¿Cómo conservar un jabón sólido?', x: 'El secreto es que se seque entre usos. Guárdalo en una jabonera con drenaje y lejos del chorro directo del agua, y te durará mucho más.' },
+  { t: '¿Por qué los cosméticos sólidos duran más?', x: 'Van concentrados y sin agua añadida: más producto útil por pastilla y menos desperdicio en cada uso.' },
+  { t: 'Sulfatos y tensioactivos suaves', x: 'Los tensioactivos son los que limpian. Los más suaves respetan mejor la barrera de la piel y el cuero cabelludo sin resecar. Por eso elegimos fórmulas amables.' },
+];
+
+/* Carga las reseñas reales (window.SAVIA_RESENAS) para "Opinión de cliente". */
+async function cargarResenas(productsUrl) {
+  try {
+    const url = String(productsUrl || '').replace(/products\.js.*$/, 'reviews.js');
+    const resp = await fetch(url, { cf: { cacheTtl: 600 } });
+    if (!resp.ok) return {};
+    const txt = await resp.text();
+    const i = txt.indexOf('{');
+    const j = txt.lastIndexOf('}');
+    if (i < 0 || j < 0) return {};
+    return JSON.parse(txt.slice(i, j + 1));
+  } catch { return {}; }
+}
+
+function _detectarIngrediente(prod) {
+  const hay = _sinAcentos((prod.tags || []).join(' ') + ' ' + (prod.title || '') + ' ' + (prod.short || ''));
+  for (const [claves, nombre, texto] of NL_INGREDIENTES) {
+    if (claves.some(k => hay.includes(_sinAcentos(k)))) return { nombre, texto };
+  }
+  return null;
+}
+
+/* Devuelve { sub, cuerpo } del contenido rotativo, con reserva si no aplica. */
+function nlContenidoRotativo(prod, wk, resenas) {
+  const orden = ['experta', 'ingrediente', 'mito', 'taller', 'miniguia', 'cambio', 'opinion'];
+  const tipo = orden[wk % orden.length];
+  const P = (t) => `<p style="margin:8px 0 0;font-size:14px;line-height:1.6;color:#444">${t}</p>`;
+
+  const gen = {
+    experta: () => {
+      const propios = NL_CONSEJOS_EXPERTA.filter(c => c.cat === prod.collection);
+      const grales = NL_CONSEJOS_EXPERTA.filter(c => !c.cat);
+      const pool = propios.length ? propios : grales;
+      const c = pool[wk % pool.length];
+      return { sub: '💡 El consejo de la experta', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">¿Sabías que…?</p>${P(c.t)}` };
+    },
+    ingrediente: () => {
+      const ing = _detectarIngrediente(prod);
+      if (!ing) return null;
+      return { sub: '🌿 Ingrediente de la semana', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${ing.nombre}</p>${P(ing.texto)}` };
+    },
+    mito: () => {
+      const m = NL_MITOS[wk % NL_MITOS.length];
+      return { sub: '❓ Mito y realidad', cuerpo: `${P('<strong style="color:#b23b3b">Mito:</strong> ' + m.m)}${P('<strong style="color:#3f4a2e">Realidad:</strong> ' + m.r)}` };
+    },
+    taller: () => ({ sub: '💚 Historia del taller', cuerpo: P(NL_TALLER[wk % NL_TALLER.length]) }),
+    miniguia: () => {
+      const g = NL_MINIGUIAS[wk % NL_MINIGUIAS.length];
+      return { sub: '📚 Mini-guía', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${g.t}</p>${P(g.x)}` };
+    },
+    cambio: () => ({ sub: '♻️ Pequeños cambios, gran impacto', cuerpo: P(NL_CONSEJOS[wk % NL_CONSEJOS.length]) }),
+    opinion: () => {
+      const arr = (resenas && resenas[prod.handle]) || [];
+      if (!arr.length) return null;
+      const o = arr[wk % arr.length];
+      return { sub: '⭐ Lo que nos cuentan', cuerpo: `<p style="margin:0;font-size:14px;font-style:italic;color:#444;line-height:1.6">“${o.t}”</p><p style="margin:6px 0 0;font-size:13px;color:#8a9b6a;font-weight:600">— ${o.n || 'Cliente'}</p>` };
+    },
+  };
+
+  let out = gen[tipo] ? gen[tipo]() : null;
+  if (!out) { // reserva garantizada si el formato contextual no aplica
+    const reserva = [gen.mito, gen.miniguia, gen.cambio, gen.taller];
+    out = reserva[wk % reserva.length]();
+  }
+  return out;
+}
+
+/* Envuelve el contenido rotativo en la sección fija de marca. */
+function nlModuloEditorial(prod, wk, resenas) {
+  const c = nlContenidoRotativo(prod, wk, resenas);
+  return `<div style="border:1px solid #dfe6d2;border-radius:14px;padding:16px 18px;margin:24px 0;background:#fbfcf8">` +
+    `<div style="font-family:Georgia,'Times New Roman',serif;font-size:15px;color:#6b7a4f;font-weight:700;margin-bottom:2px">🌿 Un minuto para cuidar mejor de ti</div>` +
+    `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin-bottom:8px">${c.sub}</div>` +
+    `${c.cuerpo}</div>`;
+}
+
 /* Productos que combinan: misma familia primero, luego por etiquetas compartidas. */
 function elegirComplementarios(prod, todos, cfg, n = 3) {
   const tags = new Set(prod.tags || []);
@@ -1403,7 +1539,7 @@ function nlBeneficios(prod) {
     buenos.map(b => `<li style="margin:6px 0;font-size:14px;line-height:1.5">${b}</li>`).join('') + `</ul>`;
 }
 
-function construirCorreoSemanal(prod, prods, cfg, unsubUrl) {
+function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const comps = elegirComplementarios(prod, prods, cfg, 3);
   const compCards = comps.map(c => `
     <td style="padding:6px;vertical-align:top;width:33%">
@@ -1440,7 +1576,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl) {
   const wk = nlSemanaIdx();
   const apertura = `<p style="text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:16px;color:#5d6b47;max-width:460px;margin:8px auto 20px;line-height:1.6">${NL_APERTURAS[wk % NL_APERTURAS.length]}</p>`;
   const valores = nlBloqueValores();
-  const consejo = `<div style="background:#fbf8ef;border:1px solid #ece5cf;border-radius:12px;padding:14px 16px;margin:22px 0"><div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin-bottom:4px">💚 Consejo verde de la semana</div><div style="font-size:14px;color:#444;line-height:1.5">${NL_CONSEJOS[wk % NL_CONSEJOS.length]}</div></div>`;
+  const editorial = nlModuloEditorial(prod, wk, resenas);
 
   const html =
     `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#fff">` +
@@ -1460,7 +1596,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl) {
     valores +
     (compCards ? `<h3 style="color:#6b7a4f;font-size:16px;margin:24px 0 6px">Combínalo con…</h3>` +
       `<table style="width:100%;border-collapse:collapse"><tr>${compCards}</tr></table>` : '') +
-    consejo +
+    editorial +
     `<div style="text-align:center;margin:28px 0 6px">` +
       `<a href="${NL_SITE}/tienda.html" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Ver toda la tienda</a>` +
       `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
@@ -1514,6 +1650,7 @@ async function enviarNewsletterSemanal(env, opts = {}) {
   if (!prods.length) return { ok: false, motivo: 'catálogo vacío' };
   const cfg = await getConfig(env);
   const prod = await elegirDestacado(env, prods, cfg, opts.avanzar !== false && !opts.soloA);
+  const resenas = await cargarResenas(env.PRODUCTS_URL);
   const destinatarios = opts.soloA ? [String(opts.soloA).toLowerCase()] : await nlDestinatarios(env);
   if (!destinatarios.length) return { ok: true, enviados: 0, motivo: 'sin suscriptores', destacado: prod.handle };
   let enviados = 0;
@@ -1521,7 +1658,7 @@ async function enviarNewsletterSemanal(env, opts = {}) {
     try {
       const token = await nlToken(to, env);
       const unsub = nlWorker(env) + '/unsubscribe?e=' + encodeURIComponent(to) + '&t=' + token;
-      const { subject, html } = construirCorreoSemanal(prod, prods, cfg, unsub);
+      const { subject, html } = construirCorreoSemanal(prod, prods, cfg, unsub, resenas);
       const r = await enviarEmail(env, { to, subject, html, replyTo: env.ORDER_EMAIL_TO || undefined, fromName: 'Savia de Alma' });
       if (r && r.ok) enviados++;
     } catch (e) { console.error('nl envio', to, e); }
