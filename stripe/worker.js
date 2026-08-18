@@ -1292,6 +1292,22 @@ async function nlGetOverride(env) {
   catch { return null; }
 }
 
+/* Orden de rotación INTERCALADO por familias: cada semana cambia de categoría
+   (champú → jabón → desodorante → …) en lugar de agotar una familia entera. */
+function ordenRotacion(vendibles) {
+  const porCol = {};
+  for (const p of vendibles) (porCol[p.collection] = porCol[p.collection] || []).push(p);
+  const cols = Object.keys(porCol).sort();
+  const orden = [];
+  for (let i = 0, quedan = true; quedan; i++) {
+    quedan = false;
+    for (const c of cols) {
+      if (porCol[c][i]) { orden.push(porCol[c][i]); quedan = true; }
+    }
+  }
+  return orden;
+}
+
 /* Elige el producto destacado. avanzar=true mueve el puntero de rotación. */
 async function elegirDestacado(env, prods, cfg, avanzar) {
   const vendibles = prods.filter(p => !p.proximamente && !noVendible(p.handle, cfg));
@@ -1300,7 +1316,7 @@ async function elegirDestacado(env, prods, cfg, avanzar) {
     const p = prods.find(x => x.handle === ov.handle);
     if (p) return p;
   }
-  const lista = vendibles.length ? vendibles : prods;
+  const lista = ordenRotacion(vendibles.length ? vendibles : prods);
   let idx = 0;
   if (env.SAVIA_KV) {
     idx = parseInt(await env.SAVIA_KV.get('newsletter:rotIndex') || '0', 10) || 0;
