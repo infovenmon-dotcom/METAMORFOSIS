@@ -1292,6 +1292,51 @@ function nlImg(img) {
 function nlProductoUrl(handle) { return NL_SITE + '/tienda.html#' + encodeURIComponent(handle); }
 const nlEur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 
+/* Índice de semana (para rotar los textos editoriales sin repetir). */
+function nlSemanaIdx() { return Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000)); }
+
+/* Aperturas con alma: una frase breve que conecta, distinta cada semana. */
+const NL_APERTURAS = [
+  'Cuidarte no debería costarle nada al planeta. Los gestos pequeños, hechos con cariño, también cuidan lo que te rodea.',
+  'La belleza más honesta es la que no deja huella: sin prisas, sin plástico, sin artificio.',
+  'Volver a lo natural no es renunciar a nada; es quedarte con lo esencial.',
+  'Una rutina sencilla también es un acto de amor propio. Tómate ese momento.',
+  'Menos ingredientes, menos residuos, más piel sana. Lo simple cuida mejor.',
+  'Cada pastilla nace hecha a mano, con tiempo y con mimo. Como debería ser todo lo que tocamos.',
+  'Lo bueno, cuando es de verdad, se nota en la piel y en la conciencia.',
+  'Elegir consciente es un gesto pequeño que suma. Gracias por hacerlo con nosotras.',
+];
+
+/* Consejo verde de la semana: dato o truco útil (aporta valor, no vende). */
+const NL_CONSEJOS = [
+  'Una pastilla sólida puede ahorrar varios botes de plástico al año. Multiplícalo por cada ducha.',
+  'Al ir sin agua añadida, la cosmética sólida es más concentrada: te dura más y pesa menos en el transporte.',
+  'Cierra el grifo mientras te enjabonas: puedes ahorrar litros de agua en cada ducha.',
+  'Guarda tus pastillas en una jabonera con drenaje: bien secas, duran muchísimo más.',
+  'Nuestros envoltorios son de papel: van al contenedor azul, sin remordimientos.',
+  'Sin microplásticos ni siliconas: lo que baja por tu desagüe también importa.',
+  'Un bote de plástico tarda cientos de años en degradarse. Una pastilla sólida, ninguno.',
+  'Cruelty-free y vegano: cuidarte nunca cuesta el bienestar de un animal.',
+];
+
+/* Bloque fijo de valores: "lo que eliges cuando eliges sólido". */
+function nlBloqueValores() {
+  const items = [
+    ['🌍', 'Sin plástico', 'pastillas envueltas en papel reciclable'],
+    ['💧', 'Sin agua añadida', 'más concentrado, menos desperdicio'],
+    ['🐰', 'Cruelty-free y vegano', 'nunca testado en animales'],
+    ['🌱', 'Biodegradable', 'lo que usas vuelve a la tierra'],
+    ['🇪🇸', 'Hecho a mano en España', 'en pequeños lotes, con tiempo'],
+  ];
+  const filas = items.map(([e, t, d]) =>
+    `<tr><td style="padding:7px 0;font-size:20px;width:34px;vertical-align:top">${e}</td>` +
+    `<td style="padding:7px 0;font-size:14px;line-height:1.4"><strong style="color:#3f4a2e">${t}</strong> ` +
+    `<span style="color:#6d7a58">— ${d}</span></td></tr>`).join('');
+  return `<div style="background:#eef3e6;border-radius:14px;padding:16px 18px;margin:22px 0">` +
+    `<h3 style="color:#3f4a2e;font-size:16px;margin:0 0 6px">Lo que eliges cuando eliges sólido</h3>` +
+    `<table style="width:100%;border-collapse:collapse">${filas}</table></div>`;
+}
+
 /* Productos que combinan: misma familia primero, luego por etiquetas compartidas. */
 function elegirComplementarios(prod, todos, cfg, n = 3) {
   const tags = new Set(prod.tags || []);
@@ -1391,10 +1436,17 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl) {
     ? `<span style="text-decoration:line-through;color:#999;font-weight:500;font-size:16px">${nlEur(baseFeat)}</span> <span style="color:#b23b3b">${nlEur(efFeat)}</span>`
     : nlEur(efFeat);
 
+  // Piezas editoriales que rotan por semana (alma + valores + consejo).
+  const wk = nlSemanaIdx();
+  const apertura = `<p style="text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:16px;color:#5d6b47;max-width:460px;margin:8px auto 20px;line-height:1.6">${NL_APERTURAS[wk % NL_APERTURAS.length]}</p>`;
+  const valores = nlBloqueValores();
+  const consejo = `<div style="background:#fbf8ef;border:1px solid #ece5cf;border-radius:12px;padding:14px 16px;margin:22px 0"><div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin-bottom:4px">💚 Consejo verde de la semana</div><div style="font-size:14px;color:#444;line-height:1.5">${NL_CONSEJOS[wk % NL_CONSEJOS.length]}</div></div>`;
+
   const html =
     `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#fff">` +
     `<div style="text-align:center;padding:18px 0"><span style="font-size:20px;font-weight:700;color:#6b7a4f">Savia de Alma</span><br><span style="font-size:12px;color:#999;letter-spacing:1px">COSMÉTICA SÓLIDA NATURAL</span></div>` +
     bannerOferta +
+    apertura +
     `<div style="background:#eef3e6;border-radius:14px;padding:20px;text-align:center">` +
       `<div style="font-size:13px;color:#8a9b6a;font-weight:700;letter-spacing:1px;text-transform:uppercase">El favorito de esta semana</div>` +
       `<img src="${nlImg(prod.image)}" alt="${prod.title}" width="280" style="width:100%;max-width:300px;border-radius:12px;margin:12px 0">` +
@@ -1405,8 +1457,10 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl) {
     `</div>` +
     (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
     uso + paraQuien +
+    valores +
     (compCards ? `<h3 style="color:#6b7a4f;font-size:16px;margin:24px 0 6px">Combínalo con…</h3>` +
       `<table style="width:100%;border-collapse:collapse"><tr>${compCards}</tr></table>` : '') +
+    consejo +
     `<div style="text-align:center;margin:28px 0 6px">` +
       `<a href="${NL_SITE}/tienda.html" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Ver toda la tienda</a>` +
       `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
