@@ -42,6 +42,7 @@ const CONFIG_DEFAULT = {
   precios: {},
   ofertas: {},
   costes: {},
+  descuentosCategoria: {}, // { coleccion: porcentaje } — oferta por familia
 };
 
 let _cacheProductos = null;
@@ -68,7 +69,7 @@ async function cargarProductos(url) {
   const json = txt.slice(txt.indexOf('{'), txt.lastIndexOf('}') + 1);
   const data = JSON.parse(json);
   const map = {};
-  for (const p of data.products) map[p.handle] = { price: p.price, title: p.title };
+  for (const p of data.products) map[p.handle] = { price: p.price, title: p.title, collection: p.collection };
   _cacheProductos = map;
   _cacheTs = ahora;
   return map;
@@ -87,14 +88,24 @@ async function putConfig(env, cfg) {
   await env.SAVIA_KV.put('config', JSON.stringify(cfg));
 }
 
-/* Precio efectivo de una unidad: override en config.precios si existe. */
+/* Precio efectivo de una unidad:
+   1) base = override en config.precios[handle] si existe, si no el del catálogo.
+   2) si la familia del producto tiene descuento en config.descuentosCategoria,
+      se aplica ese % sobre la base. */
 function precioEfectivo(handle, productos, cfg) {
   const o = cfg.precios || {};
+  let base = productos[handle].price;
   if (Object.prototype.hasOwnProperty.call(o, handle)) {
     const v = Number(o[handle]);
-    if (isFinite(v) && v >= 0) return v;
+    if (isFinite(v) && v >= 0) base = v;
   }
-  return productos[handle].price;
+  const dc = cfg.descuentosCategoria || {};
+  const col = productos[handle].collection;
+  const pct = Number(dc[col]);
+  if (isFinite(pct) && pct > 0 && pct < 100) {
+    return Math.round(base * (1 - pct / 100) * 100) / 100;
+  }
+  return base;
 }
 
 /* ¿Está agotado/no disponible para la venta directa? (espejo de app.js) */
@@ -180,9 +191,19 @@ function igualSeguro(a, b) {
 /* ---------- Saneado de la config que llega del panel ---------- */
 function numNoNeg(v) { const n = Number(v); return (isFinite(n) && n >= 0) ? n : null; }
 function sanearConfig(entrada, handlesValidos) {
-  const out = { ...CONFIG_DEFAULT, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {} };
+  const out = { ...CONFIG_DEFAULT, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
   out.modoVacaciones = !!entrada.modoVacaciones;
   const valido = (h) => !handlesValidos || handlesValidos.has(h);
+
+  // Ofertas por categoría (clave = colección, valor = % de 1 a 90).
+  const dc = entrada.descuentosCategoria || {};
+  if (dc && typeof dc === 'object') {
+    for (const [c, v] of Object.entries(dc)) {
+      if (typeof c !== 'string') continue;
+      const n = Number(v);
+      if (isFinite(n) && n > 0 && n <= 90) out.descuentosCategoria[c] = Math.round(n);
+    }
+  }
 
   if (Array.isArray(entrada.agotados)) {
     for (const h of entrada.agotados) if (typeof h === 'string' && valido(h)) out.agotados.push(h);
@@ -1354,15 +1375,32 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl) {
   const lema = prod.lema ? `<p style="font-style:italic;color:#8a9b6a;margin:4px 0 0">${prod.lema}</p>` : '';
   const precioProd = prods.reduce((m, p) => (m[p.handle] = p, m), {});
 
+  // Banner de ofertas por categoría activas.
+  const dc = cfg.descuentosCategoria || {};
+  const nombreCol = {};
+  for (const p of prods) if (p.collection && !nombreCol[p.collection]) nombreCol[p.collection] = p.collectionName || p.collection;
+  const ofertasAct = Object.entries(dc).filter(([, v]) => Number(v) > 0)
+    .map(([c, v]) => `${nombreCol[c] || c} −${Math.round(Number(v))}%`);
+  const bannerOferta = ofertasAct.length
+    ? `<div style="background:#b23b3b;color:#fff;border-radius:10px;padding:12px 14px;text-align:center;font-weight:700;margin:0 0 14px">🎉 Ofertas activas: ${ofertasAct.join(' · ')}</div>`
+    : '';
+  // Precio del destacado, con tachado si su familia está de oferta.
+  const baseFeat = (cfg.precios && cfg.precios[prod.handle] != null) ? Number(cfg.precios[prod.handle]) : prod.price;
+  const efFeat = precioEfectivo(prod.handle, precioProd, cfg);
+  const precioHtml = (efFeat < baseFeat)
+    ? `<span style="text-decoration:line-through;color:#999;font-weight:500;font-size:16px">${nlEur(baseFeat)}</span> <span style="color:#b23b3b">${nlEur(efFeat)}</span>`
+    : nlEur(efFeat);
+
   const html =
     `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#fff">` +
     `<div style="text-align:center;padding:18px 0"><span style="font-size:20px;font-weight:700;color:#6b7a4f">Savia de Alma</span><br><span style="font-size:12px;color:#999;letter-spacing:1px">COSMÉTICA SÓLIDA NATURAL</span></div>` +
+    bannerOferta +
     `<div style="background:#eef3e6;border-radius:14px;padding:20px;text-align:center">` +
       `<div style="font-size:13px;color:#8a9b6a;font-weight:700;letter-spacing:1px;text-transform:uppercase">El favorito de esta semana</div>` +
       `<img src="${nlImg(prod.image)}" alt="${prod.title}" width="280" style="width:100%;max-width:300px;border-radius:12px;margin:12px 0">` +
       `<h1 style="font-size:22px;color:#3f4a2e;margin:6px 0">${prod.emoji || ''} ${prod.title}</h1>` +
       lema +
-      `<div style="font-size:20px;color:#6b7a4f;font-weight:800;margin:10px 0">${nlEur(precioEfectivo(prod.handle, precioProd, cfg))}</div>` +
+      `<div style="font-size:20px;color:#6b7a4f;font-weight:800;margin:10px 0">${precioHtml}</div>` +
       `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:6px">Verlo en la tienda</a>` +
     `</div>` +
     (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +

@@ -302,8 +302,25 @@ function pintar(cfg) {
     </tr>`;
   }).join('');
   poblarCategorias();
+  pintarOfertasCategoria(cfg);
   filtrar();
   _msg(document.getElementById('msg'), '', '');
+}
+
+/* Pinta un control por categoría para las ofertas (% de descuento por familia). */
+function pintarOfertasCategoria(cfg) {
+  const cont = document.getElementById('ofertas-categoria');
+  if (!cont) return;
+  const dc = (cfg && cfg.descuentosCategoria) || {};
+  const vistas = new Map();
+  PRODUCTOS.forEach(p => { if (p.collection && !vistas.has(p.collection)) vistas.set(p.collection, p.collectionName || p.collection); });
+  cont.innerHTML = [...vistas.entries()].map(([c, n]) => {
+    const v = Object.prototype.hasOwnProperty.call(dc, c) ? dc[c] : '';
+    return `<label style="display:inline-flex;align-items:center;gap:6px;background:#f6f6f2;border:1px solid #e2e2d8;border-radius:9px;padding:6px 10px">
+      <span style="min-width:120px">${n}</span>
+      <input type="number" min="0" max="90" step="1" class="f-desc-cat" data-collection="${c}" value="${v}" placeholder="0" style="width:64px;text-align:right"> %
+    </label>`;
+  }).join('');
 }
 
 function filtrar() {
@@ -332,7 +349,13 @@ function poblarCategorias() {
 /* Reúne los valores de la tabla y los guarda en el servidor. */
 async function guardar() {
   const msg = document.getElementById('msg');
-  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {} };
+  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
+
+  document.querySelectorAll('.f-desc-cat').forEach(inp => {
+    const c = inp.dataset.collection;
+    const v = parseFloat(inp.value);
+    if (c && isFinite(v) && v > 0 && v <= 90) cfg.descuentosCategoria[c] = Math.round(v);
+  });
 
   document.querySelectorAll('#filas tr').forEach(tr => {
     const h = tr.dataset.handle;

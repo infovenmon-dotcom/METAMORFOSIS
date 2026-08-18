@@ -69,17 +69,37 @@ function estaAgotado(p) {
                         en caso contrario null.
    El servidor de pago (Stripe) recalcula el cobro con estos mismos precios,
    por lo que el navegador nunca decide el importe final. */
-function precioDe(p) {
+/* % de descuento por familia (config.descuentosCategoria), 0 si no hay. */
+function _dtoCategoria(p) {
+  const dc = _cfg().descuentosCategoria || {};
+  const pct = Number(dc[p.collection]);
+  return (isFinite(pct) && pct > 0 && pct < 100) ? pct : 0;
+}
+/* Precio base (antes del descuento por categoría): respeta el override de precios. */
+function _precioBase(p) {
   const o = _cfg().precios || {};
   const v = Object.prototype.hasOwnProperty.call(o, p.handle) ? Number(o[p.handle]) : p.price;
   return (isFinite(v) && v >= 0) ? v : p.price;
 }
+function precioDe(p) {
+  const base = _precioBase(p);
+  const pct = _dtoCategoria(p);
+  return pct ? Math.round(base * (1 - pct / 100) * 100) / 100 : base;
+}
 function precioAntesDe(p) {
-  const o = _cfg().ofertas || {};
-  if (!Object.prototype.hasOwnProperty.call(o, p.handle)) return null;
-  const antes = Number(o[p.handle]);
   const ahora = precioDe(p);
-  return (isFinite(antes) && antes > ahora) ? antes : null;
+  // 1) Oferta explícita por producto (config.ofertas) tiene prioridad.
+  const o = _cfg().ofertas || {};
+  if (Object.prototype.hasOwnProperty.call(o, p.handle)) {
+    const antes = Number(o[p.handle]);
+    if (isFinite(antes) && antes > ahora) return antes;
+  }
+  // 2) Descuento por categoría: el "antes" es el precio base sin descuento.
+  if (_dtoCategoria(p)) {
+    const base = _precioBase(p);
+    if (base > ahora) return base;
+  }
+  return null;
 }
 function dtoPorcentaje(antes, ahora) {
   return Math.max(1, Math.round((1 - ahora / antes) * 100));
