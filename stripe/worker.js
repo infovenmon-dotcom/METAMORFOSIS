@@ -1661,17 +1661,18 @@ function nlContenidoRotativo(prod, wk, resenas, tipoForzado, prods) {
 
 /* Envuelve el contenido rotativo en la sección fija de marca. */
 function nlModuloEditorial(prod, wk, resenas, prods) {
-  // Tres contenidos por correo: uno ROTATIVO + "Mito y realidad" FIJO + "Opinión
-  // de cliente" (5★) FIJA cada semana.
-  const otros = ['experta', 'ingrediente', 'pregunta', 'marca', 'miniguia', 'temporada', 'cambio'];
+  // Cuatro contenidos por correo: uno ROTATIVO + tres FIJOS cada semana
+  // (Mito y realidad, Opinión de cliente 5★ y Pequeños cambios, gran impacto).
+  const otros = ['experta', 'ingrediente', 'pregunta', 'marca', 'miniguia', 'temporada'];
   const c1 = nlContenidoRotativo(prod, wk, resenas, otros[wk % otros.length], prods);
   const cMito = nlContenidoRotativo(prod, wk, resenas, 'mito', prods);
   const cOpin = nlContenidoRotativo(prod, wk, resenas, 'opinion', prods);
+  const cCambio = nlContenidoRotativo(prod, wk, resenas, 'cambio', prods);
   const bloque = (c) => c
     ? `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin:0 0 8px">${c.sub}</div>${c.cuerpo}`
     : '';
   const hr = `<hr style="border:none;border-top:1px solid #e6ecd8;margin:20px 0">`;
-  const partes = [bloque(c1), bloque(cMito), bloque(cOpin)].filter(Boolean);
+  const partes = [bloque(c1), bloque(cMito), bloque(cOpin), bloque(cCambio)].filter(Boolean);
   return `<div style="border:1px solid #dfe6d2;border-radius:14px;padding:20px 20px;margin:24px 0;background:#fbfcf8">` +
     `<div style="font-family:Georgia,'Times New Roman',serif;font-size:17px;color:#6b7a4f;font-weight:700;margin-bottom:14px">🌿 Un minuto para cuidar mejor de ti</div>` +
     partes.join(hr) +
