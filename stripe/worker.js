@@ -1309,14 +1309,14 @@ const NL_APERTURAS = [
 
 /* Consejo verde de la semana: dato o truco útil (aporta valor, no vende). */
 const NL_CONSEJOS = [
-  'Una pastilla sólida puede ahorrar varios botes de plástico al año. Multiplícalo por cada ducha.',
-  'Al ir sin agua añadida, la cosmética sólida es más concentrada: te dura más y pesa menos en el transporte.',
-  'Cierra el grifo mientras te enjabonas: puedes ahorrar litros de agua en cada ducha.',
-  'Guarda tus pastillas en una jabonera con drenaje: bien secas, duran muchísimo más.',
-  'Nuestros envoltorios son de papel: van al contenedor azul, sin remordimientos.',
-  'Sin microplásticos ni siliconas: lo que baja por tu desagüe también importa.',
-  'Un bote de plástico tarda cientos de años en degradarse. Una pastilla sólida, ninguno.',
-  'Cruelty-free y vegano: cuidarte nunca cuesta el bienestar de un animal.',
+  'Un bote de plástico tarda cientos de años en degradarse; una pastilla sólida, ninguno. Cada vez que eliges sólido evitas que un envase más acabe en el vertedero o en el mar. Parece un gesto pequeño, pero multiplícalo por cada ducha del año… y luego por cada persona que hace lo mismo.',
+  'Cierra el grifo mientras te enjabonas. Suena a tópico, pero son litros de agua que se van por el desagüe sin usarse. Ábrelo solo para mojarte y para aclararte: es uno de esos cambios mínimos que, repetidos a diario, suman muchísimo a final de año.',
+  'Guarda tus pastillas bien secas entre usos, en una jabonera con drenaje. No es solo cuestión de higiene: evitas que el producto se deshaga en el agua y le alargas la vida varias semanas. Cuidar bien lo que ya tienes también es una forma de sostenibilidad.',
+  'Aprovecha hasta el último trocito. Cuando un jabón se quede muy fino, únelo al siguiente presionando ambos húmedos, o guarda los restos en una esponja-bolsa para seguir usándolos. Cero desperdicio, y un jabón nuevo que empieza con historia.',
+  'Lleva tus sólidos cuando viajes: sin líquidos que declarar en el control, sin botes que se abran dentro de la maleta y con mucho menos peso. Viajar ligero puede ser, también, viajar más limpio con el planeta.',
+  'Nuestros envoltorios son de papel: reutilízalos para una nota o para encender la chimenea y, cuando ya no den más de sí, al contenedor azul. Todo el embalaje está pensado para dejar el mínimo rastro posible.',
+  'Sin microplásticos ni siliconas. Lo que baja por tu desagüe no desaparece: acaba en ríos y mares. Elegir fórmulas sin esos ingredientes es cuidar tu piel hoy y el agua de mañana.',
+  'La cosmética sólida va concentrada y sin agua añadida: por eso pesa y ocupa menos. Menos envase, menos transporte y menos residuo por cada uso. Cuidarte y cuidar el entorno, en la misma pastilla.',
 ];
 
 /* Bloque fijo de valores: "lo que eliges cuando eliges sólido". */
@@ -1343,58 +1343,62 @@ function nlBloqueValores() {
 function _sinAcentos(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
 
 // Ingredientes: [claves, nombre, texto]. Se detecta por tags/título del producto.
+const _tip = (t) => `<br><br><strong style="color:#6b7a4f">💡 En tu rutina:</strong> ${t}`;
 const NL_INGREDIENTES = [
-  [['cafeina'], 'Cafeína', 'La cafeína ayuda a estimular el cuero cabelludo y se asocia a un efecto revitalizante en el cabello.'],
-  [['canela'], 'Canela', 'Además de su aroma cálido, la canela es muy apreciada por sus propiedades purificantes y por ayudar a mantener el cuero cabelludo limpio.'],
-  [['romero'], 'Romero', 'El romero es un clásico del cuidado capilar: refresca el cuero cabelludo y aporta una agradable sensación de vitalidad.'],
-  [['arcilla'], 'Arcilla', 'La arcilla absorbe el exceso de grasa y ayuda a purificar, dejando una sensación de limpieza profunda.'],
-  [['coco'], 'Coco', 'El aceite de coco nutre e hidrata en profundidad, aportando suavidad y un aroma reconfortante.'],
-  [['aloe'], 'Aloe vera', 'El aloe vera es sinónimo de calma: hidrata y cuida especialmente las pieles más sensibles.'],
-  [['lavanda'], 'Lavanda', 'La lavanda relaja los sentidos y convierte la ducha en un pequeño momento de calma.'],
-  [['carbon'], 'Carbón activo', 'El carbón activo es conocido por su poder de arrastre: ayuda a purificar la piel en profundidad.'],
-  [['matcha', 'te verde', 'té verde'], 'Té verde / Matcha', 'El té verde aporta antioxidantes y una sensación de frescor muy agradable.'],
-  [['avena'], 'Avena', 'La avena es un ingrediente amable: suaviza y reconforta las pieles sensibles o reactivas.'],
-  [['almendra'], 'Almendra', 'El aceite de almendra nutre y deja la piel suave y flexible.'],
-  [['karite'], 'Karité', 'La manteca de karité es pura nutrición: protege e hidrata las pieles más secas.'],
-  [['rosa mosqueta'], 'Rosa mosqueta', 'La rosa mosqueta es muy valorada por su efecto regenerador y su cuidado de la piel.'],
-  [['cebolla'], 'Cebolla roja', 'La cebolla roja, rica en antioxidantes, es un remedio tradicional para ayudar a fortalecer el cabello.'],
-  [['cacao'], 'Cacao', 'El cacao aporta antioxidantes y un aroma envolvente e irresistible.'],
-  [['pepita uva', 'uva'], 'Pepita de uva', 'El aceite de pepita de uva es ligero y antioxidante, ideal para pieles que buscan equilibrio.'],
-  [['carbon', 'cade', 'enebro'], 'Cade (enebro)', 'El aceite de cade se usa tradicionalmente para calmar y cuidar los cueros cabelludos delicados.'],
+  [['cafeina'], 'Cafeína', 'La cafeína es un activo estimulante muy usado en el cuidado capilar. Ayuda a activar la microcirculación del cuero cabelludo y se asocia a un efecto revitalizante que aporta cuerpo y vitalidad, especialmente al cabello fino o apagado.' + _tip('masajea la espuma en el cuero cabelludo un par de minutos antes de aclarar; así aprovechas mucho mejor sus propiedades.')],
+  [['canela'], 'Canela', 'Más allá de su aroma cálido y reconfortante, la canela se aprecia en cosmética por sus propiedades purificantes: ayuda a mantener el cuero cabelludo limpio y con sensación de frescor, y aporta ese punto especiado tan característico.' + _tip('si tienes el cuero cabelludo sensible, empieza usándola en días alternos y observa cómo responde.')],
+  [['romero'], 'Romero', 'El romero es uno de los grandes clásicos del cuidado del cabello. Refresca el cuero cabelludo, aporta una agradable sensación tonificante y, tradicionalmente, se ha usado para dar fuerza y vitalidad al pelo.' + _tip('acompáñalo siempre de un buen masaje capilar: el gesto, repetido, cuida tanto como el ingrediente.')],
+  [['arcilla'], 'Arcilla', 'La arcilla actúa como un imán suave: absorbe el exceso de grasa e impurezas y deja una sensación de limpieza profunda sin resecar. Es ideal para cueros cabelludos o pieles con tendencia grasa.' + _tip('déjala actuar unos segundos antes de aclarar para que haga bien su trabajo.')],
+  [['coco'], 'Coco', 'El aceite de coco es nutrición pura: hidrata en profundidad, aporta suavidad y envuelve piel y cabello en un aroma reconfortante. Muy valorado en pieles y cabellos secos.' + _tip('un poco rinde mucho; la cosmética sólida ya lo lleva en su justa medida, sin excesos que apelmacen.')],
+  [['aloe'], 'Aloe vera', 'El aloe vera es sinónimo de calma. Hidrata, refresca y ayuda a cuidar las pieles más sensibles o castigadas por el sol y el frío, con una textura ligera muy agradable.' + _tip('ideal cuando notes la piel tirante o reactiva; suele sentar especialmente bien.')],
+  [['lavanda'], 'Lavanda', 'La lavanda no solo perfuma: es sinónimo de relajación. Su aroma ayuda a convertir la ducha en un pequeño ritual de calma al final del día, y en el cabello deja una sensación de frescor.' + _tip('respira hondo mientras te enjabonas; el aroma también forma parte del cuidado.')],
+  [['carbon'], 'Carbón activo', 'El carbón activo es famoso por su poder de arrastre: atrae y retiene impurezas y exceso de grasa, dejando una sensación de limpieza profunda. Perfecto para pieles mixtas o grasas.' + _tip('úsalo 2-3 veces por semana y alterna con algo más suave el resto de días.')],
+  [['matcha', 'te verde', 'té verde'], 'Té verde / Matcha', 'El té verde es una fuente conocida de antioxidantes. Aporta frescor, ayuda a cuidar la piel frente al desgaste del día a día y deja una sensación limpia y ligera.' + _tip('los antioxidantes son grandes aliados frente a los agresores externos; ideal para el cuidado diario.')],
+  [['avena'], 'Avena', 'La avena es de los ingredientes más amables que existen: suaviza, calma y reconforta las pieles sensibles, secas o que se irritan con facilidad. Un básico del cuidado delicado.' + _tip('perfecta para pieles reactivas y para toda la familia, incluidos los más peques.')],
+  [['almendra'], 'Almendra', 'El aceite de almendra dulce nutre e hidrata, dejando la piel suave y flexible. Es ligero, se absorbe bien y resulta apto para casi todo tipo de pieles.' + _tip('su textura sedosa lo hace ideal para pieles secas que piden un extra de mimo.')],
+  [['karite'], 'Karité', 'La manteca de karité es nutrición de alto nivel: protege la piel frente al frío y la sequedad y le devuelve confort y elasticidad. Un clásico para pieles muy secas.' + _tip('en invierno, tu mejor aliada para las zonas que más se resecan, como manos o codos.')],
+  [['rosa mosqueta'], 'Rosa mosqueta', 'La rosa mosqueta es muy valorada por su efecto regenerador. Ayuda a cuidar la piel, aportar luminosidad y mantenerla flexible; un ingrediente estrella del cuidado facial.' + _tip('como casi todo en la piel, sus efectos se notan con el uso regular y constante.')],
+  [['cebolla'], 'Cebolla roja', 'La cebolla roja, rica en antioxidantes y azufre, es un remedio tradicional para el cabello: se asocia a un efecto fortalecedor y a ayudar a mantenerlo sano y con cuerpo.' + _tip('tranquila: la fórmula se trabaja para que aporte sus beneficios sin dejar olor.')],
+  [['cacao'], 'Cacao', 'El cacao aporta antioxidantes y, sobre todo, un aroma envolvente que reconforta. Cuida la piel mientras convierte el momento en un pequeño placer sensorial.' + _tip('ese aroma a chocolate es 100% natural, sin aromas artificiales añadidos.')],
+  [['pepita uva', 'uva'], 'Pepita de uva', 'El aceite de pepita de uva es ligero y rico en antioxidantes. Hidrata sin apelmazar y ayuda a equilibrar, por lo que va muy bien a pieles mixtas o que no quieren sensación grasa.' + _tip('ideal si buscas nutrición pero con una textura ligera y fresca.')],
+  [['carbon', 'cade', 'enebro'], 'Cade (enebro)', 'El aceite de cade, del enebro, se ha usado tradicionalmente para calmar y cuidar los cueros cabelludos delicados o con tendencia a descamarse, aportando alivio y sensación de limpieza.' + _tip('si tienes una afección concreta de la piel, consulta siempre con tu profesional de referencia.')],
 ];
 
 // Consejo de la experta (cat opcional = colección a la que aplica).
 const NL_CONSEJOS_EXPERTA = [
-  { cat: 'champus', t: 'El masaje del cuero cabelludo durante uno o dos minutos favorece la limpieza y reparte mejor el champú. Hazlo con la yema de los dedos, sin usar las uñas.' },
-  { cat: 'champus', t: 'Aplica el champú sobre el cabello ya mojado: frota la pastilla directamente o entre las manos hasta lograr espuma, masajea y aclara bien.' },
-  { cat: 'jabones', t: 'Para que tu jabón dure más, deja que se seque entre usos en una jabonera con drenaje: el agua estancada es lo que más lo consume.' },
-  { cat: 'faciales', t: 'Limpia el rostro con agua tibia, nunca muy caliente: así cuidas la barrera natural de la piel.' },
-  { cat: 'desodorantes', t: 'Aplica el desodorante sólido sobre la piel limpia y seca; con unas pocas pasadas es suficiente para todo el día.' },
-  { cat: 'afeitado', t: 'Deja actuar la espuma unos segundos antes de afeitar: ablanda el vello y apura mejor, con menos irritación.' },
-  { cat: null, t: 'Con la cosmética sólida, menos es más: una pasada suele bastar porque estás usando producto concentrado.' },
-  { cat: null, t: 'Guarda tus pastillas fuera del chorro directo del agua. Secas entre usos, duran muchísimo más.' },
+  { cat: 'champus', t: 'El masaje del cuero cabelludo es el gran olvidado, y marca la diferencia. Dedica uno o dos minutos a masajear con las yemas de los dedos —nunca con las uñas— haciendo pequeños círculos. Ayuda a repartir mejor el champú, favorece una limpieza más completa y activa la microcirculación. Y de propina, es un momento relajante que tu cabeza agradecerá.' },
+  { cat: 'champus', t: '¿Frotar la pastilla directa o hacer espuma en las manos? Las dos formas valen. Sobre el cabello ya mojado, pasa la pastilla por el cuero cabelludo unas cuantas veces, o frótala entre las manos hasta lograr espuma; luego reparte, masajea y aclara bien. Un solo enjabonado suele bastar: estás usando producto concentrado, no hace falta cargar más.' },
+  { cat: 'jabones', t: 'El mayor enemigo de un jabón sólido no es el uso, es el agua estancada. Para que te dure semanas más, guárdalo en una jabonera con drenaje, lejos del chorro directo, y deja que se seque del todo entre usos. Una pastilla bien cuidada rinde muchísimo más que una que vive en un charquito de agua.' },
+  { cat: 'faciales', t: 'La temperatura importa más de lo que parece. Lávate la cara con agua tibia, nunca muy caliente: el calor excesivo altera la barrera natural de la piel y favorece la sequedad y la sensibilidad. Termina con un aclarado más fresco y seca a toques suaves con la toalla, sin frotar.' },
+  { cat: 'desodorantes', t: 'Un desodorante sólido rinde de sobra si lo aplicas bien: sobre la piel limpia y seca, justo tras la ducha, con dos o tres pasadas suaves en cada axila basta. Deja que se asiente unos segundos antes de vestirte. Menos es más: no necesitas cargar producto para tener protección durante todo el día.' },
+  { cat: 'afeitado', t: 'El secreto de un buen afeitado está en la preparación. Haz una buena espuma y deja que actúe unos segundos sobre la piel húmeda: ablanda el vello y hace que la cuchilla deslice mejor, con menos tirones e irritación. Afeita en el sentido del vello siempre que puedas y aclara con agua fresca al terminar.' },
+  { cat: null, t: 'Con la cosmética sólida conviene cambiar el chip: va concentrada, así que necesitas mucho menos de lo que crees. Una pasada o un enjabonado suelen bastar. Usar de más no limpia mejor y solo gasta el producto antes de tiempo. Confía en la fórmula: está pensada para rendir en pequeñas cantidades.' },
+  { cat: null, t: 'Dónde guardas tus pastillas decide cuánto te duran. Elige un sitio ventilado y con drenaje, lejos del agua que cae, para que se sequen entre usos. Si viajas, espera a que estén secas antes de guardarlas en su caja o bolsa. Este pequeño gesto puede alargarles la vida varias semanas.' },
 ];
 
 const NL_MITOS = [
-  { m: 'Cuanta más espuma hace un champú, mejor limpia.', r: 'La cantidad de espuma no determina la limpieza: depende sobre todo de los tensioactivos y del agua. Un champú suave puede limpiar igual con menos espuma.' },
-  { m: 'Lo natural limpia o cuida menos.', r: 'Bien formulados, los ingredientes naturales cuidan igual o mejor, y suelen ser más respetuosos con la piel y con el planeta.' },
-  { m: 'Un champú sólido dura poco.', r: 'Al ir concentrado y sin agua, una pastilla suele rendir tanto o más que un bote grande… si la dejas secar entre usos.' },
-  { m: 'El jabón natural reseca la piel.', r: 'Un jabón artesanal conserva su glicerina natural, que ayuda a mantener la piel hidratada y equilibrada.' },
-  { m: 'Lo sólido es incómodo de usar.', r: 'Solo cambia el formato: frotas, haces espuma y listo. Sin botes, sin plástico y perfecto para viajar.' },
+  { m: 'Cuanta más espuma hace un champú, mejor limpia.', r: 'La espuma es sensación, no rendimiento. La capacidad de limpieza depende de los tensioactivos (los agentes que arrastran la suciedad) y de la dureza del agua, no de cuántas burbujas veas. Un champú suave puede limpiar igual de bien haciendo menos espuma; de hecho, un exceso de espuma a veces va de la mano de fórmulas más agresivas.' },
+  { m: 'Lo natural limpia o cuida menos.', r: 'No es cuestión de origen, sino de formulación. Un producto natural bien formulado cuida igual o mejor que uno convencional, y suele ser más respetuoso con la piel y con el planeta. La clave está en elegir buenos ingredientes en las cantidades adecuadas, algo perfectamente posible con materias primas naturales.' },
+  { m: 'Un champú sólido dura poco.', r: 'Al contrario: una pastilla va concentrada y sin agua, así que suele rendir tanto o más que un bote grande de champú líquido. La diferencia está en el cuidado: si la dejas secar entre usos y no vive bajo el chorro del agua, te sorprenderá cuántos lavados te da.' },
+  { m: 'El jabón natural reseca la piel.', r: 'Depende de cómo esté hecho. Un jabón artesanal elaborado en frío conserva su glicerina natural, un humectante que ayuda a mantener la piel hidratada. Lo que suele resecar es el agua muy caliente o frotar en exceso, no el jabón en sí.' },
+  { m: 'Lo sólido es incómodo de usar.', r: 'Solo cambia el formato, no el gesto: frotas, haces espuma y aclaras, igual que siempre. A cambio ganas comodidad: sin botes que se derramen, sin plástico, ocupa menos y es perfecto para viajar (pasa el control de líquidos del aeropuerto sin problema).' },
+  { m: 'Hay que cambiar de champú a menudo para que el pelo “no se acostumbre”.', r: 'El cabello no se “acostumbra” ni genera tolerancia a un champú. Lo que cambia son tus necesidades: la época del año, la grasa, algún tratamiento. Si un producto te va bien, puedes seguir usándolo; y si notas que tu pelo cambia, entonces sí tiene sentido ajustar la fórmula.' },
+  { m: 'Cuanto más caro, mejor es el cosmético.', r: 'El precio no garantiza calidad. Lo que de verdad importa es la lista de ingredientes y la formulación. Un producto sencillo, con pocos ingredientes bien elegidos, puede cuidar mejor que uno caro lleno de aditivos que no aportan nada.' },
 ];
 
 const NL_TALLER = [
-  'Esta semana hemos preparado un nuevo lote de jabones. Cada pieza se corta y se revisa a mano antes de salir del taller.',
-  'Elaboramos en frío y en lotes pequeños: así cuidamos mejor las propiedades de cada ingrediente. La paciencia también es un ingrediente.',
-  'Cada pastilla necesita su tiempo de curado antes de estar lista. No hay prisa: lo bueno se hace despacio.',
-  'Elegimos ingredientes sencillos y de origen natural. Si no lo usaríamos nosotras, no entra en la fórmula.',
+  'Esta semana hemos preparado un nuevo lote. Cada pieza se elabora, se corta y se revisa a mano antes de salir del taller: comprobamos que el peso, la textura y el aroma sean los de siempre. Es un trabajo lento, pero es la única forma que conocemos de que llegue a tu casa tal y como nos gusta a nosotras.',
+  'Elaboramos en frío y en lotes pequeños. ¿Por qué? Porque así se conservan mejor las propiedades de los aceites y de los ingredientes más delicados. La saponificación en frío tarda semanas, pero merece la pena: es lo que da ese jabón suave que cuida la piel. La paciencia, aquí, también es un ingrediente.',
+  'Cada pastilla necesita su tiempo de curado antes de estar lista: varias semanas reposando para que el agua se evapore y quede más firme y duradera. No metemos prisa a ese proceso. Lo bueno se hace despacio, y créenos que se nota en cada uso.',
+  'Elegimos ingredientes sencillos, de origen natural y con una historia detrás. Nuestra norma es fácil: si no lo usaríamos en casa, no entra en la fórmula. Menos aditivos y más honestidad. Al final, hacemos los productos que nos gustaría encontrar a nosotras mismas.',
 ];
 
 const NL_MINIGUIAS = [
-  { t: '¿Cómo elegir tu champú sólido?', x: 'Fíjate en tu cabello y cuero cabelludo: graso, seco, con caspa, sin volumen… Cada fórmula está pensada para una necesidad. Ante la duda, empieza por uno suave y observa cómo responde tu pelo.' },
-  { t: '¿Cómo conservar un jabón sólido?', x: 'El secreto es que se seque entre usos. Guárdalo en una jabonera con drenaje y lejos del chorro directo del agua, y te durará mucho más.' },
-  { t: '¿Por qué los cosméticos sólidos duran más?', x: 'Van concentrados y sin agua añadida: más producto útil por pastilla y menos desperdicio en cada uso.' },
-  { t: 'Sulfatos y tensioactivos suaves', x: 'Los tensioactivos son los que limpian. Los más suaves respetan mejor la barrera de la piel y el cuero cabelludo sin resecar. Por eso elegimos fórmulas amables.' },
+  { t: '¿Cómo elegir tu champú sólido?', x: 'El primer paso es conocer tu cabello y tu cuero cabelludo, porque no todos necesitan lo mismo:<br><br>• <strong>Graso:</strong> fórmulas purificantes (arcilla, carbón, cafeína).<br>• <strong>Seco o apagado:</strong> mejor nutritivas e hidratantes (coco, cacao, karité).<br>• <strong>Con caspa o sensible:</strong> opciones suaves y calmantes.<br>• <strong>Sin volumen:</strong> fórmulas ligeras que no apelmazan.<br><br>Ante la duda, empieza por uno suave y observa cómo responde tu pelo durante un par de semanas: la piel y el cabello necesitan un tiempo de adaptación al cambio.' },
+  { t: '¿Cómo conservar un jabón sólido para que dure más?', x: 'Un jabón bien cuidado puede durarte semanas más, y el secreto es uno solo: que se seque entre usos.<br><br>• Guárdalo en una <strong>jabonera con drenaje</strong>, nunca en un plato donde se acumule el agua.<br>• Colócalo <strong>lejos del chorro directo</strong> de la ducha.<br>• Si tienes varios, ve <strong>alternándolos</strong>: descansados aguantan más.<br><br>El agua estancada es lo único que de verdad “se come” un jabón natural.' },
+  { t: '¿Por qué los cosméticos sólidos duran más?', x: 'Puede sorprender, pero una pastilla suele rendir tanto o más que un bote grande. El motivo es sencillo:<br><br>• Va <strong>concentrada y sin agua añadida</strong>: casi todo lo que compras es producto útil.<br>• En un champú o gel líquido, buena parte del envase es <strong>agua</strong>.<br>• Al usar poca cantidad en cada lavado, cunde muchísimo.<br><br>Menos envase, menos transporte y menos desperdicio… y más lavados por producto.' },
+  { t: 'Sulfatos y tensioactivos suaves', x: 'Los tensioactivos son los ingredientes que limpian: atrapan la grasa y la suciedad para que el agua se las lleve. Pero no todos son iguales:<br><br>• Los <strong>sulfatos fuertes</strong> limpian mucho, pero pueden resecar y sensibilizar.<br>• Los <strong>tensioactivos suaves</strong> limpian respetando mejor la barrera de la piel y del cuero cabelludo.<br><br>Por eso elegimos fórmulas amables: limpian de sobra sin dejar esa sensación de tirantez.' },
+  { t: '¿Cómo empezar en la cosmética sólida?', x: 'Pasar a sólido es más fácil de lo que parece. Un buen orden para no agobiarte:<br><br>• Empieza por <strong>un solo producto</strong> (el champú o el jabón de manos suelen ser la mejor puerta de entrada).<br>• Dale <strong>un par de semanas</strong> de adaptación a tu piel o cabello.<br>• Cuando le cojas el punto, ve <strong>sumando</strong> otros: acondicionador, desodorante, facial…<br><br>No hace falta cambiarlo todo de golpe. Cada pequeño paso ya suma.' },
 ];
 
 /* Carga las reseñas reales (window.SAVIA_RESENAS) para "Opinión de cliente". */
@@ -1546,7 +1550,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       <a href="${nlProductoUrl(c.handle)}" style="text-decoration:none;color:#333">
         <img src="${nlImg(c.image)}" alt="${c.title}" width="150" style="width:100%;max-width:160px;border-radius:10px;display:block">
         <div style="font-size:13px;margin:6px 0 2px;font-weight:600;line-height:1.3">${c.emoji || ''} ${c.title}</div>
-        <div style="font-size:13px;color:#6b7a4f;font-weight:700">${nlEur(precioEfectivo(c.handle, prods.reduce((m, p) => (m[p.handle] = p, m), {}), cfg))}</div>
+        <div style="font-size:12px;color:#6b7a4f;font-weight:700">Ver →</div>
       </a>
     </td>`).join('');
 
@@ -1554,8 +1558,6 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const uso = prod.modoUso ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">💡 Cómo usarlo:</strong> ${prod.modoUso}</p>` : '';
   const paraQuien = prod.indicado ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">🌿 Ideal para:</strong> ${prod.indicado}</p>` : '';
   const lema = prod.lema ? `<p style="font-style:italic;color:#8a9b6a;margin:4px 0 0">${prod.lema}</p>` : '';
-  const precioProd = prods.reduce((m, p) => (m[p.handle] = p, m), {});
-
   // Banner de ofertas por categoría activas.
   const dc = cfg.descuentosCategoria || {};
   const nombreCol = {};
@@ -1565,12 +1567,6 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const bannerOferta = ofertasAct.length
     ? `<div style="background:#b23b3b;color:#fff;border-radius:10px;padding:12px 14px;text-align:center;font-weight:700;margin:0 0 14px">🎉 Ofertas activas: ${ofertasAct.join(' · ')}</div>`
     : '';
-  // Precio del destacado, con tachado si su familia está de oferta.
-  const baseFeat = (cfg.precios && cfg.precios[prod.handle] != null) ? Number(cfg.precios[prod.handle]) : prod.price;
-  const efFeat = precioEfectivo(prod.handle, precioProd, cfg);
-  const precioHtml = (efFeat < baseFeat)
-    ? `<span style="text-decoration:line-through;color:#999;font-weight:500;font-size:16px">${nlEur(baseFeat)}</span> <span style="color:#b23b3b">${nlEur(efFeat)}</span>`
-    : nlEur(efFeat);
 
   // Piezas editoriales que rotan por semana (alma + valores + consejo).
   const wk = nlSemanaIdx();
@@ -1588,8 +1584,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       `<img src="${nlImg(prod.image)}" alt="${prod.title}" width="280" style="width:100%;max-width:300px;border-radius:12px;margin:12px 0">` +
       `<h1 style="font-size:22px;color:#3f4a2e;margin:6px 0">${prod.emoji || ''} ${prod.title}</h1>` +
       lema +
-      `<div style="font-size:20px;color:#6b7a4f;font-weight:800;margin:10px 0">${precioHtml}</div>` +
-      `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:6px">Verlo en la tienda</a>` +
+      `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px">Verlo en la tienda</a>` +
     `</div>` +
     (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
     uso + paraQuien +
