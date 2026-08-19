@@ -279,6 +279,9 @@ function registrarCompra() {
 
 function pintar(cfg) {
   document.getElementById('vacaciones').checked = !!cfg.modoVacaciones;
+  const rb = document.getElementById('regalo-bienvenida');
+  if (rb) rb.checked = cfg.regaloBienvenida !== false;
+  poblarNlProd();
   const precios = cfg.precios || {};
   const ofertas = cfg.ofertas || {};
   const stock = cfg.stock || {};
@@ -349,7 +352,8 @@ function poblarCategorias() {
 /* Reúne los valores de la tabla y los guarda en el servidor. */
 async function guardar() {
   const msg = document.getElementById('msg');
-  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
+  const _rb = document.getElementById('regalo-bienvenida');
+  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, regaloBienvenida: _rb ? _rb.checked : true, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
 
   document.querySelectorAll('.f-desc-cat').forEach(inp => {
     const c = inp.dataset.collection;
@@ -395,6 +399,48 @@ async function guardar() {
   } catch (e) {
     _msg(msg, 'No se pudo guardar: ' + e.message, 'err');
   }
+}
+
+/* ---------- Newsletter (correo semanal) ---------- */
+function poblarNlProd() {
+  const sel = document.getElementById('nl-prod');
+  if (!sel || sel.options.length > 1) return;
+  sel.insertAdjacentHTML('beforeend', PRODUCTOS.filter(p => !p.proximamente)
+    .map(p => `<option value="${p.handle}">${p.title}</option>`).join(''));
+}
+async function _nlPost(payload, okMsg) {
+  const msg = document.getElementById('nl-msg');
+  _msg(msg, 'Enviando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify(payload),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return null; }
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+    _msg(msg, okMsg(data), 'ok');
+    return data;
+  } catch (e) { _msg(msg, 'Error: ' + e.message, 'err'); return null; }
+}
+function nlGuardar() {
+  const h = document.getElementById('nl-prod').value;
+  const override = h ? { tipo: 'producto', handle: h } : { tipo: 'auto' };
+  _nlPost({ accion: 'guardar', override }, () => h
+    ? '✓ Producto de la semana fijado para el próximo envío.'
+    : '✓ Vuelta a la rotación automática.');
+}
+function nlTest() {
+  const to = (document.getElementById('nl-test-email').value || '').trim();
+  if (!to) { _msg(document.getElementById('nl-msg'), 'Escribe un correo para la prueba.', 'err'); return; }
+  _nlPost({ accion: 'test', to }, (d) => d.enviados
+    ? ('✓ Prueba enviada a ' + to)
+    : ('No se pudo enviar: ' + (d.motivo || 'revisa el proveedor de email')));
+}
+function nlEnviarYa() {
+  if (!confirm('¿Enviar el correo semanal AHORA a todos los suscriptores?')) return;
+  _nlPost({ accion: 'enviar_ya' }, (d) => `✓ Enviado a ${d.enviados || 0} de ${d.total || 0} suscriptores.`);
 }
 
 /* ---------- Centro de cuentas ---------- */

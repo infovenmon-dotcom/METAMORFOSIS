@@ -94,6 +94,10 @@
           <span class="switch"><input type="checkbox" id="vacaciones"> 🌴 Modo vacaciones</span>
           <span class="nota">Activado: toda la web deriva la compra a Amazon (los exclusivos web aparecen como "No disponible").</span>
         </div>
+        <div class="fila-top" style="margin-top:10px">
+          <span class="switch"><input type="checkbox" id="regalo-bienvenida"> 🎁 Regalo de bienvenida</span>
+          <span class="nota">Activado: en el <strong>primer pedido</strong> de cada cliente se añaden gratis la jabonera de bambú y la esponja exfoliante (aparecen en Envíos y en la factura a 0 €).</span>
+        </div>
       </div>
 
       <div class="admin-caja">
@@ -134,6 +138,27 @@
           • <strong>Stock</strong>: vacío = no se controla; un número se irá descontando con cada venta; al llegar a 0 ese producto se vende en Amazon.<br>
           • <strong>Agotado</strong>: fuerza "Comprar en Amazon" sin tocar el stock.
         </p>
+      </div>
+
+      <div class="admin-caja">
+        <h2 style="color:var(--verde-oscuro);font-size:1.1rem;margin:0 0 4px">📧 Correo semanal (newsletter)</h2>
+        <p class="nota" style="margin-bottom:12px">Se envía solo cada domingo. Aquí puedes forzar el producto de la semana, mandarte una prueba o enviarlo ahora mismo.</p>
+        <div class="fila-top">
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Producto de la semana
+            <select id="nl-prod" style="font:inherit;padding:8px;border:1px solid #cfcfcf;border-radius:9px;min-width:240px">
+              <option value="">Automático (rotación por familias)</option>
+            </select>
+          </label>
+          <button class="btn btn-secundario" onclick="nlGuardar()">Guardar selección</button>
+        </div>
+        <div class="fila-top" style="margin-top:10px">
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Enviar prueba a
+            <input type="email" id="nl-test-email" placeholder="tu@correo.com" style="min-width:220px">
+          </label>
+          <button class="btn btn-secundario" onclick="nlTest()">✉️ Enviar prueba</button>
+          <button class="btn btn-primario" onclick="nlEnviarYa()">📨 Enviar ahora a todos</button>
+        </div>
+        <p class="msg" id="nl-msg" style="margin-top:10px"></p>
       </div>
 
       <div class="barra-acciones">
@@ -219,6 +244,6 @@
 
   <script src="assets/js/config.js"></script>
   <script src="assets/js/products.js?v=20260814-5"></script>
-  <script src="assets/js/admin.js?v=20260814-5"></script>
+  <script src="assets/js/admin.js?v=20260814-6"></script>
 </body>
 </html>
