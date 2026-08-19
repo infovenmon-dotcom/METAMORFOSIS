@@ -638,16 +638,24 @@ async function manejarWebhook(request, env) {
       if (sesion.metadata && sesion.metadata.cart) {
         try { cart = JSON.parse(sesion.metadata.cart); } catch { cart = {}; }
       }
-      // 0) Regalo de bienvenida: en el PRIMER pedido del cliente se añaden la
-      //    jabonera y la esponja como regalo. Se controla con cliente:<email>.
+      // 0) Regalo de bienvenida: SOLO para suscriptores de la newsletter (sub:<email>)
+      //    y UNA vez por persona (regalo:<email>). Así, si ya lo recibió, no se repite.
       let regaloBienvenida = false;
+      let emailCli = '';
       try {
         const cfgR = await getConfig(env);
-        const emailCli = String((sesion.customer_details && sesion.customer_details.email) || '').toLowerCase();
-        if (emailCli && env.SAVIA_KV && cfgR.regaloBienvenida !== false) {
+        emailCli = String((sesion.customer_details && sesion.customer_details.email) || '').toLowerCase();
+        if (emailCli && env.SAVIA_KV) {
           const prev = await env.SAVIA_KV.get('cliente:' + emailCli);
-          if (!prev) regaloBienvenida = true;
           await env.SAVIA_KV.put('cliente:' + emailCli, String((parseInt(prev || '0', 10) || 0) + 1));
+          if (cfgR.regaloBienvenida !== false) {
+            const esSub = await env.SAVIA_KV.get('sub:' + emailCli);
+            const yaRegalo = await env.SAVIA_KV.get('regalo:' + emailCli);
+            if (esSub && !yaRegalo) {
+              regaloBienvenida = true;
+              await env.SAVIA_KV.put('regalo:' + emailCli, String(sesion.id || Math.floor(Date.now() / 1000)));
+            }
+          }
         }
       } catch (e) { console.error('regalo detect:', e); }
       if (regaloBienvenida) {
@@ -701,6 +709,13 @@ async function manejarWebhook(request, env) {
             tracking: '', enviado: false,
           };
           await env.SAVIA_KV.put(clave, JSON.stringify(rec), { metadata: { fecha, items: cart } });
+          // Resumen del último pedido por cliente (para el correo de "bienvenido de nuevo").
+          if (emailCli) {
+            await env.SAVIA_KV.put('ultimopedido:' + emailCli, JSON.stringify({
+              fecha, total: rec.total,
+              lineas: rec.lineas.map(l => ({ desc: l.desc, cant: l.cant, importe: l.importe })),
+            }));
+          }
         }
       } catch (e) { console.error('registro pedido:', e); }
       // 4) Generar y guardar la factura numerada.
@@ -1256,33 +1271,62 @@ async function manejarSuscripcion(request, env, cors) {
   const email = String(body.email || '').trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return jsonResp({ ok: false, error: 'email' }, 400, cors);
 
-  // Guardar el lead (si hay KV).
+  // Guardar el lead + índice de suscriptor (sub:<email>). Si volvía a apuntarse
+  // tras darse de baja, se reactiva. Detectamos si YA recibió el regalo.
+  let yaRegalo = null, ultimo = null;
   try {
     if (env.SAVIA_KV) {
       const ts = Math.floor(Date.now() / 1000);
       await env.SAVIA_KV.put('lead:' + ts + ':' + email, JSON.stringify({ email, ts }));
+      await env.SAVIA_KV.put('sub:' + email, '1');
+      await env.SAVIA_KV.delete('unsub:' + email);
+      yaRegalo = await env.SAVIA_KV.get('regalo:' + email);
+      if (yaRegalo) {
+        const up = await env.SAVIA_KV.get('ultimopedido:' + email);
+        if (up) { try { ultimo = JSON.parse(up); } catch { /* ignora */ } }
+      }
     }
   } catch (e) { console.error('lead:', e); }
 
-  // Email de bienvenida al suscriptor.
-  let enviado = false;
-  if (hayEmail(env)) {
-    const html =
+  const eur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  const cta = `<p style="margin:22px 0"><a href="${nlTiendaUrl('bienvenida')}" style="background:#6b7a4f;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Ver la tienda</a></p>`;
+  const pie = `<p style="color:#8a9b6a;font-weight:600">Savia de Alma · Cosmética sólida natural</p>` +
+    `<hr style="border:none;border-top:1px solid #eee"><p style="color:#aaa;font-size:12px">Recibes este correo porque te apuntaste en saviadealma.com. Puedes darte de baja respondiendo a este correo.</p>`;
+
+  let subject, html;
+  if (yaRegalo) {
+    // Ya recibió el regalo antes: correo de "bienvenido de nuevo" con su último pedido.
+    let resumen = '';
+    if (ultimo && Array.isArray(ultimo.lineas) && ultimo.lineas.length) {
+      const filas = ultimo.lineas.map(l => `<li style="margin:4px 0">${l.cant}× ${l.desc || ''}</li>`).join('');
+      let fechaTxt = '';
+      try { if (ultimo.fecha) fechaTxt = new Date(ultimo.fecha * 1000).toLocaleDateString('es-ES'); } catch { /* */ }
+      resumen = `<h3 style="color:#6b7a4f;font-size:15px;margin:20px 0 4px">Tu último pedido${fechaTxt ? ' · ' + fechaTxt : ''}</h3>` +
+        `<ul style="padding-left:18px;margin:6px 0">${filas}</ul>` +
+        (ultimo.total != null ? `<p style="margin:2px 0">Total: <strong>${eur(ultimo.total)}</strong></p>` : '');
+    }
+    subject = '🌿 ¡Nos alegra tenerte de nuevo! — Savia de Alma';
+    html =
+      `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#333">` +
+      `<h2 style="color:#6b7a4f">¡Nos alegra tenerte de nuevo por aquí! 🌿</h2>` +
+      `<p>Ya disfrutaste de tu <strong>regalo de bienvenida</strong> en un pedido anterior, así que esta vez no se repite —pero nos hace mucha ilusión seguir contigo.</p>` +
+      resumen +
+      `<p>Y, como siempre, cada domingo te escribimos con algo útil sobre cuidado natural y cosmética sólida. 💚</p>` +
+      cta + pie + `</div>`;
+  } else {
+    // Nuevo suscriptor: bienvenida (el regalo llega en su primer pedido).
+    subject = '🌿 Tu regalo de bienvenida — Savia de Alma';
+    html =
       `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#333">` +
       `<h2 style="color:#6b7a4f">¡Bienvenida/o a Savia de Alma! 🌿</h2>` +
       `<p>Gracias por unirte. Como <strong>regalo de bienvenida</strong>, en tu <strong>primer pedido</strong> te incluimos una <strong>jabonera de bambú</strong> + una <strong>esponja exfoliante</strong>.</p>` +
       `<p>Y recuerda nuestra promo: <strong>por cada 3 productos, el 4º gratis</strong> (el de menor valor). Envío gratis desde 45 €.</p>` +
-      `<p style="margin:22px 0"><a href="${nlTiendaUrl('bienvenida')}" style="background:#6b7a4f;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Ver la tienda</a></p>` +
-      `<p style="color:#8a9b6a;font-weight:600">Savia de Alma · Cosmética sólida natural</p>` +
-      `<hr style="border:none;border-top:1px solid #eee"><p style="color:#aaa;font-size:12px">Recibes este correo porque te apuntaste en saviadealma.com. Puedes darte de baja respondiendo a este correo.</p>` +
-      `</div>`;
-    const r = await enviarEmail(env, {
-      to: email,
-      subject: '🌿 Tu regalo de bienvenida — Savia de Alma',
-      html,
-      replyTo: env.ORDER_EMAIL_TO || undefined,
-      fromName: 'Savia de Alma',
-    });
+      cta + pie + `</div>`;
+  }
+
+  let enviado = false;
+  if (hayEmail(env)) {
+    const r = await enviarEmail(env, { to: email, subject, html, replyTo: env.ORDER_EMAIL_TO || undefined, fromName: 'Savia de Alma' });
     enviado = !!(r && r.ok);
   }
 
@@ -1291,14 +1335,14 @@ async function manejarSuscripcion(request, env, cors) {
     if (hayEmail(env) && env.ORDER_EMAIL_TO) {
       await enviarEmail(env, {
         to: env.ORDER_EMAIL_TO,
-        subject: 'Nuevo suscriptor en la newsletter',
-        html: `<p>Nuevo apuntado a la newsletter: <strong>${email}</strong></p>`,
+        subject: yaRegalo ? 'Suscriptor vuelve a la newsletter' : 'Nuevo suscriptor en la newsletter',
+        html: `<p>${yaRegalo ? 'Vuelve a apuntarse (ya recibió su regalo)' : 'Nuevo apuntado'}: <strong>${email}</strong></p>`,
         fromName: 'Tienda Savia de Alma',
       });
     }
   } catch (e) { console.error('aviso lead:', e); }
 
-  return jsonResp({ ok: true, enviado }, 200, cors);
+  return jsonResp({ ok: true, enviado, nuevo: !yaRegalo }, 200, cors);
 }
 
 /* ===================== NEWSLETTER SEMANAL (domingos) =====================
