@@ -1406,6 +1406,18 @@ const NL_CONSEJOS = [
   'Nuestros envoltorios son de papel: reutilízalos para una nota o para encender la chimenea y, cuando ya no den más de sí, al contenedor azul. Todo el embalaje está pensado para dejar el mínimo rastro posible.',
   'Sin microplásticos ni siliconas. Lo que baja por tu desagüe no desaparece: acaba en ríos y mares. Elegir fórmulas sin esos ingredientes es cuidar tu piel hoy y el agua de mañana.',
   'La cosmética sólida va concentrada y sin agua añadida: por eso pesa y ocupa menos. Menos envase, menos transporte y menos residuo por cada uso. Cuidarte y cuidar el entorno, en la misma pastilla.',
+  'Acorta la ducha un par de minutos. Parece poco, pero son litros de agua y energía cada día. Un pequeño gesto que, repetido, se nota en el planeta y también en tu factura.',
+  'Mientras esperas a que salga el agua caliente, recoge la fría en un cubo y riega con ella tus plantas. Es agua limpia que, si no, se iría por el desagüe sin usarse.',
+  'Guarda tus pastillas en una jabonera de bambú o en una lata, en vez de en un plato de plástico. Duran más al secarse bien y evitas un accesorio de usar y tirar.',
+  'Si un producto te gusta, recomiéndalo. Que alguien de tu entorno se pase a lo sólido multiplica el impacto mucho más que cualquier gesto individual.',
+  'Lleva tus sólidos en una bolsita de tela al gimnasio o de viaje, en vez de en un neceser lleno de botes. Menos plástico, menos peso y cero derrames en la maleta.',
+  'Baja un grado la temperatura del agua de la ducha. Ahorras energía y, de paso, cuidas tu piel: el agua muy caliente la reseca más de lo que parece.',
+  'Cambia los discos de algodón de un solo uso por una toallita o un paño reutilizable. Se lavan, duran años y evitan un montón de residuos en el baño.',
+  'El baño sin plástico se construye pieza a pieza: cepillo de bambú, maquinilla metálica, pastillas sólidas… No hace falta cambiarlo todo de golpe, solo empezar por una cosa.',
+  'Compra solo lo que vas a usar. Acumular productos que acaban caducando sin abrir también es una forma de desperdicio. Menos, pero aprovechado, siempre gana.',
+  'No tires cuchillas viejas ni botes al cubo normal: muchos puntos limpios y farmacias los reciclan correctamente. Un minuto de más y acaban donde deben.',
+  'Reutiliza los botes y frascos que ya tengas para otras cosas —guardar horquillas, algodones, viajes— antes de reciclarlos. Alargar su vida es la mejor forma de aprovecharlos.',
+  'Elige, cuando puedas, marcas y productos de cerca. Menos kilómetros hasta tu casa significan menos huella… y de paso apoyas lo que se hace al lado.',
 ];
 
 /* Valores de marca. Cada semana se DESTACA uno (rota), con los demás como
