@@ -1376,6 +1376,14 @@ const nlEur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2,
 /* Índice de semana (para rotar los textos editoriales sin repetir). */
 function nlSemanaIdx() { return Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000)); }
 
+/* Asuntos "de contenido" (no de producto), rotan para no repetir. */
+const NL_ASUNTOS = [
+  '🌿 Un minuto para cuidar mejor de ti',
+  '🌿 Tu momento de cuidado natural, este domingo',
+  '🌿 Algo útil sobre cosmética sólida, de Savia de Alma',
+  '🌿 Cuidado consciente: el correo de esta semana',
+];
+
 /* Aperturas con alma: una frase breve que conecta, distinta cada semana. */
 const NL_APERTURAS = [
   'Cuidarte no debería costarle nada al planeta. Los gestos pequeños, hechos con cariño, también cuidan lo que te rodea.',
@@ -1628,11 +1636,18 @@ function nlContenidoRotativo(prod, wk, resenas) {
 
 /* Envuelve el contenido rotativo en la sección fija de marca. */
 function nlModuloEditorial(prod, wk, resenas) {
-  const c = nlContenidoRotativo(prod, wk, resenas);
-  return `<div style="border:1px solid #dfe6d2;border-radius:14px;padding:16px 18px;margin:24px 0;background:#fbfcf8">` +
-    `<div style="font-family:Georgia,'Times New Roman',serif;font-size:15px;color:#6b7a4f;font-weight:700;margin-bottom:2px">🌿 Un minuto para cuidar mejor de ti</div>` +
-    `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin-bottom:8px">${c.sub}</div>` +
-    `${c.cuerpo}</div>`;
+  // Dos contenidos por correo (formatos distintos) para que sea más extenso.
+  const c1 = nlContenidoRotativo(prod, wk, resenas);
+  const c2 = nlContenidoRotativo(prod, wk + 4, resenas);
+  const bloque = (c) =>
+    `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin:0 0 8px">${c.sub}</div>` +
+    `${c.cuerpo}`;
+  return `<div style="border:1px solid #dfe6d2;border-radius:14px;padding:20px 20px;margin:24px 0;background:#fbfcf8">` +
+    `<div style="font-family:Georgia,'Times New Roman',serif;font-size:17px;color:#6b7a4f;font-weight:700;margin-bottom:14px">🌿 Un minuto para cuidar mejor de ti</div>` +
+    bloque(c1) +
+    `<hr style="border:none;border-top:1px solid #e6ecd8;margin:20px 0">` +
+    bloque(c2) +
+    `</div>`;
 }
 
 /* Productos que combinan: misma familia primero, luego por etiquetas compartidas. */
@@ -1674,7 +1689,9 @@ function ordenRotacion(vendibles) {
 
 /* Elige el producto destacado. avanzar=true mueve el puntero de rotación. */
 async function elegirDestacado(env, prods, cfg, avanzar) {
-  const vendibles = prods.filter(p => !p.proximamente && !noVendible(p.handle, cfg));
+  // Los accesorios (jabonera, esponja…) NO son "producto de la semana": son
+  // complementos. Quedan fuera de la rotación (sí aparecen en "Combínalo con…").
+  const vendibles = prods.filter(p => !p.proximamente && !noVendible(p.handle, cfg) && p.collection !== 'accesorios');
   const ov = await nlGetOverride(env);
   if (ov && ov.tipo === 'producto' && ov.handle) {
     const p = prods.find(x => x.handle === ov.handle);
@@ -1792,27 +1809,31 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const valores = nlBloqueValores(wk);
   const editorial = nlModuloEditorial(prod, wk, resenas);
 
-  const html =
-    `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#fff">` +
-    `<div style="text-align:center;padding:18px 0"><span style="font-size:20px;font-weight:700;color:#6b7a4f">Savia de Alma</span><br><span style="font-size:12px;color:#999;letter-spacing:1px">COSMÉTICA SÓLIDA NATURAL</span></div>` +
-    bannerOferta +
-    apertura +
+  // El producto va DESPUÉS del contenido (contenido primero, no escaparate).
+  const productoBox =
+    `<h3 style="color:#6b7a4f;font-size:16px;margin:30px 0 8px;text-align:center">Y esta semana te recomendamos…</h3>` +
     `<div style="background:#eef3e6;border-radius:14px;padding:20px;text-align:center">` +
-      `<div style="font-size:13px;color:#8a9b6a;font-weight:700;letter-spacing:1px;text-transform:uppercase">El favorito de esta semana</div>` +
-      `<img src="${nlImg(prod.image)}" alt="${prod.title}" width="280" style="width:100%;max-width:300px;border-radius:12px;margin:12px 0">` +
-      `<h1 style="font-size:22px;color:#3f4a2e;margin:6px 0">${prod.emoji || ''} ${prod.title}</h1>` +
+      `<img src="${nlImg(prod.image)}" alt="${prod.title}" width="280" style="width:100%;max-width:300px;border-radius:12px;margin:4px 0 12px">` +
+      `<h2 style="font-size:22px;color:#3f4a2e;margin:6px 0">${prod.emoji || ''} ${prod.title}</h2>` +
       lema +
       porque +
       precioCampana +
       `<a href="${nlProductoUrl(prod.handle, 'principal')}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px">${_enCampana ? 'Aprovechar la oferta' : 'Verlo en la tienda'}</a>` +
     `</div>` +
-    (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
+    (beneficios ? `<h3 style="color:#6b7a4f;font-size:15px;margin:18px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
     uso + paraQuien +
-    valores +
-    (compCards ? `<h3 style="color:#6b7a4f;font-size:16px;margin:24px 0 6px">Combínalo con…</h3>` +
-      `<table style="width:100%;border-collapse:collapse"><tr>${compCards}</tr></table>` : '') +
+    (compCards ? `<h3 style="color:#6b7a4f;font-size:15px;margin:20px 0 6px">Combínalo con…</h3>` +
+      `<table style="width:100%;border-collapse:collapse"><tr>${compCards}</tr></table>` : '');
+
+  const html =
+    `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#fff">` +
+    `<div style="text-align:center;padding:18px 0"><span style="font-size:20px;font-weight:700;color:#6b7a4f">Savia de Alma</span><br><span style="font-size:12px;color:#999;letter-spacing:1px">COSMÉTICA SÓLIDA NATURAL</span></div>` +
+    bannerOferta +
+    apertura +
     editorial +
-    `<div style="text-align:center;margin:28px 0 6px">` +
+    valores +
+    productoBox +
+    `<div style="text-align:center;margin:30px 0 6px">` +
       `<a href="${nlTiendaUrl('tienda')}" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Ver toda la tienda</a>` +
       `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
     `</div>` +
@@ -1823,7 +1844,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       `<a href="${unsubUrl}" style="color:#999">Darse de baja</a>` +
     `</p></div>`;
 
-  const subject = `🌿 ${prod.emoji || ''} ${prod.title} — el favorito de esta semana`;
+  const subject = NL_ASUNTOS[wk % NL_ASUNTOS.length];
   return { subject, html };
 }
 
