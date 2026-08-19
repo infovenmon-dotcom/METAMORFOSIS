@@ -1472,21 +1472,21 @@ const NL_CONSEJOS_EXPERTA = [
 ];
 
 const NL_MITOS = [
-  { m: 'Cuanta más espuma hace un champú, mejor limpia.', r: 'La espuma es sensación, no rendimiento. La capacidad de limpieza depende de los tensioactivos (los agentes que arrastran la suciedad) y de la dureza del agua, no de cuántas burbujas veas. Un champú suave puede limpiar igual de bien haciendo menos espuma; de hecho, un exceso de espuma a veces va de la mano de fórmulas más agresivas.' },
-  { m: 'Lo natural limpia o cuida menos.', r: 'No es cuestión de origen, sino de formulación. Un producto natural bien formulado cuida igual o mejor que uno convencional, y suele ser más respetuoso con la piel y con el planeta. La clave está en elegir buenos ingredientes en las cantidades adecuadas, algo perfectamente posible con materias primas naturales.' },
-  { m: 'Un champú sólido dura poco.', r: 'Al contrario: una pastilla va concentrada y sin agua, así que suele rendir tanto o más que un bote grande de champú líquido. La diferencia está en el cuidado: si la dejas secar entre usos y no vive bajo el chorro del agua, te sorprenderá cuántos lavados te da.' },
-  { m: 'El jabón natural reseca la piel.', r: 'Depende de cómo esté hecho. Un jabón artesanal elaborado en frío conserva su glicerina natural, un humectante que ayuda a mantener la piel hidratada. Lo que suele resecar es el agua muy caliente o frotar en exceso, no el jabón en sí.' },
-  { m: 'Lo sólido es incómodo de usar.', r: 'Solo cambia el formato, no el gesto: frotas, haces espuma y aclaras, igual que siempre. A cambio ganas comodidad: sin botes que se derramen, sin plástico, ocupa menos y es perfecto para viajar (pasa el control de líquidos del aeropuerto sin problema).' },
-  { m: 'Hay que cambiar de champú a menudo para que el pelo “no se acostumbre”.', r: 'El cabello no se “acostumbra” ni genera tolerancia a un champú. Lo que cambia son tus necesidades: la época del año, la grasa, algún tratamiento. Si un producto te va bien, puedes seguir usándolo; y si notas que tu pelo cambia, entonces sí tiene sentido ajustar la fórmula.' },
-  { m: 'Cuanto más caro, mejor es el cosmético.', r: 'El precio no garantiza calidad. Lo que de verdad importa es la lista de ingredientes y la formulación. Un producto sencillo, con pocos ingredientes bien elegidos, puede cuidar mejor que uno caro lleno de aditivos que no aportan nada.' },
-  { m: 'El agua fría cierra los poros.', r: 'Los poros no tienen músculos para abrirse y cerrarse, así que no se "cierran" con frío. El agua fría da una sensación agradable de firmeza momentánea, pero lo que de verdad cuida la piel es una limpieza suave y constante y no maltratarla con agua muy caliente.' },
-  { m: 'Cortarse el pelo hace que crezca más fuerte y más rápido.', r: 'El corte actúa en la punta, no en la raíz, que es donde el pelo crece. Cortar las puntas evita que se rompan y hace que el cabello se vea más sano, pero no cambia ni la velocidad ni el grosor con el que crece.' },
-  { m: 'Si un producto no pica o no "tira", es que no funciona.', r: 'Todo lo contrario: que pique o tire suele ser señal de irritación, no de eficacia. Un buen cosmético cuida sin molestar. La sensación de tirantez o escozor es más bien un aviso de que algo no le sienta bien a tu piel.' },
-  { m: 'Hay que cepillarse el pelo 100 veces al día.', r: 'Es un dicho de antaño que no se sostiene. Cepillar en exceso puede maltratar el cabello y el cuero cabelludo. Mejor lo justo para desenredar, con un buen cepillo y sin tirones bruscos.' },
-  { m: 'Cuantos más productos uses, mejor cuidada estará tu piel.', r: 'No es cuestión de cantidad. Una rutina sencilla y constante suele cuidar mejor que diez pasos que ni recuerdas. Menos productos, bien elegidos y usados con regularidad, casi siempre gana.' },
-  { m: 'Lo que le va bien a otra persona te irá bien a ti.', r: 'Cada piel y cada cabello son un mundo. Un producto que a alguien le funciona de maravilla puede no ser el tuyo, y no pasa nada. Lo mejor es probar con calma y escuchar cómo responde tu piel.' },
-  { m: 'La cosmética sólida es solo para gente muy ecologista.', r: 'Es para cualquiera. Cuida igual o mejor, cunde, viaja de lujo y, de paso, genera menos residuos. Lo de cuidar el planeta viene de regalo, pero se elige sobre todo porque funciona y es cómoda.' },
-  { m: 'Para que el jabón dure, hay que mojarlo bien antes de usarlo.', r: 'Es justo al revés: el exceso de agua es lo que más rápido consume una pastilla. Mójala lo justo para hacer espuma y, sobre todo, déjala secar entre usos en una jabonera con drenaje. Así te durará mucho más.' },
+  { m: 'Cuanta más espuma hace un champú, mejor limpia.', r: 'La espuma es sensación, no rendimiento. Quienes limpian de verdad son los tensioactivos, los ingredientes que atrapan la grasa y la suciedad para que el agua se los lleve; la cantidad de burbujas depende sobre todo de ellos y de la dureza del agua. Un champú suave puede dejar el pelo perfectamente limpio haciendo poca espuma, y muchas fórmulas muy espumosas lo consiguen a base de ingredientes más agresivos. <strong>En la práctica:</strong> fíjate en cómo queda tu cabello después —limpio y sin tirantez—, no en cuántas burbujas hace.' },
+  { m: 'Lo natural limpia o cuida menos.', r: 'No es cuestión de origen, sino de formulación. Un producto natural bien hecho cuida igual o mejor que uno convencional, y suele ser más respetuoso con la piel y con el planeta. Lo que marca la diferencia es elegir buenos ingredientes en las cantidades adecuadas, algo perfectamente posible con materias primas naturales. <strong>En la práctica:</strong> no mires solo la palabra “natural”, mira la lista de ingredientes; ahí está la verdad de un cosmético.' },
+  { m: 'Un champú sólido dura poco.', r: 'Al contrario. Una pastilla va concentrada y sin agua de relleno, así que suele rendir tanto o más que un bote grande de champú líquido. La diferencia está en el cuidado: si la dejas secar entre usos, en una jabonera con drenaje y lejos del chorro, aguanta muchísimo. <strong>En la práctica:</strong> una pastilla siempre húmeda se gasta en semanas; bien seca, te puede durar meses.' },
+  { m: 'El jabón natural reseca la piel.', r: 'Depende de cómo esté hecho. Un jabón artesanal elaborado en frío conserva su glicerina natural, un humectante que ayuda a mantener la piel flexible e hidratada. Lo que suele resecar no es el jabón, sino el agua muy caliente, el exceso de frotado o lavarse demasiadas veces. <strong>En la práctica:</strong> usa agua tibia, seca a toques y elige un jabón suave; tu piel lo notará.' },
+  { m: 'Lo sólido es incómodo de usar.', r: 'Solo cambia el formato, no el gesto: mojas, frotas para hacer espuma y aclaras, igual que siempre. A cambio ganas comodidad: sin botes que se derramen, sin plástico, ocupa mucho menos y viaja de maravilla (pasa el control de líquidos del aeropuerto sin problema). <strong>En la práctica:</strong> los primeros días le coges el punto, y después cuesta volver atrás.' },
+  { m: 'Hay que cambiar de champú a menudo para que el pelo “no se acostumbre”.', r: 'El cabello no se “acostumbra” ni genera tolerancia a un champú; no funciona como un medicamento. Lo que cambia con el tiempo son tus necesidades: la época del año, la grasa, un tratamiento nuevo. Si un producto te va bien, puedes seguir usándolo sin problema. <strong>En la práctica:</strong> cambia de fórmula cuando notes que tu pelo ha cambiado, no por rutina ni por miedo a “acostumbrarlo”.' },
+  { m: 'Cuanto más caro, mejor es el cosmético.', r: 'El precio no garantiza calidad. Lo que de verdad importa es la lista de ingredientes y cómo está formulado el producto. Un cosmético sencillo, con pocos ingredientes bien elegidos, puede cuidar mejor que uno caro lleno de aditivos que no aportan nada. <strong>En la práctica:</strong> aprende a leer la etiqueta; te dará más pistas que el precio o el envase.' },
+  { m: 'El agua fría cierra los poros.', r: 'Los poros no tienen músculos para abrirse y cerrarse, así que no se “cierran” con agua fría. Lo que notas es una sensación agradable y momentánea de firmeza, pero no cambia el tamaño del poro. Lo que de verdad cuida la piel es una limpieza suave y constante, sin agua muy caliente ni frotar de más. <strong>En la práctica:</strong> agua tibia, delicadeza y regularidad valen más que cualquier truco de temperatura.' },
+  { m: 'Cortarse el pelo hace que crezca más fuerte y más rápido.', r: 'El corte actúa en la punta, no en la raíz, que es donde el pelo nace y crece. Cortar las puntas evita que se abran y se rompan, así que el cabello se ve más sano y cuidado, pero no crece ni más rápido ni más grueso por cortarlo. <strong>En la práctica:</strong> cuida el cabello desde el cuero cabelludo y protégelo del maltrato; ahí está la diferencia real.' },
+  { m: 'Si un producto no pica o no “tira”, es que no funciona.', r: 'Todo lo contrario: que un producto pique o “tire” suele ser señal de irritación, no de eficacia. Un buen cosmético cuida sin molestar, y la sensación de tirantez o escozor es más bien un aviso de que algo no le sienta bien a tu piel. <strong>En la práctica:</strong> si algo te irrita, no insistas pensando que “está haciendo efecto”; escucha a tu piel y prueba algo más suave.' },
+  { m: 'Hay que cepillarse el pelo 100 veces al día.', r: 'Es un dicho de antaño que no se sostiene. Cepillar en exceso arrastra y maltrata el cabello, puede aumentar la rotura y estimular de más la grasa del cuero cabelludo. Con desenredar y peinar lo justo, con un buen cepillo y sin tirones bruscos, es suficiente. <strong>En la práctica:</strong> mejor pocas pasadas y con cuidado que cien a lo bruto.' },
+  { m: 'Cuantos más productos uses, mejor cuidada estará tu piel.', r: 'No es cuestión de cantidad. Una rutina sencilla y constante suele cuidar mejor que diez pasos que ni recuerdas hacer, y acumular productos puede incluso saturar la piel o el cabello. <strong>En la práctica:</strong> elige pocos productos, buenos y adaptados a ti, y úsalos con regularidad; eso gana casi siempre.' },
+  { m: 'Lo que le va bien a otra persona te irá bien a ti.', r: 'Cada piel y cada cabello son un mundo, con su tipo, sus necesidades y hasta su historia. Un producto que a alguien le funciona de maravilla puede no ser el tuyo, y no significa que ninguno esté equivocado. <strong>En la práctica:</strong> usa las recomendaciones como punto de partida, pero prueba con calma y observa cómo responde tu piel; ella tiene la última palabra.' },
+  { m: 'La cosmética sólida es solo para gente muy ecologista.', r: 'Es para cualquiera. Cuida igual o mejor, cunde, viaja de lujo y, de paso, genera menos residuos. Mucha gente la elige simplemente porque funciona, es cómoda y ocupa poco. <strong>En la práctica:</strong> lo de cuidar el planeta viene de regalo; el motivo del día a día suele ser que va genial.' },
+  { m: 'Para que el jabón dure, hay que mojarlo bien antes de usarlo.', r: 'Es justo al revés. El exceso de agua es lo que más rápido consume una pastilla: si vive en un plato encharcado o bajo el chorro, se deshace sola. Mójala solo lo justo para hacer espuma. <strong>En la práctica:</strong> sécala entre usos en una jabonera con drenaje y verás cuánto más te dura.' },
 ];
 
 const NL_TALLER = [
@@ -1581,7 +1581,7 @@ function _detectarIngrediente(prod) {
 }
 
 /* Devuelve { sub, cuerpo } del contenido rotativo, con reserva si no aplica. */
-function nlContenidoRotativo(prod, wk, resenas, tipoForzado) {
+function nlContenidoRotativo(prod, wk, resenas, tipoForzado, prods) {
   const orden = ['experta', 'ingrediente', 'pregunta', 'mito', 'marca', 'miniguia', 'temporada', 'cambio', 'opinion'];
   const tipo = tipoForzado || orden[wk % orden.length];
   const P = (t) => `<p style="margin:8px 0 0;font-size:14px;line-height:1.6;color:#444">${t}</p>`;
@@ -1608,7 +1608,13 @@ function nlContenidoRotativo(prod, wk, resenas, tipoForzado) {
     },
     mito: () => {
       const m = NL_MITOS[wk % NL_MITOS.length];
-      return { sub: '❓ Mito y realidad', cuerpo: `${P('<strong style="color:#b23b3b">Mito:</strong> ' + m.m)}${P('<strong style="color:#3f4a2e">Realidad:</strong> ' + m.r)}` };
+      const cuerpo =
+        `<div style="background:#f8ece9;border-left:3px solid #b23b3b;border-radius:8px;padding:10px 12px;margin:0 0 10px">` +
+          `<span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#b23b3b;font-weight:700">El mito</span>` +
+          `<div style="font-style:italic;color:#7a2f2f;margin-top:2px;font-size:15px">“${m.m}”</div>` +
+        `</div>` +
+        `<p style="margin:0;font-size:14px;line-height:1.65;color:#444"><strong style="color:#3f4a2e">La realidad:</strong> ${m.r}</p>`;
+      return { sub: '❓ Mito y realidad', cuerpo };
     },
     marca: () => {
       const t = NL_TALLER[wk % NL_TALLER.length];
@@ -1627,10 +1633,21 @@ function nlContenidoRotativo(prod, wk, resenas, tipoForzado) {
     },
     cambio: () => ({ sub: '♻️ Pequeños cambios, gran impacto', cuerpo: P(NL_CONSEJOS[wk % NL_CONSEJOS.length]) }),
     opinion: () => {
-      const arr = (resenas && resenas[prod.handle]) || [];
-      if (!arr.length) return null;
-      const o = arr[wk % arr.length];
-      return { sub: '⭐ Lo que nos cuentan', cuerpo: `<p style="margin:0;font-size:14px;font-style:italic;color:#444;line-height:1.6">“${o.t}”</p><p style="margin:6px 0 0;font-size:13px;color:#8a9b6a;font-weight:600">— ${o.n || 'Cliente'}</p>` };
+      // Solo reseñas de 5★. Prioriza las del producto destacado; si no tiene,
+      // usa una de 5★ de cualquier producto (indicando de cuál es).
+      const cinco = (arr) => (arr || []).filter(o => Number(o.r) === 5);
+      const cita = (o, titulo) =>
+        `<p style="margin:0;font-size:14px;font-style:italic;color:#444;line-height:1.65">“${o.t}”</p>` +
+        `<p style="margin:8px 0 0;font-size:13px;color:#8a9b6a;font-weight:600">— ${o.n || 'Cliente'}${titulo ? ' · sobre ' + titulo : ''} &nbsp;<span style="color:#e0a92e">★★★★★</span></p>`;
+      const propias = cinco(resenas && resenas[prod.handle]);
+      if (propias.length) return { sub: '⭐ Lo que nos cuentan', cuerpo: cita(propias[wk % propias.length], null) };
+      const titulos = {};
+      for (const p of (prods || [])) titulos[p.handle] = p.title;
+      const pool = [];
+      for (const [h, arr] of Object.entries(resenas || {})) for (const o of cinco(arr)) pool.push({ o, h });
+      if (!pool.length) return null;
+      const pick = pool[wk % pool.length];
+      return { sub: '⭐ Lo que nos cuentan', cuerpo: cita(pick.o, titulos[pick.h] || '') };
     },
   };
 
@@ -1643,19 +1660,21 @@ function nlContenidoRotativo(prod, wk, resenas, tipoForzado) {
 }
 
 /* Envuelve el contenido rotativo en la sección fija de marca. */
-function nlModuloEditorial(prod, wk, resenas) {
-  // Dos contenidos por correo: uno ROTATIVO + "Mito y realidad" FIJO cada semana.
-  const otros = ['experta', 'ingrediente', 'pregunta', 'marca', 'miniguia', 'temporada', 'cambio', 'opinion'];
-  const c1 = nlContenidoRotativo(prod, wk, resenas, otros[wk % otros.length]);
-  const c2 = nlContenidoRotativo(prod, wk, resenas, 'mito');
-  const bloque = (c) =>
-    `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin:0 0 8px">${c.sub}</div>` +
-    `${c.cuerpo}`;
+function nlModuloEditorial(prod, wk, resenas, prods) {
+  // Tres contenidos por correo: uno ROTATIVO + "Mito y realidad" FIJO + "Opinión
+  // de cliente" (5★) FIJA cada semana.
+  const otros = ['experta', 'ingrediente', 'pregunta', 'marca', 'miniguia', 'temporada', 'cambio'];
+  const c1 = nlContenidoRotativo(prod, wk, resenas, otros[wk % otros.length], prods);
+  const cMito = nlContenidoRotativo(prod, wk, resenas, 'mito', prods);
+  const cOpin = nlContenidoRotativo(prod, wk, resenas, 'opinion', prods);
+  const bloque = (c) => c
+    ? `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin:0 0 8px">${c.sub}</div>${c.cuerpo}`
+    : '';
+  const hr = `<hr style="border:none;border-top:1px solid #e6ecd8;margin:20px 0">`;
+  const partes = [bloque(c1), bloque(cMito), bloque(cOpin)].filter(Boolean);
   return `<div style="border:1px solid #dfe6d2;border-radius:14px;padding:20px 20px;margin:24px 0;background:#fbfcf8">` +
     `<div style="font-family:Georgia,'Times New Roman',serif;font-size:17px;color:#6b7a4f;font-weight:700;margin-bottom:14px">🌿 Un minuto para cuidar mejor de ti</div>` +
-    bloque(c1) +
-    `<hr style="border:none;border-top:1px solid #e6ecd8;margin:20px 0">` +
-    bloque(c2) +
+    partes.join(hr) +
     `</div>`;
 }
 
@@ -1816,7 +1835,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const wk = nlSemanaIdx();
   const apertura = `<p style="text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:16px;color:#5d6b47;max-width:460px;margin:8px auto 20px;line-height:1.6">${NL_APERTURAS[wk % NL_APERTURAS.length]}</p>`;
   const valores = nlBloqueValores(wk);
-  const editorial = nlModuloEditorial(prod, wk, resenas);
+  const editorial = nlModuloEditorial(prod, wk, resenas, prods);
 
   // El producto va DESPUÉS del contenido (contenido primero, no escaparate).
   const productoBox =
