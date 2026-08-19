@@ -1580,11 +1580,16 @@ async function elegirDestacado(env, prods, cfg, avanzar) {
 }
 
 /* Beneficios legibles: primeras viñetas, saltando avisos de "próximamente". */
+/* Detecta claims cosméticos demasiado contundentes (solo para el CORREO; el
+   catálogo no se toca). Si un texto los contiene, no se muestra en el email. */
+const NL_CLAIM_RX = /(estimul\w*\s+(el|la|un)\s+(crecimiento|circulaci[oó]n)|activa\s+la\s+(micro)?circulaci[oó]n|frena[^.]*\bca[ií]da\b|previen\w+[^.]*\bca[ií]da\b|contra\s+la\s+ca[ií]da|refuerza\s+la\s+ra[ií]z|fortalece\s+los\s+fol[ií]culos|regenera\w*|combat\w+|\bantica[ií]da\b|anti[-\s]?ca[ií]da|elimina[^.]*caspa|\bcura\b)/i;
+function nlClaimFuerte(s) { return NL_CLAIM_RX.test(String(s || '')); }
+
 function nlBeneficios(prod) {
   const items = (prod.bullets && prod.bullets.length) ? prod.bullets : (prod.features || []);
   const buenos = items
     .map(b => String(b).trim())
-    .filter(b => b && !/^🔜|pr[oó]ximamente/i.test(b))
+    .filter(b => b && !/^🔜|pr[oó]ximamente/i.test(b) && !nlClaimFuerte(b))
     .slice(0, 3);
   if (!buenos.length) return '';
   return `<ul style="padding-left:18px;margin:10px 0;color:#444">` +
@@ -1628,7 +1633,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
 
   const beneficios = nlBeneficios(prod);
   const uso = prod.modoUso ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">💡 Cómo usarlo:</strong> ${prod.modoUso}</p>` : '';
-  const paraQuien = prod.indicado ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">🌿 Ideal para:</strong> ${prod.indicado}</p>` : '';
+  const paraQuien = (prod.indicado && !nlClaimFuerte(prod.indicado)) ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">🌿 Ideal para:</strong> ${prod.indicado}</p>` : '';
   const lema = prod.lema ? `<p style="font-style:italic;color:#8a9b6a;margin:4px 0 0">${prod.lema}</p>` : '';
   const porque = prod.collectionName
     ? `<p style="font-size:13px;color:#6d7a58;max-width:360px;margin:8px auto 0;line-height:1.5">Nuestra elección de esta semana entre los ${prod.collectionName.toLowerCase()}.</p>`
