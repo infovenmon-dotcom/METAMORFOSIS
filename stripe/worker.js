@@ -1479,6 +1479,14 @@ const NL_MITOS = [
   { m: 'Lo sólido es incómodo de usar.', r: 'Solo cambia el formato, no el gesto: frotas, haces espuma y aclaras, igual que siempre. A cambio ganas comodidad: sin botes que se derramen, sin plástico, ocupa menos y es perfecto para viajar (pasa el control de líquidos del aeropuerto sin problema).' },
   { m: 'Hay que cambiar de champú a menudo para que el pelo “no se acostumbre”.', r: 'El cabello no se “acostumbra” ni genera tolerancia a un champú. Lo que cambia son tus necesidades: la época del año, la grasa, algún tratamiento. Si un producto te va bien, puedes seguir usándolo; y si notas que tu pelo cambia, entonces sí tiene sentido ajustar la fórmula.' },
   { m: 'Cuanto más caro, mejor es el cosmético.', r: 'El precio no garantiza calidad. Lo que de verdad importa es la lista de ingredientes y la formulación. Un producto sencillo, con pocos ingredientes bien elegidos, puede cuidar mejor que uno caro lleno de aditivos que no aportan nada.' },
+  { m: 'El agua fría cierra los poros.', r: 'Los poros no tienen músculos para abrirse y cerrarse, así que no se "cierran" con frío. El agua fría da una sensación agradable de firmeza momentánea, pero lo que de verdad cuida la piel es una limpieza suave y constante y no maltratarla con agua muy caliente.' },
+  { m: 'Cortarse el pelo hace que crezca más fuerte y más rápido.', r: 'El corte actúa en la punta, no en la raíz, que es donde el pelo crece. Cortar las puntas evita que se rompan y hace que el cabello se vea más sano, pero no cambia ni la velocidad ni el grosor con el que crece.' },
+  { m: 'Si un producto no pica o no "tira", es que no funciona.', r: 'Todo lo contrario: que pique o tire suele ser señal de irritación, no de eficacia. Un buen cosmético cuida sin molestar. La sensación de tirantez o escozor es más bien un aviso de que algo no le sienta bien a tu piel.' },
+  { m: 'Hay que cepillarse el pelo 100 veces al día.', r: 'Es un dicho de antaño que no se sostiene. Cepillar en exceso puede maltratar el cabello y el cuero cabelludo. Mejor lo justo para desenredar, con un buen cepillo y sin tirones bruscos.' },
+  { m: 'Cuantos más productos uses, mejor cuidada estará tu piel.', r: 'No es cuestión de cantidad. Una rutina sencilla y constante suele cuidar mejor que diez pasos que ni recuerdas. Menos productos, bien elegidos y usados con regularidad, casi siempre gana.' },
+  { m: 'Lo que le va bien a otra persona te irá bien a ti.', r: 'Cada piel y cada cabello son un mundo. Un producto que a alguien le funciona de maravilla puede no ser el tuyo, y no pasa nada. Lo mejor es probar con calma y escuchar cómo responde tu piel.' },
+  { m: 'La cosmética sólida es solo para gente muy ecologista.', r: 'Es para cualquiera. Cuida igual o mejor, cunde, viaja de lujo y, de paso, genera menos residuos. Lo de cuidar el planeta viene de regalo, pero se elige sobre todo porque funciona y es cómoda.' },
+  { m: 'Para que el jabón dure, hay que mojarlo bien antes de usarlo.', r: 'Es justo al revés: el exceso de agua es lo que más rápido consume una pastilla. Mójala lo justo para hacer espuma y, sobre todo, déjala secar entre usos en una jabonera con drenaje. Así te durará mucho más.' },
 ];
 
 const NL_TALLER = [
@@ -1573,9 +1581,9 @@ function _detectarIngrediente(prod) {
 }
 
 /* Devuelve { sub, cuerpo } del contenido rotativo, con reserva si no aplica. */
-function nlContenidoRotativo(prod, wk, resenas) {
+function nlContenidoRotativo(prod, wk, resenas, tipoForzado) {
   const orden = ['experta', 'ingrediente', 'pregunta', 'mito', 'marca', 'miniguia', 'temporada', 'cambio', 'opinion'];
-  const tipo = orden[wk % orden.length];
+  const tipo = tipoForzado || orden[wk % orden.length];
   const P = (t) => `<p style="margin:8px 0 0;font-size:14px;line-height:1.6;color:#444">${t}</p>`;
 
   const gen = {
@@ -1627,8 +1635,8 @@ function nlContenidoRotativo(prod, wk, resenas) {
   };
 
   let out = gen[tipo] ? gen[tipo]() : null;
-  if (!out) { // reserva garantizada si el formato contextual no aplica
-    const reserva = [gen.mito, gen.miniguia, gen.cambio, gen.marca];
+  if (!out) { // reserva garantizada si el formato contextual no aplica (sin mito: va fijo aparte)
+    const reserva = [gen.miniguia, gen.cambio, gen.marca];
     out = reserva[wk % reserva.length]();
   }
   return out;
@@ -1636,9 +1644,10 @@ function nlContenidoRotativo(prod, wk, resenas) {
 
 /* Envuelve el contenido rotativo en la sección fija de marca. */
 function nlModuloEditorial(prod, wk, resenas) {
-  // Dos contenidos por correo (formatos distintos) para que sea más extenso.
-  const c1 = nlContenidoRotativo(prod, wk, resenas);
-  const c2 = nlContenidoRotativo(prod, wk + 4, resenas);
+  // Dos contenidos por correo: uno ROTATIVO + "Mito y realidad" FIJO cada semana.
+  const otros = ['experta', 'ingrediente', 'pregunta', 'marca', 'miniguia', 'temporada', 'cambio', 'opinion'];
+  const c1 = nlContenidoRotativo(prod, wk, resenas, otros[wk % otros.length]);
+  const c2 = nlContenidoRotativo(prod, wk, resenas, 'mito');
   const bloque = (c) =>
     `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a08a3c;font-weight:700;margin:0 0 8px">${c.sub}</div>` +
     `${c.cuerpo}`;
