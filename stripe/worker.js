@@ -35,6 +35,9 @@ const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la más barata es gratis
 
+/* Regalo de bienvenida en el PRIMER pedido de cada cliente (handles del catálogo). */
+const REGALO_BIENVENIDA = ['jabonera-bambu', 'esponja-exfoliante'];
+
 const CONFIG_DEFAULT = {
   modoVacaciones: false,
   agotados: [],
@@ -43,6 +46,7 @@ const CONFIG_DEFAULT = {
   ofertas: {},
   costes: {},
   descuentosCategoria: {}, // { coleccion: porcentaje } — oferta por familia
+  regaloBienvenida: true,  // incluir jabonera + esponja gratis en el 1er pedido
 };
 
 let _cacheProductos = null;
@@ -193,6 +197,7 @@ function numNoNeg(v) { const n = Number(v); return (isFinite(n) && n >= 0) ? n :
 function sanearConfig(entrada, handlesValidos) {
   const out = { ...CONFIG_DEFAULT, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
   out.modoVacaciones = !!entrada.modoVacaciones;
+  out.regaloBienvenida = entrada.regaloBienvenida !== false; // por defecto activo
   const valido = (h) => !handlesValidos || handlesValidos.has(h);
 
   // Ofertas por categoría (clave = colección, valor = % de 1 a 90).
@@ -633,6 +638,21 @@ async function manejarWebhook(request, env) {
       if (sesion.metadata && sesion.metadata.cart) {
         try { cart = JSON.parse(sesion.metadata.cart); } catch { cart = {}; }
       }
+      // 0) Regalo de bienvenida: en el PRIMER pedido del cliente se añaden la
+      //    jabonera y la esponja como regalo. Se controla con cliente:<email>.
+      let regaloBienvenida = false;
+      try {
+        const cfgR = await getConfig(env);
+        const emailCli = String((sesion.customer_details && sesion.customer_details.email) || '').toLowerCase();
+        if (emailCli && env.SAVIA_KV && cfgR.regaloBienvenida !== false) {
+          const prev = await env.SAVIA_KV.get('cliente:' + emailCli);
+          if (!prev) regaloBienvenida = true;
+          await env.SAVIA_KV.put('cliente:' + emailCli, String((parseInt(prev || '0', 10) || 0) + 1));
+        }
+      } catch (e) { console.error('regalo detect:', e); }
+      if (regaloBienvenida) {
+        for (const h of REGALO_BIENVENIDA) cart[h] = (parseInt(cart[h] || 0, 10) || 0) + 1;
+      }
       // 1) Bajar el stock de las referencias controladas por número.
       if (Object.keys(cart).length) {
         const cfg = await getConfig(env);
@@ -649,6 +669,20 @@ async function manejarWebhook(request, env) {
       }
       // 2) Sesión completa (con líneas y dirección) para pedido, factura y email.
       const full = await getSesionCompleta(sesion, env);
+      // 2b) Inyecta el regalo como líneas a 0 € para que salga en la factura y en
+      //     los correos (al cliente y al dueño), marcado como regalo.
+      if (regaloBienvenida) {
+        try {
+          const productos = await cargarProductos(env.PRODUCTS_URL);
+          const gl = REGALO_BIENVENIDA.map(h => ({
+            description: '🎁 ' + ((productos[h] && productos[h].title) || h) + ' (regalo de bienvenida)',
+            quantity: 1, amount_total: 0,
+          }));
+          if (!full.line_items) full.line_items = { data: [] };
+          if (!Array.isArray(full.line_items.data)) full.line_items.data = [];
+          full.line_items.data.push(...gl);
+        } catch (e) { console.error('regalo lineas:', e); }
+      }
       // 3) Registrar el pedido. La METADATA guarda {fecha, items} para el cálculo
       //    de beneficio; el VALOR guarda los datos de envío para la pestaña Envíos.
       try {
@@ -663,6 +697,7 @@ async function manejarWebhook(request, env) {
             })),
             envioCoste: (full.shipping_cost && full.shipping_cost.amount_total != null) ? full.shipping_cost.amount_total / 100 : null,
             total: (full.amount_total != null) ? full.amount_total / 100 : null,
+            regalo: regaloBienvenida,
             tracking: '', enviado: false,
           };
           await env.SAVIA_KV.put(clave, JSON.stringify(rec), { metadata: { fecha, items: cart } });
