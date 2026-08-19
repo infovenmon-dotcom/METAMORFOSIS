@@ -1319,22 +1319,28 @@ const NL_CONSEJOS = [
   'La cosmética sólida va concentrada y sin agua añadida: por eso pesa y ocupa menos. Menos envase, menos transporte y menos residuo por cada uso. Cuidarte y cuidar el entorno, en la misma pastilla.',
 ];
 
-/* Bloque fijo de valores: "lo que eliges cuando eliges sólido". */
-function nlBloqueValores() {
-  const items = [
-    ['🌍', 'Sin plástico', 'pastillas envueltas en papel reciclable'],
-    ['💧', 'Sin agua añadida', 'más concentrado, menos desperdicio'],
-    ['🐰', 'Cruelty-free y vegano', 'nunca testado en animales'],
-    ['🌱', 'Biodegradable', 'lo que usas vuelve a la tierra'],
-    ['🇪🇸', 'Hecho a mano en España', 'en pequeños lotes, con tiempo'],
-  ];
-  const filas = items.map(([e, t, d]) =>
-    `<tr><td style="padding:7px 0;font-size:20px;width:34px;vertical-align:top">${e}</td>` +
-    `<td style="padding:7px 0;font-size:14px;line-height:1.4"><strong style="color:#3f4a2e">${t}</strong> ` +
-    `<span style="color:#6d7a58">— ${d}</span></td></tr>`).join('');
+/* Valores de marca. Cada semana se DESTACA uno (rota), con los demás como
+   recordatorio discreto. Evita repetir siempre las cinco ventajas. */
+const NL_VALORES = [
+  ['🌍', 'Sin plástico', 'Nuestras pastillas viajan envueltas en papel reciclable. En cada compra, un envase de plástico menos que acaba en el vertedero o en el mar.'],
+  ['💧', 'Sin agua añadida', 'Al ir concentradas y sin agua, cunden más y pesan menos. Más producto útil y menos desperdicio en cada uso.'],
+  ['🐰', 'Cruelty-free y vegano', 'Nunca testamos en animales y trabajamos con ingredientes de origen vegetal. Cuidarte no cuesta el bienestar de nadie.'],
+  ['🌱', 'Biodegradable', 'Lo que usas vuelve a la tierra, sin microplásticos ni siliconas dando vueltas por ríos y mares.'],
+  ['🇪🇸', 'Hecho a mano en España', 'Elaboramos en pequeños lotes, a mano y sin prisa. Cada pieza se revisa antes de salir del taller.'],
+];
+function nlBloqueValores(wk) {
+  const n = NL_VALORES.length;
+  const i = (((wk || 0) % n) + n) % n;
+  const [e, t, d] = NL_VALORES[i];
+  const otros = NL_VALORES.filter((_, k) => k !== i).map(([em]) => em).join('&nbsp;&nbsp;');
   return `<div style="background:#eef3e6;border-radius:14px;padding:16px 18px;margin:22px 0">` +
-    `<h3 style="color:#3f4a2e;font-size:16px;margin:0 0 6px">Lo que eliges cuando eliges sólido</h3>` +
-    `<table style="width:100%;border-collapse:collapse">${filas}</table></div>`;
+    `<div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#8a9b6a;font-weight:700;margin-bottom:10px">Lo que eliges cuando eliges sólido</div>` +
+    `<table style="width:100%;border-collapse:collapse"><tr>` +
+    `<td style="font-size:30px;line-height:1;width:44px;vertical-align:top">${e}</td>` +
+    `<td><div style="font-weight:700;color:#3f4a2e;font-size:16px">${t}</div>` +
+    `<div style="font-size:14px;color:#555;line-height:1.5;margin-top:2px">${d}</div></td></tr></table>` +
+    `<div style="margin-top:12px;font-size:16px;color:#b9c3a6;text-align:center">${otros}</div>` +
+    `</div>`;
 }
 
 /* ---------- "Un minuto para cuidar mejor de ti" ----------
@@ -1392,6 +1398,10 @@ const NL_TALLER = [
   { t: 'Cómo probamos un aroma nuevo', x: 'Dar con un aroma que nos guste lleva su tiempo. Probamos combinaciones, dejamos reposar, volvemos a olerlas pasados unos días —porque un aroma cambia con el curado— y las comentamos entre nosotras. Solo cuando uno nos enamora de verdad, y sigue gustándonos semanas después, se queda. Buscamos aromas naturales, agradables y que no cansen en el día a día.' },
   { t: 'Por qué trabajamos en lotes pequeños', x: 'Podríamos fabricar mucho de una vez, pero preferimos lotes pequeños. Así revisamos cada pieza con calma, mantenemos la calidad constante y evitamos acumular stock que se quede parado. Significa más trabajo y algo menos de prisa, sí, pero también que lo que llega a tu casa está recién hecho y cuidado una a una. Para nosotras, merece la pena.' },
   { t: 'Un lote, de principio a fin', x: 'Un lote no se hace en una tarde. Se pesan los ingredientes, se elabora en frío, se vierte en el molde, se corta a mano y luego llegan las semanas de curado. Entre medias, revisamos peso, textura y aroma. Desde que empezamos hasta que una pastilla está lista para viajar a tu casa pueden pasar varias semanas. Lo bueno, ya sabes, se hace despacio.' },
+  { t: 'No todo sale a la primera', x: 'Detrás de cada fórmula que llega a la tienda hay unas cuantas que no lo lograron. A veces un aroma que prometía se vuelve empalagoso al curar; otras, una textura no queda como imaginábamos. No pasa nada: se anota, se aprende y se prueba de nuevo. Preferimos descartar diez veces antes que sacar algo que no nos convence del todo.' },
+  { t: 'A qué huele el taller', x: 'Si pudieras asomarte un día cualquiera, te llegaría una mezcla imposible de describir: aceite de oliva, notas de lavanda o romero, un fondo dulce de cacao y, de vez en cuando, un toque cítrico. Cambia según lo que estemos elaborando. Es, probablemente, la mejor parte de trabajar aquí: huele a natural, a limpio y a hecho con calma.' },
+  { t: 'Por qué a veces decimos que no', x: 'No usamos un ingrediente solo porque quede bien en la etiqueta o esté de moda. Si no encontramos una fuente que nos convenza, si no aporta de verdad o si complica la fórmula sin motivo, lo dejamos fuera. Decir que no también es cuidar: preferimos una lista corta y honesta a una llena de nombres que suenan bien pero no aportan.' },
+  { t: 'La receta también evoluciona', x: 'Una fórmula rara vez nace perfecta. Con el tiempo la vamos afinando: un poco más de esto, un poco menos de aquello, hasta que sentimos que está en su punto. Escuchamos lo que nos contáis y probamos en casa antes que nadie. Si algo se puede mejorar, lo mejoramos. No tenemos prisa por acertar, pero sí muchas ganas de hacerlo bien.' },
 ];
 
 const NL_MINIGUIAS = [
@@ -1437,6 +1447,18 @@ const NL_CARTAS = [
   { t: '¿Hace falta usar tanta espuma?', x: 'Tenemos grabado que un buen champú o un buen jabón tienen que hacer mucha espuma. Pero es uno de los mitos más extendidos del cuidado personal.<br><br>La espuma es, sobre todo, <strong>sensación</strong>. Quienes limpian de verdad son los tensioactivos: los ingredientes que atrapan la grasa y la suciedad para que el agua se los lleve. Un producto puede limpiar estupendamente haciendo una espuma discreta; de hecho, muchas fórmulas muy espumosas lo consiguen a base de ingredientes más agresivos.<br><br>Con la cosmética sólida esto se nota especialmente. Va concentrada, así que necesitas menos cantidad de la que crees: una pasada por el cabello mojado o unas cuantas vueltas de la pastilla entre las manos suelen bastar.<br><br>¿Nuestro consejo? Deja de fijarte en la cantidad de burbujas y fíjate en cómo queda tu piel o tu pelo después: limpios, suaves y sin esa sensación de tirantez. Ese es el verdadero indicador de que algo funciona.<br><br>Menos espuma no es menos limpieza. Muchas veces, es justo al revés.' },
   { t: '¿Por qué el jabón sólido dura más si se deja secar?', x: 'Si alguna vez has tenido la sensación de que un jabón se te ha “derretido” en nada, seguramente no fue el jabón: fue el agua.<br><br>Cuando la pastilla se queda en un plato donde se acumula el agua, o justo bajo el chorro de la ducha, se mantiene húmeda todo el tiempo y se disuelve mucho más rápido. No lo estás usando: se está deshaciendo sola.<br><br>La solución es tan sencilla como eficaz: <strong>dejar que se seque entre usos</strong>. Una jabonera con drenaje, un sitio ventilado y lejos del agua que cae, y listo. Así la pastilla se endurece de nuevo entre ducha y ducha y te puede durar semanas más.<br><br>Si usas varios, ve alternándolos: descansados, aguantan todavía mejor. Y si viajas, espera a que estén secos antes de guardarlos.<br><br>Es un gesto de diez segundos que marca una diferencia enorme. Cuidar bien lo que ya tienes también es consumir mejor: menos desperdicio y más tiempo entre compra y compra.' },
   { t: 'El agua caliente y tu piel', x: 'Con el frío, apetece una ducha bien caliente. Es un placer, no lo vamos a negar. Pero a tu piel no siempre le sienta tan bien como a ti.<br><br>El agua muy caliente arrastra parte de la capa natural que protege la piel, esa que la mantiene flexible e hidratada. Por eso, tras una ducha demasiado caliente, es fácil notarla tirante, seca o más sensible de lo normal.<br><br>No hace falta renunciar al agua templada, solo bajar un poco la temperatura: <strong>tibia mejor que ardiendo</strong>. Acorta un poco el tiempo, evita frotar con fuerza y, al salir, seca a toques suaves en lugar de restregar la toalla.<br><br>Elige además una limpieza que respete la piel: fórmulas suaves que limpien sin dejar esa sensación de tirantez. Y si tu piel está seca, dale después algo de hidratación, sobre todo en las zonas que más lo piden, como manos y labios.<br><br>Pequeños ajustes, gran diferencia. Tu piel, en invierno más que nunca, agradece que la trates con delicadeza.' },
+  { t: '¿Hace falta el doble lavado?', x: 'Es una duda muy común, sobre todo desde que se popularizó el “doble lavado”. Y la respuesta, como casi siempre, es: depende.<br><br>El doble lavado consiste en enjabonar dos veces seguidas. El primer pase retira el grueso de la grasa, los restos de producto o la contaminación del día; el segundo limpia ya sobre un cabello más receptivo. Puede tener sentido si usas mucho producto de peinado, si tienes el cuero cabelludo muy graso o si hacía días que no te lavabas.<br><br>Pero para el día a día de la mayoría de la gente, <strong>un solo lavado bien hecho es más que suficiente</strong>. Con la cosmética sólida, además, vas con producto concentrado: no necesitas insistir.<br><br>Nuestro consejo: prueba primero con un lavado. Si notas el pelo bien limpio, listo. Si sientes que se queda corto un día concreto, repite. Escuchar a tu cabello casi siempre funciona mejor que seguir una regla fija.' },
+  { t: '¿Cómo sé cuál elegir?', x: 'Ante tantas opciones, es normal dudar. La buena noticia es que acertar es más fácil de lo que parece si te haces un par de preguntas.<br><br>Primero, <strong>¿qué necesitas?</strong> No es lo mismo un cuero cabelludo graso que uno seco, ni una piel sensible que una que aguanta de todo. Cada fórmula está pensada para una necesidad, así que empieza por ahí.<br><br>Segundo, <strong>¿qué te apetece?</strong> El aroma importa: vas a usarlo a diario, y que te guste hace que el momento sea más agradable.<br><br>Y si sigues sin decidirte, tira de lo sencillo. Un jabón de aceite de oliva o un champú suave son apuestas seguras para empezar; casi nunca fallan. Siempre estás a tiempo de ir probando otros después.<br><br>Y recuerda: al pasar a sólido, dale unas semanas a tu piel o tu pelo para adaptarse antes de juzgar. La constancia manda.' },
+  { t: '¿Los cosméticos sólidos caducan?', x: 'Sí, como cualquier cosmético, aunque de una forma muy suya.<br><br>En el envase encontrarás un pequeño símbolo de un bote abierto con un número y una “M” (12M, 18M…). Indica los meses que el producto se conserva en buen estado <strong>una vez que empiezas a usarlo</strong>. Es una referencia, no una alarma.<br><br>Lo bueno de lo sólido es que, al no llevar agua, suele conservarse muy bien. Lo que más le afecta no es el tiempo, sino la humedad: una pastilla que vive en un charco se estropea antes que una que se seca entre usos.<br><br>Guárdala en un sitio seco y ventilado, lejos del chorro del agua, y aguantará estupendamente. Si alguna vez notas que el aroma cambia mucho o la textura se vuelve rara, es señal de que le ha tocado el relevo. Pero, bien cuidada, te va a durar.' },
+  { t: '¿Se pueden llevar en avión?', x: 'Esta es de nuestras favoritas, porque la respuesta es un sí rotundo y encima con ventaja.<br><br>Los cosméticos sólidos <strong>no cuentan como líquidos</strong>, así que puedes llevarlos en el equipaje de mano sin meterlos en la bolsita de plástico transparente ni preocuparte por los mililitros. Champú, jabón, desodorante… todos pasan el control sin problema.<br><br>Y hay más: no se derraman dentro de la maleta, pesan mucho menos y ocupan una fracción de lo que ocuparían sus versiones líquidas. Para viajar, son casi imbatibles.<br><br>Un solo consejo: llévalos <strong>bien secos</strong>. Deja que se sequen antes de guardarlos en su jabonera o en una lata ventilada, y evitarás que se reblandezcan o humedezcan el neceser. Con eso, listos para cualquier aventura.' },
+];
+
+/* "La pregunta de la semana": dudas reales respondidas con cercanía. */
+const NL_PREGUNTAS = [
+  { q: '¿Es normal que un champú sólido haga menos espuma la primera vez?', a: 'Sí, es de lo más normal, y no significa que limpie menos. Al principio le vas cogiendo el punto: las pasadas, el agua, la forma de repartirlo. Y si vienes de champús líquidos muy espumosos, tu cabello puede tardar unos lavados en soltar restos de siliconas y producto, lo que también afecta a la espuma. Dale unas semanas: con la práctica aparece sin esfuerzo. Recuerda que la espuma es sensación, no rendimiento. Lo que importa es cómo queda tu pelo después, no cuántas burbujas hace.' },
+  { q: '¿Puedo usar el mismo jabón para cara y cuerpo?', a: 'En muchos casos sí, sobre todo si es un jabón suave como el de aceite de oliva. La piel de la cara es algo más delicada que la del cuerpo, pero un jabón amable suele sentar bien en ambas. Si tu piel facial es muy sensible o tiene tendencia al acné, quizá prefieras algo pensado para el rostro. Nuestro consejo: agua tibia, sin abusar de la frecuencia en la cara, y observa cómo responde tu piel. Ella te dirá enseguida si le gusta o pide algo más específico.' },
+  { q: '¿El champú sólido sirve para el pelo teñido?', a: 'En general sí. Lo importante es elegir un champú suave, que limpie sin agredir, porque los lavados demasiado agresivos son los que más apagan el color con el tiempo. Evita el agua muy caliente, espacia un poco los lavados si puedes y trata tu pelo con delicadeza; un buen acondicionador ayuda a mantener suavidad y brillo. No podemos prometerte que el color dure eternamente —eso depende de muchos factores—, pero un cuidado amable siempre juega a favor. Si sigues un tratamiento de color concreto, tu peluquería de confianza es quien mejor puede orientarte.' },
+  { q: '¿Cuánto dura un champú sólido comparado con un bote?', a: 'Depende del uso, pero una pastilla suele rendir tanto o más que un bote grande, y muchas veces bastante más. La clave está en dos cosas: que va concentrada (sin agua de relleno) y en cómo la cuides. Si la dejas secar entre usos, en una jabonera con drenaje y lejos del chorro directo, te durará muchísimo más que si vive en un charquito. Cada persona es un mundo, pero casi todo el que prueba se sorprende de lo que cunde.' },
 ];
 
 /* Carga las reseñas reales (window.SAVIA_RESENAS) para "Opinión de cliente". */
@@ -1463,7 +1485,7 @@ function _detectarIngrediente(prod) {
 
 /* Devuelve { sub, cuerpo } del contenido rotativo, con reserva si no aplica. */
 function nlContenidoRotativo(prod, wk, resenas) {
-  const orden = ['experta', 'ingrediente', 'mito', 'marca', 'miniguia', 'temporada', 'cambio', 'opinion'];
+  const orden = ['experta', 'ingrediente', 'pregunta', 'mito', 'marca', 'miniguia', 'temporada', 'cambio', 'opinion'];
   const tipo = orden[wk % orden.length];
   const P = (t) => `<p style="margin:8px 0 0;font-size:14px;line-height:1.6;color:#444">${t}</p>`;
 
@@ -1479,6 +1501,10 @@ function nlContenidoRotativo(prod, wk, resenas) {
       const ing = _detectarIngrediente(prod);
       if (!ing) return null;
       return { sub: '🌿 Ingrediente de la semana', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${ing.nombre}</p>${P(ing.texto)}` };
+    },
+    pregunta: () => {
+      const q = NL_PREGUNTAS[wk % NL_PREGUNTAS.length];
+      return { sub: '🌿 La pregunta de la semana', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${q.q}</p>${P(q.a)}` };
     },
     mito: () => {
       const m = NL_MITOS[wk % NL_MITOS.length];
@@ -1596,6 +1622,16 @@ function nlBeneficios(prod) {
     buenos.map(b => `<li style="margin:6px 0;font-size:14px;line-height:1.5">${b}</li>`).join('') + `</ul>`;
 }
 
+/* Frases de recomendación para "el favorito de la semana" (rotan; algunas por familia). */
+const NL_FAVORITO = [
+  { t: 'Es de los que más nos gusta recomendar, y esta semana queríamos que lo conocieras.' },
+  { t: 'Uno de esos productos que, cuando lo pruebas, entiendes por qué nos gusta tanto.' },
+  { t: 'Un imprescindible de la casa: sencillo, honesto y de los que apetece repetir.' },
+  { cat: 'champus', t: 'Si nunca has probado un champú sólido, este suele ser un buen punto de partida.' },
+  { cat: 'jabones', t: 'Un jabón sencillo y honesto, de los que apetece tener siempre a mano en el baño.' },
+  { cat: 'faciales', t: 'Para el cuidado del rostro nos gusta ir con delicadeza, y este es un buen compañero para empezar.' },
+];
+
 function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   // Una de cada 4 semanas: carta educativa SIN producto (aporta valor, no vende).
   const _wk = nlSemanaIdx();
@@ -1611,7 +1647,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
         `<h1 style="font-size:23px;color:#3f4a2e;margin:6px 0 12px;line-height:1.25">${carta.t}</h1>` +
         `<div style="font-size:15px;line-height:1.75;color:#444">${carta.x}</div>` +
       `</div>` +
-      nlBloqueValores() +
+      nlBloqueValores(_wk) +
       `<div style="text-align:center;margin:26px 0 6px">` +
         `<a href="${NL_SITE}/tienda.html" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Descubre la tienda</a>` +
         `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
@@ -1635,9 +1671,24 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const uso = prod.modoUso ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">💡 Cómo usarlo:</strong> ${prod.modoUso}</p>` : '';
   const paraQuien = (prod.indicado && !nlClaimFuerte(prod.indicado)) ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">🌿 Ideal para:</strong> ${prod.indicado}</p>` : '';
   const lema = prod.lema ? `<p style="font-style:italic;color:#8a9b6a;margin:4px 0 0">${prod.lema}</p>` : '';
-  const porque = prod.collectionName
-    ? `<p style="font-size:13px;color:#6d7a58;max-width:360px;margin:8px auto 0;line-height:1.5">Nuestra elección de esta semana entre los ${prod.collectionName.toLowerCase()}.</p>`
+  const _favPool = [...NL_FAVORITO.filter(f => !f.cat), ...NL_FAVORITO.filter(f => f.cat === prod.collection)];
+  const _fav = _favPool[_wk % _favPool.length];
+  const porque = _fav
+    ? `<p style="font-size:13px;color:#6d7a58;max-width:380px;margin:8px auto 0;line-height:1.5">${_fav.t}</p>`
     : '';
+  // Precio: normalmente NO se muestra. Excepción: campaña comercial (oferta de
+  // categoría activa) — ahí el precio/descuento sí forma parte del mensaje.
+  const _pctFam = Number((cfg.descuentosCategoria || {})[prod.collection]);
+  const _enCampana = isFinite(_pctFam) && _pctFam > 0 && _pctFam < 100;
+  let precioCampana = '';
+  if (_enCampana) {
+    const _base = (cfg.precios && cfg.precios[prod.handle] != null) ? Number(cfg.precios[prod.handle]) : prod.price;
+    const _ef = Math.round(_base * (1 - _pctFam / 100) * 100) / 100;
+    precioCampana = `<div style="margin:12px 0 2px;font-size:20px;font-weight:800;color:#6b7a4f">` +
+      `<span style="text-decoration:line-through;color:#999;font-weight:500;font-size:16px">${nlEur(_base)}</span> ` +
+      `<span style="color:#b23b3b">${nlEur(_ef)}</span> ` +
+      `<span style="font-size:13px;color:#b23b3b">−${Math.round(_pctFam)}%</span></div>`;
+  }
   // Banner de ofertas por categoría activas.
   const dc = cfg.descuentosCategoria || {};
   const nombreCol = {};
@@ -1651,7 +1702,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   // Piezas editoriales que rotan por semana (alma + valores + consejo).
   const wk = nlSemanaIdx();
   const apertura = `<p style="text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:16px;color:#5d6b47;max-width:460px;margin:8px auto 20px;line-height:1.6">${NL_APERTURAS[wk % NL_APERTURAS.length]}</p>`;
-  const valores = nlBloqueValores();
+  const valores = nlBloqueValores(wk);
   const editorial = nlModuloEditorial(prod, wk, resenas);
 
   const html =
@@ -1665,7 +1716,8 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       `<h1 style="font-size:22px;color:#3f4a2e;margin:6px 0">${prod.emoji || ''} ${prod.title}</h1>` +
       lema +
       porque +
-      `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px">Verlo en la tienda</a>` +
+      precioCampana +
+      `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px">${_enCampana ? 'Aprovechar la oferta' : 'Verlo en la tienda'}</a>` +
     `</div>` +
     (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
     uso + paraQuien +
