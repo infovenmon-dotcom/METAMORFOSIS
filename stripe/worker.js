@@ -1345,28 +1345,28 @@ function _sinAcentos(s) { return String(s || '').toLowerCase().normalize('NFD').
 // Ingredientes: [claves, nombre, texto]. Se detecta por tags/título del producto.
 const _tip = (t) => `<br><br><strong style="color:#6b7a4f">💡 En tu rutina:</strong> ${t}`;
 const NL_INGREDIENTES = [
-  [['cafeina'], 'Cafeína', 'La cafeína es un activo estimulante muy usado en el cuidado capilar. Ayuda a activar la microcirculación del cuero cabelludo y se asocia a un efecto revitalizante que aporta cuerpo y vitalidad, especialmente al cabello fino o apagado.' + _tip('masajea la espuma en el cuero cabelludo un par de minutos antes de aclarar; así aprovechas mucho mejor sus propiedades.')],
-  [['canela'], 'Canela', 'Más allá de su aroma cálido y reconfortante, la canela se aprecia en cosmética por sus propiedades purificantes: ayuda a mantener el cuero cabelludo limpio y con sensación de frescor, y aporta ese punto especiado tan característico.' + _tip('si tienes el cuero cabelludo sensible, empieza usándola en días alternos y observa cómo responde.')],
-  [['romero'], 'Romero', 'El romero es uno de los grandes clásicos del cuidado del cabello. Refresca el cuero cabelludo, aporta una agradable sensación tonificante y, tradicionalmente, se ha usado para dar fuerza y vitalidad al pelo.' + _tip('acompáñalo siempre de un buen masaje capilar: el gesto, repetido, cuida tanto como el ingrediente.')],
-  [['arcilla'], 'Arcilla', 'La arcilla actúa como un imán suave: absorbe el exceso de grasa e impurezas y deja una sensación de limpieza profunda sin resecar. Es ideal para cueros cabelludos o pieles con tendencia grasa.' + _tip('déjala actuar unos segundos antes de aclarar para que haga bien su trabajo.')],
-  [['coco'], 'Coco', 'El aceite de coco es nutrición pura: hidrata en profundidad, aporta suavidad y envuelve piel y cabello en un aroma reconfortante. Muy valorado en pieles y cabellos secos.' + _tip('un poco rinde mucho; la cosmética sólida ya lo lleva en su justa medida, sin excesos que apelmacen.')],
-  [['aloe'], 'Aloe vera', 'El aloe vera es sinónimo de calma. Hidrata, refresca y ayuda a cuidar las pieles más sensibles o castigadas por el sol y el frío, con una textura ligera muy agradable.' + _tip('ideal cuando notes la piel tirante o reactiva; suele sentar especialmente bien.')],
-  [['lavanda'], 'Lavanda', 'La lavanda no solo perfuma: es sinónimo de relajación. Su aroma ayuda a convertir la ducha en un pequeño ritual de calma al final del día, y en el cabello deja una sensación de frescor.' + _tip('respira hondo mientras te enjabonas; el aroma también forma parte del cuidado.')],
-  [['carbon'], 'Carbón activo', 'El carbón activo es famoso por su poder de arrastre: atrae y retiene impurezas y exceso de grasa, dejando una sensación de limpieza profunda. Perfecto para pieles mixtas o grasas.' + _tip('úsalo 2-3 veces por semana y alterna con algo más suave el resto de días.')],
-  [['matcha', 'te verde', 'té verde'], 'Té verde / Matcha', 'El té verde es una fuente conocida de antioxidantes. Aporta frescor, ayuda a cuidar la piel frente al desgaste del día a día y deja una sensación limpia y ligera.' + _tip('los antioxidantes son grandes aliados frente a los agresores externos; ideal para el cuidado diario.')],
-  [['avena'], 'Avena', 'La avena es de los ingredientes más amables que existen: suaviza, calma y reconforta las pieles sensibles, secas o que se irritan con facilidad. Un básico del cuidado delicado.' + _tip('perfecta para pieles reactivas y para toda la familia, incluidos los más peques.')],
-  [['almendra'], 'Almendra', 'El aceite de almendra dulce nutre e hidrata, dejando la piel suave y flexible. Es ligero, se absorbe bien y resulta apto para casi todo tipo de pieles.' + _tip('su textura sedosa lo hace ideal para pieles secas que piden un extra de mimo.')],
-  [['karite'], 'Karité', 'La manteca de karité es nutrición de alto nivel: protege la piel frente al frío y la sequedad y le devuelve confort y elasticidad. Un clásico para pieles muy secas.' + _tip('en invierno, tu mejor aliada para las zonas que más se resecan, como manos o codos.')],
-  [['rosa mosqueta'], 'Rosa mosqueta', 'La rosa mosqueta es muy valorada por su efecto regenerador. Ayuda a cuidar la piel, aportar luminosidad y mantenerla flexible; un ingrediente estrella del cuidado facial.' + _tip('como casi todo en la piel, sus efectos se notan con el uso regular y constante.')],
-  [['cebolla'], 'Cebolla roja', 'La cebolla roja, rica en antioxidantes y azufre, es un remedio tradicional para el cabello: se asocia a un efecto fortalecedor y a ayudar a mantenerlo sano y con cuerpo.' + _tip('tranquila: la fórmula se trabaja para que aporte sus beneficios sin dejar olor.')],
-  [['cacao'], 'Cacao', 'El cacao aporta antioxidantes y, sobre todo, un aroma envolvente que reconforta. Cuida la piel mientras convierte el momento en un pequeño placer sensorial.' + _tip('ese aroma a chocolate es 100% natural, sin aromas artificiales añadidos.')],
-  [['pepita uva', 'uva'], 'Pepita de uva', 'El aceite de pepita de uva es ligero y rico en antioxidantes. Hidrata sin apelmazar y ayuda a equilibrar, por lo que va muy bien a pieles mixtas o que no quieren sensación grasa.' + _tip('ideal si buscas nutrición pero con una textura ligera y fresca.')],
-  [['carbon', 'cade', 'enebro'], 'Cade (enebro)', 'El aceite de cade, del enebro, se ha usado tradicionalmente para calmar y cuidar los cueros cabelludos delicados o con tendencia a descamarse, aportando alivio y sensación de limpieza.' + _tip('si tienes una afección concreta de la piel, consulta siempre con tu profesional de referencia.')],
+  [['cafeina'], 'Cafeína', 'Cuando formulamos este champú buscábamos un ingrediente que aportara sensación de frescor y vitalidad. Por eso elegimos la cafeína, muy apreciada en el cuidado capilar y especialmente popular en productos para cabello fino, al que ayuda a dar cuerpo.' + _tip('date un buen masaje con la espuma durante un par de minutos; ese gesto, para nosotras, ya es parte del ritual.')],
+  [['canela'], 'Canela', 'La canela nos conquistó por partida doble: por su aroma cálido y reconfortante y por su fama de ingrediente purificante, que contribuye a un cuero cabelludo cuidado y con sensación de frescor.' + _tip('si tienes el cuero cabelludo sensible, empieza usándola en días alternos y ve cómo te sienta.')],
+  [['romero'], 'Romero', 'El romero es uno de esos ingredientes de siempre que nos encanta usar. Aporta frescor, una sensación tonificante muy agradable y esa idea de vitalidad que tradicionalmente se ha asociado al cuidado del cabello.' + _tip('acompáñalo de un masaje sin prisa: el gesto cuida tanto como el ingrediente.')],
+  [['arcilla'], 'Arcilla', 'Añadimos arcilla cuando buscamos esa sensación de limpieza profunda sin resecar. Actúa como un imán suave con el exceso de grasa y las impurezas, por eso nos gusta para pieles y cueros cabelludos con tendencia grasa.' + _tip('déjala actuar unos segundos antes de aclarar para que haga bien su trabajo.')],
+  [['coco'], 'Coco', 'El aceite de coco es puro mimo, y por eso lo reservamos para nuestras fórmulas más nutritivas: aporta suavidad, sensación de hidratación y un aroma que reconforta. Nos gusta especialmente para pieles y cabellos que piden un extra de cuidado.' + _tip('con la cosmética sólida no hace falta cargar producto: ya lleva su medida justa.')],
+  [['aloe'], 'Aloe vera', 'Cuando queremos calma, pensamos en aloe vera. Nos gusta por su sensación refrescante y por lo bien que suele sentar a las pieles más sensibles o expuestas al sol y al frío, con una textura muy ligera.' + _tip('ideal para esos días en que notas la piel tirante y te pide algo suave.')],
+  [['lavanda'], 'Lavanda', 'Elegimos la lavanda tanto para perfumar como para acompañar. Su aroma ayuda a convertir la ducha en un pequeño momento de calma al final del día, y deja una agradable sensación de frescor.' + _tip('respira hondo mientras te enjabonas; ese instante también forma parte del cuidado.')],
+  [['carbon'], 'Carbón activo', 'El carbón activo entra en nuestras fórmulas cuando buscamos una sensación de limpieza profunda. Es conocido por su capacidad de arrastrar impurezas y exceso de grasa, por eso nos gusta para pieles mixtas o grasas.' + _tip('úsalo 2-3 veces por semana y alterna con algo más suave el resto de días.')],
+  [['matcha', 'te verde', 'té verde'], 'Té verde / Matcha', 'El té verde nos gusta por su frescor y por su fama como fuente de antioxidantes, grandes aliados frente al desgaste del día a día. Deja una sensación limpia y ligera muy agradable.' + _tip('un buen compañero para el cuidado diario, sin complicaciones.')],
+  [['avena'], 'Avena', 'La avena es de nuestros ingredientes favoritos para el cuidado delicado: suaviza, calma y reconforta. La elegimos pensando en las pieles sensibles, secas o que se irritan con facilidad.' + _tip('una opción amable para toda la familia, incluidos los más peques.')],
+  [['almendra'], 'Almendra', 'El aceite de almendra dulce nos parece un clásico por algo: nutre, aporta sensación de suavidad y se absorbe bien, dejando la piel flexible. Nos gusta para pieles que piden un poco más de mimo.' + _tip('su textura sedosa va especialmente bien a las pieles secas.')],
+  [['karite'], 'Karité', 'La manteca de karité es sinónimo de nutrición, y por eso la reservamos para nuestras fórmulas más protectoras. Aporta confort y sensación de elasticidad, sobre todo a las pieles muy secas.' + _tip('en invierno, tu aliada para las zonas que más se resecan, como manos o codos.')],
+  [['rosa mosqueta'], 'Rosa mosqueta', 'La rosa mosqueta es una de las joyas del cuidado facial y nos encanta trabajar con ella. Se asocia a la luminosidad y al cuidado de una piel flexible y bonita.' + _tip('como casi todo en la piel, se disfruta más con constancia.')],
+  [['cebolla'], 'Cebolla roja', 'La cebolla roja es un remedio de toda la vida para el cabello, rico en antioxidantes. La elegimos por esa idea tradicional de un cabello cuidado, con cuerpo y sensación de fuerza.' + _tip('tranquila: trabajamos la fórmula para que aporte lo bueno sin dejar olor.')],
+  [['cacao'], 'Cacao', 'Con el cacao buscábamos, sobre todo, una experiencia: ese aroma envolvente que reconforta. Y de paso aporta antioxidantes mientras cuida la piel.' + _tip('ese olor a chocolate es 100% natural, sin aromas artificiales.')],
+  [['pepita uva', 'uva'], 'Pepita de uva', 'El aceite de pepita de uva nos gusta cuando queremos nutrición pero con ligereza. Aporta hidratación sin apelmazar y ayuda a equilibrar, ideal para pieles mixtas o que no quieren sensación grasa.' + _tip('perfecto si buscas cuidado con una textura ligera y fresca.')],
+  [['carbon', 'cade', 'enebro'], 'Cade (enebro)', 'El aceite de cade, del enebro, se ha usado tradicionalmente para cuidar los cueros cabelludos más delicados. Lo elegimos buscando esa sensación de alivio y limpieza.' + _tip('si tienes una afección concreta de la piel, consulta siempre con tu profesional de confianza.')],
 ];
 
 // Consejo de la experta (cat opcional = colección a la que aplica).
 const NL_CONSEJOS_EXPERTA = [
-  { cat: 'champus', t: 'El masaje del cuero cabelludo es el gran olvidado, y marca la diferencia. Dedica uno o dos minutos a masajear con las yemas de los dedos —nunca con las uñas— haciendo pequeños círculos. Ayuda a repartir mejor el champú, favorece una limpieza más completa y activa la microcirculación. Y de propina, es un momento relajante que tu cabeza agradecerá.' },
+  { cat: 'champus', t: 'El masaje del cuero cabelludo es el gran olvidado, y marca la diferencia. Dedica uno o dos minutos a masajear con las yemas de los dedos —nunca con las uñas— haciendo pequeños círculos. Ayuda a repartir mejor el champú, favorece una limpieza más completa y aporta una agradable sensación de bienestar. Y de propina, es un momento relajante que tu cabeza agradecerá.' },
   { cat: 'champus', t: '¿Frotar la pastilla directa o hacer espuma en las manos? Las dos formas valen. Sobre el cabello ya mojado, pasa la pastilla por el cuero cabelludo unas cuantas veces, o frótala entre las manos hasta lograr espuma; luego reparte, masajea y aclara bien. Un solo enjabonado suele bastar: estás usando producto concentrado, no hace falta cargar más.' },
   { cat: 'jabones', t: 'El mayor enemigo de un jabón sólido no es el uso, es el agua estancada. Para que te dure semanas más, guárdalo en una jabonera con drenaje, lejos del chorro directo, y deja que se seque del todo entre usos. Una pastilla bien cuidada rinde muchísimo más que una que vive en un charquito de agua.' },
   { cat: 'faciales', t: 'La temperatura importa más de lo que parece. Lávate la cara con agua tibia, nunca muy caliente: el calor excesivo altera la barrera natural de la piel y favorece la sequedad y la sensibilidad. Termina con un aclarado más fresco y seca a toques suaves con la toalla, sin frotar.' },
@@ -1387,10 +1387,11 @@ const NL_MITOS = [
 ];
 
 const NL_TALLER = [
-  'Esta semana hemos preparado un nuevo lote. Cada pieza se elabora, se corta y se revisa a mano antes de salir del taller: comprobamos que el peso, la textura y el aroma sean los de siempre. Es un trabajo lento, pero es la única forma que conocemos de que llegue a tu casa tal y como nos gusta a nosotras.',
-  'Elaboramos en frío y en lotes pequeños. ¿Por qué? Porque así se conservan mejor las propiedades de los aceites y de los ingredientes más delicados. La saponificación en frío tarda semanas, pero merece la pena: es lo que da ese jabón suave que cuida la piel. La paciencia, aquí, también es un ingrediente.',
-  'Cada pastilla necesita su tiempo de curado antes de estar lista: varias semanas reposando para que el agua se evapore y quede más firme y duradera. No metemos prisa a ese proceso. Lo bueno se hace despacio, y créenos que se nota en cada uso.',
-  'Elegimos ingredientes sencillos, de origen natural y con una historia detrás. Nuestra norma es fácil: si no lo usaríamos en casa, no entra en la fórmula. Menos aditivos y más honestidad. Al final, hacemos los productos que nos gustaría encontrar a nosotras mismas.',
+  { t: 'Cómo elegimos un ingrediente', x: 'Antes de que un ingrediente entre en una fórmula, se gana su sitio. Nos preguntamos tres cosas: qué aporta de verdad, de dónde viene y si lo usaríamos en casa. Si alguna respuesta no nos convence, se queda fuera. Preferimos una lista corta y honesta a una etiqueta llena de nombres que impresionan pero no aportan. Al final, hacemos los productos que nos gustaría encontrar a nosotras mismas.' },
+  { t: 'Qué ocurre durante el curado', x: 'Cuando un jabón sale del molde, todavía no está listo: le toca curar. Son varias semanas en reposo, en un lugar fresco y ventilado, en las que el agua se evapora poco a poco. ¿El resultado? Una pastilla más firme, más suave y que dura mucho más. No hay forma de acelerarlo, y tampoco queremos: esa espera es parte de lo que hace bueno a un jabón artesanal.' },
+  { t: 'Cómo probamos un aroma nuevo', x: 'Dar con un aroma que nos guste lleva su tiempo. Probamos combinaciones, dejamos reposar, volvemos a olerlas pasados unos días —porque un aroma cambia con el curado— y las comentamos entre nosotras. Solo cuando uno nos enamora de verdad, y sigue gustándonos semanas después, se queda. Buscamos aromas naturales, agradables y que no cansen en el día a día.' },
+  { t: 'Por qué trabajamos en lotes pequeños', x: 'Podríamos fabricar mucho de una vez, pero preferimos lotes pequeños. Así revisamos cada pieza con calma, mantenemos la calidad constante y evitamos acumular stock que se quede parado. Significa más trabajo y algo menos de prisa, sí, pero también que lo que llega a tu casa está recién hecho y cuidado una a una. Para nosotras, merece la pena.' },
+  { t: 'Un lote, de principio a fin', x: 'Un lote no se hace en una tarde. Se pesan los ingredientes, se elabora en frío, se vierte en el molde, se corta a mano y luego llegan las semanas de curado. Entre medias, revisamos peso, textura y aroma. Desde que empezamos hasta que una pastilla está lista para viajar a tu casa pueden pasar varias semanas. Lo bueno, ya sabes, se hace despacio.' },
 ];
 
 const NL_MINIGUIAS = [
@@ -1399,6 +1400,43 @@ const NL_MINIGUIAS = [
   { t: '¿Por qué los cosméticos sólidos duran más?', x: 'Puede sorprender, pero una pastilla suele rendir tanto o más que un bote grande. El motivo es sencillo:<br><br>• Va <strong>concentrada y sin agua añadida</strong>: casi todo lo que compras es producto útil.<br>• En un champú o gel líquido, buena parte del envase es <strong>agua</strong>.<br>• Al usar poca cantidad en cada lavado, cunde muchísimo.<br><br>Menos envase, menos transporte y menos desperdicio… y más lavados por producto.' },
   { t: 'Sulfatos y tensioactivos suaves', x: 'Los tensioactivos son los ingredientes que limpian: atrapan la grasa y la suciedad para que el agua se las lleve. Pero no todos son iguales:<br><br>• Los <strong>sulfatos fuertes</strong> limpian mucho, pero pueden resecar y sensibilizar.<br>• Los <strong>tensioactivos suaves</strong> limpian respetando mejor la barrera de la piel y del cuero cabelludo.<br><br>Por eso elegimos fórmulas amables: limpian de sobra sin dejar esa sensación de tirantez.' },
   { t: '¿Cómo empezar en la cosmética sólida?', x: 'Pasar a sólido es más fácil de lo que parece. Un buen orden para no agobiarte:<br><br>• Empieza por <strong>un solo producto</strong> (el champú o el jabón de manos suelen ser la mejor puerta de entrada).<br>• Dale <strong>un par de semanas</strong> de adaptación a tu piel o cabello.<br>• Cuando le cojas el punto, ve <strong>sumando</strong> otros: acondicionador, desodorante, facial…<br><br>No hace falta cambiarlo todo de golpe. Cada pequeño paso ya suma.' },
+];
+
+/* Estación del año (hemisferio norte / España). */
+function nlEstacion() {
+  const m = new Date().getMonth();
+  if (m === 11 || m <= 1) return { clave: 'invierno', nombre: 'Invierno' };
+  if (m <= 4) return { clave: 'primavera', nombre: 'Primavera' };
+  if (m <= 7) return { clave: 'verano', nombre: 'Verano' };
+  return { clave: 'otono', nombre: 'Otoño' };
+}
+
+const NL_TEMPORADA = {
+  verano: [
+    { t: 'Tu pelo después de la piscina o el mar', x: 'El cloro y la sal pueden dejar el cabello áspero y apagado. Aclara siempre con agua dulce nada más salir y, esa misma noche, dale un lavado suave para retirar los restos. Un acondicionador ayuda a devolver esa sensación de suavidad que el verano se lleva.' },
+    { t: 'Conservar tu champú sólido con calor', x: 'En verano el calor reblandece las pastillas. Guárdalas en un sitio fresco y a la sombra, bien secas entre usos, y evita dejarlas al sol en la ventana del baño. Si te vas a la playa, una jabonera con drenaje o una lata ventilada es tu mejor aliada.' },
+    { t: 'Piel y sol, cuidado sencillo', x: 'Tras un día de sol, la piel agradece suavidad: agua tibia (nunca caliente), limpieza delicada e hidratación. No hace falta complicarse; a veces menos productos y más constancia es lo que mejor sienta a una piel que ha tomado el sol.' },
+  ],
+  otono: [
+    { t: 'Caída estacional: con calma', x: 'En otoño es normal notar algo más de caída del cabello: es un ciclo natural que suele pasar solo en unas semanas. Trátalo con tranquilidad, evita peinados que tensen y cuida el cuero cabelludo con lavados suaves. Si te preocupa o se alarga, lo mejor es consultar con un profesional.' },
+    { t: 'Vuelve la rutina: hidratación', x: 'Con el cambio de tiempo, la piel y el pelo piden un poco más de hidratación. Es buen momento para apostar por fórmulas más nutritivas (coco, karité) y para retomar esos pequeños rituales de cuidado que en verano dejamos aparcados.' },
+  ],
+  invierno: [
+    { t: 'Piel seca por el frío', x: 'El frío de la calle y la calefacción de dentro resecan la piel más de lo que parece. Lávate con agua tibia, seca a toques suaves y apuesta por fórmulas ricas y nutritivas. Presta especial atención a manos y labios, que suelen ser los primeros en notarlo.' },
+    { t: 'El jabón facial en invierno', x: 'En los meses fríos, la cara agradece una limpieza suave que no la deje tirante. Elige un jabón facial delicado, usa agua tibia y no abuses de la frecuencia: a veces, limpiar de más resta más que suma. La piel, en invierno, pide mimo.' },
+  ],
+  primavera: [
+    { t: 'Rutinas sencillas para el cambio de estación', x: 'La primavera invita a aligerar. Es buen momento para simplificar la rutina, pasar a fórmulas más frescas y ligeras y ordenar el neceser. Menos productos, mejor elegidos: tu piel y tu cabello lo agradecen, y tú ganas tiempo.' },
+    { t: 'Menos residuos en tus escapadas', x: 'Llegan los puentes y las escapadas. Los sólidos son perfectos para viajar: sin líquidos que declarar, sin botes que se abran en la maleta y con mucho menos peso. Llévalos bien secos en una jabonera o lata y listo para la aventura.' },
+  ],
+};
+
+/* Cartas educativas para el número MENSUAL sin producto (una de cada 4 semanas). */
+const NL_CARTAS = [
+  { t: '¿Cada cuánto hay que lavar el pelo?', x: 'Es una de las preguntas que más nos hacéis, y la respuesta honesta es: depende. No existe un número mágico igual para todo el mundo.<br><br>La frecuencia ideal depende de tu tipo de cabello y de cuero cabelludo, de tu día a día e incluso de la época del año. Un cuero cabelludo graso o el ejercicio intenso pueden pedir lavados más seguidos; un cabello seco o rizado, en cambio, suele agradecer espaciarlos.<br><br>Lo importante no es lavar mucho ni poco, sino <strong>escuchar a tu pelo</strong>. Si a media tarde ya lo notas apagado o con la raíz grasa, quizá te venga bien lavarlo algo más a menudo. Si lo sientes seco y áspero, prueba a dejar pasar un día más.<br><br>Un consejo que sirve para casi todo el mundo: cuando laves, hazlo con suavidad. Agua tibia, un buen masaje sin uñas y sin frotar de más. No es cuestión de lavar más veces, sino de lavar mejor.<br><br>Y si estás cambiando de champú o pasando a sólido, dale margen: tu cabello necesita unas semanas para adaptarse. Observa y ten paciencia; tu pelo te irá diciendo lo que necesita.' },
+  { t: '¿Hace falta usar tanta espuma?', x: 'Tenemos grabado que un buen champú o un buen jabón tienen que hacer mucha espuma. Pero es uno de los mitos más extendidos del cuidado personal.<br><br>La espuma es, sobre todo, <strong>sensación</strong>. Quienes limpian de verdad son los tensioactivos: los ingredientes que atrapan la grasa y la suciedad para que el agua se los lleve. Un producto puede limpiar estupendamente haciendo una espuma discreta; de hecho, muchas fórmulas muy espumosas lo consiguen a base de ingredientes más agresivos.<br><br>Con la cosmética sólida esto se nota especialmente. Va concentrada, así que necesitas menos cantidad de la que crees: una pasada por el cabello mojado o unas cuantas vueltas de la pastilla entre las manos suelen bastar.<br><br>¿Nuestro consejo? Deja de fijarte en la cantidad de burbujas y fíjate en cómo queda tu piel o tu pelo después: limpios, suaves y sin esa sensación de tirantez. Ese es el verdadero indicador de que algo funciona.<br><br>Menos espuma no es menos limpieza. Muchas veces, es justo al revés.' },
+  { t: '¿Por qué el jabón sólido dura más si se deja secar?', x: 'Si alguna vez has tenido la sensación de que un jabón se te ha “derretido” en nada, seguramente no fue el jabón: fue el agua.<br><br>Cuando la pastilla se queda en un plato donde se acumula el agua, o justo bajo el chorro de la ducha, se mantiene húmeda todo el tiempo y se disuelve mucho más rápido. No lo estás usando: se está deshaciendo sola.<br><br>La solución es tan sencilla como eficaz: <strong>dejar que se seque entre usos</strong>. Una jabonera con drenaje, un sitio ventilado y lejos del agua que cae, y listo. Así la pastilla se endurece de nuevo entre ducha y ducha y te puede durar semanas más.<br><br>Si usas varios, ve alternándolos: descansados, aguantan todavía mejor. Y si viajas, espera a que estén secos antes de guardarlos.<br><br>Es un gesto de diez segundos que marca una diferencia enorme. Cuidar bien lo que ya tienes también es consumir mejor: menos desperdicio y más tiempo entre compra y compra.' },
+  { t: 'El agua caliente y tu piel', x: 'Con el frío, apetece una ducha bien caliente. Es un placer, no lo vamos a negar. Pero a tu piel no siempre le sienta tan bien como a ti.<br><br>El agua muy caliente arrastra parte de la capa natural que protege la piel, esa que la mantiene flexible e hidratada. Por eso, tras una ducha demasiado caliente, es fácil notarla tirante, seca o más sensible de lo normal.<br><br>No hace falta renunciar al agua templada, solo bajar un poco la temperatura: <strong>tibia mejor que ardiendo</strong>. Acorta un poco el tiempo, evita frotar con fuerza y, al salir, seca a toques suaves en lugar de restregar la toalla.<br><br>Elige además una limpieza que respete la piel: fórmulas suaves que limpien sin dejar esa sensación de tirantez. Y si tu piel está seca, dale después algo de hidratación, sobre todo en las zonas que más lo piden, como manos y labios.<br><br>Pequeños ajustes, gran diferencia. Tu piel, en invierno más que nunca, agradece que la trates con delicadeza.' },
 ];
 
 /* Carga las reseñas reales (window.SAVIA_RESENAS) para "Opinión de cliente". */
@@ -1425,7 +1463,7 @@ function _detectarIngrediente(prod) {
 
 /* Devuelve { sub, cuerpo } del contenido rotativo, con reserva si no aplica. */
 function nlContenidoRotativo(prod, wk, resenas) {
-  const orden = ['experta', 'ingrediente', 'mito', 'taller', 'miniguia', 'cambio', 'opinion'];
+  const orden = ['experta', 'ingrediente', 'mito', 'marca', 'miniguia', 'temporada', 'cambio', 'opinion'];
   const tipo = orden[wk % orden.length];
   const P = (t) => `<p style="margin:8px 0 0;font-size:14px;line-height:1.6;color:#444">${t}</p>`;
 
@@ -1446,10 +1484,20 @@ function nlContenidoRotativo(prod, wk, resenas) {
       const m = NL_MITOS[wk % NL_MITOS.length];
       return { sub: '❓ Mito y realidad', cuerpo: `${P('<strong style="color:#b23b3b">Mito:</strong> ' + m.m)}${P('<strong style="color:#3f4a2e">Realidad:</strong> ' + m.r)}` };
     },
-    taller: () => ({ sub: '💚 Historia del taller', cuerpo: P(NL_TALLER[wk % NL_TALLER.length]) }),
+    marca: () => {
+      const t = NL_TALLER[wk % NL_TALLER.length];
+      return { sub: '💚 Detrás de la marca', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${t.t}</p>${P(t.x)}` };
+    },
     miniguia: () => {
       const g = NL_MINIGUIAS[wk % NL_MINIGUIAS.length];
       return { sub: '📚 Mini-guía', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${g.t}</p>${P(g.x)}` };
+    },
+    temporada: () => {
+      const est = nlEstacion();
+      const arr = NL_TEMPORADA[est.clave] || [];
+      if (!arr.length) return null;
+      const c = arr[wk % arr.length];
+      return { sub: `🗓️ Consejo de temporada · ${est.nombre}`, cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${c.t}</p>${P(c.x)}` };
     },
     cambio: () => ({ sub: '♻️ Pequeños cambios, gran impacto', cuerpo: P(NL_CONSEJOS[wk % NL_CONSEJOS.length]) }),
     opinion: () => {
@@ -1462,7 +1510,7 @@ function nlContenidoRotativo(prod, wk, resenas) {
 
   let out = gen[tipo] ? gen[tipo]() : null;
   if (!out) { // reserva garantizada si el formato contextual no aplica
-    const reserva = [gen.mito, gen.miniguia, gen.cambio, gen.taller];
+    const reserva = [gen.mito, gen.miniguia, gen.cambio, gen.marca];
     out = reserva[wk % reserva.length]();
   }
   return out;
@@ -1544,6 +1592,30 @@ function nlBeneficios(prod) {
 }
 
 function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
+  // Una de cada 4 semanas: carta educativa SIN producto (aporta valor, no vende).
+  const _wk = nlSemanaIdx();
+  if (_wk % 4 === 3 && NL_CARTAS.length) {
+    const carta = NL_CARTAS[Math.floor(_wk / 4) % NL_CARTAS.length];
+    const ap = `<p style="text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:16px;color:#5d6b47;max-width:460px;margin:8px auto 22px;line-height:1.6">${NL_APERTURAS[_wk % NL_APERTURAS.length]}</p>`;
+    const htmlE =
+      `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#333;background:#fff">` +
+      `<div style="text-align:center;padding:18px 0"><span style="font-size:20px;font-weight:700;color:#6b7a4f">Savia de Alma</span><br><span style="font-size:12px;color:#999;letter-spacing:1px">COSMÉTICA SÓLIDA NATURAL</span></div>` +
+      ap +
+      `<div style="border:1px solid #dfe6d2;border-radius:14px;padding:22px;margin:0 0 22px;background:#fbfcf8">` +
+        `<div style="font-family:Georgia,'Times New Roman',serif;font-size:15px;color:#6b7a4f;font-weight:700;margin-bottom:4px">🌿 Un minuto para cuidar mejor de ti</div>` +
+        `<h1 style="font-size:23px;color:#3f4a2e;margin:6px 0 12px;line-height:1.25">${carta.t}</h1>` +
+        `<div style="font-size:15px;line-height:1.75;color:#444">${carta.x}</div>` +
+      `</div>` +
+      nlBloqueValores() +
+      `<div style="text-align:center;margin:26px 0 6px">` +
+        `<a href="${NL_SITE}/tienda.html" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Descubre la tienda</a>` +
+        `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
+      `</div>` +
+      `<hr style="border:none;border-top:1px solid #eee;margin:20px 0">` +
+      `<p style="font-size:11px;color:#aaa;text-align:center;line-height:1.6">Savia de Alma · Cosmética sólida natural · Hecho a mano en España<br>Recibes este correo porque te apuntaste en saviadealma.com.<br><a href="${unsubUrl}" style="color:#999">Darse de baja</a></p></div>`;
+    return { subject: `🌿 ${carta.t}`, html: htmlE };
+  }
+
   const comps = elegirComplementarios(prod, prods, cfg, 3);
   const compCards = comps.map(c => `
     <td style="padding:6px;vertical-align:top;width:33%">
@@ -1558,6 +1630,9 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const uso = prod.modoUso ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">💡 Cómo usarlo:</strong> ${prod.modoUso}</p>` : '';
   const paraQuien = prod.indicado ? `<p style="margin:10px 0;font-size:14px;color:#444"><strong style="color:#6b7a4f">🌿 Ideal para:</strong> ${prod.indicado}</p>` : '';
   const lema = prod.lema ? `<p style="font-style:italic;color:#8a9b6a;margin:4px 0 0">${prod.lema}</p>` : '';
+  const porque = prod.collectionName
+    ? `<p style="font-size:13px;color:#6d7a58;max-width:360px;margin:8px auto 0;line-height:1.5">Nuestra elección de esta semana entre los ${prod.collectionName.toLowerCase()}.</p>`
+    : '';
   // Banner de ofertas por categoría activas.
   const dc = cfg.descuentosCategoria || {};
   const nombreCol = {};
@@ -1584,6 +1659,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       `<img src="${nlImg(prod.image)}" alt="${prod.title}" width="280" style="width:100%;max-width:300px;border-radius:12px;margin:12px 0">` +
       `<h1 style="font-size:22px;color:#3f4a2e;margin:6px 0">${prod.emoji || ''} ${prod.title}</h1>` +
       lema +
+      porque +
       `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px">Verlo en la tienda</a>` +
     `</div>` +
     (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
