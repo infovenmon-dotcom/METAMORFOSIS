@@ -1237,7 +1237,7 @@ async function manejarSuscripcion(request, env, cors) {
       `<h2 style="color:#6b7a4f">¡Bienvenida/o a Savia de Alma! 🌿</h2>` +
       `<p>Gracias por unirte. Como <strong>regalo de bienvenida</strong>, en tu <strong>primer pedido</strong> te incluimos una <strong>jabonera de bambú</strong> + una <strong>esponja exfoliante</strong>.</p>` +
       `<p>Y recuerda nuestra promo: <strong>por cada 3 productos, el 4º gratis</strong> (el de menor valor). Envío gratis desde 45 €.</p>` +
-      `<p style="margin:22px 0"><a href="https://saviadealma.com/tienda.html" style="background:#6b7a4f;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Ver la tienda</a></p>` +
+      `<p style="margin:22px 0"><a href="${nlTiendaUrl('bienvenida')}" style="background:#6b7a4f;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Ver la tienda</a></p>` +
       `<p style="color:#8a9b6a;font-weight:600">Savia de Alma · Cosmética sólida natural</p>` +
       `<hr style="border:none;border-top:1px solid #eee"><p style="color:#aaa;font-size:12px">Recibes este correo porque te apuntaste en saviadealma.com. Puedes darte de baja respondiendo a este correo.</p>` +
       `</div>`;
@@ -1289,7 +1289,9 @@ function nlImg(img) {
   if (/^https?:/i.test(img)) return img;
   return NL_SITE + '/' + String(img).replace(/^\/+/, '');
 }
-function nlProductoUrl(handle) { return NL_SITE + '/tienda.html#' + encodeURIComponent(handle); }
+const NL_UTM = 'utm_source=newsletter&utm_medium=email';
+function nlProductoUrl(handle, content) { return `${NL_SITE}/tienda.html?${NL_UTM}&utm_content=${content || 'producto'}#${encodeURIComponent(handle)}`; }
+function nlTiendaUrl(content) { return `${NL_SITE}/tienda.html?${NL_UTM}&utm_content=${content || 'tienda'}`; }
 const nlEur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 
 /* Índice de semana (para rotar los textos editoriales sin repetir). */
@@ -1504,7 +1506,10 @@ function nlContenidoRotativo(prod, wk, resenas) {
     },
     pregunta: () => {
       const q = NL_PREGUNTAS[wk % NL_PREGUNTAS.length];
-      return { sub: '🌿 La pregunta de la semana', cuerpo: `<p style="margin:0;font-weight:600;color:#3f4a2e">${q.q}</p>${P(q.a)}` };
+      const cuerpo = `<p style="margin:0 0 6px;font-size:13px;color:#8a9b6a">Una de las dudas que más nos llegan:</p>` +
+        `<p style="margin:0;font-weight:600;color:#3f4a2e">${q.q}</p>${P(q.a)}` +
+        `<p style="margin:12px 0 0;font-size:13px;color:#6d7a58">¿Tienes otra duda? Responde a este correo y la resolvemos en un próximo envío. 💚</p>`;
+      return { sub: '🌿 La pregunta de la semana', cuerpo };
     },
     mito: () => {
       const m = NL_MITOS[wk % NL_MITOS.length];
@@ -1624,12 +1629,12 @@ function nlBeneficios(prod) {
 
 /* Frases de recomendación para "el favorito de la semana" (rotan; algunas por familia). */
 const NL_FAVORITO = [
-  { t: 'Es de los que más nos gusta recomendar, y esta semana queríamos que lo conocieras.' },
+  { t: 'Cuando alguien nos pregunta con cuál empezar, este suele ser uno de los primeros que enseñamos.' },
+  { t: 'Es de los que más nos gusta recomendar: fácil de usar y de los que apetece repetir.' },
   { t: 'Uno de esos productos que, cuando lo pruebas, entiendes por qué nos gusta tanto.' },
-  { t: 'Un imprescindible de la casa: sencillo, honesto y de los que apetece repetir.' },
-  { cat: 'champus', t: 'Si nunca has probado un champú sólido, este suele ser un buen punto de partida.' },
-  { cat: 'jabones', t: 'Un jabón sencillo y honesto, de los que apetece tener siempre a mano en el baño.' },
-  { cat: 'faciales', t: 'Para el cuidado del rostro nos gusta ir con delicadeza, y este es un buen compañero para empezar.' },
+  { cat: 'champus', t: 'Es uno de los champús que más recomendamos a quien empieza con la cosmética sólida: suele resultar muy fácil de usar desde el primer lavado.' },
+  { cat: 'jabones', t: 'Un jabón sencillo y honesto; de esos que, cuando los pruebas, se quedan fijos en tu baño.' },
+  { cat: 'faciales', t: 'Para el rostro nos gusta ir con delicadeza, y este es de los que solemos recomendar para empezar.' },
 ];
 
 function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
@@ -1647,9 +1652,12 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
         `<h1 style="font-size:23px;color:#3f4a2e;margin:6px 0 12px;line-height:1.25">${carta.t}</h1>` +
         `<div style="font-size:15px;line-height:1.75;color:#444">${carta.x}</div>` +
       `</div>` +
+      `<div style="background:#eef3e6;border-radius:12px;padding:16px 18px;margin:0 0 22px;text-align:center">` +
+        `<p style="margin:0;font-size:14px;color:#3f4a2e;line-height:1.6">¿Hay alguna duda sobre cosmética sólida que te gustaría que respondiéramos en un próximo correo? <strong>Solo tienes que responder a este email</strong> — leemos todos los mensajes. 💚</p>` +
+      `</div>` +
       nlBloqueValores(_wk) +
       `<div style="text-align:center;margin:26px 0 6px">` +
-        `<a href="${NL_SITE}/tienda.html" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Descubre la tienda</a>` +
+        `<a href="${nlTiendaUrl('carta')}" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Descubre la tienda</a>` +
         `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
       `</div>` +
       `<hr style="border:none;border-top:1px solid #eee;margin:20px 0">` +
@@ -1660,7 +1668,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
   const comps = elegirComplementarios(prod, prods, cfg, 3);
   const compCards = comps.map(c => `
     <td style="padding:6px;vertical-align:top;width:33%">
-      <a href="${nlProductoUrl(c.handle)}" style="text-decoration:none;color:#333">
+      <a href="${nlProductoUrl(c.handle, 'relacionado')}" style="text-decoration:none;color:#333">
         <img src="${nlImg(c.image)}" alt="${c.title}" width="150" style="width:100%;max-width:160px;border-radius:10px;display:block">
         <div style="font-size:13px;margin:6px 0 2px;font-weight:600;line-height:1.3">${c.emoji || ''} ${c.title}</div>
         <div style="font-size:12px;color:#6b7a4f;font-weight:700">Ver →</div>
@@ -1717,7 +1725,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       lema +
       porque +
       precioCampana +
-      `<a href="${nlProductoUrl(prod.handle)}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px">${_enCampana ? 'Aprovechar la oferta' : 'Verlo en la tienda'}</a>` +
+      `<a href="${nlProductoUrl(prod.handle, 'principal')}" style="display:inline-block;background:#6b7a4f;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px">${_enCampana ? 'Aprovechar la oferta' : 'Verlo en la tienda'}</a>` +
     `</div>` +
     (beneficios ? `<h3 style="color:#6b7a4f;font-size:16px;margin:22px 0 4px">Por qué te va a gustar</h3>${beneficios}` : '') +
     uso + paraQuien +
@@ -1726,7 +1734,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       `<table style="width:100%;border-collapse:collapse"><tr>${compCards}</tr></table>` : '') +
     editorial +
     `<div style="text-align:center;margin:28px 0 6px">` +
-      `<a href="${NL_SITE}/tienda.html" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Ver toda la tienda</a>` +
+      `<a href="${nlTiendaUrl('tienda')}" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Ver toda la tienda</a>` +
       `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
     `</div>` +
     `<hr style="border:none;border-top:1px solid #eee;margin:20px 0">` +
