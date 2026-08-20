@@ -108,8 +108,13 @@ function verFactura(num) {
     <style>
       body{font-family:Arial,Helvetica,sans-serif;color:#222;max-width:760px;margin:24px auto;padding:0 18px;font-size:14px}
       .cab{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #1D6B50;padding-bottom:14px}
-      .cab img{height:64px}
-      .emp{font-size:12px;line-height:1.5;text-align:right}
+      .cab .marca{display:flex;align-items:center;gap:12px}
+      .cab .marca img{height:74px}
+      .cab .marca .m-nom{color:#1D6B50;font-weight:800;font-size:24px;line-height:1}
+      .cab .marca .m-sub{color:#8a9b6a;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-top:5px}
+      .emp{font-size:11px;line-height:1.55;text-align:right;color:#777;max-width:230px}
+      .emp .lbl{font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#b3b3b3}
+      .emp strong{color:#555;font-weight:600}
       h1{color:#1D6B50;font-size:22px;margin:18px 0 2px}
       .meta{color:#555;margin-bottom:18px}
       .bloques{display:flex;justify-content:space-between;gap:20px;margin:18px 0}
@@ -128,8 +133,11 @@ function verFactura(num) {
       <button onclick="window.print()" style="padding:8px 16px;background:#1D6B50;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px">🖨️ Imprimir / Guardar PDF</button>
     </div>
     <div class="cab">
-      <div><img src="https://${EMPRESA.web}/assets/img/logo-negro.png" alt="${EMPRESA.marca}"><div style="font-size:13px;color:#1D6B50;font-weight:700;margin-top:2px">${EMPRESA.marca}</div></div>
-      <div class="emp"><strong>${EMPRESA.nombre}</strong><br>CIF: ${EMPRESA.cif}<br>${EMPRESA.dir}<br>${EMPRESA.email}</div>
+      <div class="marca">
+        <img src="https://${EMPRESA.web}/assets/img/logo-negro.png" alt="${EMPRESA.marca}">
+        <div><div class="m-nom">${EMPRESA.marca}</div><div class="m-sub">Cosmética sólida natural</div></div>
+      </div>
+      <div class="emp"><span class="lbl">Datos fiscales del emisor</span><br><strong>${EMPRESA.nombre}</strong><br>CIF: ${EMPRESA.cif}<br>${EMPRESA.dir}<br>${EMPRESA.email}</div>
     </div>
     <h1>Factura</h1>
     <div class="meta">Nº <strong>${f.num}</strong> · Fecha: ${f.fechaIso}</div>
@@ -209,9 +217,9 @@ function pintarBeneficio(d) {
     <div><div class="nota">MARGEN / BENEFICIO</div><strong style="font-size:1.3rem;color:${margenColor}">${_fmtEur(d.margen || 0)}</strong></div>
   </div>
   <div class="fila-top" style="gap:24px;margin-top:14px;align-items:flex-start">
-    <div><div class="nota">IVA repercutido (ventas)</div><strong>${_fmtEur(d.ivaRepercutido || 0)}</strong></div>
-    <div><div class="nota">IVA soportado (compras)</div><strong>${_fmtEur(d.ivaSoportado || 0)}</strong></div>
-    <div><div class="nota">IVA a ingresar ≈</div><strong style="color:var(--verde-oscuro)">${_fmtEur(d.ivaIngresar || 0)}</strong></div>
+    <div><div class="nota">IVA repercutido (cobrado en ventas)</div><strong>${_fmtEur(d.ivaRepercutido || 0)}</strong></div>
+    <div><div class="nota">IVA soportado (de tus compras)</div><strong>${_fmtEur(d.ivaSoportado || 0)}</strong></div>
+    <div style="background:#fbf1e6;border-radius:10px;padding:8px 12px"><div class="nota">IVA a ingresar a Hacienda ≈</div><strong style="font-size:1.25rem;color:#a6631b">${_fmtEur(d.ivaIngresar || 0)}</strong></div>
   </div>`;
   const pp = d.porProducto || [];
   const T = document.getElementById('b-tabla');
