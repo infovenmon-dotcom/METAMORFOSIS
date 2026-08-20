@@ -54,9 +54,12 @@ binding = "SAVIA_KV"
 id = "4dc06d48c3d54e4dabe001c8370b5adc"
 
 # --- Correo semanal automático (newsletter) ---
-# Domingos 09:00 UTC (~10:00-11:00 hora peninsular según horario de verano/invierno).
-# El Worker elige el "producto de la semana" y lo envía a los suscriptores.
-# OJO: en Cloudflare el día de la semana es 1-7 o SUN-SAT (el 0 NO es válido);
-# por eso el domingo se escribe "SUN", no "0".
-[triggers]
-crons = ["0 9 * * SUN"]
+# El cron (domingos 09:00 UTC) se registra MANUALMENTE en el panel de Cloudflare:
+#   Worker savia-pago → Configuración → Eventos de activación → Activadores cron
+#   → Agregar → "0 9 * * SUN"
+# Se saca de aquí a propósito: el despliegue por Workers Builds fallaba al
+# registrar el cron (la API rechaza el envío por CI y marcaba el build en rojo),
+# aunque el código del Worker se desplegaba bien. Al no gestionar el cron desde
+# wrangler, el despliegue ya no depende de eso y los builds quedan en verde.
+# El handler scheduled() del Worker sigue intacto; solo cambia dónde se define
+# el horario (panel en vez de este archivo).
