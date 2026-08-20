@@ -426,13 +426,14 @@ async function enviarEmailPedido(full, env) {
     ? '<ul>' + lineas.map(li => {
         const cant = li.quantity || 1;
         const totalLinea = (li.amount_total || 0) / 100;
-        const esRegalo = totalLinea === 0 || /^🎁/.test(li.description || '');
+        const desc = li.description || '';
+        const esBienvenida = /regalo de bienvenida/i.test(desc);
+        const esPromo = !esBienvenida && (totalLinea === 0 || /^🎁/.test(desc));
         const unit = cant > 0 ? totalLinea / cant : 0;
-        return `<li>${cant} × ${li.description}` +
-          (esRegalo
-            ? ' — <strong>GRATIS (regalo 3+1)</strong>'
-            : ` — ${unit.toFixed(2)} €/ud — ${totalLinea.toFixed(2)} €`) +
-          `</li>`;
+        const marca = esBienvenida ? ' — <strong>GRATIS (regalo de bienvenida)</strong>'
+          : esPromo ? ' — <strong>GRATIS (regalo 3+1)</strong>'
+          : ` — ${unit.toFixed(2)} €/ud — ${totalLinea.toFixed(2)} €`;
+        return `<li>${cant} × ${desc.replace(/\s*\(regalo de bienvenida\)\s*$/i, '')}${marca}</li>`;
       }).join('') + '</ul>'
     : '<p>(ver el detalle en el panel de Stripe)</p>';
   const nombreEnvio = ship.name || cd.name || '';
@@ -474,16 +475,25 @@ async function enviarEmailConfirmacionCliente(full, env) {
   const filas = lineas.map(li => {
     const cant = li.quantity || 1;
     const totalLinea = (li.amount_total || 0) / 100;
-    const esRegalo = totalLinea === 0 || /^🎁/.test(li.description || '');
+    const desc = li.description || '';
+    const esBienvenida = /regalo de bienvenida/i.test(desc);
+    const esPromo = !esBienvenida && (totalLinea === 0 || /^🎁/.test(desc));
+    const esRegalo = esBienvenida || esPromo;
     const unit = cant > 0 ? totalLinea / cant : 0;
-    const nombreProd = (li.description || '').replace(/^🎁\s*Regalo\s*\(gratis\):\s*/i, '');
+    const nombreProd = desc
+      .replace(/^🎁\s*Regalo\s*\(gratis\):\s*/i, '')
+      .replace(/^🎁\s*/, '')
+      .replace(/\s*\(regalo de bienvenida\)\s*$/i, '')
+      .trim();
+    const etiqueta = esBienvenida
+      ? ' <span style="color:#8a6d3b">🎁 regalo de bienvenida</span>'
+      : (esPromo ? ' <span style="color:#8a6d3b">(regalo 3+1)</span>' : '');
     const colPrecio = esRegalo
       ? '<span style="color:#8a6d3b;font-weight:600">GRATIS 🎁</span>'
       : `${eur(unit)} <span style="color:#999">/ ud.</span>`;
     const colTotal = esRegalo ? '0,00 €' : eur(totalLinea);
     return `<tr>` +
-      `<td style="padding:8px 0;border-bottom:1px solid #eee">${cant} × ${nombreProd}` +
-        `${esRegalo ? ' <span style="color:#8a6d3b">(regalo 3+1)</span>' : ''}</td>` +
+      `<td style="padding:8px 0;border-bottom:1px solid #eee">${cant} × ${nombreProd}${etiqueta}</td>` +
       `<td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;white-space:nowrap">${colPrecio}</td>` +
       `<td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;white-space:nowrap">${colTotal}</td>` +
       `</tr>`;
