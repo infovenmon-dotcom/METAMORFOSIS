@@ -466,7 +466,7 @@ async function enviarEmailConfirmacionCliente(full, env) {
   const to = cd.email;
   if (!to) return;
   const eur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
-  const nombre = (cd.name || '').split(' ')[0] || '';
+  const nombre = primerNombre(cd.name);
   const ship = full.shipping_details || (full.collected_information && full.collected_information.shipping_details) || {};
   const a = ship.address || cd.address || {};
   const dir = [a.line1, a.line2, [a.postal_code, a.city].filter(Boolean).join(' '), a.state]
@@ -605,6 +605,14 @@ function extraerEnvio(full) {
   };
 }
 
+/* Devuelve solo el nombre de pila, con la inicial en mayúscula y el resto en
+   minúscula (así "maría", "MARIA" o "María" salen siempre como "María"). */
+function primerNombre(nombreCompleto) {
+  const p = String(nombreCompleto || '').trim().split(/\s+/)[0] || '';
+  if (!p) return '';
+  return p.charAt(0).toLocaleUpperCase('es-ES') + p.slice(1).toLocaleLowerCase('es-ES');
+}
+
 /* Enlace público de seguimiento de CTT Express. */
 function urlSeguimientoCTT(tracking) {
   return 'https://www.cttexpress.com/localizador-de-envios/?sc=' + encodeURIComponent(tracking || '');
@@ -619,7 +627,7 @@ async function enviarEmailCliente(rec, env) {
   if (!email) return;
   const track = rec.tracking || '';
   const link = urlSeguimientoCTT(track);
-  const nombre = (env2.nombre || '').split(' ')[0] || '';
+  const nombre = primerNombre(env2.nombre);
   const eur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
   const lineas = rec.lineas || [];
   const filas = lineas.map(l =>
