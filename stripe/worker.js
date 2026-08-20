@@ -1089,7 +1089,6 @@ async function manejarEnvioGuardar(request, env, cors) {
    envío y nos devuelve la etiqueta. Todo va parametrizado por variables de
    entorno; si faltan las credenciales, los endpoints responden sin romper nada.
    Variables: CTT_BASE_URL, CTT_CLIENT_ID (secreto), CTT_CLIENT_SECRET (secreto),
-   CTT_USER (secreto), CTT_PASSWORD (secreto) — grant de contraseña,
    CTT_CLIENT_CENTER, CTT_SERVICE_PENINSULA (def C24), CTT_SERVICE_BALEARES,
    CTT_LABEL_TYPE (def PDF), CTT_LABEL_MODEL (def SINGLE), CTT_PESO_DEFECTO,
    SENDER_NAME/ADDRESS/CP/TOWN/PHONE (remitente).
@@ -1108,21 +1107,14 @@ async function getTokenCTT(env) {
     const c = await env.SAVIA_KV.get(CTT_TOKEN_KEY, { type: 'json' });
     if (c && c.token && c.exp > Math.floor(Date.now() / 1000) + 60) return c.token;
   }
+  // Según la guía oficial de CTT ("API Authorization"), el token se obtiene con
+  // grant_type=client_credentials y solo client_id + client_secret + scope.
+  // (El usuario/contraseña del alta NO se usan para la API.)
   const body = new URLSearchParams();
   body.append('client_id', String(env.CTT_CLIENT_ID || '').trim());
   body.append('client_secret', String(env.CTT_CLIENT_SECRET || '').trim());
+  body.append('grant_type', 'client_credentials');
   body.append('scope', 'urn:com:ctt-express:integration-clients:scopes:common/ALL');
-  // CTT usa el grant de contraseña cuando se facilitan usuario y contraseña;
-  // si no, cae al de client_credentials.
-  const cttUser = String(env.CTT_USER || '').trim();
-  const cttPass = String(env.CTT_PASSWORD || '');
-  if (cttUser && cttPass) {
-    body.append('grant_type', 'password');
-    body.append('username', cttUser);
-    body.append('password', cttPass);
-  } else {
-    body.append('grant_type', 'client_credentials');
-  }
   const r = await fetch(cttBase(env) + '/integrations/oauth2/token', {
     method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' }, body: body.toString(),
   });
