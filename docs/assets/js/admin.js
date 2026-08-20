@@ -159,6 +159,19 @@ function rangoMesB() {
   document.getElementById('b-hasta').value = _isoFecha(new Date(n.getFullYear(), n.getMonth() + 1, 0));
   calcularBeneficio();
 }
+function rangoTrimestreB() {
+  const n = new Date();
+  const q = Math.floor(n.getMonth() / 3) * 3;
+  document.getElementById('b-desde').value = _isoFecha(new Date(n.getFullYear(), q, 1));
+  document.getElementById('b-hasta').value = _isoFecha(new Date(n.getFullYear(), q + 3, 0));
+  calcularBeneficio();
+}
+function rangoAnioB() {
+  const n = new Date();
+  document.getElementById('b-desde').value = _isoFecha(new Date(n.getFullYear(), 0, 1));
+  document.getElementById('b-hasta').value = _isoFecha(new Date(n.getFullYear(), 11, 31));
+  calcularBeneficio();
+}
 
 async function calcularBeneficio() {
   const msg = document.getElementById('b-msg');
@@ -202,12 +215,28 @@ function pintarBeneficio(d) {
     T.innerHTML = '<p class="nota" style="margin-top:14px">Sin pedidos registrados en ese periodo. (Solo cuentan los pedidos hechos a partir de ahora.)</p>';
     return;
   }
+  const tot = pp.reduce((a, x) => {
+    a.u += x.unidades || 0; a.ing += x.ingresoNeto || 0; a.cos += x.costeTotal || 0; a.ben += x.beneficio || 0; return a;
+  }, { u: 0, ing: 0, cos: 0, ben: 0 });
+  const totMargen = tot.ing > 0 ? Math.round((tot.ben / tot.ing) * 1000) / 10 : 0;
+  const col = v => (v || 0) >= 0 ? 'var(--verde-oscuro)' : '#C0392B';
   T.innerHTML = `<table style="margin-top:16px">
-    <thead><tr><th>Producto</th><th>Uds. vendidas</th><th>Coste/ud.</th><th>Coste total</th></tr></thead>
+    <thead><tr><th>Producto</th><th>Uds.</th><th>P. venta</th><th>Ingresos (s/IVA)</th><th>Coste</th><th>Beneficio</th><th>Margen</th></tr></thead>
     <tbody>${pp.map(x => `<tr>
-      <td>${x.titulo || x.handle}</td><td class="num">${x.unidades}</td>
-      <td class="num">${_fmtEur(x.costeUnit)}</td><td class="num">${_fmtEur(x.costeTotal)}</td>
-    </tr>`).join('')}</tbody></table>`;
+      <td>${x.titulo || x.handle}</td>
+      <td class="num">${x.unidades}</td>
+      <td class="num">${_fmtEur(x.precioUnit || 0)}</td>
+      <td class="num">${_fmtEur(x.ingresoNeto || 0)}</td>
+      <td class="num">${_fmtEur(x.costeTotal || 0)}</td>
+      <td class="num" style="color:${col(x.beneficio)};font-weight:600">${_fmtEur(x.beneficio || 0)}</td>
+      <td class="num">${x.margenPct != null ? x.margenPct + '%' : '—'}</td>
+    </tr>`).join('')}
+    <tr style="border-top:2px solid #ddd;font-weight:700">
+      <td>TOTAL</td><td class="num">${tot.u}</td><td class="num">—</td>
+      <td class="num">${_fmtEur(tot.ing)}</td><td class="num">${_fmtEur(tot.cos)}</td>
+      <td class="num" style="color:${col(tot.ben)}">${_fmtEur(tot.ben)}</td><td class="num">${totMargen}%</td>
+    </tr></tbody></table>
+    <p class="nota" style="margin-top:8px">Ingresos y beneficio por producto son <strong>orientativos</strong> (precio de venta actual, sin IVA, menos coste). No reparten las comisiones de Stripe ni gastos generales; el beneficio "oficial" del periodo es el <strong>MARGEN</strong> de arriba.</p>`;
 }
 
 /* Carga la config actual del servidor y pinta la tabla. */

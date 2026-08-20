@@ -915,16 +915,23 @@ async function manejarBeneficio(request, env, cors) {
   const porProducto = [];
   for (const [h, u] of Object.entries(unidades)) {
     const c = Number(costes[h]) || 0;
-    const total = Math.round(c * u * 100) / 100;
-    cogs += total;
+    const costeTotal = Math.round(c * u * 100) / 100;
+    cogs += costeTotal;
+    let precioUnit = 0;
+    try { precioUnit = precioEfectivo(h, productos, cfg); }
+    catch { precioUnit = (productos[h] && productos[h].price) || 0; }
+    const ingresoNeto = Math.round((precioUnit * u / 1.21) * 100) / 100; // sin IVA
+    const beneficio = Math.round((ingresoNeto - costeTotal) * 100) / 100;
+    const margenPct = ingresoNeto > 0 ? Math.round((beneficio / ingresoNeto) * 1000) / 10 : 0;
     porProducto.push({
       handle: h,
       titulo: (productos[h] && productos[h].title) || h,
-      unidades: u, costeUnit: c, costeTotal: total,
+      unidades: u, costeUnit: c, costeTotal,
+      precioUnit, ingresoNeto, beneficio, margenPct,
     });
   }
   cogs = Math.round(cogs * 100) / 100;
-  porProducto.sort((a, b) => b.costeTotal - a.costeTotal);
+  porProducto.sort((a, b) => b.beneficio - a.beneficio);
 
   const base = stripe.resumen.base;
   const comis = stripe.resumen.comisiones;
