@@ -1343,6 +1343,14 @@ async function manejarSuscripcion(request, env, cors) {
       `<h2 style="color:#6b7a4f">¡Bienvenida/o a Savia de Alma! 🌿</h2>` +
       `<p>Gracias por unirte. Como <strong>regalo de bienvenida</strong>, en tu <strong>primer pedido</strong> te incluimos una <strong>jabonera de bambú</strong> + una <strong>esponja exfoliante</strong>.</p>` +
       `<p>Y recuerda nuestra promo: <strong>por cada 3 productos, el 4º gratis</strong> (el de menor valor). Envío gratis desde 45 €.</p>` +
+      `<p style="margin-top:18px">Además, cada <strong>domingo</strong> te escribimos con <strong>algo útil</strong> —nunca solo promociones:</p>` +
+      `<ul style="padding-left:18px;color:#444;line-height:1.7;margin:6px 0 0">` +
+        `<li>💡 Un consejo de cuidado (o de nuestra experta)</li>` +
+        `<li>🌿 El ingrediente de la semana</li>` +
+        `<li>❓ Un mito que desmontamos</li>` +
+        `<li>⭐ Una opinión real de clientes</li>` +
+        `<li>♻️ Un pequeño gesto sostenible</li>` +
+      `</ul>` +
       cta + pie + `</div>`;
   }
 
@@ -1390,9 +1398,11 @@ function nlImg(img) {
   if (/^https?:/i.test(img)) return img;
   return NL_SITE + '/' + String(img).replace(/^\/+/, '');
 }
-const NL_UTM = 'utm_source=newsletter&utm_medium=email';
-function nlProductoUrl(handle, content) { return `${NL_SITE}/tienda.html?${NL_UTM}&utm_content=${content || 'producto'}#${encodeURIComponent(handle)}`; }
-function nlTiendaUrl(content) { return `${NL_SITE}/tienda.html?${NL_UTM}&utm_content=${content || 'tienda'}`; }
+// & escapado como &amp; porque estas URLs van dentro de href en HTML de email
+// (algunos clientes, Gmail incluido, rompen el enlace con & sin escapar).
+const NL_UTM = 'utm_source=newsletter&amp;utm_medium=email';
+function nlProductoUrl(handle, content) { return `${NL_SITE}/tienda.html?${NL_UTM}&amp;utm_content=${content || 'producto'}#${encodeURIComponent(handle)}`; }
+function nlTiendaUrl(content) { return `${NL_SITE}/tienda.html?${NL_UTM}&amp;utm_content=${content || 'tienda'}`; }
 const nlEur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 
 /* Índice de semana (para rotar los textos editoriales sin repetir). */
@@ -1956,7 +1966,7 @@ async function enviarNewsletterSemanal(env, opts = {}) {
   for (const to of destinatarios) {
     try {
       const token = await nlToken(to, env);
-      const unsub = nlWorker(env) + '/unsubscribe?e=' + encodeURIComponent(to) + '&t=' + token;
+      const unsub = nlWorker(env) + '/unsubscribe?e=' + encodeURIComponent(to) + '&amp;t=' + token;
       const { subject, html } = construirCorreoSemanal(prod, prods, cfg, unsub, resenas);
       const r = await enviarEmail(env, { to, subject, html, replyTo: env.ORDER_EMAIL_TO || undefined, fromName: 'Savia de Alma' });
       if (r && r.ok) enviados++;
