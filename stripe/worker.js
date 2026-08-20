@@ -192,6 +192,28 @@ function igualSeguro(a, b) {
   return r === 0;
 }
 
+/* ---------- Protección anti fuerza bruta del panel /admin ----------
+   Cuenta intentos fallidos por IP y bloquea temporalmente tras varios. */
+const ADMIN_MAX_FALLOS = 8;      // intentos permitidos
+const ADMIN_BLOQUEO_SEG = 900;   // 15 minutos de bloqueo/ventana
+function _ipCliente(request) {
+  return request.headers.get('CF-Connecting-IP') ||
+    (request.headers.get('x-forwarded-for') || '').split(',')[0].trim() || 'na';
+}
+async function adminBloqueado(env, ip) {
+  if (!env.SAVIA_KV) return false;
+  const n = parseInt(await env.SAVIA_KV.get('authfail:' + ip) || '0', 10) || 0;
+  return n >= ADMIN_MAX_FALLOS;
+}
+async function adminRegistraFallo(env, ip) {
+  if (!env.SAVIA_KV) return;
+  const n = (parseInt(await env.SAVIA_KV.get('authfail:' + ip) || '0', 10) || 0) + 1;
+  await env.SAVIA_KV.put('authfail:' + ip, String(n), { expirationTtl: ADMIN_BLOQUEO_SEG });
+}
+async function adminReset(env, ip) {
+  if (env.SAVIA_KV) { try { await env.SAVIA_KV.delete('authfail:' + ip); } catch { /* */ } }
+}
+
 /* ---------- Saneado de la config que llega del panel ---------- */
 function numNoNeg(v) { const n = Number(v); return (isFinite(n) && n >= 0) ? n : null; }
 function sanearConfig(entrada, handlesValidos) {
@@ -1999,6 +2021,20 @@ export default {
       if (path === '/config' && request.method === 'GET') {
         const cfg = await getConfig(env);
         return jsonResp(cfg, 200, cors);
+      }
+      // --- Muro central del panel: bloqueo por fuerza bruta + auth por cabecera.
+      //     Aplica a TODAS las rutas /admin/*. Los handlers vuelven a comprobar.
+      if (path.startsWith('/admin/') && request.method === 'POST') {
+        const ip = _ipCliente(request);
+        if (await adminBloqueado(env, ip)) {
+          return jsonResp({ error: 'demasiados_intentos', reintenta_en: '15 min' }, 429, cors);
+        }
+        const passH = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
+        if (!env.ADMIN_PASSWORD || !igualSeguro(passH, env.ADMIN_PASSWORD)) {
+          await adminRegistraFallo(env, ip);
+          return jsonResp({ error: 'no_autorizado' }, 401, cors);
+        }
+        await adminReset(env, ip);
       }
       // Guardar config desde el panel /admin.
       if (path === '/admin/config' && request.method === 'POST') {
