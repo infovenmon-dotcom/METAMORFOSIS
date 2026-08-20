@@ -1831,12 +1831,12 @@ window.SAVIA_DATA = {
     {
       "handle": "jabonera-bambu",
       "title": "Jabonera de Bambú",
-      "short": "Base de bambú natural que mantiene tu pastilla seca entre usos y la hace durar mucho más.",
+      "short": "Base de bambú natural para jabones y pastillas grandes: las mantiene secas entre usos y las hace durar mucho más.",
       "features": [
         "Bambú 100% natural y sostenible",
         "Drena el agua: tu pastilla dura más",
         "Ligera y antideslizante",
-        "Para champús y jabones sólidos"
+        "Ideal para jabones y pastillas grandes"
       ],
       "tags": [
         "accesorio",
@@ -1857,11 +1857,44 @@ window.SAVIA_DATA = {
         "BAMBÚ NATURAL Y SOSTENIBLE: material renovable, biodegradable y resistente.",
         "TU PASTILLA DURA MÁS: drena el agua y evita que se reblandezca entre usos.",
         "LIGERA Y BONITA: perfecta para casa o para llevar de viaje.",
-        "COMPLEMENTO IDEAL: para tus champús y jabones sólidos Savia de Alma."
+        "IDEAL PARA JABONES: perfecta para tus pastillas de jabón Savia de Alma (para champús, prueba la Jabonera Pequeña)."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Base de bambú natural que mantiene tu pastilla seca entre usos y la hace durar mucho más.",
+      "descripcion": "Base de bambú natural para jabones y pastillas grandes, que las mantiene secas entre usos y las hace durar mucho más.",
+      "indicado": "",
+      "modoUso": "",
+      "lema": "",
+      "specs": {}
+    },
+    {
+      "handle": "jabonera-pequena",
+      "title": "Jabonera Pequeña de Bambú",
+      "short": "Base de bambú compacta, ideal para champús sólidos y pastillas pequeñas: las mantiene secas y hacen que duren más.",
+      "features": [
+        "Tamaño compacto para champús y pastillas pequeñas",
+        "Bambú 100% natural y sostenible",
+        "Drena el agua: tu pastilla dura más",
+        "Ligera y perfecta para viajar"
+      ],
+      "tags": ["accesorio", "exclusivo web"],
+      "price": 3.49,
+      "sku": "",
+      "type": "Accesorios",
+      "collection": "accesorios",
+      "collectionName": "Accesorios",
+      "emoji": "🧺",
+      "image": "assets/img/products/jabonera-pequena.jpg",
+      "images": ["assets/img/products/jabonera-pequena.jpg"],
+      "bullets": [
+        "COMPACTA Y PRÁCTICA: pensada para champús sólidos y pastillas pequeñas.",
+        "BAMBÚ NATURAL Y SOSTENIBLE: material renovable, biodegradable y resistente.",
+        "TU PASTILLA DURA MÁS: drena el agua y evita que se reblandezca entre usos.",
+        "PERFECTA PARA VIAJAR: ligera y de tamaño reducido, cabe en cualquier neceser."
+      ],
+      "exclusiveWeb": true,
+      "bestSeller": false,
+      "descripcion": "Jabonera de bambú de tamaño compacto, ideal para champús sólidos y pastillas pequeñas. Drena el agua y las mantiene secas entre usos para que duren mucho más.",
       "indicado": "",
       "modoUso": "",
       "lema": "",
