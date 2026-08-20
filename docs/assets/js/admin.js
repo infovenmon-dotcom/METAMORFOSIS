@@ -442,6 +442,24 @@ function nlEnviarYa() {
   if (!confirm('¿Enviar el correo semanal AHORA a todos los suscriptores?')) return;
   _nlPost({ accion: 'enviar_ya' }, (d) => `✓ Enviado a ${d.enviados || 0} de ${d.total || 0} suscriptores.`);
 }
+async function resetCliente() {
+  const msg = document.getElementById('reset-msg');
+  const email = (document.getElementById('reset-email').value || '').trim();
+  if (!email) { _msg(msg, 'Escribe un email.', 'err'); return; }
+  if (!confirm('¿Resetear el regalo de bienvenida para ' + email + '? (solo para pruebas)')) return;
+  _msg(msg, 'Reseteando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/reset-cliente', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ email }),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data.ok) throw new Error(data.error || ('HTTP ' + r.status));
+    _msg(msg, '✓ Reseteado. Ese email volverá a recibir el regalo en su próximo pedido.', 'ok');
+  } catch (e) { _msg(msg, 'Error: ' + e.message, 'err'); }
+}
 
 /* ---------- Centro de cuentas ---------- */
 let MOVIMIENTOS = [];

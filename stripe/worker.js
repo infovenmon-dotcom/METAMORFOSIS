@@ -2017,6 +2017,19 @@ async function manejarNewsletter(request, env, cors) {
   return jsonResp({ error: 'accion_desconocida' }, 400, cors);
 }
 
+/* Reset de un cliente (para PRUEBAS): borra la marca de regalo, el contador de
+   pedidos y el último pedido, para poder volver a probar el regalo de bienvenida. */
+async function manejarResetCliente(request, env, cors) {
+  let body; try { body = await request.json(); } catch { body = {}; }
+  const email = String(body.email || '').trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return jsonResp({ ok: false, error: 'email' }, 400, cors);
+  if (!env.SAVIA_KV) return jsonResp({ ok: false, error: 'sin_kv' }, 200, cors);
+  await env.SAVIA_KV.delete('regalo:' + email);
+  await env.SAVIA_KV.delete('cliente:' + email);
+  await env.SAVIA_KV.delete('ultimopedido:' + email);
+  return jsonResp({ ok: true, email }, 200, cors);
+}
+
 export default {
   async fetch(request, env) {
     const allowed = env.ALLOWED_ORIGIN || '*';
@@ -2093,6 +2106,9 @@ export default {
       // Panel: configurar/enviar el correo semanal.
       if (path === '/admin/newsletter' && request.method === 'POST') {
         return await manejarNewsletter(request, env, cors);
+      }
+      if (path === '/admin/reset-cliente' && request.method === 'POST') {
+        return await manejarResetCliente(request, env, cors);
       }
       if (path === '/admin/test-chat' && request.method === 'POST') {
         return await manejarTestChat(request, env, cors);

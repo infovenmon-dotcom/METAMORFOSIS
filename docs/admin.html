@@ -161,6 +161,18 @@
         <p class="msg" id="nl-msg" style="margin-top:10px"></p>
       </div>
 
+      <div class="admin-caja">
+        <h2 style="color:var(--verde-oscuro);font-size:1.1rem;margin:0 0 4px">🧪 Herramientas de prueba</h2>
+        <p class="nota" style="margin-bottom:12px">Resetea un cliente para volver a probar el <strong>regalo de bienvenida</strong> (borra la marca de "ya recibido", el contador de pedidos y su último pedido). Úsalo solo para pruebas.</p>
+        <div class="fila-top">
+          <label style="display:flex;flex-direction:column;font-size:.8rem">Email del cliente
+            <input type="email" id="reset-email" placeholder="tu@correo.com" style="min-width:220px">
+          </label>
+          <button class="btn btn-secundario" onclick="resetCliente()">🔄 Resetear regalo</button>
+          <span class="msg" id="reset-msg"></span>
+        </div>
+      </div>
+
       <div class="barra-acciones">
         <button class="btn btn-primario" onclick="guardar()">💾 Guardar cambios</button>
         <button class="btn btn-secundario" onclick="cargar()">↻ Recargar</button>
@@ -244,6 +256,6 @@
 
   <script src="assets/js/config.js"></script>
   <script src="assets/js/products.js?v=20260814-7"></script>
-  <script src="assets/js/admin.js?v=20260814-6"></script>
+  <script src="assets/js/admin.js?v=20260814-8"></script>
 </body>
 </html>
