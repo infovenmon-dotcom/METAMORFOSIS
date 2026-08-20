@@ -935,14 +935,17 @@ async function manejarBeneficio(request, env, cors) {
 
   const base = stripe.resumen.base;
   const comis = stripe.resumen.comisiones;
-  const margen = Math.round((base - cogs - comis) * 100) / 100;
+  // Coste de envío que paga el NEGOCIO (etiqueta CTT), por pedido emitido.
+  const costeEnvioPorPedido = Number(body.costeEnvioPorPedido) || 0;
+  const costeEnvios = Math.round(stripe.resumen.pedidos * costeEnvioPorPedido * 100) / 100;
+  const margen = Math.round((base - cogs - comis - costeEnvios) * 100) / 100;
   const ivaSoportado = Number(body.ivaSoportado) || 0;
   const ivaIngresar = Math.round((stripe.resumen.iva - ivaSoportado) * 100) / 100;
 
   return jsonResp({
     pedidos: stripe.resumen.pedidos,
     ventasBrutas: stripe.resumen.ventasBrutas,
-    base, comisiones: comis, cogs, margen,
+    base, comisiones: comis, cogs, costeEnvioPorPedido, costeEnvios, margen,
     ivaRepercutido: stripe.resumen.iva, ivaSoportado, ivaIngresar,
     porProducto,
   }, 200, cors);
