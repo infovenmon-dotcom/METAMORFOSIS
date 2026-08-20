@@ -879,6 +879,42 @@ async function manejarFacturas(request, env, cors) {
 }
 
 /* ---------- Beneficio real: ventas (base) - coste de lo vendido - comisiones ---------- */
+/* ---------- Estimación del coste de envío CTT por pedido ----------
+   Tarifas de la propuesta CTT (VENMON). Precio por bulto según kg (mínimo 1,
+   redondeo al alza) y zona. Sin IVA (recuperable). Servicios usados: Península
+   = CTT 24h (C24); Baleares = Baleares Economy (CBA48). Es una ESTIMACIÓN. */
+const CTT_TARIFA = {
+  C24: {
+    provincial: [3.28, 3.47, 3.64, 3.83, 3.96], adicProv: 0.24,
+    peninsular: [3.51, 3.69, 3.86, 4.04, 4.17], adicPen: 0.32,
+  },
+  CBA48: { mallorca: [4.83, 5.67, 6.52, 7.36, 8.19], adic: 0.84 },
+};
+function _zonaCP(cp) {
+  const p = String(cp || '').trim().slice(0, 2);
+  if (p === '07') return 'baleares';
+  if (p === '35' || p === '38') return 'canarias';
+  if (p === '51' || p === '52') return 'ceutamelilla';
+  if (p === '28') return 'provincial';           // origen Madrid (Pinto)
+  if (/^\d{2}$/.test(p)) return 'peninsular';
+  return 'peninsular';
+}
+function _gramos(specsPeso) {
+  const m = String(specsPeso || '').match(/(\d+(?:[.,]\d+)?)\s*g/i);
+  return m ? parseFloat(m[1].replace(',', '.')) : 0;
+}
+function costeEnvioCTT(gramos, cp, fuelPct) {
+  const kg = Math.max(1, Math.ceil((Number(gramos || 0) + 120) / 1000)); // +120 g embalaje
+  const z = _zonaCP(cp);
+  let base;
+  if (z === 'baleares') { const t = CTT_TARIFA.CBA48; base = kg <= 5 ? t.mallorca[kg - 1] : t.mallorca[4] + (kg - 5) * t.adic; }
+  else if (z === 'provincial') { const t = CTT_TARIFA.C24; base = kg <= 5 ? t.provincial[kg - 1] : t.provincial[4] + (kg - 5) * t.adicProv; }
+  else if (z === 'canarias' || z === 'ceutamelilla') { base = 12; } // destinos especiales (aprox.)
+  else { const t = CTT_TARIFA.C24; base = kg <= 5 ? t.peninsular[kg - 1] : t.peninsular[4] + (kg - 5) * t.adicPen; }
+  const fuel = 1 + (Number(fuelPct) || 0) / 100;
+  return Math.round(base * fuel * 100) / 100;
+}
+
 async function manejarBeneficio(request, env, cors) {
   if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
   let body = {}; try { body = await request.json(); } catch { /* */ }
@@ -889,8 +925,15 @@ async function manejarBeneficio(request, env, cors) {
   try { stripe = await agregarStripe(env, desde, hasta); }
   catch (e) { return jsonResp({ error: 'Stripe', detalle: String(e.message || e) }, 502, cors); }
 
-  // Unidades vendidas por producto (desde el registro de pedidos en KV).
+  // Peso (gramos) por producto, para estimar el coste de envío CTT.
+  const fuelPct = isFinite(Number(body.recargoCombustible)) ? Number(body.recargoCombustible) : 8;
+  const pesoDe = {};
+  try { for (const p of await cargarCatalogoCompleto(env.PRODUCTS_URL)) pesoDe[p.handle] = _gramos(p.specs && p.specs.peso); }
+  catch { /* si no se puede, se usa peso por defecto */ }
+
+  // Unidades vendidas por producto + coste de envío estimado por pedido.
   const unidades = {};
+  let costeEnviosCalc = 0;
   if (env.SAVIA_KV) {
     let cursor = null, guard = 0;
     do {
@@ -900,11 +943,22 @@ async function manejarBeneficio(request, env, cors) {
         const f = Number(m.fecha) || Number(k.name.split(':')[1]) || 0;
         if (f < desde || f > hasta) continue;
         const items = m.items || {};
-        for (const [h, q] of Object.entries(items)) unidades[h] = (unidades[h] || 0) + (parseInt(q, 10) || 0);
+        let gramos = 0;
+        for (const [h, q] of Object.entries(items)) {
+          const n = parseInt(q, 10) || 0;
+          unidades[h] = (unidades[h] || 0) + n;
+          gramos += (pesoDe[h] || 80) * n;
+        }
+        // Código postal del pedido (para la zona): del registro completo.
+        let cp = '';
+        try { const rec = JSON.parse(await env.SAVIA_KV.get(k.name) || '{}'); cp = (rec.envio && rec.envio.cp) || ''; }
+        catch { /* sin cp: se estima como península */ }
+        costeEnviosCalc += costeEnvioCTT(gramos, cp, fuelPct);
       }
       cursor = lst.list_complete ? null : lst.cursor;
     } while (cursor && guard++ < 20);
   }
+  costeEnviosCalc = Math.round(costeEnviosCalc * 100) / 100;
 
   const cfg = await getConfig(env);
   const costes = cfg.costes || {};
@@ -935,9 +989,13 @@ async function manejarBeneficio(request, env, cors) {
 
   const base = stripe.resumen.base;
   const comis = stripe.resumen.comisiones;
-  // Coste de envío que paga el NEGOCIO (etiqueta CTT), por pedido emitido.
+  // Coste de envío que paga el NEGOCIO (etiqueta CTT). Por defecto se ESTIMA por
+  // peso + código postal; si pones un valor fijo por pedido, se usa ese.
   const costeEnvioPorPedido = Number(body.costeEnvioPorPedido) || 0;
-  const costeEnvios = Math.round(stripe.resumen.pedidos * costeEnvioPorPedido * 100) / 100;
+  const envioManual = costeEnvioPorPedido > 0;
+  const costeEnvios = envioManual
+    ? Math.round(stripe.resumen.pedidos * costeEnvioPorPedido * 100) / 100
+    : costeEnviosCalc;
   const margen = Math.round((base - cogs - comis - costeEnvios) * 100) / 100;
   const ivaSoportado = Number(body.ivaSoportado) || 0;
   const ivaIngresar = Math.round((stripe.resumen.iva - ivaSoportado) * 100) / 100;
@@ -945,7 +1003,9 @@ async function manejarBeneficio(request, env, cors) {
   return jsonResp({
     pedidos: stripe.resumen.pedidos,
     ventasBrutas: stripe.resumen.ventasBrutas,
-    base, comisiones: comis, cogs, costeEnvioPorPedido, costeEnvios, margen,
+    base, comisiones: comis, cogs,
+    costeEnvioPorPedido, costeEnvios, costeEnviosCalc, recargoCombustible: fuelPct, envioEstimado: !envioManual,
+    margen,
     ivaRepercutido: stripe.resumen.iva, ivaSoportado, ivaIngresar,
     porProducto,
   }, 200, cors);

@@ -180,12 +180,14 @@ async function calcularBeneficio() {
   if (!desde || !hasta) { _msg(msg, 'Elige las dos fechas.', 'err'); return; }
   const ivaSoportado = parseFloat(document.getElementById('b-ivasop').value) || 0;
   const costeEnvioPorPedido = parseFloat(document.getElementById('b-envio').value) || 0;
+  const fuelEl = document.getElementById('b-fuel');
+  const recargoCombustible = (fuelEl && fuelEl.value !== '') ? (parseFloat(fuelEl.value) || 0) : 8;
   _msg(msg, 'Calculando…', '');
   try {
     const r = await fetch(_base() + '/admin/beneficio', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
-      body: JSON.stringify({ desde, hasta, ivaSoportado, costeEnvioPorPedido }),
+      body: JSON.stringify({ desde, hasta, ivaSoportado, costeEnvioPorPedido, recargoCombustible }),
     });
     if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -203,7 +205,7 @@ function pintarBeneficio(d) {
     <div><div class="nota">Ventas (sin IVA)</div><strong style="font-size:1.15rem">${_fmtEur(d.base || 0)}</strong></div>
     <div><div class="nota">Coste de lo vendido</div><strong style="font-size:1.15rem">${_fmtEur(d.cogs || 0)}</strong></div>
     <div><div class="nota">Comisiones Stripe</div><strong style="font-size:1.15rem">${_fmtEur(d.comisiones || 0)}</strong></div>
-    <div><div class="nota">Coste de envíos${d.pedidos ? ' (' + d.pedidos + ')' : ''}</div><strong style="font-size:1.15rem">${_fmtEur(d.costeEnvios || 0)}</strong></div>
+    <div><div class="nota">Coste de envíos${d.envioEstimado ? ' (estimado)' : ' (fijo)'}${d.pedidos ? ' · ' + d.pedidos + ' ped.' : ''}</div><strong style="font-size:1.15rem">${_fmtEur(d.costeEnvios || 0)}</strong></div>
     <div><div class="nota">MARGEN / BENEFICIO</div><strong style="font-size:1.3rem;color:${margenColor}">${_fmtEur(d.margen || 0)}</strong></div>
   </div>
   <div class="fila-top" style="gap:24px;margin-top:14px;align-items:flex-start">
