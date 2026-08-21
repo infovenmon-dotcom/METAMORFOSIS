@@ -1101,7 +1101,10 @@ async function manejarEnvioGuardar(request, env, cors) {
    CTT_LABEL_TYPE (def PDF), CTT_LABEL_MODEL (def SINGLE), CTT_PESO_DEFECTO,
    SENDER_NAME/ADDRESS/CP/TOWN/PHONE (remitente).
    =========================================================================== */
-const CTT_TOKEN_KEY = 'ctt:token';
+// El token se cachea por credencial (últimos dígitos del client_id): así, al
+// pasar de pruebas a producción, se pide un token nuevo automáticamente en vez
+// de reutilizar el de test guardado en KV.
+function cttTokenKey(env) { return 'ctt:token:' + String(env.CTT_CLIENT_ID || '').slice(-10); }
 function cttBase(env) { return (env.CTT_BASE_URL || 'https://api-test.cttexpress.com').replace(/\/+$/, ''); }
 function cttConfigurado(env) { return !!(env.CTT_CLIENT_ID && env.CTT_CLIENT_SECRET && env.CTT_CLIENT_CENTER); }
 function cttZonaDeCP(cp) { return String(cp || '').padStart(5, '0').startsWith('07') ? 'baleares' : 'peninsula'; }
@@ -1112,7 +1115,7 @@ function cttServicio(env, zona) {
 
 async function getTokenCTT(env) {
   if (env.SAVIA_KV) {
-    const c = await env.SAVIA_KV.get(CTT_TOKEN_KEY, { type: 'json' });
+    const c = await env.SAVIA_KV.get(cttTokenKey(env), { type: 'json' });
     if (c && c.token && c.exp > Math.floor(Date.now() / 1000) + 60) return c.token;
   }
   // Según la guía oficial de CTT ("API Authorization"), el token se obtiene con
@@ -1131,7 +1134,7 @@ async function getTokenCTT(env) {
   const token = d.access_token || d.token;
   const ttl = Math.min(Number(d.expires_in) || 3600, 86400);
   if (env.SAVIA_KV && token) {
-    await env.SAVIA_KV.put(CTT_TOKEN_KEY, JSON.stringify({ token, exp: Math.floor(Date.now() / 1000) + ttl }), { expirationTtl: ttl });
+    await env.SAVIA_KV.put(cttTokenKey(env), JSON.stringify({ token, exp: Math.floor(Date.now() / 1000) + ttl }), { expirationTtl: ttl });
   }
   return token;
 }

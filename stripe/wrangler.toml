@@ -16,8 +16,9 @@ ORDER_EMAIL_TO = "info@saviadealma.com"
 ORDER_EMAIL_FROM = "info@saviadealma.com"
 
 # --- CTT Express (API REST Last Mile) ---
-# Empezamos en el entorno de PRUEBAS. Al pasar a real: CTT_BASE_URL = "https://api.cttexpress.com"
-CTT_BASE_URL = "https://api-test.cttexpress.com"
+# PRODUCCIÓN (credenciales live validadas por CTT el 21/08/2026).
+# Para volver a pruebas: CTT_BASE_URL = "https://api-test.cttexpress.com"
+CTT_BASE_URL = "https://api.cttexpress.com"
 # Código de centro de cliente (10 dígitos) que da CTT. (Código de cliente: 66037)
 CTT_CLIENT_CENTER = "6603700001"
 # Códigos de servicio (de la hoja oficial de CTT):
