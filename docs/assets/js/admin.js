@@ -88,11 +88,31 @@ async function cargarFacturas() {
       <tbody>${FACTURAS.map(f => `<tr>
         <td>${f.num}</td><td>${f.fechaIso}</td><td>${(f.cliente && f.cliente.nombre) || '—'}</td>
         <td class="num">${_fmtEur(f.totalConIva)}</td>
-        <td><button class="btn btn-secundario btn-sm" onclick="verFactura('${f.num}')">Ver / Imprimir</button></td>
+        <td><button class="btn btn-secundario btn-sm" onclick="verFactura('${f.num}')">Ver / Imprimir</button>
+          <button class="btn btn-sm" style="background:#f8d7da;color:#a12a2a;border:none" onclick="borrarFactura('${_esc(f.num)}', ${Number(f.ts) || 0})" title="Borrar factura de prueba">🗑</button></td>
       </tr>`).join('')}</tbody></table>`;
     _msg(msg, '', '');
   } catch (e) {
     _msg(msg, 'No se pudieron cargar: ' + e.message, 'err');
+  }
+}
+
+async function borrarFactura(num, ts) {
+  const msg = document.getElementById('fa-msg');
+  if (!confirm('¿Borrar la factura ' + num + '?\n\nPensado para facturas de PRUEBA. Recuerda que en facturas reales conviene NO borrar (numeración legal).')) return;
+  _msg(msg, 'Borrando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/factura/borrar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ num, ts }),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    _msg(msg, '✔ Factura borrada', 'ok');
+    setTimeout(cargarFacturas, 700);
+  } catch (e) {
+    _msg(msg, 'Error: ' + e.message, 'err');
   }
 }
 
@@ -670,10 +690,33 @@ function pintarEnvios() {
         <input type="text" id="trk-${i}" placeholder="Nº seguimiento CTT" value="${_esc(p.tracking || '')}" style="max-width:200px">
         <label style="font-size:.8rem"><input type="checkbox" id="avi-${i}" checked> Avisar al cliente</label>
         <button class="btn btn-secundario btn-sm" onclick="guardarTracking(${i})">${p.enviado ? 'Actualizar' : 'Marcar enviado'}</button>
+        <button class="btn btn-sm" style="background:#f8d7da;color:#a12a2a;border:none" onclick="borrarPedido(${i})" title="Borrar pedido de prueba y devolver stock">🗑 Borrar</button>
         <span class="msg" id="env-r-${i}"></span>
       </div>
     </div>`;
   }).join('');
+}
+
+async function borrarPedido(i) {
+  const p = ENVIOS[i]; if (!p) return;
+  const e = p.envio || {};
+  if (!confirm('¿Borrar este pedido de ' + (e.nombre || '—') + (p.total != null ? ' (' + _fmtEur(p.total) + ')' : '') + '?\n\nSe DEVOLVERÁ el stock de sus productos y dejará de contar en el beneficio. Pensado para pedidos de PRUEBA.')) return;
+  const r = document.getElementById('env-r-' + i);
+  _msg(r, 'Borrando…', '');
+  try {
+    const resp = await fetch(_base() + '/admin/pedido/borrar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ clave: p.clave, restaurarStock: true }),
+    });
+    if (resp.status === 401) { _msg(r, 'Contraseña incorrecta.', 'err'); return; }
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const d = await resp.json();
+    _msg(r, '✔ Pedido borrado' + (d.stockRestaurado ? ' · stock devuelto' : ''), 'ok');
+    setTimeout(cargarEnvios, 700);
+  } catch (err) {
+    _msg(r, 'Error: ' + err.message, 'err');
+  }
 }
 
 function copiarEnvio(i) {

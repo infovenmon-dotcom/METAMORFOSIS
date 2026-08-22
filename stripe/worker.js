@@ -1092,6 +1092,47 @@ async function manejarEnvioGuardar(request, env, cors) {
   return jsonResp({ ok: true, avisado }, 200, cors);
 }
 
+/* Borra un pedido (p. ej. una compra de prueba) para que deje de contar en el
+   beneficio y en los envíos. Por defecto DEVUELVE el stock de sus productos. */
+async function manejarBorrarPedido(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const clave = body.clave;
+  const restaurar = body.restaurarStock !== false;
+  if (!clave || String(clave).indexOf('pedido:') !== 0 || !env.SAVIA_KV) return jsonResp({ error: 'faltan_datos' }, 400, cors);
+
+  const v = await env.SAVIA_KV.get(clave);
+  if (!v) return jsonResp({ error: 'no_encontrado' }, 404, cors);
+  let rec; try { rec = JSON.parse(v); } catch { rec = null; }
+
+  let stockRestaurado = false;
+  if (restaurar && rec && rec.items && Object.keys(rec.items).length) {
+    const cfg = await getConfig(env);
+    const stock = cfg.stock || {};
+    let cambiado = false;
+    for (const [h, q] of Object.entries(rec.items)) {
+      if (Object.prototype.hasOwnProperty.call(stock, h)) {
+        stock[h] = Math.max(0, Math.floor(Number(stock[h]) || 0)) + (parseInt(q, 10) || 0);
+        cambiado = true;
+      }
+    }
+    if (cambiado) { cfg.stock = stock; await putConfig(env, cfg); stockRestaurado = true; }
+  }
+
+  await env.SAVIA_KV.delete(clave);
+  return jsonResp({ ok: true, stockRestaurado }, 200, cors);
+}
+
+/* Borra una factura concreta (para limpiar facturas de prueba). */
+async function manejarBorrarFactura(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+  const ts = body.ts, num = body.num;
+  if (!ts || !num || !env.SAVIA_KV) return jsonResp({ error: 'faltan_datos' }, 400, cors);
+  await env.SAVIA_KV.delete('factura:' + ts + ':' + num);
+  return jsonResp({ ok: true }, 200, cors);
+}
+
 /* ===========================================================================
    CTT EXPRESS — API REST (Last Mile). Modo "online": CTT genera el número de
    envío y nos devuelve la etiqueta. Todo va parametrizado por variables de
@@ -2179,6 +2220,12 @@ export default {
       }
       if (path === '/admin/envio' && request.method === 'POST') {
         return await manejarEnvioGuardar(request, env, cors);
+      }
+      if (path === '/admin/pedido/borrar' && request.method === 'POST') {
+        return await manejarBorrarPedido(request, env, cors);
+      }
+      if (path === '/admin/factura/borrar' && request.method === 'POST') {
+        return await manejarBorrarFactura(request, env, cors);
       }
       if (path === '/admin/envio/etiqueta' && request.method === 'POST') {
         return await manejarEtiquetaCTT(request, env, cors);
