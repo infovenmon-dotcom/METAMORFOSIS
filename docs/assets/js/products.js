@@ -2002,8 +2002,8 @@ window.SAVIA_DATA = {
       "collection": "exfoliantes",
       "collectionName": "Exfoliantes Sólidos",
       "emoji": "🥕",
-      "image": "assets/img/products/exfoliante-zanahoria-lino.jpg",
-      "images": ["assets/img/products/exfoliante-zanahoria-lino.jpg"],
+      "image": "assets/img/products/exfoliante-zanahoria-lino.jpg?v=2",
+      "images": ["assets/img/products/exfoliante-zanahoria-lino.jpg?v=2"],
       "bullets": [
         "EXFOLIACIÓN SUAVE QUE ILUMINA: la zanahoria y el lino renuevan la piel con delicadeza y le aportan luminosidad.",
         "NUTRE Y SUAVIZA: manteca de karité y aceite de coco hidratan mientras exfolias; la piel queda suave sin crema después.",
