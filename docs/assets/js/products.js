@@ -1987,7 +1987,7 @@ window.SAVIA_DATA = {
     {
       "handle": "exfoliante-zanahoria-lino",
       "title": "Exfoliante Corporal Sólido Zanahoria y Lino",
-      "short": "Exfoliante corporal sólido de zanahoria y lino · exfoliación suave · 98,5% natural · vegano (próximamente)",
+      "short": "Exfoliante corporal sólido de zanahoria y lino · exfoliación suave · 98,5% natural · vegano",
       "features": [
         "Exfolia y nutre a la vez",
         "98,5% natural (Norma Cosmos)",
@@ -2009,14 +2009,14 @@ window.SAVIA_DATA = {
         "NUTRE Y SUAVIZA: manteca de karité y aceite de coco hidratan mientras exfolias; la piel queda suave sin crema después.",
         "APTO PARA TODO TIPO DE PIEL: exfoliación delicada, también para pieles sensibles. Ayuda a regular el pH.",
         "98,5% NATURAL (Cosmos) · VEGANO · SIN COLORANTES: sin SLS ni SCI, sin plástico ni packaging.",
-        "🔜 PRÓXIMAMENTE · HECHO A MANO EN ESPAÑA: muy pronto disponible, elaborado artesanalmente en pequeños lotes."
+        "HECHO A MANO EN ESPAÑA: elaborado artesanalmente en pequeños lotes."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Exfoliante corporal sólido de zanahoria y lino para una exfoliación suave que renueva e ilumina la piel. La manteca de karité y el aceite de coco nutren mientras exfolias, dejando la piel suave y cuidada. 98,5% natural, vegano, sin colorantes y sin plástico. Muy pronto disponible.",
+      "descripcion": "Exfoliante corporal sólido de zanahoria y lino para una exfoliación suave que renueva e ilumina la piel. La manteca de karité y el aceite de coco nutren mientras exfolias, dejando la piel suave y cuidada. 98,5% natural, vegano, sin colorantes y sin plástico.",
       "indicado": "Para todo tipo de pieles, incluidas las sensibles, que buscan una exfoliación delicada y luminosa.",
       "modoUso": "En la ducha, aplica la pastilla sobre la piel mojada con agua caliente (máx. 37°). Masajea con movimientos suaves, aclara y termina con agua fría para tonificar.",
-      "lema": "Suavidad que ilumina. Muy pronto.",
+      "lema": "Suavidad que ilumina.",
       "specs": {
         "natural": "98,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Daucus carota Extract, Linum usitatissimum Seed.",
@@ -2027,7 +2027,7 @@ window.SAVIA_DATA = {
     {
       "handle": "cera-peinado",
       "title": "Cera de Peinado Sólida Natural",
-      "short": "Cera de peinado sólida natural · moldea, define y sella puntas · sin plástico · vegana (próximamente)",
+      "short": "Cera de peinado sólida natural · moldea, define y sella puntas · sin plástico · vegana",
       "features": [
         "Moldea y da forma al cabello",
         "Fijación flexible y natural",
@@ -2054,14 +2054,14 @@ window.SAVIA_DATA = {
         "FIJACIÓN FLEXIBLE, SIN APELMAZAR: aporta movimiento y control sin dejar el pelo rígido ni acartonado; elimina el encrespamiento y sella las puntas abiertas.",
         "NUTRE MIENTRAS PEINAS: ingredientes naturales que cuidan el cabello, sin siliconas ni derivados del petróleo.",
         "ZERO WASTE · VEGANA: formato sólido sin plástico, una alternativa natural a las ceras y gominas en envase.",
-        "🔜 PRÓXIMAMENTE · HECHA A MANO EN ESPAÑA: muy pronto disponible, elaborada artesanalmente en pequeños lotes."
+        "HECHA A MANO EN ESPAÑA: elaborada artesanalmente en pequeños lotes."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Cera de peinado sólida y natural para moldear, definir y dar forma al cabello con una fijación flexible. Elaborada con cera de soja, manteca de karité y aceite de coco; nutre mientras peinas, elimina el encrespamiento y sella las puntas abiertas, sin apelmazar. Formato sólido sin plástico. Muy pronto disponible.",
+      "descripcion": "Cera de peinado sólida y natural para moldear, definir y dar forma al cabello con una fijación flexible. Elaborada con cera de soja, manteca de karité y aceite de coco; nutre mientras peinas, elimina el encrespamiento y sella las puntas abiertas, sin apelmazar. Formato sólido sin plástico.",
       "indicado": "Ideal para pelo corto y medio, para moldear, definir rizos o texturizar. Apta para toda la familia (uso adulto).",
       "modoUso": "Frota los dedos sobre la pastilla para tomar un poco de producto, aplícalo sobre el cabello seco o ligeramente húmedo y peina o moldea a tu gusto. Empieza con poca cantidad y añade según necesites.",
-      "lema": "Moldea a tu manera. Muy pronto.",
+      "lema": "Moldea a tu manera.",
       "specs": {
         "natural": "Fórmula natural, vegana, sin plástico",
         "inci": "Hydrogenated Soybean Oil, Butyrospermum parkii Butter, Cocos nucifera Oil, Parfum, Tocopherol, Citronellol, Coumarin, Alpha-isomethyl Ionone, Hexyl Cinnamal, Limonene, Linalool.",
@@ -2072,7 +2072,7 @@ window.SAVIA_DATA = {
     {
       "handle": "jabon-leche-cabra",
       "title": "Jabón Artesanal de Leche de Cabra",
-      "short": "Jabón artesanal de leche de cabra · hidratante y nutritivo · ideal para pieles sensibles y secas (próximamente)",
+      "short": "Jabón artesanal de leche de cabra · hidratante y nutritivo · ideal para pieles sensibles y secas",
       "features": [
         "Hidrata y nutre en profundidad",
         "Ideal para pieles sensibles y secas",
@@ -2095,14 +2095,14 @@ window.SAVIA_DATA = {
         "PARA PIELES SENSIBLES Y SECAS: limpia con delicadeza sin resecar, ayudando a mantener la piel calmada y confortable.",
         "RENUEVA CON SUAVIDAD: aporta una limpieza suave que deja la piel tersa y luminosa día a día.",
         "ZERO WASTE · HECHO A MANO: pastilla sólida sin plástico, elaborada artesanalmente en pequeños lotes en España.",
-        "🔜 PRÓXIMAMENTE: muy pronto disponible en la web."
+        "HECHO A MANO EN ESPAÑA: saponificación en frío en pequeños lotes, sin plástico."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Jabón artesanal de leche de cabra, uno de los ingredientes más valorados en cosmética natural por su riqueza en vitaminas, minerales y ácidos grasos. Hidrata y nutre en profundidad, limpiando con delicadeza; perfecto para pieles sensibles y secas que buscan un cuidado suave. Sin plástico. Muy pronto disponible.",
+      "descripcion": "Jabón artesanal de leche de cabra, uno de los ingredientes más valorados en cosmética natural por su riqueza en vitaminas, minerales y ácidos grasos. Hidrata y nutre en profundidad, limpiando con delicadeza; perfecto para pieles sensibles y secas que buscan un cuidado suave. Sin plástico.",
       "indicado": "Especialmente indicado para pieles sensibles, secas o delicadas que necesitan hidratación y suavidad.",
       "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara. Para rostro y cuerpo.",
-      "lema": "Suavidad de leche de cabra. Muy pronto.",
+      "lema": "Suavidad de leche de cabra.",
       "specs": {
         "natural": "Ingredientes naturales, hecho a mano",
         "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Goat Milk, Parfum, Butyrospermum parkii Butter.",
@@ -2113,7 +2113,7 @@ window.SAVIA_DATA = {
     {
       "handle": "jabon-leche-burra-aloe",
       "title": "Jabón Artesanal de Leche de Burra y Aloe",
-      "short": "Jabón artesanal de leche de burra y aloe vera · nutritivo y regenerador · pieles maduras y sensibles (próximamente)",
+      "short": "Jabón artesanal de leche de burra y aloe vera · nutritivo y regenerador · pieles maduras y sensibles",
       "features": [
         "Nutre y ayuda a regenerar la piel",
         "Leche de burra + aloe vera",
@@ -2136,14 +2136,14 @@ window.SAVIA_DATA = {
         "CON ALOE VERA: aporta calma e hidratación extra, perfecto para pieles sensibles o que necesitan un mimo.",
         "NUTRE Y REGENERA: cuida especialmente las pieles maduras, secas o delicadas, dejándolas suaves y confortables.",
         "ZERO WASTE · HECHO A MANO: pastilla sólida sin plástico, elaborada artesanalmente en pequeños lotes en España.",
-        "🔜 PRÓXIMAMENTE: muy pronto disponible en la web."
+        "HECHO A MANO EN ESPAÑA: saponificación en frío en pequeños lotes, sin plástico."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Jabón artesanal de leche de burra y aloe vera, una combinación premium muy apreciada en cosmética natural. La leche de burra, rica en vitaminas y ácidos grasos, nutre y ayuda a mantener la piel elástica; el aloe vera calma e hidrata. Ideal para pieles maduras, secas o sensibles. Sin plástico. Muy pronto disponible.",
+      "descripcion": "Jabón artesanal de leche de burra y aloe vera, una combinación premium muy apreciada en cosmética natural. La leche de burra, rica en vitaminas y ácidos grasos, nutre y ayuda a mantener la piel elástica; el aloe vera calma e hidrata. Ideal para pieles maduras, secas o sensibles. Sin plástico.",
       "indicado": "Para pieles maduras, secas o sensibles que buscan nutrición, calma y un cuidado regenerador.",
       "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara. Para rostro y cuerpo.",
-      "lema": "El mimo de la leche de burra. Muy pronto.",
+      "lema": "El mimo de la leche de burra.",
       "specs": {
         "natural": "Ingredientes naturales, hecho a mano",
         "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Donkey Milk, Aloe Barbadensis Leaf Juice, Parfum, Benzyl Salicylate, Limonene.",
@@ -2153,16 +2153,16 @@ window.SAVIA_DATA = {
     },
     {
       "handle": "jabon-aceite-arroz",
-      "title": "Jabón Artesanal de Aceite de Arroz",
-      "short": "Jabón artesanal con aceite de salvado de arroz · nutre, suaviza y aporta antioxidantes · vegano (próximamente)",
+      "title": "Jabón Artesanal de Arroz · Ritual K-Beauty",
+      "short": "Jabón artesanal de arroz (ritual K-beauty) · el secreto coreano de una piel luminosa · antioxidante y suavizante · vegano",
       "features": [
-        "Nutre y suaviza la piel",
+        "El secreto K-beauty del arroz",
+        "Piel luminosa y de tacto suave",
         "Rico en vitamina E y antioxidantes",
         "Exfoliación suave (semillas de amapola)",
-        "Vegano · sin plástico",
-        "Hecho a mano en España"
+        "Vegano · sin plástico · hecho a mano en España"
       ],
-      "tags": ["jabon", "arroz", "antioxidante", "vitamina e", "vegano", "natural"],
+      "tags": ["jabon", "arroz", "k-beauty", "coreano", "glow", "luminosidad", "antioxidante", "vitamina e", "vegano", "natural"],
       "price": 9.99,
       "sku": "SDA-JAB-ARROZ",
       "type": "Jabón artesanal",
@@ -2173,18 +2173,18 @@ window.SAVIA_DATA = {
       "image": "assets/img/products/jabon-aceite-arroz.jpg",
       "images": ["assets/img/products/jabon-aceite-arroz.jpg"],
       "bullets": [
+        "EL RITUAL K-BEAUTY DEL ARROZ: el arroz es un ingrediente estrella de la cosmética coreana, asociado desde siempre a una piel luminosa, suave y de aspecto uniforme.",
         "NUTRE Y SUAVIZA: el aceite de salvado de arroz aporta ácidos grasos que dejan la piel suave y confortable tras el lavado.",
         "ANTIOXIDANTES NATURALES: rico en vitamina E y gamma-orizanol, que ayudan a proteger la piel frente al estrés oxidativo del día a día.",
         "EXFOLIACIÓN SUAVE: las semillas de amapola aportan una ligera exfoliación mecánica que renueva la piel sin agredirla.",
-        "IDEAL PARA PIEL NORMAL, MIXTA Y MADURA: de tacto ligero, se absorbe con facilidad y no deja sensación grasa.",
-        "🔜 PRÓXIMAMENTE · VEGANO · HECHO EN ESPAÑA: elaborado con aceite de oliva y coco saponificados en frío, sin detergentes ni plástico."
+        "VEGANO · HECHO EN ESPAÑA: elaborado con aceite de oliva y coco saponificados en frío, sin detergentes ni plástico."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Jabón artesanal con aceite de salvado de arroz, apreciado por sus propiedades suavizantes y antioxidantes. El aceite de arroz, rico en vitamina E y gamma-orizanol, nutre y ayuda a proteger la piel, mientras las semillas de amapola aportan una exfoliación mecánica muy suave. Elaborado con aceite de oliva y coco saponificados en frío. Vegano, sin detergentes y sin plástico. Muy pronto disponible.",
-      "indicado": "Para piel normal, mixta, grasa, sensible y madura que busca una limpieza suave con un plus antioxidante.",
+      "descripcion": "Jabón artesanal de arroz, el ingrediente estrella de la K-beauty (cosmética coreana), famoso por dejar la piel luminosa, suave y de aspecto uniforme. El aceite de salvado de arroz, rico en vitamina E y gamma-orizanol, nutre y ayuda a proteger la piel frente al estrés oxidativo, mientras las semillas de amapola aportan una exfoliación mecánica muy suave. Elaborado con aceite de oliva y coco saponificados en frío. Vegano, sin detergentes y sin plástico.",
+      "indicado": "Para piel normal, mixta, grasa, sensible y madura que busca una limpieza suave, luminosidad y un plus antioxidante.",
       "modoUso": "Aplica sobre la piel húmeda haciendo espuma con las manos o una esponja, masajea suavemente y aclara. Guárdalo seco entre usos.",
-      "lema": "Suavidad antioxidante del arroz. Muy pronto.",
+      "lema": "El ritual coreano del arroz para una piel luminosa.",
       "specs": {
         "natural": "Ingredientes naturales, vegano, hecho a mano",
         "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Oryza Sativa Bran Oil, Papaver Somniferum Seed, Parfum, Benzyl Salicylate, Hexyl Cinnamal, Linalool, Limonene, Citronellol, Coumarin, CI 77891.",
