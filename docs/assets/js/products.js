@@ -2088,8 +2088,8 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🐐",
       "vegano": false,
-      "image": "assets/img/products/jabon-leche-cabra.jpg?v=2",
-      "images": ["assets/img/products/jabon-leche-cabra.jpg?v=2"],
+      "image": "assets/img/products/jabon-leche-cabra.jpg?v=3",
+      "images": ["assets/img/products/jabon-leche-cabra.jpg?v=3"],
       "bullets": [
         "HIDRATACIÓN QUE SE NOTA: la leche de cabra es rica en ácidos grasos, vitaminas (A, B, E) y minerales que nutren y suavizan la piel.",
         "PARA PIELES SENSIBLES Y SECAS: limpia con delicadeza sin resecar, ayudando a mantener la piel calmada y confortable.",
@@ -2129,8 +2129,8 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🫏",
       "vegano": false,
-      "image": "assets/img/products/jabon-leche-burra-aloe.jpg",
-      "images": ["assets/img/products/jabon-leche-burra-aloe.jpg"],
+      "image": "assets/img/products/jabon-leche-burra-aloe.jpg?v=3",
+      "images": ["assets/img/products/jabon-leche-burra-aloe.jpg?v=3"],
       "bullets": [
         "UN CLÁSICO PREMIUM: la leche de burra, muy valorada en cosmética, es rica en vitaminas y ácidos grasos que nutren y ayudan a mantener la piel joven y elástica.",
         "CON ALOE VERA: aporta calma e hidratación extra, perfecto para pieles sensibles o que necesitan un mimo.",
@@ -2170,8 +2170,8 @@ window.SAVIA_DATA = {
       "collectionName": "Jabones Artesanales",
       "emoji": "🌾",
       "vegano": true,
-      "image": "assets/img/products/jabon-aceite-arroz.jpg",
-      "images": ["assets/img/products/jabon-aceite-arroz.jpg"],
+      "image": "assets/img/products/jabon-aceite-arroz.jpg?v=3",
+      "images": ["assets/img/products/jabon-aceite-arroz.jpg?v=3"],
       "bullets": [
         "EL RITUAL K-BEAUTY DEL ARROZ: el arroz es un ingrediente estrella de la cosmética coreana, asociado desde siempre a una piel luminosa, suave y de aspecto uniforme.",
         "NUTRE Y SUAVIZA: el aceite de salvado de arroz aporta ácidos grasos que dejan la piel suave y confortable tras el lavado.",
