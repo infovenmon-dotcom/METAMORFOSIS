@@ -923,10 +923,11 @@ async function crearEnvioManual() {
     const extra = d.stockDescontado ? ' · stock descontado' : '';
     if (conEtiqueta) {
       _msg(msg, 'Envío creado. Generando etiqueta CTT…', '');
+      const avisar = document.getElementById('man-avisar').checked && !!envio.email;
       const re = await fetch(_base() + '/admin/envio/etiqueta', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
-        body: JSON.stringify({ clave: d.clave, avisar: !!envio.email }),
+        body: JSON.stringify({ clave: d.clave, avisar }),
       });
       const de = await re.json().catch(() => ({}));
       if (re.ok && de.tracking) {

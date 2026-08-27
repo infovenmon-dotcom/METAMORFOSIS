@@ -628,6 +628,26 @@ async function enviarEmailCliente(rec, env) {
   const track = rec.tracking || '';
   const link = urlSeguimientoCTT(track);
   const nombre = primerNombre(env2.nombre);
+
+  // Envío SIN venta (muestra / regalo / prensa / influencer): mensaje cálido,
+  // sin "pedido" ni importes. Nada de "Resumen de tu pedido" ni totales.
+  if (rec.manual) {
+    const htmlM =
+      `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#33302b">` +
+      `<h2 style="color:#6b7a4f">Tu envío de Savia de Alma va en camino 🌿</h2>` +
+      `<p>${nombre ? 'Hola ' + nombre + ',' : 'Hola,'}</p>` +
+      `<p>¡Gracias por tu interés en <strong>Savia de Alma</strong>! Te hemos enviado un detalle con <strong>CTT Express</strong> (entrega estimada 24–72 h laborables).</p>` +
+      (track
+        ? `<p><strong>Nº de seguimiento:</strong> ${track}</p>` +
+          `<p><a href="${link}" style="background:#6b7a4f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Seguir el envío</a></p>`
+        : '') +
+      `<p style="margin-top:20px">Esperamos que disfrutes de nuestra cosmética sólida natural. Si te apetece compartir tu experiencia, nos encantaría 🌿</p>` +
+      `<p style="color:#888;font-size:12px">Cualquier duda, responde a este correo o escríbenos a info@saviadealma.com</p>` +
+      `</div>`;
+    await enviarEmail(env, { to: email, subject: 'Tu envío de Savia de Alma va en camino 🌿', html: htmlM });
+    return;
+  }
+
   const eur = n => Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
   const lineas = rec.lineas || [];
   const filas = lineas.map(l =>
