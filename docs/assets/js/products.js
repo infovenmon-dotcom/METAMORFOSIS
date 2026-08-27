@@ -2187,7 +2187,7 @@ window.SAVIA_DATA = {
       "lema": "El ritual coreano del arroz para una piel luminosa.",
       "specs": {
         "natural": "Ingredientes naturales, vegano, hecho a mano",
-        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Oryza Sativa Bran Oil, Papaver Somniferum Seed, Parfum, Benzyl Salicylate, Hexyl Cinnamal, Linalool, Limonene, Citronellol, Coumarin, CI 77891.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Benzyl Salicylate, Papaver Somniferum Seed, Hexyl Cinnamal, CI 77891, Oryza Sativa Bran Oil, Linalool, Tetramethyl Acetyloctahydronaphthalenes, Eugenol, Cinnamal, Limonene, Citrus Limon Peel Oil, Amyl Salicylate, Coumarin, Linalyl Acetate, Cinnamyl Alcohol, Citronellol, CI 19140, CI 14720, CI 42045.",
         "peso": "~100 g",
         "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos). Vegano."
       }
