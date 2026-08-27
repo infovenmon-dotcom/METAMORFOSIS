@@ -2105,7 +2105,7 @@ window.SAVIA_DATA = {
       "lema": "Suavidad de leche de cabra.",
       "specs": {
         "natural": "Ingredientes naturales, hecho a mano",
-        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Goat Milk, Parfum, Butyrospermum parkii Butter.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Goat Milk, CI 77891.",
         "peso": "~100 g",
         "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos)."
       }
@@ -2146,7 +2146,7 @@ window.SAVIA_DATA = {
       "lema": "El mimo de la leche de burra.",
       "specs": {
         "natural": "Ingredientes naturales, hecho a mano",
-        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Donkey Milk, Aloe Barbadensis Leaf Juice, Parfum, Benzyl Salicylate, Limonene.",
+        "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Donkey Milk, Benzyl Salicylate, CI 77891, Hexyl Cinnamal, Linalool, Coumarin, Citronellol, Aloe Barbadensis Leaf Powder, Limonene, Alpha-Isomethyl Ionone, CI 19140, CI 42045, CI 50420.",
         "peso": "~100 g",
         "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos)."
       }
