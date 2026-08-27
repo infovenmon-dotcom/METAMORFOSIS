@@ -949,8 +949,11 @@ async function manejarBeneficio(request, env, cors) {
   try { for (const p of await cargarCatalogoCompleto(env.PRODUCTS_URL)) pesoDe[p.handle] = _gramos(p.specs && p.specs.peso); }
   catch { /* si no se puede, se usa peso por defecto */ }
 
-  // Unidades vendidas por producto + coste de envío estimado por pedido.
-  const unidades = {};
+  // Unidades por producto (vendidas vs. muestras) + coste de envío estimado por
+  // pedido. Las muestras/regalos (envíos manuales) cuentan su COSTE pero no
+  // generan ingreso: por eso se separan de las unidades vendidas.
+  const unidades = {};        // vendidas (ingreso + coste)
+  const unidadesMuestra = {}; // muestras/regalos (solo coste)
   let costeEnviosCalc = 0;
   if (env.SAVIA_KV) {
     let cursor = null, guard = 0;
@@ -961,16 +964,17 @@ async function manejarBeneficio(request, env, cors) {
         const f = Number(m.fecha) || Number(k.name.split(':')[1]) || 0;
         if (f < desde || f > hasta) continue;
         const items = m.items || {};
+        // Registro completo: CP (para la zona de envío) y si es muestra/regalo.
+        let cp = '', esMuestra = false;
+        try { const rec = JSON.parse(await env.SAVIA_KV.get(k.name) || '{}'); cp = (rec.envio && rec.envio.cp) || ''; esMuestra = !!rec.manual; }
+        catch { /* sin datos: se estima como península y venta normal */ }
         let gramos = 0;
         for (const [h, q] of Object.entries(items)) {
           const n = parseInt(q, 10) || 0;
-          unidades[h] = (unidades[h] || 0) + n;
+          if (esMuestra) unidadesMuestra[h] = (unidadesMuestra[h] || 0) + n;
+          else unidades[h] = (unidades[h] || 0) + n;
           gramos += (pesoDe[h] || 80) * n;
         }
-        // Código postal del pedido (para la zona): del registro completo.
-        let cp = '';
-        try { const rec = JSON.parse(await env.SAVIA_KV.get(k.name) || '{}'); cp = (rec.envio && rec.envio.cp) || ''; }
-        catch { /* sin cp: se estima como península */ }
         costeEnviosCalc += costeEnvioCTT(gramos, cp, fuelPct);
       }
       cursor = lst.list_complete ? null : lst.cursor;
@@ -983,26 +987,32 @@ async function manejarBeneficio(request, env, cors) {
   let productos = {};
   try { productos = await cargarProductos(env.PRODUCTS_URL); } catch { /* opcional, solo para títulos */ }
 
-  let cogs = 0;
+  let cogs = 0, costeMuestras = 0, unidadesMuestraTotal = 0;
   const porProducto = [];
-  for (const [h, u] of Object.entries(unidades)) {
+  const handles = new Set([...Object.keys(unidades), ...Object.keys(unidadesMuestra)]);
+  for (const h of handles) {
+    const u = unidades[h] || 0;          // vendidas
+    const um = unidadesMuestra[h] || 0;  // muestras/regalos
     const c = Number(costes[h]) || 0;
-    const costeTotal = Math.round(c * u * 100) / 100;
+    const costeTotal = Math.round(c * (u + um) * 100) / 100; // coste de TODAS (vendidas + muestras)
     cogs += costeTotal;
+    costeMuestras += c * um;
+    unidadesMuestraTotal += um;
     let precioUnit = 0;
     try { precioUnit = precioEfectivo(h, productos, cfg); }
     catch { precioUnit = (productos[h] && productos[h].price) || 0; }
-    const ingresoNeto = Math.round((precioUnit * u / 1.21) * 100) / 100; // sin IVA
+    const ingresoNeto = Math.round((precioUnit * u / 1.21) * 100) / 100; // solo vendidas, sin IVA
     const beneficio = Math.round((ingresoNeto - costeTotal) * 100) / 100;
     const margenPct = ingresoNeto > 0 ? Math.round((beneficio / ingresoNeto) * 1000) / 10 : 0;
     porProducto.push({
       handle: h,
       titulo: (productos[h] && productos[h].title) || h,
-      unidades: u, costeUnit: c, costeTotal,
+      unidades: u, muestras: um, costeUnit: c, costeTotal,
       precioUnit, ingresoNeto, beneficio, margenPct,
     });
   }
   cogs = Math.round(cogs * 100) / 100;
+  costeMuestras = Math.round(costeMuestras * 100) / 100;
   porProducto.sort((a, b) => b.beneficio - a.beneficio);
 
   const base = stripe.resumen.base;
@@ -1022,6 +1032,7 @@ async function manejarBeneficio(request, env, cors) {
     pedidos: stripe.resumen.pedidos,
     ventasBrutas: stripe.resumen.ventasBrutas,
     base, comisiones: comis, cogs,
+    costeMuestras, unidadesMuestra: unidadesMuestraTotal,
     costeEnvioPorPedido, costeEnvios, costeEnviosCalc, recargoCombustible: fuelPct, envioEstimado: !envioManual,
     margen,
     ivaRepercutido: stripe.resumen.iva, ivaSoportado, ivaIngresar,
@@ -1090,6 +1101,68 @@ async function manejarEnvioGuardar(request, env, cors) {
     try { await enviarEmailCliente(rec, env); avisado = true; } catch (e) { console.error('email cliente:', e); }
   }
   return jsonResp({ ok: true, avisado }, 200, cors);
+}
+
+/* ---------- Envío MANUAL (muestras, regalos, reposiciones, prensa…) ----------
+   Crea un envío SIN pasar por Stripe: mete los datos del destinatario a mano,
+   añade productos y DESCUENTA stock. Genera un registro `pedido:` normal (con
+   `manual:true`) para que aparezca en Envíos y se pueda crear su etiqueta CTT
+   con el flujo de siempre. Venta = 0 €: así NO suma ingresos, y su coste (de los
+   productos y del envío) se refleja como gasto real en el Beneficio. */
+async function manejarEnvioManual(request, env, cors) {
+  if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+  if (!env.SAVIA_KV) return jsonResp({ error: 'sin_kv' }, 500, cors);
+  let body = {}; try { body = await request.json(); } catch { /* */ }
+
+  const e = body.envio || {};
+  const line1 = e.line1 || e.direccion || '';
+  if (!e.nombre || !e.cp || !line1) {
+    return jsonResp({ error: 'faltan_datos', detalle: 'Nombre, dirección y código postal son obligatorios' }, 400, cors);
+  }
+
+  // Normaliza items {handle: cantidad>0}.
+  const items = {};
+  for (const [h, q] of Object.entries(body.items || {})) {
+    const n = parseInt(q, 10) || 0;
+    if (n > 0) items[h] = n;
+  }
+
+  // Descuenta stock de los productos que lleven control de stock.
+  const descontar = body.descontarStock !== false;
+  const cfg = await getConfig(env);
+  let stockDescontado = false;
+  if (descontar && Object.keys(items).length) {
+    const stock = cfg.stock || {};
+    let cambiado = false;
+    for (const [h, q] of Object.entries(items)) {
+      if (Object.prototype.hasOwnProperty.call(stock, h)) {
+        stock[h] = Math.max(0, (Math.floor(Number(stock[h]) || 0)) - q);
+        cambiado = true;
+      }
+    }
+    if (cambiado) { cfg.stock = stock; await putConfig(env, cfg); stockDescontado = true; }
+  }
+
+  const ahora = Date.now();
+  const tipo = String(body.tipo || 'muestra').slice(0, 20);
+  const id = String(body.ref || (tipo.toUpperCase() + '-' + ahora)).slice(0, 40);
+  const rec = {
+    id, fecha: ahora, items,
+    envio: {
+      nombre: e.nombre, line1, line2: e.line2 || '',
+      cp: e.cp, ciudad: e.ciudad || '', pais: (e.pais || 'ES').toUpperCase(),
+      email: e.email || '', telefono: e.telefono || '',
+    },
+    total: 0,                       // muestra/regalo: sin venta
+    envioCoste: null,
+    manual: true, tipo,
+    nota: String(body.nota || '').slice(0, 200),
+    enviado: false,
+  };
+  const clave = 'pedido:' + ahora + ':' + tipo + '-' + String(Math.random()).slice(2, 8);
+  await env.SAVIA_KV.put(clave, JSON.stringify(rec), { metadata: { fecha: ahora, items } });
+
+  return jsonResp({ ok: true, clave, id, stockDescontado }, 200, cors);
 }
 
 /* Borra un pedido (p. ej. una compra de prueba) para que deje de contar en el
@@ -2220,6 +2293,9 @@ export default {
       }
       if (path === '/admin/envio' && request.method === 'POST') {
         return await manejarEnvioGuardar(request, env, cors);
+      }
+      if (path === '/admin/envio-manual' && request.method === 'POST') {
+        return await manejarEnvioManual(request, env, cors);
       }
       if (path === '/admin/pedido/borrar' && request.method === 'POST') {
         return await manejarBorrarPedido(request, env, cors);

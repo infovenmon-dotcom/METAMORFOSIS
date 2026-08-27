@@ -5,6 +5,7 @@
    =========================================================================== */
 
 const PRODUCTOS = (window.SAVIA_DATA && window.SAVIA_DATA.products) || [];
+let CFG = {}; // última config cargada (precios/stock/…), para consultas del panel
 let ENDPOINT = ((window.SAVIA_CONFIG && window.SAVIA_CONFIG.checkoutEndpoint) || '').trim();
 let PASS = '';
 
@@ -44,7 +45,7 @@ function mostrarTab(t) {
     document.getElementById('tab-' + x).classList.toggle('oculto', x !== t);
     document.getElementById('tb-' + x).classList.toggle('activo', x === t);
   });
-  if (t === 'envios' && !ENVIOS.length) cargarEnvios();
+  if (t === 'envios') { manInit(); if (!ENVIOS.length) cargarEnvios(); }
 }
 
 /* ---------- Facturas ---------- */
@@ -284,6 +285,7 @@ async function cargar(esLogin) {
     _msg(document.getElementById('msg'), 'No se pudo cargar la config: ' + e.message, 'err');
     return;
   }
+  CFG = cfg || {};
   document.getElementById('login').classList.add('oculto');
   document.getElementById('panel').classList.remove('oculto');
   pintar(cfg);
@@ -858,6 +860,95 @@ async function probarChat() {
     _msg(msg, 'Error: ' + e.message, 'err');
   }
 }
+
+/* ---------- Envío manual / muestra (sin venta) ---------- */
+let MAN_LINEAS = [];
+function manInit() {
+  const s = document.getElementById('man-prod');
+  if (s && !s.options.length) {
+    s.innerHTML = PRODUCTOS.filter(p => !p.proximamente)
+      .map(p => `<option value="${p.handle}">${_esc(p.title)}</option>`).join('');
+  }
+  manRenderLineas();
+}
+function manAddProducto() {
+  const sel = document.getElementById('man-prod');
+  const h = sel && sel.value;
+  const c = Math.max(1, parseInt(document.getElementById('man-cant').value, 10) || 1);
+  if (!h) return;
+  const ex = MAN_LINEAS.find(l => l.handle === h);
+  if (ex) ex.cant += c; else MAN_LINEAS.push({ handle: h, cant: c });
+  manRenderLineas();
+}
+function manQuitar(i) { MAN_LINEAS.splice(i, 1); manRenderLineas(); }
+function manRenderLineas() {
+  const cont = document.getElementById('man-lineas');
+  if (!cont) return;
+  if (!MAN_LINEAS.length) { cont.innerHTML = '<p class="nota">Sin productos añadidos.</p>'; return; }
+  cont.innerHTML = MAN_LINEAS.map((l, i) => {
+    const p = PRODUCTOS.find(x => x.handle === l.handle) || {};
+    const stock = (CFG.stock && CFG.stock[l.handle] != null) ? CFG.stock[l.handle] : null;
+    const aviso = (stock != null && l.cant > stock) ? ' <span style="color:#a12a2a">¡supera el stock!</span>' : '';
+    return `<div class="fila-top" style="justify-content:space-between;border-bottom:1px solid #eee;padding:4px 0">
+      <span>${l.cant}× ${_esc(p.title || l.handle)}${stock != null ? ` <span class="nota">(stock: ${stock})</span>` : ''}${aviso}</span>
+      <button class="btn btn-sm" style="background:#f8d7da;color:#a12a2a;border:none" onclick="manQuitar(${i})">✕</button>
+    </div>`;
+  }).join('');
+}
+async function crearEnvioManual() {
+  const msg = document.getElementById('man-msg');
+  const g = id => (document.getElementById(id).value || '').trim();
+  const envio = {
+    nombre: g('man-nombre'), telefono: g('man-tel'), email: g('man-email'),
+    line1: g('man-line1'), line2: g('man-line2'), cp: g('man-cp'),
+    ciudad: g('man-ciudad'), pais: (g('man-pais') || 'ES').toUpperCase(),
+  };
+  if (!envio.nombre || !envio.line1 || !envio.cp) { _msg(msg, 'Faltan nombre, dirección o código postal.', 'err'); return; }
+  const items = {};
+  MAN_LINEAS.forEach(l => { items[l.handle] = (items[l.handle] || 0) + l.cant; });
+  const tipo = document.getElementById('man-tipo').value;
+  const descontarStock = document.getElementById('man-descontar').checked;
+  const conEtiqueta = document.getElementById('man-etiqueta').checked;
+  const nota = g('man-nota');
+  _msg(msg, 'Creando envío…', '');
+  try {
+    const resp = await fetch(_base() + '/admin/envio-manual', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ envio, items, tipo, descontarStock, nota }),
+    });
+    const d = await resp.json().catch(() => ({}));
+    if (resp.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    if (!resp.ok) { _msg(msg, 'Error: ' + (d.detalle || d.error || ('HTTP ' + resp.status)), 'err'); return; }
+    const extra = d.stockDescontado ? ' · stock descontado' : '';
+    if (conEtiqueta) {
+      _msg(msg, 'Envío creado. Generando etiqueta CTT…', '');
+      const re = await fetch(_base() + '/admin/envio/etiqueta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+        body: JSON.stringify({ clave: d.clave, avisar: !!envio.email }),
+      });
+      const de = await re.json().catch(() => ({}));
+      if (re.ok && de.tracking) {
+        if (de.pdfBase64) abrirPdfBase64(de.pdfBase64, 'etiqueta-' + de.tracking + '.pdf');
+        else if (de.thermal && de.thermal.length) descargarTexto(de.thermal.join('\n'), 'etiqueta-' + de.tracking + '.zpl');
+        _msg(msg, '✔ Envío creado + etiqueta ' + de.tracking + extra, 'ok');
+      } else {
+        _msg(msg, '✔ Envío creado' + extra + '. ⚠️ Etiqueta CTT: ' + (de.detalle || de.error || 'no disponible') + ' — créala en la lista de abajo.', 'err');
+      }
+    } else {
+      _msg(msg, '✔ Envío creado' + extra + '. Créale la etiqueta en la lista de abajo.', 'ok');
+    }
+    MAN_LINEAS = []; manRenderLineas();
+    ['man-nombre', 'man-tel', 'man-email', 'man-line1', 'man-line2', 'man-cp', 'man-ciudad', 'man-nota'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    setTimeout(cargarEnvios, 800);
+  } catch (e) {
+    _msg(msg, 'Error: ' + e.message, 'err');
+  }
+}
+window.manAddProducto = manAddProducto;
+window.manQuitar = manQuitar;
+window.crearEnvioManual = crearEnvioManual;
 
 window.probarEmail = probarEmail;
 window.probarChat = probarChat;

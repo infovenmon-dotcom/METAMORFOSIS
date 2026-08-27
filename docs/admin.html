@@ -181,7 +181,49 @@
       </div><!-- /tab-prod -->
 
       <div id="tab-envios" class="oculto">
-      <div class="admin-caja" style="margin-top:0">
+
+      <!-- ENVÍO MANUAL / MUESTRA -->
+      <div class="admin-caja" style="margin-top:0;border:2px solid #cfe9d9">
+        <h2 style="color:var(--verde-oscuro);font-size:1.2rem;margin:0 0 4px">➕ Envío manual / muestra</h2>
+        <p class="nota" style="margin-bottom:12px">Crea un envío <strong>sin venta</strong> (muestras, regalos, prensa/influencers, reposiciones). Metes los datos a mano, descuenta stock y genera la etiqueta CTT. El <strong>coste</strong> (productos + envío) se refleja como gasto real en el Beneficio; <strong>no suma ingresos</strong>.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;font-size:.86rem">
+          <label>Nombre y apellidos *<input type="text" id="man-nombre" placeholder="Nombre destinatario"></label>
+          <label>Teléfono<input type="text" id="man-tel" placeholder="+34…"></label>
+          <label>Email (avisos CTT)<input type="email" id="man-email" placeholder="opcional"></label>
+          <label>Dirección *<input type="text" id="man-line1" placeholder="Calle, número"></label>
+          <label>Piso / puerta / ref.<input type="text" id="man-line2" placeholder="opcional"></label>
+          <label>Código postal *<input type="text" id="man-cp" placeholder="28320"></label>
+          <label>Población<input type="text" id="man-ciudad" placeholder="Ciudad"></label>
+          <label>País<input type="text" id="man-pais" value="ES" maxlength="2" style="text-transform:uppercase"></label>
+          <label>Tipo<select id="man-tipo">
+            <option value="muestra">Muestra</option>
+            <option value="regalo">Regalo</option>
+            <option value="prensa">Prensa / influencer</option>
+            <option value="reposicion">Reposición</option>
+            <option value="manual">Otro</option>
+          </select></label>
+        </div>
+
+        <h3 style="margin:14px 0 6px;font-size:.95rem">Productos</h3>
+        <div class="fila-top">
+          <select id="man-prod" style="min-width:240px"></select>
+          <input type="number" id="man-cant" min="1" value="1" style="max-width:80px">
+          <button class="btn btn-secundario btn-sm" type="button" onclick="manAddProducto()">+ Añadir</button>
+        </div>
+        <div id="man-lineas" style="margin-top:8px"></div>
+
+        <label style="display:block;margin-top:10px;font-size:.86rem">Nota interna (opcional)<input type="text" id="man-nota" placeholder="p. ej. Colaboración @marujamoderna"></label>
+
+        <div class="fila-top" style="margin-top:14px">
+          <label style="font-size:.82rem"><input type="checkbox" id="man-descontar" checked> Descontar del stock</label>
+          <label style="font-size:.82rem"><input type="checkbox" id="man-etiqueta" checked> Generar etiqueta CTT al crear</label>
+          <button class="btn btn-primario" onclick="crearEnvioManual()">📦 Crear envío + etiqueta</button>
+          <span class="msg" id="man-msg"></span>
+        </div>
+      </div>
+
+      <div class="admin-caja" style="margin-top:16px">
         <h2 style="color:var(--verde-oscuro);font-size:1.2rem;margin:0 0 4px">📦 Envíos (CTT Express)</h2>
         <p class="nota" style="margin-bottom:12px">Pedidos pagados listos para expedir. Crea la etiqueta en el <a href="https://www.cttexpress.com" target="_blank" rel="noopener">portal de CTT</a> (o descarga el CSV para hacerlo en lote), pega el nº de seguimiento y avisa al cliente con un clic.</p>
         <div class="fila-top">
