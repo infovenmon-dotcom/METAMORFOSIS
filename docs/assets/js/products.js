@@ -2064,7 +2064,7 @@ window.SAVIA_DATA = {
       "lema": "Moldea a tu manera.",
       "specs": {
         "natural": "Fórmula natural, vegana, sin plástico",
-        "inci": "Hydrogenated Soybean Oil, Butyrospermum parkii Butter, Cocos nucifera Oil, Parfum, Tocopherol, Citronellol, Coumarin, Alpha-isomethyl Ionone, Hexyl Cinnamal, Limonene, Linalool.",
+        "inci": "Hydrogenated Soybean Oil, Butyrospermum parkii Butter, Cocos nucifera Oil, Parfum, Tocopherol, Citronellol, Coumarin, Alpha-Isomethyl Ionone, Hexyl Cinnamal, Limonene, Linalool.",
         "peso": "~55 g",
         "fabricacion": "Elaborada a mano en España. Sin plástico (cero residuos). Vegana."
       }
