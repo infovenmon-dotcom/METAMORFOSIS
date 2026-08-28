@@ -1297,10 +1297,15 @@ async function crearEnvioCTT(rec, env) {
     recipient_postal_code: e.cp || '',
     recipient_address: [e.line1, e.line2].filter(Boolean).join(', '),
     recipient_town: e.ciudad || '',
-    recipient_email_notify_address: e.email || '',
     recipient_phones: e.telefono ? [e.telefono] : [],
     items: [{ item_weight_declared: peso }],
   };
+  // El email del destinatario es OPCIONAL: solo se envía si es un email válido.
+  // (Un string vacío hace que CTT rechace el body — típico en muestras/regalos
+  // de influencer donde no se pone email.)
+  if (e.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e.email)) {
+    body.recipient_email_notify_address = e.email;
+  }
   const r = await fetch(cttBase(env) + '/integrations/manifest/v2.0/shippings', {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/json' },
