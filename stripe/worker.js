@@ -1300,12 +1300,14 @@ async function crearEnvioCTT(rec, env) {
     recipient_phones: e.telefono ? [e.telefono] : [],
     items: [{ item_weight_declared: peso }],
   };
-  // El email del destinatario es OPCIONAL: solo se envía si es un email válido.
-  // (Un string vacío hace que CTT rechace el body — típico en muestras/regalos
-  // de influencer donde no se pone email.)
-  if (e.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e.email)) {
-    body.recipient_email_notify_address = e.email;
-  }
+  // Email de aviso del destinatario: CTT exige un email válido. Si el envío no
+  // trae uno (típico en muestras/regalos de influencer), usamos el de la tienda
+  // por defecto; así CTT nunca rechaza el body y los avisos de seguimiento llegan
+  // a la tienda en vez de al destinatario.
+  const emailNotif = (e.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e.email))
+    ? e.email
+    : (env.ORDER_EMAIL_TO || '');
+  if (emailNotif) body.recipient_email_notify_address = emailNotif;
   const r = await fetch(cttBase(env) + '/integrations/manifest/v2.0/shippings', {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/json' },
