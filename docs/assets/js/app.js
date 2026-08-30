@@ -136,16 +136,17 @@ function cardProducto(p, { compacta = false } = {}) {
             ? '<span class="etiqueta dorada">Exclusivo web</span>'
             : (p.bestSeller ? '<span class="etiqueta">Más vendido</span>' : '')));
 
-  const amazonVer = p.exclusiveWeb ? '' :
-    `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
+  // Amazon SOLO en modo vacaciones: queremos que la compra normal se haga en la web.
+  const amazonVer = (enVacaciones() && !p.exclusiveWeb) ?
+    `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>` : '';
 
   const desc = compacta ? '' : `<p class="card-desc">${acc(p.indicado || p.short)}</p>`;
 
   let acciones;
   if (agotado) {
-    acciones = (p.exclusiveWeb
-      ? `<button class="btn btn-secundario btn-sm btn-bloque" disabled>${p.proximamente ? 'Próximamente' : 'No disponible'}</button>`
-      : `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`)
+    acciones = ((enVacaciones() && !p.exclusiveWeb)
+      ? `<a class="btn btn-amazon btn-sm btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`
+      : `<button class="btn btn-secundario btn-sm btn-bloque" disabled>${p.proximamente ? 'Próximamente' : (enVacaciones() ? 'Volvemos pronto' : 'Agotado')}</button>`)
       + `<button class="btn btn-secundario btn-sm btn-bloque" onclick="abrirFicha('${p.handle}')">Ver detalles</button>`;
   } else {
     acciones = `<button class="btn btn-primario btn-sm btn-bloque" onclick="addToCart('${p.handle}')">Añadir al carrito</button>
@@ -177,8 +178,8 @@ function addToCart(handle) {
   if (_p && estaAgotado(_p)) {
     if (typeof mostrarAvisoFlotante === 'function') {
       const msg = _p.proximamente ? 'Muy pronto disponible'
-        : (_p.exclusiveWeb ? 'Producto agotado temporalmente'
-        : 'Producto no disponible · cómpralo en Amazon');
+        : (enVacaciones() && !_p.exclusiveWeb ? 'Estamos de vacaciones · cómpralo en Amazon'
+        : 'Producto agotado temporalmente');
       mostrarAvisoFlotante(msg);
     }
     return;
@@ -269,8 +270,9 @@ function abrirFicha(handle) {
         ? '<span class="etiqueta dorada" style="position:static;display:inline-block">Exclusivo web</span>'
         : (p.bestSeller ? '<span class="etiqueta" style="position:static;display:inline-block">Más vendido</span>' : ''));
 
-  const amazon = p.exclusiveWeb ? '' :
-    `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>`;
+  // Amazon SOLO en modo vacaciones.
+  const amazon = (enVacaciones() && !p.exclusiveWeb) ?
+    `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Ver en Amazon</a>` : '';
 
   const features = (p.features || []).map(f => `<li>${acc(f)}</li>`).join('');
 
@@ -322,9 +324,9 @@ function abrirFicha(handle) {
   const acciones = `
       <div class="ficha-acciones">
         ${_agotado
-          ? (p.exclusiveWeb
-              ? `<button class="btn btn-secundario btn-bloque" disabled>${p.proximamente ? 'Próximamente' : 'No disponible temporalmente'}</button>`
-              : `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`)
+          ? ((enVacaciones() && !p.exclusiveWeb)
+              ? `<a class="btn btn-amazon btn-bloque" href="${DATA.amazonStore}" target="_blank" rel="noopener">Comprar en Amazon</a>`
+              : `<button class="btn btn-secundario btn-bloque" disabled>${p.proximamente ? 'Próximamente' : (enVacaciones() ? 'Volvemos pronto' : 'No disponible temporalmente')}</button>`)
           : `<button class="btn btn-primario btn-bloque" onclick="addToCart('${p.handle}'); cerrarFicha();">Añadir al carrito</button>
         ${amazon}`}
       </div>`;
