@@ -2249,6 +2249,28 @@ async function manejarNewsletter(request, env, cors) {
   if (accion === 'enviar_ya') {
     return jsonResp(await enviarNewsletterSemanal(env, { avanzar: true }), 200, cors);
   }
+  if (accion === 'suscriptores') {
+    if (!env.SAVIA_KV) return jsonResp({ total: 0, suscriptores: [] }, 200, cors);
+    const map = new Map(); // email -> ts (fecha de alta más reciente)
+    let cursor;
+    for (let i = 0; i < 50; i++) {
+      const res = await env.SAVIA_KV.list({ prefix: 'lead:', cursor });
+      for (const k of res.keys) {
+        const parts = k.name.split(':');            // lead : <ts> : <email>
+        const ts = Number(parts[1]) || 0;
+        const email = parts.slice(2).join(':').toLowerCase();
+        if (email && (!map.has(email) || ts > map.get(email))) map.set(email, ts);
+      }
+      if (res.list_complete) break;
+      cursor = res.cursor;
+    }
+    const suscriptores = [];
+    for (const [email, ts] of map) {
+      if (!(await env.SAVIA_KV.get('unsub:' + email))) suscriptores.push({ email, ts });
+    }
+    suscriptores.sort((a, b) => b.ts - a.ts);       // más recientes primero
+    return jsonResp({ total: suscriptores.length, suscriptores }, 200, cors);
+  }
   return jsonResp({ error: 'accion_desconocida' }, 400, cors);
 }
 

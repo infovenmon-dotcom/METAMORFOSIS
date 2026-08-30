@@ -505,6 +505,32 @@ function nlEnviarYa() {
   if (!confirm('¿Enviar el correo semanal AHORA a todos los suscriptores?')) return;
   _nlPost({ accion: 'enviar_ya' }, (d) => `✓ Enviado a ${d.enviados || 0} de ${d.total || 0} suscriptores.`);
 }
+async function verSuscriptores() {
+  const msg = document.getElementById('nl-subs-msg');
+  const cont = document.getElementById('nl-subs');
+  _msg(msg, 'Cargando…', '');
+  try {
+    const r = await fetch(_base() + '/admin/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + PASS },
+      body: JSON.stringify({ accion: 'suscriptores' }),
+    });
+    if (r.status === 401) { _msg(msg, 'Contraseña incorrecta.', 'err'); return; }
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.error || ('HTTP ' + r.status));
+    const subs = d.suscriptores || [];
+    _msg(msg, subs.length + ' suscriptor(es)', 'ok');
+    if (!subs.length) { cont.innerHTML = '<p class="nota">Aún no hay suscriptores a la newsletter.</p>'; return; }
+    const fecha = ts => ts ? new Date(Number(ts)).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '';
+    cont.innerHTML =
+      '<table style="width:100%;border-collapse:collapse;font-size:.86rem">' +
+      '<tr><th style="text-align:left;padding:4px 0;border-bottom:1px solid #ddd">Email</th>' +
+      '<th style="text-align:right;padding:4px 0;border-bottom:1px solid #ddd">Alta</th></tr>' +
+      subs.map(s => `<tr><td style="padding:4px 0;border-bottom:1px solid #f0f0f0">${_esc(s.email)}</td>` +
+        `<td style="padding:4px 0;text-align:right;border-bottom:1px solid #f0f0f0" class="nota">${fecha(s.ts)}</td></tr>`).join('') +
+      '</table>';
+  } catch (e) { _msg(msg, 'Error: ' + e.message, 'err'); }
+}
 async function resetCliente() {
   const msg = document.getElementById('reset-msg');
   const email = (document.getElementById('reset-email').value || '').trim();
