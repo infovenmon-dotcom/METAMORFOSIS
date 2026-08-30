@@ -285,6 +285,16 @@ async function cargar(esLogin) {
     _msg(document.getElementById('msg'), 'No se pudo cargar la config: ' + e.message, 'err');
     return;
   }
+  // Los COSTES ya no viajan en el /config público (info sensible). Se piden
+  // aparte con la contraseña, para pintar la columna "Coste" y el Beneficio.
+  if (PASS) {
+    try {
+      const rc = await fetch(_base() + '/admin/costes', {
+        method: 'POST', headers: { 'Authorization': 'Bearer ' + PASS },
+      });
+      if (rc.ok) { const dc = await rc.json(); if (dc && dc.costes) cfg.costes = dc.costes; }
+    } catch { /* si falla, la columna Coste sale vacía; no rompe nada */ }
+  }
   CFG = cfg || {};
   document.getElementById('login').classList.add('oculto');
   document.getElementById('panel').classList.remove('oculto');

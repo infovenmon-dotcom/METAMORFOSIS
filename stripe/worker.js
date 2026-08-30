@@ -2300,7 +2300,10 @@ export default {
       // Config en vivo para la web (público, solo lectura).
       if (path === '/config' && request.method === 'GET') {
         const cfg = await getConfig(env);
-        return jsonResp(cfg, 200, cors);
+        // Los COSTES son información sensible de negocio: NO se exponen en el
+        // endpoint público (la web no los usa). El panel los pide por /admin/costes.
+        const { costes, ...publico } = cfg;
+        return jsonResp(publico, 200, cors);
       }
       // --- Muro central del panel: bloqueo por fuerza bruta + auth por cabecera.
       //     Aplica a TODAS las rutas /admin/*. Los handlers vuelven a comprobar.
@@ -2319,6 +2322,12 @@ export default {
       // Guardar config desde el panel /admin.
       if (path === '/admin/config' && request.method === 'POST') {
         return await guardarConfig(request, env, cors);
+      }
+      // Costes por unidad (privados, solo panel con contraseña).
+      if (path === '/admin/costes' && request.method === 'POST') {
+        if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
+        const cfg = await getConfig(env);
+        return jsonResp({ costes: cfg.costes || {} }, 200, cors);
       }
       if (path === '/admin/check' && request.method === 'POST') {
         const auth = request.headers.get('authorization') || '';
