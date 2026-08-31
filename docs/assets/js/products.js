@@ -1903,12 +1903,12 @@ window.SAVIA_DATA = {
     {
       "handle": "esponja-exfoliante",
       "title": "Bolsa de Sisal Natural",
-      "short": "Bolsa de sisal para tus jabones sólidos: exfolia, hace más espuma y alarga la vida de la pastilla.",
+      "short": "Bolsa de sisal natural: portajabón y exfoliante a la vez. Sostenible, apta para todas las pieles. (No incluye el jabón)",
       "features": [
         "Fibra de sisal 100% natural",
-        "Exfolia mientras te lavas",
-        "Aprovecha el jabón hasta el final",
-        "Se cuelga y seca rápido"
+        "Portajabón + exfoliante",
+        "Apta para todas las pieles",
+        "Biodegradable y sostenible"
       ],
       "tags": [
         "accesorio",
@@ -1925,16 +1925,16 @@ window.SAVIA_DATA = {
         "assets/img/products/esponja-exfoliante.jpg"
       ],
       "bullets": [
-        "GUARDA TU JABÓN DENTRO: mete la pastilla en la bolsa y lávate directamente con ella.",
-        "EXFOLIACIÓN SUAVE: la fibra de sisal retira células muertas y deja la piel suave y luminosa.",
-        "MÁS ESPUMA, MENOS DESPERDICIO: aprovecha hasta el último trocito de jabón.",
-        "NATURAL Y ZERO WASTE: fibra vegetal biodegradable, sin plásticos. Con cordón para colgar y secar."
+        "PORTAJABÓN CÓMODO: mete la pastilla dentro y estira de los cordones; te lavas directamente con la bolsa y aprovechas el jabón hasta el final.",
+        "EXFOLIA MIENTRAS TE LAVAS: elimina células muertas, ayuda a prevenir el vello enquistado tras la depilación y activa la circulación.",
+        "PARA TODAS LAS PIELES: fibra de sisal flexible y de dureza media, ni áspera ni blanda.",
+        "SOSTENIBLE Y ZERO WASTE: sisal 100% vegetal, biodegradable y renovable. Sin plásticos y fácil de lavar."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Bolsa de sisal natural para tus jabones sólidos. Mete la pastilla dentro y úsala directamente: exfolia la piel con suavidad, genera más espuma y alarga la vida del jabón aprovechando hasta los últimos restos. Fibra vegetal biodegradable y sin plásticos, con cordón para colgar y secar.",
-      "indicado": "Para quienes quieren exfoliar la piel a la vez que se lavan y aprovechar sus jabones sólidos al máximo.",
-      "modoUso": "Introduce tu jabón sólido dentro de la bolsa, humedécela y frota suavemente sobre la piel. Al terminar, cuélgala para que se seque.",
+      "descripcion": "Bolsa de sisal natural, la alternativa sostenible para tus jabones sólidos. El sisal es una fibra vegetal flexible, resistente y de dureza media, apta para todas las pieles. Funciona como cómodo portajabones y, a la vez, exfolia la piel: elimina células muertas, ayuda a prevenir el vello enquistado tras la depilación y activa la circulación. Es fácil de lavar, biodegradable y ecológica. (No incluye el jabón de la foto).",
+      "indicado": "Para exfoliar la piel mientras te lavas y aprovechar al máximo tus jabones sólidos. Apta para todo tipo de pieles.",
+      "modoUso": "Coloca el jabón dentro de la bolsa y estira de los cordones para cerrarla. Moja la bolsa y masajea la piel. Al terminar, aclara y deja secar, mejor colgada del cordel.",
       "lema": "Tu jabón, hasta la última pizca.",
       "specs": {}
     },
