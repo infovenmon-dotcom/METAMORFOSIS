@@ -47,6 +47,7 @@ const CONFIG_DEFAULT = {
   costes: {},
   descuentosCategoria: {}, // { coleccion: porcentaje } — oferta por familia
   regaloBienvenida: true,  // incluir jabonera + esponja gratis en el 1er pedido
+  costeEmbalaje: 0,        // coste caja de regalo + lazo por pedido (gasto fijo)
 };
 
 let _cacheProductos = null;
@@ -220,6 +221,7 @@ function sanearConfig(entrada, handlesValidos) {
   const out = { ...CONFIG_DEFAULT, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
   out.modoVacaciones = !!entrada.modoVacaciones;
   out.regaloBienvenida = entrada.regaloBienvenida !== false; // por defecto activo
+  out.costeEmbalaje = numNoNeg(entrada.costeEmbalaje) || 0;   // caja regalo + lazo por pedido
   const valido = (h) => !handlesValidos || handlesValidos.has(h);
 
   // Ofertas por categoría (clave = colección, valor = % de 1 a 90).
@@ -975,6 +977,7 @@ async function manejarBeneficio(request, env, cors) {
   const unidades = {};        // vendidas (ingreso + coste)
   const unidadesMuestra = {}; // muestras/regalos (solo coste)
   let costeEnviosCalc = 0;
+  let nCajas = 0;             // pedidos físicos enviados = cajas de regalo usadas
   if (env.SAVIA_KV) {
     let cursor = null, guard = 0;
     do {
@@ -983,6 +986,7 @@ async function manejarBeneficio(request, env, cors) {
         const m = k.metadata || {};
         const f = Number(m.fecha) || Number(k.name.split(':')[1]) || 0;
         if (f < desde || f > hasta) continue;
+        nCajas++;
         const items = m.items || {};
         // Registro completo: CP (para la zona de envío) y si es muestra/regalo.
         let cp = '', esMuestra = false;
@@ -1044,7 +1048,12 @@ async function manejarBeneficio(request, env, cors) {
   const costeEnvios = envioManual
     ? Math.round(stripe.resumen.pedidos * costeEnvioPorPedido * 100) / 100
     : costeEnviosCalc;
-  const margen = Math.round((base - cogs - comis - costeEnvios) * 100) / 100;
+  // Embalaje: caja de regalo + lazo, va por defecto en todos los pedidos. Se
+  // cobra una caja por cada pedido físico enviado (ventas + muestras).
+  const costeEmbalajeUnit = isFinite(Number(body.costeEmbalaje)) ? Number(body.costeEmbalaje) : (Number(cfg.costeEmbalaje) || 0);
+  const cajas = nCajas || stripe.resumen.pedidos || 0;
+  const costeEmbalaje = Math.round(costeEmbalajeUnit * cajas * 100) / 100;
+  const margen = Math.round((base - cogs - comis - costeEnvios - costeEmbalaje) * 100) / 100;
   const ivaSoportado = Number(body.ivaSoportado) || 0;
   const ivaIngresar = Math.round((stripe.resumen.iva - ivaSoportado) * 100) / 100;
 
@@ -1054,6 +1063,7 @@ async function manejarBeneficio(request, env, cors) {
     base, comisiones: comis, cogs,
     costeMuestras, unidadesMuestra: unidadesMuestraTotal,
     costeEnvioPorPedido, costeEnvios, costeEnviosCalc, recargoCombustible: fuelPct, envioEstimado: !envioManual,
+    costeEmbalaje, costeEmbalajeUnit, cajas,
     margen,
     ivaRepercutido: stripe.resumen.iva, ivaSoportado, ivaIngresar,
     porProducto,
@@ -2302,7 +2312,7 @@ export default {
         const cfg = await getConfig(env);
         // Los COSTES son información sensible de negocio: NO se exponen en el
         // endpoint público (la web no los usa). El panel los pide por /admin/costes.
-        const { costes, ...publico } = cfg;
+        const { costes, costeEmbalaje, ...publico } = cfg;
         return jsonResp(publico, 200, cors);
       }
       // --- Muro central del panel: bloqueo por fuerza bruta + auth por cabecera.
@@ -2327,7 +2337,7 @@ export default {
       if (path === '/admin/costes' && request.method === 'POST') {
         if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
         const cfg = await getConfig(env);
-        return jsonResp({ costes: cfg.costes || {} }, 200, cors);
+        return jsonResp({ costes: cfg.costes || {}, costeEmbalaje: cfg.costeEmbalaje || 0 }, 200, cors);
       }
       if (path === '/admin/check' && request.method === 'POST') {
         const auth = request.headers.get('authorization') || '';
