@@ -267,7 +267,8 @@ function renderPanelCarrito(c) {
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
     <div class="fila-resumen"><span>Envío${c.envioZona === 'baleares' ? ' (Baleares)' : ''}</span><span>${c.zonaNoDisponible ? '—' : (c.envioGratis ? 'GRATIS' : eur(c.envio))}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${c.zonaNoDisponible ? '—' : eur(c.total)}</span></div>
-    <p style="font-size:.7rem;color:var(--texto-suave);text-align:center;margin:6px 0 10px">Por cada 4 productos, 1 de regalo (el de menor valor) · IVA incluido.</p>
+    <p style="font-size:.7rem;color:var(--texto-suave);text-align:center;margin:6px 0 4px">Por cada 4 productos, 1 de regalo (el de menor valor) · IVA incluido.</p>
+    <p style="font-size:.72rem;color:var(--verde-oscuro);text-align:center;margin:0 0 10px">🏷️ ¿Tienes un código de descuento? Introdúcelo en el paso de pago.</p>
     ${c.zonaNoDisponible
       ? '<button class="btn btn-secundario btn-bloque" disabled>No realizamos envíos a tu zona</button>'
       : '<a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>'}
