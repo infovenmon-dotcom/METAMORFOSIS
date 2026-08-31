@@ -3,7 +3,7 @@
    Reglas (espejo de la configuracion de Shopify):
      - 4x3 · POR CADA 4 PRODUCTOS, 1 GRATIS: el de menor precio del pedido.
        Escalable: 4 art. = 1 gratis, 8 = 2 gratis, 12 = 3 gratis...
-     - Envio: Peninsula 3,95 EUR (gratis desde 45 EUR) y Baleares 6 EUR.
+     - Envio: Peninsula 3,95 EUR (gratis desde 35 EUR) y Baleares 6 EUR.
      - Los precios YA incluyen IVA 21% (no se anaden impuestos).
    =========================================================================== */
 

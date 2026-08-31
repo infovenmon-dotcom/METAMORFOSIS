@@ -26,11 +26,11 @@
 
    Reglas (espejo de cart.js):
      - Por cada 4 unidades, la más barata es gratis (3+1).
-     - Envío: Península 3,95 € (gratis desde 45 €) o Baleares 6 € (lo elige el cliente).
+     - Envío: Península 3,95 € (gratis desde 35 €) o Baleares 6 € (lo elige el cliente).
      - Precios YA con IVA (21%).
    =========================================================================== */
 
-const ENVIO_GRATIS_DESDE = 45;
+const ENVIO_GRATIS_DESDE = 35;
 const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la más barata es gratis
@@ -1600,7 +1600,7 @@ async function manejarSuscripcion(request, env, cors) {
       `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#333">` +
       `<h2 style="color:#6b7a4f">¡Bienvenida/o a Savia de Alma! 🌿</h2>` +
       `<p>Gracias por unirte. Como <strong>regalo de bienvenida</strong>, en tu <strong>primer pedido</strong> te incluimos una <strong>jabonera de bambú</strong> + una <strong>esponja exfoliante</strong>.</p>` +
-      `<p>Y recuerda nuestra promo: <strong>por cada 3 productos, el 4º gratis</strong> (el de menor valor). Envío gratis desde 45 €.</p>` +
+      `<p>Y recuerda nuestra promo: <strong>por cada 3 productos, el 4º gratis</strong> (el de menor valor). Envío gratis desde 35 €.</p>` +
       `<p style="margin-top:18px">Además, cada <strong>domingo</strong> te escribimos con <strong>algo útil</strong> —nunca solo promociones:</p>` +
       `<ul style="padding-left:18px;color:#444;line-height:1.7;margin:6px 0 0">` +
         `<li>💡 Un consejo de cuidado (o de nuestra experta)</li>` +
@@ -2085,7 +2085,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
       nlBloqueValores(_wk) +
       `<div style="text-align:center;margin:26px 0 6px">` +
         `<a href="${nlTiendaUrl('carta')}" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Descubre la tienda</a>` +
-        `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
+        `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 35 €</p>` +
       `</div>` +
       `<hr style="border:none;border-top:1px solid #eee;margin:20px 0">` +
       `<p style="font-size:11px;color:#aaa;text-align:center;line-height:1.6">Savia de Alma · Cosmética sólida natural · Hecho a mano en España<br>Recibes este correo porque te apuntaste en saviadealma.com.<br><a href="${unsubUrl}" style="color:#999">Darse de baja</a></p></div>`;
@@ -2166,7 +2166,7 @@ function construirCorreoSemanal(prod, prods, cfg, unsubUrl, resenas) {
     productoBox +
     `<div style="text-align:center;margin:30px 0 6px">` +
       `<a href="${nlTiendaUrl('tienda')}" style="display:inline-block;background:#3f4a2e;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700">Ver toda la tienda</a>` +
-      `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 45 €</p>` +
+      `<p style="font-size:13px;color:#8a9b6a;margin-top:10px">🎁 Por cada 3 productos, el 4º gratis · Envío gratis desde 35 €</p>` +
     `</div>` +
     `<hr style="border:none;border-top:1px solid #eee;margin:20px 0">` +
     `<p style="font-size:11px;color:#aaa;text-align:center;line-height:1.6">` +
