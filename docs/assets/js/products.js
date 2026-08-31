@@ -1361,8 +1361,9 @@ window.SAVIA_DATA = {
       "modoUso": "Tras la depilacion, frota la pastilla sobre la piel humeda y limpia hasta crear espuma. Masajea suavemente y aclara.",
       "lema": "Aloe que refresca y calma tras la depilacion.",
       "specs": {
+        "cpnp": "6072810",
         "peso": "90 g",
-        "inci": "Sodium Coco-Sulfate, Aqua, Cocos nucifera Oil, Parfum, Butyrospermum parkii Butter, Theobroma cacao Seed Butter, Cocamidopropyl Betaine, Aloe barbadensis leaf juice, Benzyl Alcohol, CI 61570.",
+        "inci": "Sodium Coco-Sulfate, Aqua, Cocos nucifera Oil, Parfum, Butyrospermum parkii Butter, Theobroma cacao Seed Butter, Cocamidopropyl Betaine, Aloe barbadensis leaf juice, CI 61570, Linalyl Acetate, Hexamethylindanopyran, Tetramethyl Acetyl Octahydronaphthalenes, Acetyl Cedrene.",
         "fabricacion": "Espuma de depilacion solida, hecha a mano en Espana · Vegana · Sin plastico."
       }
     },
@@ -1978,6 +1979,7 @@ window.SAVIA_DATA = {
       "modoUso": "En la ducha, aplica la pastilla sobre la piel mojada con agua caliente (máx. 37°). Masajea con movimientos ascendentes en brazos y piernas y circulares en abdomen, pecho y glúteos, insistiendo en talones y codos. Aclara y termina con agua fría para tonificar y activar la circulación.",
       "lema": "Piel nueva en cada ducha.",
       "specs": {
+        "cpnp": "6066397",
         "natural": "98,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Coffea arabica Seed Powder, Tocopherol (Vitamina E).",
         "peso": "~75 g",
@@ -2018,6 +2020,7 @@ window.SAVIA_DATA = {
       "modoUso": "En la ducha, aplica la pastilla sobre la piel mojada con agua caliente (máx. 37°). Masajea con movimientos suaves, aclara y termina con agua fría para tonificar.",
       "lema": "Suavidad que ilumina.",
       "specs": {
+        "cpnp": "6066402",
         "natural": "98,5% ingredientes naturales (Norma Cosmos)",
         "inci": "Sodium Coco-Sulfate, Citric Acid, Cocos nucifera Oil, Butyrospermum parkii Butter, Daucus carota Extract, Linum usitatissimum Seed.",
         "peso": "~75 g",
