@@ -1582,6 +1582,25 @@ async function manejarTestChat(request, env, cors) {
 /* ---------- Alta en la newsletter (con email de bienvenida) ----------
    Guarda el lead en KV, envía un correo de bienvenida al suscriptor y avisa
    al dueño (ORDER_EMAIL_TO). No rompe nada si falta el proveedor de email. */
+/* Da de alta (o actualiza) el contacto en Brevo y lo mete en la lista de la
+   newsletter, para poder disparar los flujos automáticos (bienvenida, etc.).
+   Requiere env.EMAIL_API_KEY (la API de Brevo) y env.BREVO_LIST_ID (nº de lista). */
+async function sincronizarBrevo(env, email, atributos) {
+  if (!env.EMAIL_API_KEY) return { ok: false, motivo: 'sin_api_key' };
+  const body = { email, updateEnabled: true };
+  const listId = parseInt(env.BREVO_LIST_ID, 10);
+  if (listId) body.listIds = [listId];
+  if (atributos && typeof atributos === 'object') body.attributes = atributos;
+  try {
+    const r = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: { 'api-key': env.EMAIL_API_KEY, 'content-type': 'application/json', 'accept': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    return { ok: r.ok || r.status === 204, status: r.status };
+  } catch (e) { console.error('brevo sync:', e); return { ok: false, motivo: String(e.message || e) }; }
+}
+
 async function manejarSuscripcion(request, env, cors) {
   let body;
   try { body = await request.json(); } catch { return jsonResp({ ok: false, error: 'json' }, 400, cors); }
@@ -1597,6 +1616,9 @@ async function manejarSuscripcion(request, env, cors) {
       await env.SAVIA_KV.put('lead:' + ts + ':' + email, JSON.stringify({ email, ts }));
       await env.SAVIA_KV.put('sub:' + email, '1');
       await env.SAVIA_KV.delete('unsub:' + email);
+      // Alta en Brevo (lista newsletter) para los flujos automáticos. No bloquea
+      // la suscripción si Brevo falla: el lead ya queda guardado en KV.
+      await sincronizarBrevo(env, email, { FUENTE: 'web-newsletter' });
       yaRegalo = await env.SAVIA_KV.get('regalo:' + email);
       if (yaRegalo) {
         const up = await env.SAVIA_KV.get('ultimopedido:' + email);
