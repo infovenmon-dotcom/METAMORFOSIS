@@ -235,7 +235,7 @@ function pintarBeneficio(d) {
     <div><div class="nota">Coste de lo vendido</div><strong style="font-size:1.15rem">${_fmtEur(d.cogs || 0)}</strong></div>
     <div><div class="nota">Comisiones Stripe</div><strong style="font-size:1.15rem">${_fmtEur(d.comisiones || 0)}</strong></div>
     <div><div class="nota">Coste de envíos${d.envioEstimado ? ' (estimado)' : ' (fijo)'}${d.pedidos ? ' · ' + d.pedidos + ' ped.' : ''}</div><strong style="font-size:1.15rem">${_fmtEur(d.costeEnvios || 0)}</strong></div>
-    ${(d.costeEmbalaje || d.costeEmbalajeUnit) ? `<div><div class="nota">Embalaje (caja+lazo)${d.cajas ? ' · ' + d.cajas + ' caja' + (d.cajas === 1 ? '' : 's') : ''}</div><strong style="font-size:1.15rem">${_fmtEur(d.costeEmbalaje || 0)}</strong></div>` : ''}
+    ${d.costeEmbalaje ? `<div><div class="nota">Embalaje (caja+lazo)${(d.cajasPeq || d.cajasGrande) ? ' · ' + (d.cajasPeq || 0) + ' peq + ' + (d.cajasGrande || 0) + ' gr' : ''}</div><strong style="font-size:1.15rem">${_fmtEur(d.costeEmbalaje || 0)}</strong></div>` : ''}
     <div><div class="nota">MARGEN / BENEFICIO</div><strong style="font-size:1.3rem;color:${margenColor}">${_fmtEur(d.margen || 0)}</strong></div>
   </div>
   <div class="fila-top" style="gap:24px;margin-top:14px;align-items:flex-start">
@@ -355,8 +355,12 @@ function pintar(cfg) {
   document.getElementById('vacaciones').checked = !!cfg.modoVacaciones;
   const rb = document.getElementById('regalo-bienvenida');
   if (rb) rb.checked = cfg.regaloBienvenida !== false;
-  const ce = document.getElementById('coste-embalaje');
-  if (ce) ce.value = (cfg.costeEmbalaje != null && cfg.costeEmbalaje !== 0) ? cfg.costeEmbalaje : '';
+  const cp = document.getElementById('coste-caja-peq');
+  if (cp) cp.value = (cfg.costeCajaPeq != null && cfg.costeCajaPeq !== 0) ? cfg.costeCajaPeq : '';
+  const cg = document.getElementById('coste-caja-grande');
+  if (cg) cg.value = (cfg.costeCajaGrande != null && cfg.costeCajaGrande !== 0) ? cfg.costeCajaGrande : '';
+  const uc = document.getElementById('umbral-caja-peq');
+  if (uc) uc.value = (cfg.umbralCajaPeq != null && cfg.umbralCajaPeq !== 5) ? cfg.umbralCajaPeq : '';
   poblarNlProd();
   const precios = cfg.precios || {};
   const ofertas = cfg.ofertas || {};
@@ -429,8 +433,10 @@ function poblarCategorias() {
 async function guardar() {
   const msg = document.getElementById('msg');
   const _rb = document.getElementById('regalo-bienvenida');
-  const _ce = document.getElementById('coste-embalaje');
-  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, regaloBienvenida: _rb ? _rb.checked : true, costeEmbalaje: _ce ? (parseFloat(_ce.value) || 0) : 0, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
+  const _cp = document.getElementById('coste-caja-peq');
+  const _cg = document.getElementById('coste-caja-grande');
+  const _uc = document.getElementById('umbral-caja-peq');
+  const cfg = { modoVacaciones: document.getElementById('vacaciones').checked, regaloBienvenida: _rb ? _rb.checked : true, costeCajaPeq: _cp ? (parseFloat(_cp.value) || 0) : 0, costeCajaGrande: _cg ? (parseFloat(_cg.value) || 0) : 0, umbralCajaPeq: _uc ? (parseInt(_uc.value, 10) || 5) : 5, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
 
   document.querySelectorAll('.f-desc-cat').forEach(inp => {
     const c = inp.dataset.collection;

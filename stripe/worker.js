@@ -47,7 +47,9 @@ const CONFIG_DEFAULT = {
   costes: {},
   descuentosCategoria: {}, // { coleccion: porcentaje } — oferta por familia
   regaloBienvenida: true,  // incluir jabonera + esponja gratis en el 1er pedido
-  costeEmbalaje: 0,        // coste caja de regalo + lazo por pedido (gasto fijo)
+  costeCajaPeq: 0,         // coste caja de regalo pequeña + lazo (16,5×16,5×5)
+  costeCajaGrande: 0,      // coste caja de regalo grande + lazo (23×17×7)
+  umbralCajaPeq: 5,        // pedidos con <= N unidades van en caja pequeña; más, en grande
 };
 
 let _cacheProductos = null;
@@ -221,7 +223,9 @@ function sanearConfig(entrada, handlesValidos) {
   const out = { ...CONFIG_DEFAULT, agotados: [], stock: {}, precios: {}, ofertas: {}, costes: {}, descuentosCategoria: {} };
   out.modoVacaciones = !!entrada.modoVacaciones;
   out.regaloBienvenida = entrada.regaloBienvenida !== false; // por defecto activo
-  out.costeEmbalaje = numNoNeg(entrada.costeEmbalaje) || 0;   // caja regalo + lazo por pedido
+  out.costeCajaPeq = numNoNeg(entrada.costeCajaPeq) || 0;     // caja pequeña + lazo
+  out.costeCajaGrande = numNoNeg(entrada.costeCajaGrande) || 0; // caja grande + lazo
+  out.umbralCajaPeq = Math.max(1, Math.floor(numNoNeg(entrada.umbralCajaPeq) || 5));
   const valido = (h) => !handlesValidos || handlesValidos.has(h);
 
   // Ofertas por categoría (clave = colección, valor = % de 1 a 90).
@@ -974,10 +978,19 @@ async function manejarBeneficio(request, env, cors) {
   // Unidades por producto (vendidas vs. muestras) + coste de envío estimado por
   // pedido. Las muestras/regalos (envíos manuales) cuentan su COSTE pero no
   // generan ingreso: por eso se separan de las unidades vendidas.
+  const cfg = await getConfig(env);
+  // Embalaje: caja de regalo + lazo, va por defecto en todos los pedidos. La
+  // pequeña (16,5×16,5×5) para pedidos de pocas unidades; la grande (23×17×7)
+  // para los mayores. El umbral y ambos costes se configuran en el panel.
+  const cePeq = isFinite(Number(body.costeCajaPeq)) ? Number(body.costeCajaPeq) : (Number(cfg.costeCajaPeq) || 0);
+  const ceGrande = isFinite(Number(body.costeCajaGrande)) ? Number(body.costeCajaGrande) : (Number(cfg.costeCajaGrande) || 0);
+  const umbralPeq = Math.max(1, Math.floor(Number(body.umbralCajaPeq) || Number(cfg.umbralCajaPeq) || 5));
+
   const unidades = {};        // vendidas (ingreso + coste)
   const unidadesMuestra = {}; // muestras/regalos (solo coste)
   let costeEnviosCalc = 0;
   let nCajas = 0;             // pedidos físicos enviados = cajas de regalo usadas
+  let cajasPeq = 0, cajasGrande = 0, costeEmbalaje = 0;
   if (env.SAVIA_KV) {
     let cursor = null, guard = 0;
     do {
@@ -992,21 +1005,25 @@ async function manejarBeneficio(request, env, cors) {
         let cp = '', esMuestra = false;
         try { const rec = JSON.parse(await env.SAVIA_KV.get(k.name) || '{}'); cp = (rec.envio && rec.envio.cp) || ''; esMuestra = !!rec.manual; }
         catch { /* sin datos: se estima como península y venta normal */ }
-        let gramos = 0;
+        let gramos = 0, udsPedido = 0;
         for (const [h, q] of Object.entries(items)) {
           const n = parseInt(q, 10) || 0;
           if (esMuestra) unidadesMuestra[h] = (unidadesMuestra[h] || 0) + n;
           else unidades[h] = (unidades[h] || 0) + n;
           gramos += (pesoDe[h] || 80) * n;
+          udsPedido += n;
         }
         costeEnviosCalc += costeEnvioCTT(gramos, cp, fuelPct);
+        // Caja pequeña o grande según nº de unidades del pedido.
+        if (udsPedido > umbralPeq) { cajasGrande++; costeEmbalaje += ceGrande; }
+        else { cajasPeq++; costeEmbalaje += cePeq; }
       }
       cursor = lst.list_complete ? null : lst.cursor;
     } while (cursor && guard++ < 20);
   }
+  costeEmbalaje = Math.round(costeEmbalaje * 100) / 100;
   costeEnviosCalc = Math.round(costeEnviosCalc * 100) / 100;
 
-  const cfg = await getConfig(env);
   const costes = cfg.costes || {};
   let productos = {};
   try { productos = await cargarProductos(env.PRODUCTS_URL); } catch { /* opcional, solo para títulos */ }
@@ -1048,11 +1065,7 @@ async function manejarBeneficio(request, env, cors) {
   const costeEnvios = envioManual
     ? Math.round(stripe.resumen.pedidos * costeEnvioPorPedido * 100) / 100
     : costeEnviosCalc;
-  // Embalaje: caja de regalo + lazo, va por defecto en todos los pedidos. Se
-  // cobra una caja por cada pedido físico enviado (ventas + muestras).
-  const costeEmbalajeUnit = isFinite(Number(body.costeEmbalaje)) ? Number(body.costeEmbalaje) : (Number(cfg.costeEmbalaje) || 0);
-  const cajas = nCajas || stripe.resumen.pedidos || 0;
-  const costeEmbalaje = Math.round(costeEmbalajeUnit * cajas * 100) / 100;
+  // Embalaje ya calculado por pedido (caja pequeña/grande según unidades).
   const margen = Math.round((base - cogs - comis - costeEnvios - costeEmbalaje) * 100) / 100;
   const ivaSoportado = Number(body.ivaSoportado) || 0;
   const ivaIngresar = Math.round((stripe.resumen.iva - ivaSoportado) * 100) / 100;
@@ -1063,7 +1076,7 @@ async function manejarBeneficio(request, env, cors) {
     base, comisiones: comis, cogs,
     costeMuestras, unidadesMuestra: unidadesMuestraTotal,
     costeEnvioPorPedido, costeEnvios, costeEnviosCalc, recargoCombustible: fuelPct, envioEstimado: !envioManual,
-    costeEmbalaje, costeEmbalajeUnit, cajas,
+    costeEmbalaje, cajas: nCajas, cajasPeq, cajasGrande, costeCajaPeq: cePeq, costeCajaGrande: ceGrande, umbralCajaPeq: umbralPeq,
     margen,
     ivaRepercutido: stripe.resumen.iva, ivaSoportado, ivaIngresar,
     porProducto,
@@ -2312,7 +2325,7 @@ export default {
         const cfg = await getConfig(env);
         // Los COSTES son información sensible de negocio: NO se exponen en el
         // endpoint público (la web no los usa). El panel los pide por /admin/costes.
-        const { costes, costeEmbalaje, ...publico } = cfg;
+        const { costes, costeCajaPeq, costeCajaGrande, umbralCajaPeq, ...publico } = cfg;
         return jsonResp(publico, 200, cors);
       }
       // --- Muro central del panel: bloqueo por fuerza bruta + auth por cabecera.
@@ -2337,7 +2350,7 @@ export default {
       if (path === '/admin/costes' && request.method === 'POST') {
         if (!_authAdmin(request, env)) return jsonResp({ error: 'no_autorizado' }, 401, cors);
         const cfg = await getConfig(env);
-        return jsonResp({ costes: cfg.costes || {}, costeEmbalaje: cfg.costeEmbalaje || 0 }, 200, cors);
+        return jsonResp({ costes: cfg.costes || {}, costeCajaPeq: cfg.costeCajaPeq || 0, costeCajaGrande: cfg.costeCajaGrande || 0, umbralCajaPeq: cfg.umbralCajaPeq || 5 }, 200, cors);
       }
       if (path === '/admin/check' && request.method === 'POST') {
         const auth = request.headers.get('authorization') || '';
