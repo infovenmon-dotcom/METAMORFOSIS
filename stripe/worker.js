@@ -31,6 +31,7 @@
    =========================================================================== */
 
 const ENVIO_GRATIS_DESDE = 35;
+const ENVIO_TOLERANCIA = 0.10; // si se queda corto por <=0,10 € tras el 4x3, asumimos la diferencia y damos envío gratis
 const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la más barata es gratis
@@ -158,7 +159,7 @@ function calcular(items, productos, cfg, zona) {
   let envio;
   if (unidades === 0) envio = 0;
   else if (zona === 'baleares') envio = ENVIO_BALEARES;
-  else envio = subtotalConPromo >= ENVIO_GRATIS_DESDE ? 0 : ENVIO_PENINSULA;
+  else envio = subtotalConPromo >= (ENVIO_GRATIS_DESDE - ENVIO_TOLERANCIA) ? 0 : ENVIO_PENINSULA;
 
   // Unidades realmente cobradas por handle (cantidad - regalos).
   const cobradas = {};

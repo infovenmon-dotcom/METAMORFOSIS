@@ -8,6 +8,7 @@
    =========================================================================== */
 
 const ENVIO_GRATIS_DESDE = 35;
+const ENVIO_TOLERANCIA = 0.10; // se queda corto por <=0,10 € tras el 4x3 -> asumimos la diferencia y damos envío gratis
 const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la mas barata es gratis
@@ -126,7 +127,8 @@ const Carrito = {
       envio = ENVIO_BALEARES;
     } else {
       // Península, o sin CP todavía (se muestra la estimación peninsular).
-      if (subtotalConPromo >= ENVIO_GRATIS_DESDE) { envio = 0; envioGratis = true; }
+      // Tolerancia: si tras el 4x3 se queda corto por <=0,10 €, envío gratis igual.
+      if (subtotalConPromo >= ENVIO_GRATIS_DESDE - ENVIO_TOLERANCIA) { envio = 0; envioGratis = true; }
       else envio = ENVIO_PENINSULA;
     }
 
