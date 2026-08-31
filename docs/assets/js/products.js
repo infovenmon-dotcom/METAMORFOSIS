@@ -2067,6 +2067,7 @@ window.SAVIA_DATA = {
       "lema": "Moldea a tu manera.",
       "specs": {
         "natural": "Fórmula natural, vegana, sin plástico",
+        "cpnp": "5992714",
         "inci": "Hydrogenated Soybean Oil, Butyrospermum parkii Butter, Cocos nucifera Oil, Parfum, Tocopherol, Citronellol, Coumarin, Alpha-Isomethyl Ionone, Hexyl Cinnamal, Limonene, Linalool.",
         "peso": "~55 g",
         "fabricacion": "Elaborada a mano en España. Sin plástico (cero residuos). Vegana."
@@ -2192,6 +2193,7 @@ window.SAVIA_DATA = {
       "lema": "El ritual coreano del arroz para una piel luminosa.",
       "specs": {
         "natural": "Ingredientes naturales, vegano, hecho a mano",
+        "cpnp": "6073268",
         "inci": "Sodium Olivate, Sodium Cocoate, Aqua, Glycerin, Parfum, Benzyl Salicylate, Papaver Somniferum Seed, Hexyl Cinnamal, CI 77891, Oryza Sativa Bran Oil, Linalool, Tetramethyl Acetyloctahydronaphthalenes, Eugenol, Cinnamal, Limonene, Citrus Limon Peel Oil, Amyl Salicylate, Coumarin, Linalyl Acetate, Cinnamyl Alcohol, Citronellol, CI 19140, CI 14720, CI 42045.",
         "peso": "~100 g",
         "fabricacion": "Elaborado a mano en España mediante saponificación en frío. Sin plástico (cero residuos). Vegano."
