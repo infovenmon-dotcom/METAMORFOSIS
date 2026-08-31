@@ -126,7 +126,9 @@ const Carrito = {
       envio = ENVIO_BALEARES;
     } else {
       // Península, o sin CP todavía (se muestra la estimación peninsular).
-      if (subtotalConPromo >= ENVIO_GRATIS_DESDE) { envio = 0; envioGratis = true; }
+      // El envío gratis se mide sobre el valor de los productos (ANTES del 4x3),
+      // para que la propia promo no deje al cliente sin envío gratis por céntimos.
+      if (subtotal >= ENVIO_GRATIS_DESDE) { envio = 0; envioGratis = true; }
       else envio = ENVIO_PENINSULA;
     }
 
@@ -140,7 +142,7 @@ const Carrito = {
     }
 
     const total = subtotalConPromo - descuentoCodigo + envio;
-    const faltaParaEnvio = Math.max(0, ENVIO_GRATIS_DESDE - subtotalConPromo);
+    const faltaParaEnvio = Math.max(0, ENVIO_GRATIS_DESDE - subtotal);
     const faltaParaProximoGratis = unidades === 0 ? GRUPO_GRATIS : (GRUPO_GRATIS - (unidades % GRUPO_GRATIS)) % GRUPO_GRATIS;
     // progreso dentro del grupo de 3 en curso (0..3) para la barra/cuenta atras
     const progresoGrupo = faltaParaProximoGratis === 0 ? GRUPO_GRATIS : GRUPO_GRATIS - faltaParaProximoGratis;
@@ -265,7 +267,7 @@ function renderPanelCarrito(c) {
       <div class="barra-regalo"><span style="width:${pgRegalo}%"></span></div></div>`;
   }
 
-  const pct = Math.min(100, (c.subtotalConPromo / ENVIO_GRATIS_DESDE) * 100);
+  const pct = Math.min(100, (c.subtotal / ENVIO_GRATIS_DESDE) * 100);
   let envioAviso;
   if (c.envioGratis) {
     envioAviso = '<div class="aviso-regalo conseguido">🚚 ¡Tienes <strong>ENVÍO GRATIS</strong>!</div>';
