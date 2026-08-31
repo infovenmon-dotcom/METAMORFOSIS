@@ -339,6 +339,11 @@ async function crearCheckout(request, env, cors) {
   if (promo && promo.id) form.append('discounts[0][promotion_code]', promo.id);
   else form.append('allow_promotion_codes', 'true');
   form.append('shipping_address_collection[allowed_countries][0]', 'ES');
+  // Recuperación de carritos abandonados: si el cliente llega al pago, deja su
+  // email pero no paga, Stripe guarda la sesión y (si activas los correos de
+  // recuperación en el panel de Stripe) le envía un recordatorio con un enlace
+  // para retomar la compra. Aparece en Stripe → Pagos como "incompleto".
+  form.append('after_expiration[recovery][enabled]', 'true');
   // Teléfono del cliente: CTT lo necesita para el aviso de entrega.
   form.append('phone_number_collection[enabled]', 'true');
 
