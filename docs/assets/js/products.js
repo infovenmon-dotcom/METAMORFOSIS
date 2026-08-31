@@ -1902,13 +1902,13 @@ window.SAVIA_DATA = {
     },
     {
       "handle": "esponja-exfoliante",
-      "title": "Esponja Exfoliante Natural",
-      "short": "Esponja vegetal para exfoliar suavemente la piel y activar la circulación en la ducha.",
+      "title": "Bolsa de Sisal Natural",
+      "short": "Bolsa de sisal para tus jabones sólidos: exfolia, hace más espuma y alarga la vida de la pastilla.",
       "features": [
-        "Fibra vegetal biodegradable",
-        "Exfoliación suave y natural",
-        "Activa la circulación",
-        "Ideal con tus jabones sólidos"
+        "Fibra de sisal 100% natural",
+        "Exfolia mientras te lavas",
+        "Aprovecha el jabón hasta el final",
+        "Se cuelga y seca rápido"
       ],
       "tags": [
         "accesorio",
@@ -1925,17 +1925,17 @@ window.SAVIA_DATA = {
         "assets/img/products/esponja-exfoliante.jpg"
       ],
       "bullets": [
-        "EXFOLIACIÓN SUAVE: retira células muertas y deja la piel suave y luminosa.",
-        "100% VEGETAL Y BIODEGRADABLE: sin plásticos, zero waste.",
-        "ACTIVA LA CIRCULACIÓN: un masaje natural en cada ducha.",
-        "MÁS ESPUMA: aprovecha al máximo tus jabones sólidos."
+        "GUARDA TU JABÓN DENTRO: mete la pastilla en la bolsa y lávate directamente con ella.",
+        "EXFOLIACIÓN SUAVE: la fibra de sisal retira células muertas y deja la piel suave y luminosa.",
+        "MÁS ESPUMA, MENOS DESPERDICIO: aprovecha hasta el último trocito de jabón.",
+        "NATURAL Y ZERO WASTE: fibra vegetal biodegradable, sin plásticos. Con cordón para colgar y secar."
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Esponja vegetal para exfoliar suavemente la piel y activar la circulación en la ducha.",
-      "indicado": "",
-      "modoUso": "",
-      "lema": "",
+      "descripcion": "Bolsa de sisal natural para tus jabones sólidos. Mete la pastilla dentro y úsala directamente: exfolia la piel con suavidad, genera más espuma y alarga la vida del jabón aprovechando hasta los últimos restos. Fibra vegetal biodegradable y sin plásticos, con cordón para colgar y secar.",
+      "indicado": "Para quienes quieren exfoliar la piel a la vez que se lavan y aprovechar sus jabones sólidos al máximo.",
+      "modoUso": "Introduce tu jabón sólido dentro de la bolsa, humedécela y frota suavemente sobre la piel. Al terminar, cuélgala para que se seque.",
+      "lema": "Tu jabón, hasta la última pizca.",
       "specs": {}
     },
     {
