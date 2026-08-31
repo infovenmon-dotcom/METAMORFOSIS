@@ -158,9 +158,7 @@ function calcular(items, productos, cfg, zona) {
   let envio;
   if (unidades === 0) envio = 0;
   else if (zona === 'baleares') envio = ENVIO_BALEARES;
-  // Envío gratis sobre el valor de los productos (ANTES del 4x3), para que la
-  // propia promo no deje al cliente sin envío gratis por unos céntimos.
-  else envio = subtotal >= ENVIO_GRATIS_DESDE ? 0 : ENVIO_PENINSULA;
+  else envio = subtotalConPromo >= ENVIO_GRATIS_DESDE ? 0 : ENVIO_PENINSULA;
 
   // Unidades realmente cobradas por handle (cantidad - regalos).
   const cobradas = {};
