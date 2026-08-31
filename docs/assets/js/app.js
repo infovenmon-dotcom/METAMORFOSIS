@@ -255,6 +255,33 @@ function enviarContacto(e) {
 }
 
 /* ---------- Ficha de producto (modal con beneficios + modo de uso) ---------- */
+/* "Combina con": productos que COMPLEMENTAN de verdad al que miras (no relleno).
+   Champú → acondicionador + jabonera pequeña; jabón → jabonera + bolsa de sisal;
+   depilación → bolsa de sisal (evita vello enquistado); accesorio → jabones estrella. */
+const COMBINA_COL = {
+  champus:          ['acondicionador-coco', 'jabonera-pequena'],
+  acondicionadores: ['champu-cafeina-canela', 'jabonera-pequena'],
+  jabones:          ['jabonera-bambu', 'esponja-exfoliante'],
+  exfoliantes:      ['jabonera-bambu', 'esponja-exfoliante'],
+  depilacion:       ['esponja-exfoliante', 'jabonera-bambu'],
+  desodorantes:     ['jabon-leche-cabra', 'esponja-exfoliante'],
+  faciales:         ['jabonera-pequena', 'jabon-leche-cabra'],
+  afeitado:         ['jabonera-bambu', 'esponja-exfoliante'],
+  ceras:            ['champu-cafeina-canela', 'jabonera-pequena'],
+  accesorios:       ['jabon-leche-cabra', 'jabon-leche-burra-aloe'],
+};
+function relacionadosDe(p) {
+  const handles = COMBINA_COL[p.collection] || [];
+  const out = [];
+  for (const h of handles) {
+    if (h === p.handle) continue;
+    const x = DATA.products.find(y => y.handle === h);
+    if (x && !estaAgotado(x) && !x.proximamente && !out.includes(x)) out.push(x);
+  }
+  return out.slice(0, 3);
+}
+function _precioTxt(p) { return (precioDe(p)).toFixed(2).replace('.', ',') + ' €'; }
+
 function abrirFicha(handle) {
   const p = DATA.products.find(x => x.handle === handle);
   if (!p) return;
@@ -320,6 +347,22 @@ function abrirFicha(handle) {
         </div>`).join('')}
       </div>` : '';
 
+  // "Combina con" — cross-sell coherente
+  const rel = relacionadosDe(p);
+  const combinaBlock = rel.length ? `
+      <div class="ficha-bloque">
+        <h4>🌿 Combina con</h4>
+        <div class="ficha-combina">
+          ${rel.map(x => `
+            <div class="combina-item">
+              <button class="combina-img" onclick="abrirFicha('${x.handle}')" aria-label="Ver ${acc(x.title)}"><img src="${(x.images && x.images[0]) || x.image}" alt="" loading="lazy"></button>
+              <button class="combina-nom" onclick="abrirFicha('${x.handle}')">${acc(x.title)}</button>
+              <div class="combina-precio">${_precioTxt(x)}</div>
+              <button class="btn btn-secundario btn-sm" onclick="addToCart('${x.handle}')">Añadir</button>
+            </div>`).join('')}
+        </div>
+      </div>` : '';
+
   const _agotado = estaAgotado(p);
   const acciones = `
       <div class="ficha-acciones">
@@ -351,6 +394,7 @@ function abrirFicha(handle) {
       </div>
       <h2>${acc(p.title)}</h2>
       ${bloquePrecio(p, { grande: true })}
+      ${(!_agotado && !p.proximamente) ? '<p class="ficha-envio">🚚 Envío en 24/48&nbsp;h · Gratis desde 35&nbsp;€</p>' : ''}
       <p class="ficha-desc">${acc(p.descripcion || p.short)}</p>
       ${sellosBlock}
       ${bulletsBlock}
@@ -361,6 +405,7 @@ function abrirFicha(handle) {
       ${features ? `<div class="ficha-bloque"><h4>🌿 Características</h4><ul class="ficha-features">${features}</ul></div>` : ''}
       ${specsBlock}
       ${reviewsBlock}
+      ${combinaBlock}
 
       ${p.lema ? `<p class="ficha-lema">${acc(p.lema)}</p>` : ''}
     </div>`;

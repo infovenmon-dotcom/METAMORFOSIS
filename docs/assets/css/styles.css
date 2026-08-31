@@ -661,6 +661,13 @@ img { max-width: 100%; display: block; }
 }
 .ficha-info h2 { font-size: 1.6rem; margin: 0 0 8px; }
 .ficha-desc { color: var(--texto-suave); margin: 12px 0 18px; }
+.ficha-envio { color: var(--verde-oscuro); font-size: .85rem; font-weight: 600; margin: 8px 0 0; }
+.ficha-combina { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.ficha-combina .combina-item { flex: 1 1 120px; min-width: 110px; max-width: 160px; text-align: center; }
+.ficha-combina .combina-img { border: none; background: none; padding: 0; cursor: pointer; width: 100%; }
+.ficha-combina .combina-img img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: var(--radio-sm); display: block; }
+.ficha-combina .combina-nom { border: none; background: none; padding: 4px 0 0; cursor: pointer; font: inherit; font-size: .8rem; font-weight: 600; color: var(--texto); display: block; width: 100%; line-height: 1.25; }
+.ficha-combina .combina-precio { font-size: .82rem; color: var(--verde-oscuro); font-weight: 700; margin: 2px 0 6px; }
 
 .ficha-bloque {
   background: var(--blanco);
