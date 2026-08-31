@@ -13,6 +13,7 @@ const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la mas barata es gratis
 const STORAGE_KEY = 'savia_carrito';
 const CP_KEY = 'savia_cp';
+const COD_KEY = 'savia_codigo';
 
 /* Código postal del cliente para calcular el envío por zona. */
 let CP = '';
@@ -41,13 +42,22 @@ function _precioCarrito(p) {
 
 const Carrito = {
   items: {}, // handle -> qty
+  codigo: null, // { code, pct, amountOff } — código de descuento validado
 
   cargar() {
     try { this.items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
     catch { this.items = {}; }
+    try { this.codigo = JSON.parse(localStorage.getItem(COD_KEY)) || null; }
+    catch { this.codigo = null; }
   },
   guardar() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items));
+  },
+  guardarCodigo() {
+    try {
+      if (this.codigo) localStorage.setItem(COD_KEY, JSON.stringify(this.codigo));
+      else localStorage.removeItem(COD_KEY);
+    } catch { /* almacenamiento no disponible */ }
   },
   producto(handle) {
     return window.SAVIA_DATA.products.find(p => p.handle === handle);
@@ -120,7 +130,16 @@ const Carrito = {
       else envio = ENVIO_PENINSULA;
     }
 
-    const total = subtotalConPromo + envio;
+    // Código de descuento: SOLO sobre los productos (subtotal con 4x3), nunca
+    // sobre el envío. El envío gratis ya se decidió arriba, antes del código.
+    let descuentoCodigo = 0;
+    if (this.codigo && unidades > 0) {
+      if (this.codigo.pct) descuentoCodigo = subtotalConPromo * (this.codigo.pct / 100);
+      else if (this.codigo.amountOff) descuentoCodigo = Math.min(this.codigo.amountOff, subtotalConPromo);
+      descuentoCodigo = Math.round(descuentoCodigo * 100) / 100;
+    }
+
+    const total = subtotalConPromo - descuentoCodigo + envio;
     const faltaParaEnvio = Math.max(0, ENVIO_GRATIS_DESDE - subtotalConPromo);
     const faltaParaProximoGratis = unidades === 0 ? GRUPO_GRATIS : (GRUPO_GRATIS - (unidades % GRUPO_GRATIS)) % GRUPO_GRATIS;
     // progreso dentro del grupo de 3 en curso (0..3) para la barra/cuenta atras
@@ -129,6 +148,7 @@ const Carrito = {
     return {
       lineas, unidades, subtotal, gratisCount, ahorroPromo, freeByHandle,
       subtotalConPromo, envio, envioGratis, total,
+      codigo: this.codigo, descuentoCodigo,
       faltaParaEnvio, faltaParaProximoGratis, progresoGrupo, grupoGratis: GRUPO_GRATIS,
       cp: CP, zona, envioZona, zonaNoDisponible,
     };
@@ -265,10 +285,23 @@ function renderPanelCarrito(c) {
     </div>
     <div class="fila-resumen"><span>Subtotal (${c.unidades} art.)</span><span>${eur(c.subtotal)}</span></div>
     ${c.ahorroPromo > 0 ? `<div class="fila-resumen"><span class="ahorro">Regalo · ${c.gratisCount} gratis</span><span class="ahorro">−${eur(c.ahorroPromo)}</span></div>` : ''}
+    ${c.descuentoCodigo > 0 ? `<div class="fila-resumen"><span class="ahorro">Código ${c.codigo.code}${c.codigo.pct ? ' · ' + c.codigo.pct + '%' : ''}</span><span class="ahorro">−${eur(c.descuentoCodigo)}</span></div>` : ''}
     <div class="fila-resumen"><span>Envío${c.envioZona === 'baleares' ? ' (Baleares)' : ''}</span><span>${c.zonaNoDisponible ? '—' : (c.envioGratis ? 'GRATIS' : eur(c.envio))}</span></div>
     <div class="fila-resumen total"><span>Total</span><span>${c.zonaNoDisponible ? '—' : eur(c.total)}</span></div>
-    <p style="font-size:.7rem;color:var(--texto-suave);text-align:center;margin:6px 0 4px">Por cada 4 productos, 1 de regalo (el de menor valor) · IVA incluido.</p>
-    <p style="font-size:.72rem;color:var(--verde-oscuro);text-align:center;margin:0 0 10px">🏷️ ¿Tienes un código de descuento? Introdúcelo en el paso de pago.</p>
+    <p style="font-size:.7rem;color:var(--texto-suave);text-align:center;margin:6px 0 6px">Por cada 4 productos, 1 de regalo (el de menor valor) · IVA incluido.</p>
+    ${c.codigo
+      ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#eef5f0;border:1px solid #cfe3d7;border-radius:8px;padding:7px 10px;margin:0 0 10px">
+           <span style="font-size:.8rem;color:var(--verde-oscuro)">🏷️ Código <strong>${c.codigo.code}</strong> aplicado${c.codigo.pct ? ' (−' + c.codigo.pct + '%)' : ''}</span>
+           <button onclick="quitarCodigo()" style="background:none;border:none;color:#C0392B;font-size:.78rem;cursor:pointer;text-decoration:underline">quitar</button>
+         </div>`
+      : `<div style="margin:0 0 10px">
+           <div style="display:flex;gap:6px">
+             <input type="text" id="cod-input" placeholder="Código de descuento" autocomplete="off" style="flex:1;padding:8px 10px;border:1px solid #cfcfcf;border-radius:8px;text-transform:uppercase;font:inherit"
+                    onkeydown="if(event.key==='Enter'){aplicarCodigo();return false;}">
+             <button class="btn btn-secundario btn-sm" onclick="aplicarCodigo()">Aplicar</button>
+           </div>
+           <p id="cod-msg" style="font-size:.74rem;margin:5px 2px 0;min-height:1em"></p>
+         </div>`}
     ${c.zonaNoDisponible
       ? '<button class="btn btn-secundario btn-bloque" disabled>No realizamos envíos a tu zona</button>'
       : '<a class="btn btn-primario btn-bloque" id="btn-finalizar" href="#" onclick="finalizarCompra();return false;">Finalizar compra</a>'}
@@ -276,6 +309,43 @@ function renderPanelCarrito(c) {
     <button class="btn btn-secundario btn-bloque" style="margin-top:8px" onclick="cerrarCarrito()">← Seguir comprando</button>
   `;
 }
+
+/* Aplica un código de descuento: lo valida contra el Worker (que lo comprueba
+   en Stripe) y, si es válido, lo guarda en el carrito y recalcula. */
+async function aplicarCodigo() {
+  const inp = document.getElementById('cod-input');
+  const msg = document.getElementById('cod-msg');
+  const code = (inp && inp.value || '').trim();
+  if (!code) { if (msg) { msg.textContent = 'Escribe un código.'; msg.style.color = '#C0392B'; } return; }
+  const ep = (window.SAVIA_CONFIG && (window.SAVIA_CONFIG.checkoutEndpoint || '').trim()) || '';
+  if (!ep) { if (msg) { msg.textContent = 'No disponible ahora mismo.'; msg.style.color = '#C0392B'; } return; }
+  let base; try { base = new URL(ep).origin; } catch { base = ep.replace(/\/(checkout)?\/*$/, ''); }
+  if (msg) { msg.textContent = 'Comprobando…'; msg.style.color = 'var(--texto-suave)'; }
+  try {
+    const r = await fetch(base + '/validar-codigo', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo: code }),
+    });
+    const d = await r.json();
+    if (d && d.valido) {
+      Carrito.codigo = { code: d.codigo, pct: d.pct || 0, amountOff: d.amountOff || 0 };
+      Carrito.guardarCodigo();
+      Carrito.render();
+      mostrarAvisoFlotante('🏷️ ¡Código aplicado!' + (d.pct ? ' −' + d.pct + '%' : ''));
+    } else {
+      if (msg) { msg.textContent = 'Código no válido o caducado.'; msg.style.color = '#C0392B'; }
+    }
+  } catch {
+    if (msg) { msg.textContent = 'No se pudo comprobar. Inténtalo de nuevo.'; msg.style.color = '#C0392B'; }
+  }
+}
+function quitarCodigo() {
+  Carrito.codigo = null;
+  Carrito.guardarCodigo();
+  Carrito.render();
+}
+window.aplicarCodigo = aplicarCodigo;
+window.quitarCodigo = quitarCodigo;
 
 /* Tira de "pago seguro" con los métodos que ofrece Stripe. Solo informativo:
    los métodos reales que se muestran los decide Stripe según lo activado en el

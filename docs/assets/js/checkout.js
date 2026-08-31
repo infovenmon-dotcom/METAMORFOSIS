@@ -61,6 +61,7 @@ async function finalizarCompra() {
       body: JSON.stringify({
         items: Carrito.items,                 // { handle: cantidad }
         cp: (typeof window.savia_getCP === 'function' ? window.savia_getCP() : ''),
+        codigo: (Carrito.codigo && Carrito.codigo.code) || '',  // código de descuento aplicado
         returnUrl: window.location.origin + window.location.pathname,
       }),
     });

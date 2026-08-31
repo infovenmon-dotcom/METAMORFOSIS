@@ -271,6 +271,29 @@ async function webhookValido(rawBody, sigHeader, secret) {
 }
 
 /* ---------- Stripe Checkout ---------- */
+/* Busca un código promocional ACTIVO en Stripe por su texto (p.ej. "MARIA5").
+   Devuelve { id, code, pct, amountOff } o null si no existe / no es válido. */
+async function buscarCodigoStripe(env, codigo) {
+  const code = String(codigo || '').trim();
+  if (!code || !env.STRIPE_SECRET_KEY) return null;
+  try {
+    const url = 'https://api.stripe.com/v1/promotion_codes'
+      + '?code=' + encodeURIComponent(code) + '&active=true&limit=1&expand[]=data.coupon';
+    const r = await fetch(url, { headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY } });
+    const j = await r.json();
+    if (!r.ok || !j.data || !j.data.length) return null;
+    const pc = j.data[0];
+    const cup = pc.coupon || {};
+    if (cup.valid === false) return null;
+    return {
+      id: pc.id,
+      code: pc.code,
+      pct: cup.percent_off || 0,
+      amountOff: cup.amount_off ? cup.amount_off / 100 : 0,
+    };
+  } catch (e) { console.error('buscarCodigoStripe:', e); return null; }
+}
+
 async function crearCheckout(request, env, cors) {
   const body = await request.json();
   const items = body.items || {};
@@ -306,12 +329,15 @@ async function crearCheckout(request, env, cors) {
   form.append('cancel_url', returnUrl + '?pago=cancelado');
   form.append('locale', 'es');
   form.append('billing_address_collection', 'auto');
-  // Códigos de descuento (influencers, campañas): el cliente puede introducir
-  // un código promocional en la página de pago. Se crean en el panel de Stripe
-  // (Cupones + Códigos promocionales). Stripe SOLO descuenta los productos, NO
-  // el envío, y el envío gratis ya lo hemos decidido nosotros antes (sobre el
+  // Códigos de descuento (influencers, campañas). Se crean en el panel de Stripe
+  // (Cupones + Códigos promocionales) y Stripe SOLO descuenta los productos, NO
+  // el envío (el envío gratis ya lo hemos decidido nosotros antes, sobre el
   // subtotal con 4x3, sin el código), así que el código nunca quita el envío gratis.
-  form.append('allow_promotion_codes', 'true');
+  //   · Si el cliente ya escribió un código válido en el carrito -> lo aplicamos.
+  //   · Si no, dejamos el campo nativo de Stripe por si lo introduce en el pago.
+  const promo = await buscarCodigoStripe(env, body.codigo);
+  if (promo && promo.id) form.append('discounts[0][promotion_code]', promo.id);
+  else form.append('allow_promotion_codes', 'true');
   form.append('shipping_address_collection[allowed_countries][0]', 'ES');
   // Teléfono del cliente: CTT lo necesita para el aviso de entrega.
   form.append('phone_number_collection[enabled]', 'true');
@@ -2420,6 +2446,13 @@ export default {
       // Webhook de Stripe (baja el stock). Sin CORS (lo llama Stripe).
       if (path === '/webhook' && request.method === 'POST') {
         return await manejarWebhook(request, env);
+      }
+      // Validar un código de descuento (lo escribe el cliente en el carrito).
+      if (path === '/validar-codigo' && request.method === 'POST') {
+        let b = {}; try { b = await request.json(); } catch { /* */ }
+        const promo = await buscarCodigoStripe(env, b.codigo);
+        if (!promo) return jsonResp({ valido: false }, 200, cors);
+        return jsonResp({ valido: true, codigo: promo.code, pct: promo.pct, amountOff: promo.amountOff }, 200, cors);
       }
       // Pago: raíz o /checkout.
       if ((path === '/' || path === '/checkout') && request.method === 'POST') {
