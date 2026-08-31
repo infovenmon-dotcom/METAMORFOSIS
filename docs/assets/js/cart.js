@@ -7,7 +7,7 @@
      - Los precios YA incluyen IVA 21% (no se anaden impuestos).
    =========================================================================== */
 
-const ENVIO_GRATIS_DESDE = 45;
+const ENVIO_GRATIS_DESDE = 35;
 const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
 const GRUPO_GRATIS = 4; // 4x3: por cada 4 unidades, la mas barata es gratis
