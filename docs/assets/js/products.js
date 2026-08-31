@@ -1861,10 +1861,10 @@ window.SAVIA_DATA = {
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Base de bambú natural para jabones y pastillas grandes, que las mantiene secas entre usos y las hace durar mucho más.",
-      "indicado": "",
-      "modoUso": "",
-      "lema": "",
+      "descripcion": "Jabonera de bambú de alta calidad: natural, sostenible, muy resistente y duradera. Su forma rectangular y su diseño encajan en cualquier baño. Gracias a sus ranuras deja pasar el aire y evita que la pastilla esté en contacto con la humedad, así se seca antes y te dura mucho más. Reutilizable e ideal para almacenar tu jabón. (No incluye el jabón de la foto).",
+      "indicado": "Para mantener seca y hacer durar más tu pastilla. Tamaño ideal para jabones y pastillas grandes.",
+      "modoUso": "Al terminar de usar tu pastilla, colócala sobre la jabonera. Su base perforada favorece la circulación del aire y el jabón o champú sólido se seca mejor.",
+      "lema": "Tu jabón, seco y como nuevo.",
       "specs": {}
     },
     {
@@ -1894,10 +1894,10 @@ window.SAVIA_DATA = {
       ],
       "exclusiveWeb": true,
       "bestSeller": false,
-      "descripcion": "Jabonera de bambú de tamaño compacto, ideal para champús sólidos y pastillas pequeñas. Drena el agua y las mantiene secas entre usos para que duren mucho más.",
-      "indicado": "",
-      "modoUso": "",
-      "lema": "",
+      "descripcion": "Jabonera de bambú compacta y de alta calidad: natural, sostenible, resistente y duradera. Gracias a sus ranuras deja pasar el aire y evita que la pastilla esté en contacto con la humedad, así se seca antes y dura mucho más. Su tamaño reducido es ideal para champús sólidos y pastillas pequeñas, y perfecta para viajar. (No incluye el jabón de la foto).",
+      "indicado": "Para champús sólidos y pastillas pequeñas: las mantiene secas y hace que duren más. Ideal para llevar de viaje.",
+      "modoUso": "Al terminar de usar tu pastilla, colócala sobre la jabonera. Su base perforada favorece la circulación del aire y el jabón o champú sólido se seca mejor.",
+      "lema": "Tu champú sólido, seco y listo.",
       "specs": {}
     },
     {
