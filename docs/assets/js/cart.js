@@ -312,15 +312,14 @@ function renderPanelCarrito(c) {
 
 /* Aplica un código de descuento: lo valida contra el Worker (que lo comprueba
    en Stripe) y, si es válido, lo guarda en el carrito y recalcula. */
-async function aplicarCodigo() {
-  const inp = document.getElementById('cod-input');
-  const msg = document.getElementById('cod-msg');
-  const code = (inp && inp.value || '').trim();
-  if (!code) { if (msg) { msg.textContent = 'Escribe un código.'; msg.style.color = '#C0392B'; } return; }
+// Valida un código contra el Worker (que lo comprueba en Stripe) y, si es válido,
+// lo guarda y recalcula. Devuelve 'ok' | 'invalido' | 'error'.
+async function aplicarCodigoTexto(code) {
+  code = (code || '').trim();
+  if (!code) return 'invalido';
   const ep = (window.SAVIA_CONFIG && (window.SAVIA_CONFIG.checkoutEndpoint || '').trim()) || '';
-  if (!ep) { if (msg) { msg.textContent = 'No disponible ahora mismo.'; msg.style.color = '#C0392B'; } return; }
+  if (!ep) return 'error';
   let base; try { base = new URL(ep).origin; } catch { base = ep.replace(/\/(checkout)?\/*$/, ''); }
-  if (msg) { msg.textContent = 'Comprobando…'; msg.style.color = 'var(--texto-suave)'; }
   try {
     const r = await fetch(base + '/validar-codigo', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -332,18 +331,41 @@ async function aplicarCodigo() {
       Carrito.guardarCodigo();
       Carrito.render();
       mostrarAvisoFlotante('🏷️ ¡Código aplicado!' + (d.pct ? ' −' + d.pct + '%' : ''));
-    } else {
-      if (msg) { msg.textContent = 'Código no válido o caducado.'; msg.style.color = '#C0392B'; }
+      return 'ok';
     }
-  } catch {
-    if (msg) { msg.textContent = 'No se pudo comprobar. Inténtalo de nuevo.'; msg.style.color = '#C0392B'; }
-  }
+    return 'invalido';
+  } catch { return 'error'; }
+}
+
+async function aplicarCodigo() {
+  const inp = document.getElementById('cod-input');
+  const msg = document.getElementById('cod-msg');
+  const code = (inp && inp.value || '').trim();
+  if (!code) { if (msg) { msg.textContent = 'Escribe un código.'; msg.style.color = '#C0392B'; } return; }
+  if (msg) { msg.textContent = 'Comprobando…'; msg.style.color = 'var(--texto-suave)'; }
+  const res = await aplicarCodigoTexto(code);
+  if (res === 'invalido' && msg) { msg.textContent = 'Código no válido o caducado.'; msg.style.color = '#C0392B'; }
+  else if (res === 'error' && msg) { msg.textContent = 'No se pudo comprobar. Inténtalo de nuevo.'; msg.style.color = '#C0392B'; }
 }
 function quitarCodigo() {
   Carrito.codigo = null;
   Carrito.guardarCodigo();
   Carrito.render();
 }
+
+// Auto-aplica el código si viene en la URL (?codigo=RAKEL10), para enlaces de
+// influencer: el seguidor entra y ya ve el 10% aplicado, sin teclear nada.
+async function autoAplicarCodigoURL() {
+  try {
+    const p = new URLSearchParams(window.location.search);
+    const code = (p.get('codigo') || p.get('code') || p.get('cupon') || p.get('descuento') || '').trim();
+    if (!code) return;
+    if (Carrito.codigo && Carrito.codigo.code && Carrito.codigo.code.toUpperCase() === code.toUpperCase()) return;
+    await aplicarCodigoTexto(code);
+  } catch { /* si falla, el cliente siempre puede escribirlo a mano */ }
+}
+document.addEventListener('DOMContentLoaded', () => { setTimeout(autoAplicarCodigoURL, 300); });
+
 window.aplicarCodigo = aplicarCodigo;
 window.quitarCodigo = quitarCodigo;
 
