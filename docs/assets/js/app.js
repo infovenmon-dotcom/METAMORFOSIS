@@ -479,6 +479,18 @@ function renderTienda() {
   }
 }
 
+/* Vuelve arriba, a los chips de categorías, para elegir otra sección rápido
+   (lo usa el enlace "Productos" del menú de la tienda). */
+function irACategorias() {
+  const destino = document.getElementById('chips-categorias') || document.getElementById('catalogo');
+  if (!destino) return;
+  const barra = document.querySelector('.barra-fija');
+  const off = (barra ? barra.offsetHeight : 0) + 10;
+  const y = destino.getBoundingClientRect().top + window.scrollY - off;
+  window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+}
+window.irACategorias = irACategorias;
+
 /* ---------- Landing: 6 mas vendidos ---------- */
 function renderLandingBestSellers() {
   const cont = document.getElementById('best-sellers');
