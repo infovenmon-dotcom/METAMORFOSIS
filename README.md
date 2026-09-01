@@ -64,3 +64,18 @@ python3 scripts/generate_products.py
 
 Ver **[`SHOPIFY_SETUP.md`](SHOPIFY_SETUP.md)** para importar el CSV, crear las
 colecciones, el descuento 3+1, los envios y el IVA.
+
+---
+
+## Otro proyecto en este repositorio: `igr/`
+
+La carpeta **[`igr/`](igr/)** contiene un proyecto independiente de Savia de
+Alma: la web de **Construcciones y Reformas IGR** (captacion de presupuestos)
+junto con su **panel de gestion** de presupuestos, facturas, clientes, obras y
+gastos. No comparte codigo ni estilos con la tienda y se publica por separado.
+
+Instrucciones completas en **[`igr/LEEME.md`](igr/LEEME.md)**.
+
+```bash
+python3 -m http.server 8000 --directory igr   # web y panel en local
+```
