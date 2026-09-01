@@ -331,10 +331,20 @@ async function aplicarCodigoTexto(code) {
     });
     const d = await r.json();
     if (d && d.valido) {
-      Carrito.codigo = { code: d.codigo, pct: d.pct || 0, amountOff: d.amountOff || 0 };
+      let pct = Number(d.pct) || 0;
+      const amountOff = Number(d.amountOff) || 0;
+      // Vista previa robusta: si el servidor no consigue leer el % del cupón,
+      // lo deducimos del número del propio código (convención: RAKEL10 = 10%).
+      // Es SOLO para mostrar el descuento en el carrito; el descuento real lo
+      // aplica Stripe al pagar (con el promotion_code), así que el cobro es exacto.
+      if (!pct && !amountOff) {
+        const m = String(d.codigo || code).match(/(\d{1,2})\s*$/);
+        if (m) { const n = parseInt(m[1], 10); if (n >= 1 && n <= 90) pct = n; }
+      }
+      Carrito.codigo = { code: d.codigo || code, pct, amountOff };
       Carrito.guardarCodigo();
       Carrito.render();
-      mostrarAvisoFlotante('🏷️ ¡Código aplicado!' + (d.pct ? ' −' + d.pct + '%' : ''));
+      mostrarAvisoFlotante('🏷️ ¡Código aplicado!' + (pct ? ' −' + pct + '%' : ''));
       return 'ok';
     }
     return 'invalido';
