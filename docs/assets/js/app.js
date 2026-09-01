@@ -465,6 +465,16 @@ function renderTienda() {
       document.querySelectorAll('[id^="col-"]').forEach(sec => {
         sec.classList.toggle('oculto', f !== 'all' && sec.id !== 'col-' + f);
       });
+      // Llevar la vista a los productos de esa categoría (si no, parece vacío).
+      const destino = (f !== 'all')
+        ? document.getElementById('col-' + f)
+        : (document.getElementById('catalogo') || document.querySelector('[id^="col-"]'));
+      if (destino) {
+        const barra = document.querySelector('.barra-fija');
+        const off = (barra ? barra.offsetHeight : 0) + 10;
+        const y = destino.getBoundingClientRect().top + window.scrollY - off;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
     });
   }
 }
