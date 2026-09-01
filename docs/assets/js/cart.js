@@ -30,7 +30,9 @@ function zonaPorCP(cp) {
 function fijarCP(v) {
   CP = String(v || '').replace(/\D/g, '').slice(0, 5);
   try { localStorage.setItem(CP_KEY, CP); } catch { /* */ }
-  if (window.Carrito) Carrito.render();
+  // Solo re-dibujamos cuando el CP está completo (5) o se ha vaciado, para NO
+  // perder el foco de la casilla mientras se teclea dígito a dígito.
+  if (window.Carrito && (CP.length === 5 || CP.length === 0)) Carrito.render();
 }
 window.fijarCP = fijarCP;
 window.savia_getCP = function () { return CP; };
@@ -280,7 +282,7 @@ function renderPanelCarrito(c) {
     ${envioAviso}
     <div class="barra-envio"><span style="width:${pct}%"></span></div>
     <div class="fila-cp" style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0">
-      <label style="font-size:.82rem;font-weight:600">Código postal
+      <label style="font-size:.82rem;font-weight:600">Código postal <span style="color:#C0392B">*</span>
         <input type="text" inputmode="numeric" maxlength="5" value="${c.cp || ''}" oninput="fijarCP(this.value)" placeholder="Ej. 28320" style="width:90px;margin-left:6px;padding:6px 8px;border:1px solid #cfcfcf;border-radius:8px">
       </label>
       <span style="font-size:.74rem;color:var(--texto-suave)">${c.zonaNoDisponible ? '<span style="color:#C0392B">No enviamos a tu zona</span>' : (!c.cp ? 'para calcular el envío' : (c.envioZona === 'baleares' ? 'Baleares' : 'Península'))}</span>
