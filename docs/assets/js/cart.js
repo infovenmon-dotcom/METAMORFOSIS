@@ -361,9 +361,17 @@ async function autoAplicarCodigoURL() {
   try {
     const p = new URLSearchParams(window.location.search);
     const code = (p.get('codigo') || p.get('code') || p.get('cupon') || p.get('descuento') || '').trim();
-    if (!code) return;
-    if (Carrito.codigo && Carrito.codigo.code && Carrito.codigo.code.toUpperCase() === code.toUpperCase()) return;
-    await aplicarCodigoTexto(code);
+    if (code) {
+      if (!(Carrito.codigo && Carrito.codigo.code && Carrito.codigo.code.toUpperCase() === code.toUpperCase())) {
+        await aplicarCodigoTexto(code);
+      }
+      return;
+    }
+    // Sin código en la URL: si hay uno guardado, lo re-validamos para refrescar
+    // el % (por si se guardó con datos incompletos en una versión anterior).
+    if (Carrito.codigo && Carrito.codigo.code) {
+      await aplicarCodigoTexto(Carrito.codigo.code);
+    }
   } catch { /* si falla, el cliente siempre puede escribirlo a mano */ }
 }
 document.addEventListener('DOMContentLoaded', () => { setTimeout(autoAplicarCodigoURL, 300); });

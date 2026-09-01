@@ -277,19 +277,30 @@ async function webhookValido(rawBody, sigHeader, secret) {
 async function buscarCodigoStripe(env, codigo) {
   const code = String(codigo || '').trim();
   if (!code || !env.STRIPE_SECRET_KEY) return null;
+  const H = { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY };
   try {
     const url = 'https://api.stripe.com/v1/promotion_codes'
-      + '?code=' + encodeURIComponent(code) + '&active=true&limit=1&expand[]=data.coupon';
-    const r = await fetch(url, { headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY } });
+      + '?code=' + encodeURIComponent(code) + '&active=true&limit=1';
+    const r = await fetch(url, { headers: H });
     const j = await r.json();
     if (!r.ok || !j.data || !j.data.length) return null;
     const pc = j.data[0];
-    const cup = pc.coupon || {};
+    let cup = pc.coupon;
+    // El cupón puede venir como objeto o como id (string). Si falta el %/importe,
+    // lo pedimos directamente a /coupons para leerlo con seguridad.
+    if (!cup || typeof cup === 'string' || (cup.percent_off == null && cup.amount_off == null)) {
+      const cid = (typeof cup === 'string') ? cup : (cup && cup.id);
+      if (cid) {
+        const rc = await fetch('https://api.stripe.com/v1/coupons/' + encodeURIComponent(cid), { headers: H });
+        if (rc.ok) cup = await rc.json();
+      }
+    }
+    cup = cup || {};
     if (cup.valid === false) return null;
     return {
       id: pc.id,
       code: pc.code,
-      pct: cup.percent_off || 0,
+      pct: Number(cup.percent_off) || 0,
       amountOff: cup.amount_off ? cup.amount_off / 100 : 0,
     };
   } catch (e) { console.error('buscarCodigoStripe:', e); return null; }
