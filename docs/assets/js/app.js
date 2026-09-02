@@ -394,7 +394,7 @@ function abrirFicha(handle) {
       </div>
       <h2>${acc(p.title)}</h2>
       ${bloquePrecio(p, { grande: true })}
-      ${(!_agotado && !p.proximamente) ? '<p class="ficha-envio">🚚 Envío en 24/48&nbsp;h · Gratis desde 35&nbsp;€</p>' : ''}
+      ${(!_agotado && !p.proximamente) ? '<p class="ficha-envio">🚚 Envío en 24/48&nbsp;h · Gratis desde 20&nbsp;€</p>' : ''}
       <p class="ficha-desc">${acc(p.descripcion || p.short)}</p>
       ${sellosBlock}
       ${bulletsBlock}

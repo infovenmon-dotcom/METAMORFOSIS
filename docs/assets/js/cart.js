@@ -3,11 +3,11 @@
    Reglas (espejo de la configuracion de Shopify):
      - 4x3 · POR CADA 4 PRODUCTOS, 1 GRATIS: el de menor precio del pedido.
        Escalable: 4 art. = 1 gratis, 8 = 2 gratis, 12 = 3 gratis...
-     - Envio: Peninsula 3,95 EUR (gratis desde 35 EUR) y Baleares 6 EUR.
+     - Envio: Peninsula 3,95 EUR y Baleares 6 EUR. Gratis desde 20 EUR (ambas zonas).
      - Los precios YA incluyen IVA 21% (no se anaden impuestos).
    =========================================================================== */
 
-const ENVIO_GRATIS_DESDE = 35;
+const ENVIO_GRATIS_DESDE = 20;
 const ENVIO_TOLERANCIA = 0.10; // se queda corto por <=0,10 € tras el 4x3 -> asumimos la diferencia y damos envío gratis
 const ENVIO_PENINSULA = 3.95;
 const ENVIO_BALEARES = 6;
@@ -126,7 +126,9 @@ const Carrito = {
       zonaNoDisponible = true;
     } else if (zona === 'baleares') {
       envioZona = 'baleares';
-      envio = ENVIO_BALEARES;
+      // Gratis desde 20 € también en Baleares (con tolerancia de 0,10 € tras el 4x3).
+      if (subtotalConPromo >= ENVIO_GRATIS_DESDE - ENVIO_TOLERANCIA) { envio = 0; envioGratis = true; }
+      else envio = ENVIO_BALEARES;
     } else {
       // Península, o sin CP todavía (se muestra la estimación peninsular).
       // Tolerancia: si tras el 4x3 se queda corto por <=0,10 €, envío gratis igual.
