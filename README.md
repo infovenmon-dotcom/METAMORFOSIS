@@ -67,15 +67,13 @@ colecciones, el descuento 3+1, los envios y el IVA.
 
 ---
 
-## Otro proyecto en este repositorio: `igr/`
+## Proyecto trasladado: Construcciones y Reformas IGR
 
-La carpeta **[`igr/`](igr/)** contiene un proyecto independiente de Savia de
-Alma: la web de **Construcciones y Reformas IGR** (captacion de presupuestos)
-junto con su **panel de gestion** de presupuestos, facturas, clientes, obras y
-gastos. No comparte codigo ni estilos con la tienda y se publica por separado.
+La web y el panel de gestion de **Construcciones y Reformas IGR** vivieron un
+tiempo en la carpeta `igr/` de este repositorio. Ahora tienen repositorio
+propio, porque no comparten marca, dominio ni codigo con la tienda:
 
-Instrucciones completas en **[`igr/LEEME.md`](igr/LEEME.md)**.
+**<https://github.com/infovenmon-dotcom/IGR-refor>**
 
-```bash
-python3 -m http.server 8000 --directory igr   # web y panel en local
-```
+El historial de aquellos cambios sigue en la rama
+`claude/reforma-company-website-panel-gfqhy9` de este repositorio.
