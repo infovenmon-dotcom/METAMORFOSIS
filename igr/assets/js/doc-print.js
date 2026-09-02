@@ -98,10 +98,10 @@ window.IGRDoc = (function () {
 
     return '<div class="doc">' +
       '<div class="doc__head">' +
-        '<div class="doc__logo"><span class="mk">IGR</span><span>' +
-          "<b>" + esc(e.nombre) + "</b>" +
-          "<span>NIF " + esc(e.cif) + " · " + esc(e.telefono) + " · " + esc(e.web || e.email) + "</span>" +
-        "</span></div>" +
+        '<div class="doc__logo">' +
+          '<img class="mk" src="assets/img/logo-igr.png" alt="' + esc(e.nombre) + '">' +
+          "<span><span>NIF " + esc(e.cif) + " · " + esc(e.telefono) + " · " + esc(e.web || e.email) + "</span></span>" +
+        "</div>" +
         '<div class="doc__meta">' +
           '<div class="n">' + (esFactura ? "Factura" : "Presupuesto") + "</div>" +
           "<div><b>" + esc(doc.numero || "(sin numerar)") + "</b></div>" +

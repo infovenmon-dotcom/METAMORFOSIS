@@ -1131,6 +1131,8 @@
   function arrancar() {
     $("#gate").classList.add("hidden");
     $("#app").classList.remove("hidden");
+    /* Los contadores del menu siguen a los datos, se toquen desde donde se toquen */
+    DB.onChange(actualizarContadores);
     actualizarContadores();
     router();
   }

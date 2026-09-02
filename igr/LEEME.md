@@ -54,6 +54,23 @@ Todo lo editable esta en `assets/js/config.js`:
 | `cifras` | Los cuatro numeros de la franja de confianza |
 | `precios`, `calidades` | Horquillas de la calculadora (€/m² y factor por acabado) |
 
+### Logotipo y color de marca
+
+La identidad sale del logotipo oficial (oro sobre negro, eslogan *"Construimos
+calidad, renovamos confianza"*). En `assets/img/` estan las versiones ya
+recortadas y con el fondo eliminado:
+
+| Archivo | Donde se usa |
+|---|---|
+| `logo-igr.png` | Logotipo completo: pie de la web, pantalla de acceso al panel y membrete de presupuestos y facturas |
+| `logo-marca.png` | Solo el emblema (casa + paleta): cabecera y menu del panel |
+| `icono-32.png` · `icono-180.png` · `icono-512.png` | Favicon, icono de movil y PWA |
+| `og.jpg` | Imagen al compartir en WhatsApp o redes |
+
+Colores de marca en `assets/css/site.css` y `panel.css`: oro `#C8A24A`, oro claro
+`#E8CE8C`, oro oscuro `#A5822F` y negro `#0E1116`. Si algun dia cambia el
+logotipo, regenera los recortes desde el original y respeta esos tonos.
+
 ### Fotos
 
 Las imagenes de `assets/img/*.svg` son **provisionales** y llevan escrito

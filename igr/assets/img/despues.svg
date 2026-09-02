@@ -12,8 +12,8 @@
   <g>
     <rect x="80" y="140" width="640" height="620" fill="#FFFFFF" fill-opacity=".16"/>
     <rect x="780" y="240" width="740" height="520" fill="#FFFFFF" fill-opacity=".12"/>
-    <rect x="150" y="230" width="480" height="300" fill="#FFC02E" fill-opacity=".38"/>
-    <rect x="850" y="330" width="600" height="120" fill="#FF6B1A" fill-opacity=".45"/>
+    <rect x="150" y="230" width="480" height="300" fill="#E8CE8C" fill-opacity=".38"/>
+    <rect x="850" y="330" width="600" height="120" fill="#C8A24A" fill-opacity=".45"/>
     <g stroke="#FFFFFF" stroke-opacity=".4" stroke-width="4" fill="none">
       <path d="M150 600 h480"/><path d="M850 520 h600"/><path d="M850 600 h420"/>
     </g>

@@ -11,7 +11,7 @@ import pathlib
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "igr" / "assets" / "img"
 
-BRAND, HELMET, INK = "#FF6B1A", "#FFC02E", "#0E1116"
+BRAND, HELMET, INK = "#C8A24A", "#E8CE8C", "#0E1116"
 
 
 def frame(w, h, body, bg_a, bg_b, label, tone="dark"):
@@ -100,26 +100,15 @@ def before_after():
     write("despues.svg", frame(1600, 1000, despues, "#20303F", "#101A24", "DESPUES - FOTO REAL DE LA OBRA"))
 
 
-def og():
-    b = f'''  <g font-family="Barlow Condensed, Arial Narrow, sans-serif" fill="#FFFFFF">
-    <text x="80" y="300" font-size="120" letter-spacing="2">CONSTRUCCIONES Y</text>
-    <text x="80" y="420" font-size="120" letter-spacing="2" fill="{BRAND}">REFORMAS IGR</text>
-    <text x="82" y="500" font-size="42" fill="#C3CAD4" font-family="Inter, sans-serif">Reformas integrales llave en mano</text>
-  </g>
-  <rect x="80" y="540" width="180" height="10" fill="{HELMET}"/>'''
-    write("og.svg", frame(1200, 630, b, "#141A22", "#0A0D12", ""))
-
-
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     print("Generando placeholders en", OUT)
     hero()
     project("proyecto-cocina.svg", "COCINA - FOTO REAL", "#2A2118", "#12100D", HELMET)
-    project("proyecto-bano.svg", "BANO - FOTO REAL", "#16242B", "#0C1317", "#4FC3F7")
+    project("proyecto-bano.svg", "BANO - FOTO REAL", "#16242B", "#0C1317", "#9FD8E8")
     project("proyecto-integral.svg", "REFORMA INTEGRAL - FOTO REAL", "#1E2430", "#0D1117", BRAND)
-    project("proyecto-local.svg", "LOCAL COMERCIAL - FOTO REAL", "#231A26", "#110D13", "#B084F5")
-    project("proyecto-fachada.svg", "FACHADA / SATE - FOTO REAL", "#20261C", "#0E120C", "#8BC34A")
+    project("proyecto-local.svg", "LOCAL COMERCIAL - FOTO REAL", "#231A26", "#110D13", "#C6B0E8")
+    project("proyecto-fachada.svg", "FACHADA / SATE - FOTO REAL", "#20261C", "#0E120C", "#B7C99A")
     project("proyecto-salon.svg", "SALON - FOTO REAL", "#2A1D1D", "#130D0D", BRAND)
     before_after()
-    og()
     print("Listo.")

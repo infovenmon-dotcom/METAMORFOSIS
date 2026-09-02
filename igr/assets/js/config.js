@@ -7,7 +7,7 @@ window.IGR_CONFIG = {
 
   /* --- Identidad --------------------------------------------------------- */
   empresa: "Construcciones y Reformas IGR",
-  claim: "Reformas integrales llave en mano",
+  claim: "Construimos calidad, renovamos confianza",
   ciudad: "Madrid",
   zona: "Madrid y alrededores (50 km)",
 

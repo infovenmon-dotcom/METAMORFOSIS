@@ -12,11 +12,11 @@
   <g>
     <rect x="90" y="120" width="470" height="620" fill="#FFFFFF" fill-opacity=".07"/>
     <rect x="620" y="240" width="490" height="500" fill="#FFFFFF" fill-opacity=".05"/>
-    <rect x="150" y="200" width="350" height="240" fill="#FF6B1A" fill-opacity=".30"/>
+    <rect x="150" y="200" width="350" height="240" fill="#C8A24A" fill-opacity=".30"/>
     <g stroke="#FFFFFF" stroke-opacity=".22" stroke-width="3" fill="none">
       <path d="M150 500 h350"/><path d="M150 560 h240"/><path d="M680 330 h370"/><path d="M680 400 h250"/>
     </g>
-    <circle cx="980" cy="580" r="86" fill="#FF6B1A" fill-opacity=".35"/>
+    <circle cx="980" cy="580" r="86" fill="#C8A24A" fill-opacity=".35"/>
   </g>
   <g font-family="Barlow Condensed, Arial Narrow, sans-serif" fill="#FFFFFF" fill-opacity=".62">
     <text x="34" y="870" font-size="26" letter-spacing="3">SALON - FOTO REAL</text>
