@@ -358,6 +358,12 @@ p{margin:0 0 1em}
 .section:not(.section--dark) .info-list .ico{background:var(--brand-soft);color:var(--brand-dark)}
 .section:not(.section--dark) .info-list span{color:var(--muted)}
 
+/* --- Mapa ---------------------------------------------------------------- */
+.mapa{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:var(--paper-2)}
+.mapa iframe{display:block;width:100%;height:clamp(280px,38vw,420px);border:0}
+.topbar__badge{text-decoration:none}
+.topbar a.topbar__badge:hover{color:#fff}
+
 /* --- Banda CTA ----------------------------------------------------------- */
 .cta-band{
   background:linear-gradient(120deg,var(--brand) 0%,var(--brand-light) 130%);color:#12161C;

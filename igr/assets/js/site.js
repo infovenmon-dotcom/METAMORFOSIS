@@ -31,6 +31,70 @@
     document.title = document.title.replace("Construcciones y Reformas IGR", CFG.empresa || "Construcciones y Reformas IGR");
   }
 
+  /* --- 1b. Ficha de Google: valoracion, opiniones, horario y mapa --------
+     Todo sale de config.js. Lo que no este relleno, no se muestra: preferimos
+     ocultar una valoracion a enseñar una inventada.                          */
+  function estrellas(n) {
+    n = Math.max(0, Math.min(5, Math.round(n || 5)));
+    return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5 - n);
+  }
+
+  function fichaGoogle() {
+    var g = CFG.google || {};
+    var tieneNota = g.rating && g.numResenas;
+    var enlace = g.resenas || g.perfil || "";
+
+    /* Valoracion en la barra superior */
+    var badge = $("#googleBadge");
+    if (badge && tieneNota) {
+      badge.textContent = "★ " + g.rating + "/5 en Google · " + g.numResenas + " opiniones";
+      if (enlace) { badge.href = enlace; badge.target = "_blank"; badge.rel = "noopener"; }
+      badge.hidden = false;
+    }
+
+    /* Valoracion en la tarjeta del hero */
+    var hero = $("#heroRating");
+    if (hero && tieneNota) {
+      hero.innerHTML =
+        '<span class="stars" aria-label="' + g.rating + ' sobre 5">' + estrellas(parseFloat(String(g.rating).replace(",", "."))) + "</span>" +
+        "<b>" + g.rating + " / 5</b>" +
+        "<span>" + g.numResenas + " opiniones en Google</span>";
+      hero.hidden = false;
+    }
+
+    /* Opiniones */
+    var lista = $("#opiniones-lista");
+    if (lista) {
+      lista.innerHTML = (CFG.opiniones || []).map(function (o) {
+        return '<blockquote class="quote reveal is-in">' +
+          '<div class="stars" aria-label="' + (o.estrellas || 5) + ' de 5">' + estrellas(o.estrellas) + "</div>" +
+          "<p>" + o.texto + "</p>" +
+          "<footer><b>" + o.autor + "</b>" + (o.detalle || "") + "</footer></blockquote>";
+      }).join("");
+    }
+    var cta = $("#opiniones-cta");
+    if (cta && enlace) { $("#verResenas").href = enlace; cta.hidden = false; }
+
+    /* Enlace a la ficha desde la zona de trabajo */
+    var llegar = $("#comoLlegar");
+    if (llegar && g.perfil) { llegar.href = g.perfil; llegar.hidden = false; }
+
+    /* Horario detallado */
+    var linea = $("#horarioLinea");
+    if (linea && (CFG.horarios || []).length) {
+      linea.innerHTML = CFG.horarios.map(function (h) {
+        return h.dias + ": " + h.horas;
+      }).join("<br>");
+    }
+
+    /* Mapa insertado */
+    var sec = $("#mapa");
+    if (sec && g.mapaEmbed) {
+      $("#mapaFrame").src = g.mapaEmbed;
+      sec.hidden = false;
+    }
+  }
+
   /* --- 2. Navegacion ----------------------------------------------------- */
   function nav() {
     var nav = $("#nav"), burger = $("#burger");
@@ -331,9 +395,21 @@
       email: CFG.email,
       address: { "@type": "PostalAddress", streetAddress: CFG.direccion, addressLocality: CFG.ciudad, addressCountry: "ES" },
       areaServed: CFG.zona,
-      priceRange: "€€",
-      aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "210" }
+      priceRange: "€€"
     };
+    var g = CFG.google || {};
+    if (g.perfil) ld.sameAs = [g.perfil];
+    if (g.rating && g.numResenas) {
+      ld.aggregateRating = {
+        "@type": "AggregateRating",
+        ratingValue: String(g.rating).replace(",", "."),
+        reviewCount: String(g.numResenas).replace(/\D/g, "")
+      };
+    }
+    var horas = (CFG.horarios || []).filter(function (h) { return h.abre && h.cierra; }).map(function (h) {
+      return { "@type": "OpeningHoursSpecification", dayOfWeek: h.ld || [], opens: h.abre, closes: h.cierra };
+    });
+    if (horas.length) ld.openingHoursSpecification = horas;
     var faq = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -355,7 +431,7 @@
 
   /* --- Arranque ---------------------------------------------------------- */
   document.addEventListener("DOMContentLoaded", function () {
-    pintarConfig(); nav(); reveal(); stats(); antesDespues();
+    pintarConfig(); fichaGoogle(); nav(); reveal(); stats(); antesDespues();
     proyectos(); calculadora(); formulario(); formularioRapido(); schema();
   });
 })();

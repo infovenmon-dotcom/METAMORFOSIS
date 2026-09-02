@@ -71,6 +71,33 @@ Colores de marca en `assets/css/site.css` y `panel.css`: oro `#C8A24A`, oro clar
 `#E8CE8C`, oro oscuro `#A5822F` y negro `#0E1116`. Si algun dia cambia el
 logotipo, regenera los recortes desde el original y respeta esos tonos.
 
+### Ficha de Google (Perfil de Empresa)
+
+En `config.js`, el bloque `google` conecta la web con vuestra ficha:
+
+```js
+google: {
+  perfil: "https://maps.app.goo.gl/...",   // enlace a la ficha
+  resenas: "https://g.page/r/.../review",  // enlace directo a las opiniones
+  rating: "4,9",                            // valoracion media
+  numResenas: "210",                        // numero de resenas
+  mapaEmbed: "https://www.google.com/maps/embed?pb=..."   // solo el src del iframe
+}
+```
+
+Con esos datos aparecen: la valoracion en la barra superior y en la tarjeta del
+hero, el boton "Ver todas las opiniones en Google", el enlace a la ficha, el
+mapa y el marcado `aggregateRating` para los resultados de busqueda. **Lo que
+dejes vacio se oculta**: la web nunca muestra una valoracion inventada.
+
+El bloque `horarios` alimenta a la vez el texto de contacto y el
+`openingHoursSpecification` de schema.org (los dias sin `abre`/`cierra`, como
+"Con cita previa" o "Cerrado", se muestran pero no se envian como horario).
+
+El bloque `opiniones` son los testimonios que se ven en la web. **Los tres que
+vienen de serie son de ejemplo: sustituyelos por resenas reales de la ficha**
+(texto tal cual, nombre como aparece publicado y estrellas).
+
 ### Fotos
 
 Las imagenes de `assets/img/*.svg` son **provisionales** y llevan escrito

@@ -26,7 +26,7 @@
 <div class="topbar">
   <div class="wrap">
     <div class="topbar__items">
-      <span class="topbar__badge">★ 4,9/5 en Google · 210 opiniones</span>
+      <a class="topbar__badge" id="googleBadge" href="#opiniones" hidden></a>
       <span class="hide-xs" data-igr="zona">Madrid y alrededores</span>
     </div>
     <div class="topbar__items">
@@ -92,11 +92,7 @@
     </div>
 
     <aside class="hero__card">
-      <div class="hero__card-top">
-        <span class="stars" aria-label="4,9 sobre 5">★★★★★</span>
-        <b>4,9 / 5</b>
-        <span>210 opiniones en Google</span>
-      </div>
+      <div class="hero__card-top" id="heroRating" hidden></div>
       <h2>Te llamamos gratis</h2>
       <p>Dejanos el telefono y te llamamos hoy mismo si es dia laborable.</p>
       <form id="quickForm">
@@ -328,23 +324,10 @@
       <p class="eyebrow">Opiniones</p>
       <h2>Lo que dicen quienes ya viven la reforma</h2>
     </div>
-    <div class="grid grid--3">
-      <blockquote class="quote reveal">
-        <div class="stars" aria-label="5 de 5">★★★★★</div>
-        <p>Reforma integral de 95 m² en 10 semanas. Nos dieron parte cada viernes con fotos y cumplieron la fecha. El precio final fue exactamente el del presupuesto.</p>
-        <footer><b>Marta y Luis</b> Piso en Chamberi · Reforma integral</footer>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <div class="stars" aria-label="5 de 5">★★★★★</div>
-        <p>Cambiamos la banera por ducha y aprovechamos para el alicatado. Empezaron un lunes y el jueves de la semana siguiente estaba usable. Muy limpios.</p>
-        <footer><b>Carmen R.</b> Bano en Alcala de Henares</footer>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <div class="stars" aria-label="5 de 5">★★★★★</div>
-        <p>Adecuamos el local de la clinica trabajando de noche para no cerrar. Se encargaron de la licencia de actividad y de los certificados.</p>
-        <footer><b>Dr. Nunez</b> Local de 140 m² en Getafe</footer>
-      </blockquote>
-    </div>
+    <div class="grid grid--3" id="opiniones-lista"></div>
+    <p style="margin-top:1.6rem" id="opiniones-cta" hidden>
+      <a class="btn btn--ghost" id="verResenas" href="#" target="_blank" rel="noopener">Ver todas las opiniones en Google</a>
+    </p>
   </div>
 </section>
 
@@ -402,7 +385,7 @@
         <ul class="info-list">
           <li>
             <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5c0-1 1-2 2-2h2l2 5-2 1a12 12 0 0 0 5 5l1-2 5 2v2c0 1-1 2-2 2A16 16 0 0 1 4 5Z"/></svg></span>
-            <span><b><a data-igr-href="tel" href="#" style="text-decoration:none"><span data-igr="telefono">600 000 000</span></a></b><span data-igr="horario">Lunes a viernes, 8:00 - 19:00</span></span>
+            <span><b><a data-igr-href="tel" href="#" style="text-decoration:none"><span data-igr="telefono">600 000 000</span></a></b><span id="horarioLinea" data-igr="horario">Lunes a viernes, 8:00 - 19:00</span></span>
           </li>
           <li>
             <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
@@ -410,7 +393,9 @@
           </li>
           <li>
             <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-            <span><b>Zona de trabajo</b><span data-igr="zona">Madrid y alrededores</span></span>
+            <span><b>Zona de trabajo</b><span data-igr="zona">Madrid y alrededores</span>
+              <a id="comoLlegar" href="#" target="_blank" rel="noopener" hidden
+                 style="display:inline-block;margin-top:.25rem;font-size:.86rem;color:var(--helmet)">Ver la ficha en Google →</a></span>
           </li>
           <li>
             <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
@@ -457,6 +442,16 @@
           <p class="form-msg" id="formMsg" role="status"></p>
         </form>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== MAPA ====================== -->
+<section class="section section--tight" id="mapa" hidden>
+  <div class="wrap">
+    <div class="mapa reveal">
+      <iframe id="mapaFrame" title="Ubicacion de Construcciones y Reformas IGR"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="about:blank"></iframe>
     </div>
   </div>
 </section>
