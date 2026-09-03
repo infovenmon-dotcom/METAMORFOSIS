@@ -959,6 +959,7 @@ h1, h2, h3 { letter-spacing: -.01em; }
 .hero-promo .benefit b { color: var(--verde-oscuro); }
 .hero-promo .env-pill { display: inline-block; background: var(--dorado-claro); color: #143228; font-weight: 800; padding: 1px 9px; border-radius: 999px; white-space: nowrap; }
 .hero-promo .apuntarme { color: var(--verde-medio); font-weight: 700; text-decoration: underline; }
+.hero-promo .acc-nota { color: var(--texto-suave); font-size: .85em; }
 @media (max-width: 600px) {
   .hero-promo { padding: 26px 16px 24px; }
   .hero-promo .benefit { font-size: .95rem; }
