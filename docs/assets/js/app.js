@@ -637,6 +637,25 @@ function cerrarGracias() {
   document.body.style.overflow = '';
 }
 
+/* Banner superior rotativo: alterna el mensaje 4x3/envío con el gancho de
+   captación (10% en la 1ª compra + regalo). Cada 5 s, con fundido suave. */
+function iniciarBannerRotativo() {
+  const b = document.querySelector('.banner-promo');
+  if (!b) return;
+  const slides = [
+    b.innerHTML.trim(),
+    '👋 ¿Aún no nos conoces? Te lo ponemos fácil: <strong>10&nbsp;% en tu 1.ª compra</strong> <span class="banner-envio">+ jabonera y bolsa de sisal de regalo 🎁</span>',
+  ];
+  if (slides.length < 2) return;
+  let i = 0;
+  b.style.transition = 'opacity .4s ease';
+  setInterval(() => {
+    if (document.hidden) return; // no rotar con la pestaña en segundo plano
+    b.style.opacity = '0';
+    setTimeout(() => { i = (i + 1) % slides.length; b.innerHTML = slides[i]; b.style.opacity = '1'; }, 400);
+  }, 5000);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   await cargarConfigRemota();
   mostrarAvisoVacaciones();
@@ -644,6 +663,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderLandingBestSellers();
   renderLandingCategorias();
   initReveal();
+  iniciarBannerRotativo();
   // Re-render del carrito con la config ya fusionada (precios/ofertas).
   if (window.Carrito && typeof Carrito.render === 'function') Carrito.render();
   // Mensaje de gracias / cancelación al volver de Stripe.
